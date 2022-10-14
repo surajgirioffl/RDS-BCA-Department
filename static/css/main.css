@@ -174,7 +174,7 @@ nav a:hover {
 
 @media only screen and (min-width: 480px) {
 
-/* ====================
+    /* ====================
     INTERMEDIATE: Menu
    ==================== */
 
@@ -194,7 +194,7 @@ nav a:hover {
         margin-right: 0;
     }
 
-/* ========================
+    /* ========================
     INTERMEDIATE: IE Fixes
    ======================== */
 
@@ -209,18 +209,18 @@ nav a:hover {
 
 @media only screen and (min-width: 768px) {
 
-/* ====================
+    /* ====================
     WIDE: CSS3 Effects
    ==================== */
 
     .header-container,
     .main aside {
         -webkit-box-shadow: 0 5px 10px #aaa;
-           -moz-box-shadow: 0 5px 10px #aaa;
-                box-shadow: 0 5px 10px #aaa;
+        -moz-box-shadow: 0 5px 10px #aaa;
+        box-shadow: 0 5px 10px #aaa;
     }
 
-/* ============
+    /* ============
     WIDE: Menu
    ============ */
 
@@ -233,7 +233,7 @@ nav a:hover {
         width: 38%;
     }
 
-/* ============
+    /* ============
     WIDE: Main
    ============ */
 
@@ -250,12 +250,13 @@ nav a:hover {
 
 @media only screen and (min-width: 1140px) {
 
-/* ===============
+    /* ===============
     Maximal Width
    =============== */
 
     .wrapper {
-        width: 1026px; /* 1140px - 10% for margins */
+        width: 1026px;
+        /* 1140px - 10% for margins */
         margin: 0 auto;
     }
 }
@@ -313,6 +314,7 @@ nav a:hover {
    ========================================================================== */
 
 @media print {
+
     *,
     *:before,
     *:after {
