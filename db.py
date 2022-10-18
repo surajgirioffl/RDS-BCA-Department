@@ -117,7 +117,7 @@ class Result:
 
         if id != {}:
             registrationNo = self.cursor.execute(
-                f"SELECT registrationNo FROM ResultSem{self.semester} WHERE {list(id.keys())[0]}=?", (list(id.values())[0],)).fetchall()[0][0]
+                f"SELECT registrationNo FROM Students WHERE {list(id.keys())[0]}=?", (list(id.values())[0],)).fetchall()[0][0]
             if registrationNo:
                 return self.__fetchAllData(registrationNo)
         return None
