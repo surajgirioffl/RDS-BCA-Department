@@ -70,18 +70,21 @@ body {
    =================== */
 
 .header-container {
-    border-bottom: 20px solid #e44d26;
+    /* border-bottom: 20px solid #e44d26; */
+    border-bottom: 20px solid #8ec5fc
 }
 
 .footer-container {
-    border-top: 20px solid #e44d26;
+    /* border-top: 20px solid #e44d26; */
+    border-top: 20px solid #8ec5fc;
     text-align: center;
 }
 
 .header-container,
 .footer-container,
 .main aside {
-    background: #f16529;
+    /* background: #f16529; */
+    background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
 }
 
 .title {
@@ -108,7 +111,8 @@ nav a {
     font-weight: bold;
 
     color: white;
-    background: #e44d26;
+    /* background: #e44d26; */
+    background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
 }
 
 nav a:hover,
