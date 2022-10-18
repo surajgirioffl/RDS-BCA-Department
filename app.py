@@ -1,12 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import db
 
 app = Flask(__name__)
 
 
-@app.route("/")
-@app.route("/home")
-def hello_world():
-    return render_template("index.html")
+@app.route("/", methods=["GET", "POST"])
+def home():
+    if request.method == "POST":
+        ...
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
