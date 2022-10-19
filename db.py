@@ -79,8 +79,10 @@ class Result:
             return None
         else:
             requiredData = {}
+            requiredData['Semester'] = int(self.semester)
             for index, value in enumerate(data[0]):
                 requiredData[attributes[index]] = value
+
             return requiredData
 
     def getResult(self, registrationNo: str = None, examRoll: int = None, classRoll: int = None) -> dict | None:
