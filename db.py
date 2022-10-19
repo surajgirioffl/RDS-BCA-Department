@@ -68,8 +68,12 @@ class Result:
         """
         attributes = ('Name', 'examRoll', 'classRoll',
                       'TotalMarks', 'ResultStatus')
-        data = self.cursor.execute(
-            f"SELECT {attributes[0]},{attributes[1]},{attributes[2]},{attributes[3]},{attributes[4]} FROM (SELECT * FROM Students JOIN ResultSem{self.semester} WHERE ResultSem{self.semester}.registrationNo = Students.registrationNo) WHERE RegistrationNo=?", (registrationNo,)).fetchall()
+        try:
+            data = self.cursor.execute(
+                f"SELECT {attributes[0]},{attributes[1]},{attributes[2]},{attributes[3]},{attributes[4]} FROM (SELECT * FROM Students JOIN ResultSem{self.semester} WHERE ResultSem{self.semester}.registrationNo = Students.registrationNo) WHERE RegistrationNo=?", (registrationNo,)).fetchall()
+        except Exception as e:
+            print(e)
+            return None
 
         if data == []:  # if no data found on given constraints
             return None
@@ -115,11 +119,16 @@ class Result:
         id: dict = {name: id for (name, id) in zip(
             key, value) if id is not None}
 
-        if id != {}:
-            registrationNo = self.cursor.execute(
-                f"SELECT registrationNo FROM Students WHERE {list(id.keys())[0]}=?", (list(id.values())[0],)).fetchall()[0][0]
-            if registrationNo:
-                return self.__fetchAllData(registrationNo)
+        try:
+            if id != {}:
+                registrationNo = self.cursor.execute(
+                    f"SELECT registrationNo FROM Students WHERE {list(id.keys())[0]}=?", (list(id.values())[0],)).fetchall()[0][0]
+                if registrationNo:
+                    return self.__fetchAllData(registrationNo)
+        except Exception as e:
+            print(e)
+            return None
+
         return None
 
 
