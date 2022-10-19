@@ -4,7 +4,7 @@
 {% block body%}
 
 <div class="main wrapper clearfix data">
-  <form action="/" method="POST">
+  <form action="/result" method="POST">
 
     <!-- session -->
     <select class="form-select" aria-label="Default select example" name="session" required="true">
@@ -46,3 +46,47 @@
 
   </form>
 </div>
+
+
+<!------------------------------RESULT-------------------------------------->
+<!--<p>Data is {{myVariable is undefined}}</p>
+{{isSubmitClicked}}
+-->
+{% if isSubmitClicked%}
+    {% if result == None %}
+        <div class="alert alert-danger" role="alert">
+         Invalid Credentials!
+        </div>
+    {% else %}
+        <div style="width:80%; margin:auto;padding:auto;">
+            <table class="table table-bordered border-primary">
+              <thead>
+                  <th><strong>DETAILS OF {{result.get('Name') | upper}}</strong></th>
+                  <th></th>
+              </thead>
+              {% for key, value in result.items() %}
+                  <tr>
+                      <td>{{key}}</td>
+                      {% if key=="Semester"%}
+                        <td>{{value}}
+                          {% if value==1%}
+                              <sup>st</sup>
+                          {% elif value==2%}
+                              <sup>nd</sup>
+                          {% elif value==3%}
+                              <sup>rd</sup>
+                          {% else%}
+                              <sup>th</sup>
+                      {% endif%}    
+                        </td>
+                      {% else %}
+                      <td>{{value}}</td>
+                      {% endif %}
+                  </tr>
+              {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% endblock body %}
