@@ -70,13 +70,13 @@
                       {% if key=="Semester"%}
                         <td>{{value}}
                           {% if value==1%}
-                              <sup>st</sup>
+                              <sup style="margin:-3px">st</sup>
                           {% elif value==2%}
-                              <sup>nd</sup>
+                              <sup style="margin:-3px">nd</sup>
                           {% elif value==3%}
-                              <sup>rd</sup>
+                              <sup style="margin:-3px">rd</sup>
                           {% else%}
-                              <sup>th</sup>
+                              <sup style="margin:-3px">th</sup>
                       {% endif%}    
                         </td>
                       {% else %}
