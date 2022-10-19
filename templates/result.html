@@ -1,0 +1,48 @@
+{% extends "base.html"%}
+{%block title%} Home {%endblock title%}
+
+{% block body%}
+
+<div class="main wrapper clearfix data">
+  <form action="/" method="POST">
+
+    <!-- session -->
+    <select class="form-select" aria-label="Default select example" name="session" required="true">
+      <option selected value="">Select Session</option>
+      <option value="2020-23">2020-23</option>
+      <option value="2021-24">2021-24</option>
+    </select>
+
+    <!-- semester -->
+    <select class="form-select" aria-label="Default select example" name="semester" required="true">
+      <option selected value="">Select Semester</option>
+      <option value="1">1st</option>
+      <option value="2">2nd</option>
+      <option value="3">3rd</option>
+      <option value="4">4th</option>
+      <option value="5">5th</option>
+      <option value="6">6th</option>
+    </select>
+
+    <!-- Input of any one of RegistrationNo, ExamRoll, ClassRoll -->
+    <select class="form-select" aria-label="Default select example" name="idName" required="true">
+      <option selected value="">Select Id</option>
+      <option value="registrationNo">Registration Number</option>
+      <option value="examRoll">Exam Roll Number</option>
+      <option value="classRoll">Class Roll Number</option>
+    </select>
+
+    <!-- Input of any one of RegistrationNo, ExamRoll, ClassRoll -->
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-label">Input Id</label>
+      <input type="text" class="form-control" id="formGroupExampleInput"
+        placeholder="Registration Number / Exam Roll Number / Class Roll Number" name="idValue" required="true">
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+  </form>
+</div>
