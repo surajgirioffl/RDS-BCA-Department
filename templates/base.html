@@ -1,57 +1,162 @@
 <!DOCTYPE html>
 <html class="no-js" lang="English">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{%block title%}RDS Student Info{%endblock title%}</title>
-    <meta name="RDS College" content="Students Info" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="apple-touch-icon" href="../static/img/apple-touch-icon.png" />
 
-    <link rel="stylesheet" href="../static/css/normalize.min.css" />
-    <link rel="stylesheet" href="../static/css/main.css" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>{%block title%}RDS Student Info{%endblock title%}</title>
+  <meta name="RDS College" content="Students Info" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="apple-touch-icon" href="../static/img/apple-touch-icon.png" />
 
-    <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+  <link rel="stylesheet" href="../static/css/normalize.min.css" />
+  <link rel="stylesheet" href="../static/css/main.css" />
 
-    <!--Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
-  </head>
+  <!--Bootstrap-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
-  <body>
-    <!--Header-->
-    <div class="header-container">
-      <header class="wrapper clearfix">
-        <h1 class="title" style="text-align:center;padding-top:1%">RDS BCA DEPARTMENT</h1>
-        <nav>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="#">Notice</a></li>
-            <li><a href="#">About</a></li>
-          </ul>
-        </nav>
-      </header>
-    </div>
+</head>
 
-    {% block body %} {% endblock body %}
+<body>
+  <!--Header-->
+  <div class="header-container">
+    <header class="wrapper clearfix">
+      <h1 class="title" style="text-align:center;padding-top:1%">RDS BCA DEPARTMENT</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Notice</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
 
-    <!--Footer part-->
-    <div class="footer-container">
-      <footer class="wrapper">
-        <h3>Made with &#10084;&#65039; By Suraj Kumar Giri</h3>
-      </footer>
-    </div>
+  {% block body %} {% endblock body %}
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
-      window.jQuery ||
-        document.write(
-          '<script src="../staticjs/vendor/jquery-1.11.2.min.js"><\/script>'
-        );
-    </script>
-    <script src="../static/js/main.js"></script>
-    
-    <!--Bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
+
+
+
+  <!-- Footer -->
+  <footer class="text-center text-lg-start bg-white text-muted">
+    <p style="border:0.5px solid black"></p>
+    <!--For Lining-->
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="fas fa-gem me-3 text-secondary"></i>BCA DEPARTMENT
+            </h6>
+            <p>
+              BCA Department of RDS Collge, Muzaffarpur. This is the unofficial website of the BCA Department. This
+              website has been created by <a href="http://github.com/surajgirioffl">Suraj Giri</a> and, designed,
+              maintained, and updated by students of
+              the BCA
+              Department.
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Site Links
+            </h6>
+            <p>
+              <a href="#!" class="text-reset">Result</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Students Info</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Gallery</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Contact</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Other Useful links
+            </h6>
+            <p>
+              <a href="http://www.rdscollege.ac.in/" class="text-reset">RDS Official Site</a>
+            </p>
+            <p>
+              <a href="https://rdscollege.cmsapps.in/" class="text-reset">RDS Admission</a>
+            </p>
+            <p>
+              <a href="https://brabu.net/" class="text-reset">BRABU</a>
+            </p>
+            <p>
+              <a href="https://www.ugc.ac.in/" class="text-reset">UGC</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+            <p><i class="fas fa-home me-3 text-secondary"></i>Muzaffarpur, Bihar 842002</p>
+            <p>
+              <i class="fas fa-envelope me-3 text-secondary"></i><a href="mailto:info@rdscollege.ac.in">
+                info@rdscollege.ac.in</a>
+            </p>
+            <p><i class="fas fa-phone me-3 text-secondary"></i> +91 9934635199</p>
+            <p><i class="fas fa-print me-3 text-secondary"></i> +91 9798220185</p>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+  </footer>
+  <!-- Footer -->
+
+
+  <!--Made by-->
+  <div class="footer-container">
+    <footer class="wrapper">
+      <h3>Made with &#10084;&#65039; By Suraj Kumar Giri</h3>
+    </footer>
+  </div>
+
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 Copyright:
+    <a class="text-white" href="https://github.com/surajgirioffl"><bold>Suraj Kumar Giri</bold></a>
+  </div>
+  <!-- Copyright -->
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script>
+    window.jQuery ||
+      document.write(
+        '<script src="../staticjs/vendor/jquery-1.11.2.min.js"><\/script>'
+      );
+  </script>
+  <script src="../static/js/main.js"></script>
+
+  <!--Bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
