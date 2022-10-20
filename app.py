@@ -24,5 +24,10 @@ def result():
     return render_template('result.html')
 
 
+@app.route("/credits")
+def credits():
+    return render_template('credits.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
