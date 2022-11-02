@@ -4,8 +4,16 @@ import db
 app = Flask(__name__)
 
 
+funCall = 0
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
+    global funCall
+    funCall += 1
+
+    if funCall == 1:
+        return render_template('index.html', initialStage=True)
     return render_template('index.html')
 
 
