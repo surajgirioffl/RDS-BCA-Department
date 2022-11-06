@@ -1,13 +1,38 @@
 {% extends "base.html"%}
 {%block scale%}0.5{%endblock scale%}
 {%block title%} Home {%endblock title%}
+{%block css%}<link rel="stylesheet" href="../static/css/initial_overlay.css" />{%endblock css%}
 
 {% block body%}
+{%block script%}<script src="../static/js/initial.overlay.js"> </script>{%endblock script%}
 
 <!---Page Heading-->
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
   <p class="text-center fs-2 text fw-bolder">WELCOME TO BCA DEPARTMENT OF RDS COLLEGE MUZAFFARPUR</p>
   {# <img src="" class="img-thumbnail" alt="Image Not Found"> #}
+
+
+  <!--overlay starts-->
+  {%if initialStage==True%}
+      <div id="overlay">
+        <style onload="overlay()"></style> <!--There is no use of style here but I have used it for calling overlay because 'onload' doesn't support by div tag-->
+          <div id="overlayText">
+              <strong>
+                  <span id="overlayHeading">Website Is Under Development</span>
+                  <span>
+                      <br>Signed-off-by: Suraj Giri
+                      <br>Contact: <a href="mailto:surajgirioffl@gmail.com">surajgirioffl@gmail.com</a>
+                  </span>
+              </strong>
+              <br><br>
+              <button type="button" class="btn btn-primary" onclick="closeOverlay()">close</button>
+              <p id="autoClose"></p>
+          </div>
+      </div>
+  {%endif%}
+
+  <!--overlay ends-->
+
 
   <!--Image Slides on the page-->
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
