@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+{%block scale%}0.5{%endblock scale%}
+{%block title%} Links {%endblock title%}
+
+{%block body%}
+    
+     <!---Page Content-->
+
+     <!--Card 1-->
+     <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-top:1%;margin-bottom:1%">
+       <div class="col">
+         <div class="card">
+           <img src="../static/images/result.png" class="card-img-top" alt="...">
+           <div class="card-body">
+             <h5 class="card-title"><strong>Results</strong></h5>
+             <p class="card-text">Result of BCA Session 2020-23 And 2021-24</p>
+             <a href="/result" class="btn btn-primary">Check Result</a>
+           </div>
+         </div>
+       </div>
+
+       <!--Card 2-->
+       <div class="col">
+         <div class="card">
+           <img src="../static/images/students.png" class="card-img-top" alt="...">
+           <div class="card-body">
+             <h5 class="card-title"><strong>Students Info</strong></h5>
+             <p class="card-text">All Information About Students of Session 2020-23 And 2021-24</p>
+             <a href="#" class="btn btn-primary">Check Information</a>
+           </div>
+         </div>
+       </div>
+
+    <!---End of Page Content-->
+
+{%endblock body%}
