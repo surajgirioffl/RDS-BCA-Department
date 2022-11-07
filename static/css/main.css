@@ -336,3 +336,7 @@ body {
 #noticeAlert:hover {
     color: #6913cc;
 }
+
+#website-info{
+    margin-top: 2%;
+}
