@@ -2,6 +2,7 @@
 {%block title%} Results - BCA RDS College, Muzaffarpur {%endblock title%}
 
 {% block body%}
+{%block script%}<script src="../static/js/result.js"> </script>{%endblock script%}
 
 <div class="main wrapper clearfix data">
   <form action="/result" method="POST">
@@ -25,7 +26,7 @@
     </select>
 
     <!-- Input of any one of RegistrationNo, ExamRoll, ClassRoll -->
-    <select class="form-select" aria-label="Default select example" name="idName" required="true">
+    <select class="form-select" aria-label="Default select example" name="idName" required="true" onchange='fillInputPlaceholder(this)'>
       <option selected value="">Select Id</option>
       <option value="registrationNo">Registration Number</option>
       <option value="examRoll">Exam Roll Number</option>
