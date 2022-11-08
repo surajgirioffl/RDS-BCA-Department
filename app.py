@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for
-import db
+import results_db as db
 
 app = Flask(__name__)
 
