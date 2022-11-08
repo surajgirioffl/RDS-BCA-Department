@@ -47,7 +47,7 @@ def previousYearQuestions():
     if request.method == "POST":
         userSelection = request.form
         print(userSelection)
-        return render_template('previousYearQuestions.html')
+        return render_template('previousYearQuestions.html',isSubmitClicked=True, errorMessage="Currently Unavailable.")
     return render_template('previousYearQuestions.html')
 
 
