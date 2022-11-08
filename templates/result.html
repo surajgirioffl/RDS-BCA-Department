@@ -8,14 +8,14 @@
   <form action="/result" method="POST">
 
     <!-- session -->
-    <select class="form-select" aria-label="Default select example" name="session" required="true">
+    <select class="form-select" aria-label="Default select example" name="session" required="true" style="margin-bottom: 0.8%;">
       <option selected value="">Select Session</option>
       <option value="2020-23">2020-23</option>
       <option value="2021-24">2021-24</option>
     </select>
 
     <!-- semester -->
-    <select class="form-select" aria-label="Default select example" name="semester" required="true">
+    <select class="form-select" aria-label="Default select example" name="semester" required="true" style="margin-bottom: 0.8%;">
       <option selected value="">Select Semester</option>
       <option value="1">1st</option>
       <option value="2">2nd</option>
@@ -26,7 +26,7 @@
     </select>
 
     <!-- Input of any one of RegistrationNo, ExamRoll, ClassRoll -->
-    <select class="form-select" aria-label="Default select example" name="idName" required="true" onchange='fillInputPlaceholder(this)'>
+    <select class="form-select" aria-label="Default select example" name="idName" required="true" onchange='fillInputPlaceholder(this)' style="margin-bottom: 0.8%;">
       <option selected value="">Select Id</option>
       <option value="registrationNo">Registration Number</option>
       <option value="examRoll">Exam Roll Number</option>
