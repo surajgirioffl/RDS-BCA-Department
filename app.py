@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for
 import results_db as db
+import previous_year_questions_db as pyqDb
 
 app = Flask(__name__)
 
@@ -47,7 +48,9 @@ def previousYearQuestions():
     if request.method == "POST":
         userSelection = request.form
         print(userSelection)
-        return render_template('previousYearQuestions.html',isSubmitClicked=True, errorMessage="Currently Unavailable.")
+        pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
+        databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
+        return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
     return render_template('previousYearQuestions.html')
 
 
