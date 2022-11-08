@@ -37,5 +37,15 @@ def credits():
     return render_template('credits.html')
 
 
+@app.route("/gallery")
+def gallery():
+    return render_template('404.html')
+
+
+@app.route("/previousYearQuestions", methods=["GET", "POST"])
+def previousYearQuestions():
+    return render_template('previousYearQuestions.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
