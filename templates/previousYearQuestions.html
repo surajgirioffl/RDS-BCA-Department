@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+{%block scale%}0.5{%endblock scale%}
+{%block title%} Home - BCA RDS College, Muzaffarpur {%endblock title%}
+{%block css%}<link rel="stylesheet" href="../static/css/initial_overlay.css" />{%endblock css%}
+
+{% block body%}
+{%block script%}<script src="../static/js/initial.overlay.js"> </script>{%endblock script%}
+
+<!---Page Heading-->
+<div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
+      <p class="text-center fs-2 text fw-bolder">PREVIOUS YEAR QUESTIONS</p>
+
+      <form action="/previousYearQuestions" method="POST">
+
+            <!-- semester -->
+            <select class="form-select" aria-label="Default select example" name="semester" required="true">
+                <option selected value="">Select Semester</option>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                <option value="3">3rd</option>
+                <option value="4">4th</option>
+                <option value="5">5th</option>
+            </select>         
+
+            <!-- source -->
+            <select class="form-select" aria-label="Default select example" name="source" required="true">
+                <option selected value="brabu">Select Source</option>
+                <option value="brabu">BRABU Official (Default)</option>
+                <option value="vaishali">Vaishali Institute, Muzaffarpur (Part of BRABU)</option>
+                <option value="lnMishra">L.N. Mishra, Muzaffarpur (Part of BRABU)</option>
+                <option value="all">All (Recommended)</option>
+            </select>
+
+            <!-- Submit Button -->
+            <div class="col-auto" style="margin-top:1%;">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+
+
+</div>
+
+
+{%endblock body%}

@@ -44,6 +44,10 @@ def gallery():
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
 def previousYearQuestions():
+    if request.method == "POST":
+        userSelection = request.form
+        print(userSelection)
+        return render_template('previousYearQuestions.html')
     return render_template('previousYearQuestions.html')
 
 
