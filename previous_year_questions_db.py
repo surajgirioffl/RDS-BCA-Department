@@ -14,25 +14,27 @@ class PreviousYearQuestions:
     def getLinks(self, source: str) -> tuple[int, str, str] | None:
         if source == "all":
             data = self.cursor.execute(f"""
+                                            SELECT * FROM(
                                             SELECT "BRABU" AS Source, Year, Sem{self.semester} FROM brabu WHERE Sem{self.semester} IS NOT NULL UNION
                                             SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{self.semester} AS Source FROM vaishali WHERE Sem{self.semester} IS NOT NULL UNION
                                             SELECT "LN Mishra, Muzaffarpur", Year, Sem{self.semester} as Source FROM lnMishra WHERE Sem{self.semester} IS NOT NULL
+                                            ) ORDER BY Year DESC
                                         """).fetchall()
             return data
 
         elif source == "brabu":
             data = self.cursor.execute(
-                f'SELECT "BRABU" AS Source, Year, Sem{self.semester} FROM brabu WHERE Sem{self.semester} IS NOT NULL').fetchall()
+                f'SELECT "BRABU" AS Source, Year, Sem{self.semester} FROM brabu WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
             return data
 
         elif source == "vaishali":
             data = self.cursor.execute(
-                f'SELECT "Vaishali Institute, Muzaffarpur" AS Source, Year, Sem{self.semester} FROM vaishali WHERE Sem{self.semester} IS NOT NULL').fetchall()
+                f'SELECT "Vaishali Institute, Muzaffarpur" AS Source, Year, Sem{self.semester} FROM vaishali WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
             return data
 
         elif source == "lnMishra":
             data = self.cursor.execute(
-                f'SELECT "LN Mishra, Muzaffarpur" as Source, Year, Sem{self.semester} FROM lnMishra WHERE Sem{self.semester} IS NOT NULL').fetchall()
+                f'SELECT "LN Mishra, Muzaffarpur" as Source, Year, Sem{self.semester} FROM lnMishra WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
             return data
         else:
             return None
