@@ -46,7 +46,7 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="{{url_for('static', filename='images/college.png')}}" class="d-block w-100" alt="...">
+        <img src="{{url_for('static', filename='images/college.png')}}" class="d-block w-100" alt="..." onload="setTimeout(()=>{this.parentElement.parentElement.nextElementSibling.nextElementSibling.click()},5000)" id="suraj">
       </div>
       <div class="carousel-item">
         <img src="../static/images/class.png" class="d-block w-100" alt="...">
