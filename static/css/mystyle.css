@@ -29,4 +29,17 @@ nav ul li ul li a:hover {
     font-weight: bold;
 }
 
+/*SVG icons on the navigation bar*/
+li a svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+}
+
+li a svg:hover {
+    fill: #1b78d5;
+    width: 22px;
+    height: 22px;
+}
+
 /************NAVIGATION BAR ENDS************/
