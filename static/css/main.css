@@ -337,6 +337,13 @@ body {
     color: #6913cc;
 }
 
-#website-info{
+#website-info {
     margin-top: 2%;
+}
+
+/*form special*/
+.required {
+    content: " *";
+    color: red;
+    font-weight: bold;
 }
