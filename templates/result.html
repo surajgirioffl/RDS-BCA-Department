@@ -56,7 +56,7 @@
 -->
 {% if isSubmitClicked%}
     {% if result == None %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">
          {{errorMessage|default("Invalid Credentials!")}}
         </div>
     {% else %}
