@@ -85,7 +85,7 @@
                 </table>
             {%else%}
                 <div class="alert alert-danger" role="alert" style="margin-top: 1%; padding: 0.5%">
-                    Currently Unavailable
+                    {{errorMessage|default("Currently Unavailable")}}
                 </div>  
             {%endif%}  
         {%endif%}

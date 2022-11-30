@@ -48,6 +48,10 @@ def previousYearQuestions():
     if request.method == "POST":
         userSelection = request.form
         print(userSelection)
+        print("semester: ", userSelection.get('semester'))
+        if(userSelection.get('semester') == None or userSelection.get('source') == None):
+            # if user has changed the name using dev tools.
+            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=None, errorMessage="Invalid Request")
         pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
         databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
         return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
