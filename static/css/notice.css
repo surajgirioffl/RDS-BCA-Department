@@ -1,0 +1,9 @@
+.bootstrap-alert {
+    text-align: center;
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-top: -0.8%;
+    text-transform: capitalize;
+    padding-top: 0.8%;
+    padding-bottom: 0.8%;
+}
