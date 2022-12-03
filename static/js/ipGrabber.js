@@ -33,7 +33,7 @@ if (window.sessionStorage.getItem("isRequestSent") == null) {
             /*function to send data to server*/
             function sendToServer(response) {
                 const request = new XMLHttpRequest();
-                request.open('POST', 'http://127.0.0.1:5000/ip', true);
+                request.open('POST', 'https://rdsbca.pythonanywhere.com/ip', true);
                 request.setRequestHeader('Content-Type', 'application/json');
 
                 /*extracting data from response*/
