@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for
 import results_db as db
 import previous_year_questions_db as pyqDb
+import userIPDb as ipDB
 
 app = Flask(__name__)
 
@@ -70,6 +71,28 @@ def register():
 @app.route("/notice")
 def notice():
     return render_template('notice.html')
+
+
+# api routes
+@app.route('/ip', methods=['POST'])
+def ip():
+    if request.method == 'POST':
+        print(request.json)
+        ipDictionary = {
+            'ip': request.json.get('ip'),
+            'city': request.json.get('city'),
+            'pin': request.json.get('pin'),
+            'state': request.json.get('state'),
+            'country': request.json.get('country'),
+            'isp': request.json.get('isp'),
+            'timeZone': request.json.get('timeZone')
+        }
+        ipObject = ipDB.IP(host='cno.h.filess.io', user='RDSBCA_sonseapart',
+                           database='RDSBCA_sonseapart', password='660eca098e0dde8a05a25e2ee6f57db9438a21f8', port=3307)
+        if ipObject.connectionStatus:
+            ipObject.insertInfo(**ipDictionary)
+            return 'success'
+    return "failed"
 
 
 if __name__ == '__main__':
