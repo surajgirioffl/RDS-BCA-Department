@@ -26,13 +26,13 @@ class IP:
                 );
                """)
 
-    def __init__(self, host: str = "localhost", user: str = "root", port: int = 3306, password: str = "sadashiv@123", database: str = "rdsCollegeIpInfo", tableName: str = '') -> None:
+    def __init__(self, host: str = "localhost", user: str = "root", port: int = 3306, password: str = "sadashiv@123", database: str = "rdsCollegeIpInfo", tableName: str = '', timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             * This class is used to store user's ip address and other information in database.
             * Constructor of this class will create a table named 'userIp' if it doesn't exist.
             * And also create connection to the database and cursor.
         """
-        
+
         # creating connection
         self.database = database
         try:
@@ -40,6 +40,8 @@ class IP:
                                       password=f'{password}', port=port)
             self.cursor = self.conn.cursor(buffered=True)
             self.cursor.execute(f'USE {self.database}')
+            self.cursor.execute(
+                f"SET GLOBAL time_zone = '{timeZoneForDatabase}'")
             self.connectionStatus = True  # if connection is established then it will be true
             if tableName == '':
                 self.tableName = 'userIp'
@@ -68,7 +70,7 @@ class IP:
             @returns:
                 * bool -> True if ip address is present in the database, else False.
         """
-        
+
         self.cursor.execute(
             f'SELECT * FROM {self.tableName} WHERE ip=%s', (ip,))
 
@@ -93,7 +95,7 @@ class IP:
             @returns:
                 * None
         """
-        
+
         if self.__isIpExist(ip):  # if exists then update the info.
             self.cursor.execute(f"""
                                     UPDATE {self.tableName} SET
