@@ -88,7 +88,7 @@ def ip():
             'timeZone': request.json.get('timeZone')
         }
         ipObject = ipDB.IP(host='rdsbca.mysql.pythonanywhere-services.com', user='rdsbca',
-                           database='RdsBca', password='Badam@123')  # port=3307
+                           database='rdsbca$RdsBca', password='Badam@123')  # port=3307
         if ipObject.connectionStatus:
             ipObject.insertInfo(**ipDictionary)
             return 'success'
