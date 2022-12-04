@@ -41,7 +41,7 @@ class IP:
             self.cursor = self.conn.cursor(buffered=True)
             self.cursor.execute(f'USE {self.database}')
             self.cursor.execute(
-                f"SET GLOBAL time_zone = '{timeZoneForDatabase}'")
+                f"SET time_zone = '{timeZoneForDatabase}'")
             self.connectionStatus = True  # if connection is established then it will be true
             if tableName == '':
                 self.tableName = 'userIp'
