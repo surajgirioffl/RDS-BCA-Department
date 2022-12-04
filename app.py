@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, url_for
 import results_db as db
 import previous_year_questions_db as pyqDb
 import userIPDb as ipDB
+import setTimeZone as tz
+tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
 
 app = Flask(__name__)
 
