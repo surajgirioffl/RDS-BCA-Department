@@ -6,7 +6,7 @@ from sys import platform
 
 
 def setTimeZone(timezone: str = "Asia/Kolkata"):
-    os.environ["TZ"] = timezone  # define TZ environment variable
     if platform != "win32":
+        os.environ["TZ"] = timezone  # define TZ environment variable
         time.tzset()  # set the timezone
         # tzset() will only work if platform is not Windows.
