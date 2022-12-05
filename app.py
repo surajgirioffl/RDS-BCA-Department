@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, request, url_for
 import results_db as db
 import previous_year_questions_db as pyqDb
@@ -13,6 +14,7 @@ funCall = 0
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    logging.info('Home page is called...')
     global funCall
     funCall += 1
 
@@ -23,6 +25,7 @@ def home():
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
+    logging.info("Result page is called...")
     if request.method == "POST":
         clientDataDict = request.form
         print(clientDataDict)
@@ -42,17 +45,22 @@ def result():
 
 @app.route("/credits")
 def credits():
+    logging.info("Credits page is called...")
     return render_template('credits.html')
 
 
 @app.route("/gallery")
 def gallery():
+    logging.info("Gallery page is called...")
     return render_template('404.html')
 
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
 def previousYearQuestions():
+    logging.info("Previous Year Questions page is called...")
     if request.method == "POST":
+        logging.info(
+            'A post request is received in previousYearQuestions route...')
         userSelection = request.form
         print(userSelection)
         print("semester: ", userSelection.get('semester'))
@@ -67,18 +75,22 @@ def previousYearQuestions():
 
 @ app.route("/register", methods=["GET", "POST"])
 def register():
+    logging.info("Register page is called...")
     return render_template('register.html')
 
 
 @app.route("/notice")
 def notice():
+    logging.info("Notice page is called...")
     return render_template('notice.html')
 
 
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
+    logging.info("IP API route is called (only POST method allow)...")
     if request.method == 'POST':
+        logging.info("A post request is received in ip route...")
         print("Gathered Info: ", request.json)
         ipDictionary = {
             'ip': request.json.get('ip'),
@@ -107,4 +119,8 @@ def ip():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s - Line %(lineno)s of %(module)s - %(levelname)s -> %(message)s')
+    logging.info(
+        "\n\n=======================Web app is started=======================")
     app.run(debug=True)
