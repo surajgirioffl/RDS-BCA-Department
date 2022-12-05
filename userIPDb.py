@@ -22,8 +22,8 @@ class IP:
                 isp CHAR(30) NOT NULL,
                 timeZone CHAR(40) NOT NULL,
                 lastVisited DATETIME NOT NULL,
-                visitCount INT NOT NULL DEFAULT 0
-                platform CHAR(20)
+                visitCount INT NOT NULL DEFAULT 0,
+                platform CHAR(20),
                 screen char(20)
                 );
                """)
@@ -107,11 +107,11 @@ class IP:
             # city='{city}', pin='{pin}', state='{state}', country='{country}', isp='{isp}', timeZone='{timeZone}', lastVisited=NOW(), visitCount=visitCount+1 #removing the things which is fixed (but change due to ip details given by api varies)
         else:  # if not exist then insert the info in the database.
             self.cursor.execute(f"""
-                                    INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount)
+                                    INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount, platform, screen)
                                     VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1, '{platform}', '{screen}')
                                 """)
 
 
 if __name__ == "__main__":
     IP().insertInfo(ip='11.23.29.33', city='Mumbai', pin='400001',
-                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata')
+                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080')
