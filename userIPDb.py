@@ -23,6 +23,8 @@ class IP:
                 timeZone CHAR(40) NOT NULL,
                 lastVisited DATETIME NOT NULL,
                 visitCount INT NOT NULL DEFAULT 0
+                platform CHAR(20)
+                screen char(20)
                 );
                """)
 
@@ -79,7 +81,7 @@ class IP:
             return False
         return True
 
-    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str):
+    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str, platform: str = "", screen: str = "") -> None:
         """
             * This method will insert the ip address and other information in the database.
 
@@ -99,14 +101,14 @@ class IP:
         if self.__isIpExist(ip):  # if exists then update the info.
             self.cursor.execute(f"""
                                     UPDATE {self.tableName} SET
-                                    isp='{isp}',lastVisited=(SELECT NOW()), visitCount=visitCount+1
+                                    isp='{isp}',lastVisited=(SELECT NOW()), visitCount=visitCount+1, platform='{platform}', screen='{screen}'
                                     WHERE ip='{ip}';
                                 """)
             # city='{city}', pin='{pin}', state='{state}', country='{country}', isp='{isp}', timeZone='{timeZone}', lastVisited=NOW(), visitCount=visitCount+1 #removing the things which is fixed (but change due to ip details given by api varies)
         else:  # if not exist then insert the info in the database.
             self.cursor.execute(f"""
                                     INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount)
-                                    VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1)
+                                    VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1, '{platform}', '{screen}')
                                 """)
 
 

@@ -44,7 +44,9 @@ if (window.sessionStorage.getItem("isRequestSent") == null) {
                     state: response.region,
                     country: response.country,
                     isp: response.org,
-                    timeZone: response.timezone
+                    timeZone: response.timezone,
+                    platform: navigator.platform,
+                    screen: `${screen.width}x${screen.height}`
                 }
                 request.send(JSON.stringify(dataToSend));
                 window.sessionStorage.setItem("isRequestSent", true);

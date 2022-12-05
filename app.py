@@ -79,7 +79,7 @@ def notice():
 @app.route('/ip', methods=['POST'])
 def ip():
     if request.method == 'POST':
-        print(request.json)
+        print("Gathered Info: ", request.json)
         ipDictionary = {
             'ip': request.json.get('ip'),
             'city': request.json.get('city'),
@@ -87,8 +87,17 @@ def ip():
             'state': request.json.get('state'),
             'country': request.json.get('country'),
             'isp': request.json.get('isp'),
-            'timeZone': request.json.get('timeZone')
+            'timeZone': request.json.get('timeZone'),
+            'platform': request.json.get('platform'),
+            'screen': request.json.get('screen')
         }
+
+        # let's check if any value in ipDictionary is None or not. If any value will None then we send empty string ("") to database and a null value will be inserted in database.
+        # verifiedIpDictionary: dict = {key: value for key, value in ipDictionary.items() if value is not None}
+        for key, value in ipDictionary.items():
+            if value is None:
+                ipDictionary[key] = ""
+
         ipObject = ipDB.IP(host='rdsbca.mysql.pythonanywhere-services.com', user='rdsbca',
                            database='rdsbca$RdsBca', password='Badam@123')  # port=3307
         if ipObject.connectionStatus:
