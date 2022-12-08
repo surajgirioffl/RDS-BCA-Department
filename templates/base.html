@@ -98,14 +98,19 @@
           <li class="nav-item">
             <a class="nav-link active" href="{{url_for('gallery')}}">Gallery</a>
           </li>
+          {%if isLogined%}
+                <li class="nav-item">
+                <a class="nav-link active" href="#">Dashboard</a>
+                </li>
+          {%else%}
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Login</a>
+                </li>
 
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Login</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link active" href="{{url_for("register")}}">Register</a>
-          </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{{url_for("register")}}">Register</a>
+                </li>
+          {%endif%}
 
           <li class="nav-item">
             <a class="nav-link active" href="#">Contact</a>
