@@ -96,6 +96,12 @@ def static_from_root():
     return send_from_directory(app.static_folder+'/sitemaps', request.path[1:])
 
 
+# temporary files serving
+@app.route("/notice.pdf", methods=["GET"])
+def temp_files():
+    return send_from_directory(app.static_folder+'/temp-files', request.path[1:])
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
