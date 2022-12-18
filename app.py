@@ -86,13 +86,14 @@ def notice():
     return render_template('notice.html')
 
 
-@app.route("/sitemap.xml")
-@app.route("/sitemap.html")
-@app.route("/ror.xml")
-@app.route("/urllist.txt")
-@app.route("/robots.txt")
+@app.route("/sitemap.xml", methods=["GET"])
+@app.route("/sitemap.html", methods=["GET"])
+@app.route("/ror.xml", methods=["GET"])
+@app.route("/urllist.txt", methods=["GET"])
+@app.route("/robots.txt", methods=["GET"])
 def static_from_root():
-    return send_from_directory(app.static_folder, request.path[1:])
+    print(app.static_folder)
+    return send_from_directory(app.static_folder+'/sitemaps', request.path[1:])
 
 
 # api routes
