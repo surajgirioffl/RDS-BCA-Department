@@ -1,0 +1,8 @@
+https://rdsbca.pythonanywhere.com/
+https://rdsbca.pythonanywhere.com/previousYearQuestions
+https://rdsbca.pythonanywhere.com/result
+https://rdsbca.pythonanywhere.com/notice
+https://rdsbca.pythonanywhere.com/gallery
+https://rdsbca.pythonanywhere.com/register
+https://rdsbca.pythonanywhere.com/static/Notice.pdf
+https://rdsbca.pythonanywhere.com/credits
