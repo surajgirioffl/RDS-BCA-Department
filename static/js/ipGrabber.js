@@ -7,7 +7,7 @@
 
 /*ISSUES: we need to send request to server only once in one session. But if we directly add the script then it will send request to server every time we refresh the page. So, we will use session storage api..*/
 
-if (window.sessionStorage.getItem("isRequestSent") == null) {
+if (window.sessionStorage.getItem("isRequestSent") == null && location.hostname != '127.0.0.1') {
     /*Executing script after page is loaded (No meaning here but I don't want to hamper normal page loading.)*/
     window.onload = function () {
         /*To get client ip only. Returns client ip on success else false on failure*/
