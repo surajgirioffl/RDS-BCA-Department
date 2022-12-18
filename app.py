@@ -1,5 +1,5 @@
 import logging
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, send_from_directory
 import results_db as db
 import previous_year_questions_db as pyqDb
 import userIPDb as ipDB
@@ -84,6 +84,15 @@ def register():
 def notice():
     logging.info("Notice page is called...")
     return render_template('notice.html')
+
+
+@app.route("/sitemap.xml")
+@app.route("/sitemap.html")
+@app.route("/ror.xml")
+@app.route("/urllist.txt")
+@app.route("/robots.txt")
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 # api routes
