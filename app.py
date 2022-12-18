@@ -12,6 +12,7 @@ app = Flask(__name__)
 funCall = 0
 
 
+@app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
     logging.info('Home page is called...')
