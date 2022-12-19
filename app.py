@@ -86,6 +86,11 @@ def notice():
     return render_template('notice.html')
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    return render_template('login.html')
+
+
 @app.route("/sitemap.xml", methods=["GET"])
 @app.route("/sitemap.html", methods=["GET"])
 @app.route("/ror.xml", methods=["GET"])
