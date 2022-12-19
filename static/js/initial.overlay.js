@@ -23,5 +23,8 @@ function _overlay(element) {
 function closeOverlay(element) {
     if (element === undefined)
         element = document.getElementById('overlay');
-    element.style.display = 'none';
+    element.style.animation = "slideUpFromCenter 1s ease-in-out";
+    setTimeout(() => {
+        element.style.display = 'none';
+    }, 1000);
 }
