@@ -1,13 +1,184 @@
 {% extends 'base.html' %}
-
+{%block css%}
+<link rel="stylesheet" href="../static/css/register.css" />{%endblock css%}
+{%block script%}
+<script src="../static/js/register.js"></script>
+{%endblock script%}
 {% block body %}
 
 <body>
-    <!---Page Heading-->
-    <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
-        <p class="text-center fs-2 text fw-bolder">Register</p>
+  <!---Page Heading-->
+  <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
+    <p class="text-center fs-2 text fw-bolder">Register</p>
+    <hr>
+    <div style="padding-left:10%; padding-right:10%;">
+      <p style="text-decoration:underline;"><strong>Fill The Following Fields</strong></p>
+
+      <!-- form start -->
+      <form action="/register" method="POST">
+        <div class="input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons">perm_identity</i></span>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup1" placeholder="Registration"
+              name="registrationNo" required>
+            <label for="floatingInputGroup1" class="mandatory">Registration Number</label>
+          </div>
+          <div class="invalid-feedback" id="registration">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-md-6">
+            <div class="input-group mb-4">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup2" placeholder="First Name"
+                  name="firstName" required>
+                <label for="floatingInputGroup1" class="mandatory">First Name</i></label>
+              </div>
+              <div class="invalid-feedback" id="firstName">
+                <!--content to display incase of invalid input-->
+              </div>
+            </div>
+          </div>
+
+          <div class=" col-md-6">
+            <div class="input-group mb-4">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup3" placeholder="Last Name"
+                  name="lastName">
+                <label for="floatingInputGroup1">Last Name</label>
+              </div>
+              <div class="invalid-feedback" id="lastName">
+                <!--content to display incase of invalid input-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-floating mb-4">
+          <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" required
+            name="session">
+            <option selected value="">Please Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <label for="floatingSelect" class="mandatory">Gender</label>
+        </div>
+        <div class="invalid-feedback" id="gender">
+          <!--content to display incase of invalid input-->
+        </div>
+
+        <div class="input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons">mail</i></span>
+          <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInputGroup4" placeholder="name@example.com"
+              name="email" required>
+            <label for="floatingInput" class="mandatory">Email address</label>
+          </div>
+          <div class="invalid-feedback" id="email">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class="input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons">phone</i></span>
+          <div class="form-floating">
+            <input type="tel" class="form-control" id="floatingInputGroup5" placeholder="+91 1234567890"
+              name="phoneNumber" required>
+            <label for="floatingInput">Phone Number (Optional)</label>
+          </div>
+          <div class="invalid-feedback" id="phoneNumber">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+
+
+        <div class="input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons">person</i></span>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup6" placeholder="Username" name="userName"
+              required>
+            <label for="floatingInput" class="mandatory">Username</label>
+          </div>
+          <div class="invalid-feedback" id="UserName">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class=" input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons">lock_outline</i></span>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password"
+              required>
+            <label for="floatingPassword" class="mandatory">Password</label>
+          </div>
+          <div class="invalid-feedback" id="password">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class="input-group mb-4">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup7" placeholder="Exam Roll Number"
+              name="examRoll">
+            <label for="floatingInputGroup1">Exam Roll Number</label>
+          </div>
+          <div class="invalid-feedback" id="examRoll">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class="input-group mb-4">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup8" placeholder="Class Roll Number"
+              name="classRoll">
+            <label for="floatingInputGroup1">Class Roll Number</label>
+          </div>
+          <div class="invalid-feedback" id="classRoll">
+            <!--content to display incase of invalid input-->
+          </div>
+        </div>
+
+        <div class="form-floating mb-4">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" required
+            name="session">
+            <option selected value="">Please Select Session</option>
+            <option value="2019-22">2019-22</option>
+            <option value="2020-23">2020-23</option>
+            <option value="2021-24">2021-24</option>
+            <option value="2022-25">2022-25</option>
+          </select>
+          <label for="floatingSelect" class="mandatory">Session</label>
+        </div>
+        <div class="invalid-feedback" id="session">
+          <!--content to display incase of invalid input-->
+        </div>
+
+        <div class="form-floating mb-4">
+          <select class="form-select" id="floatingSelect1" aria-label="Floating label select example" name="semester">
+            <option selected>Please Select Semester</option>
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="3">4th Semester</option>
+            <option value="3">5th Semester</option>
+          </select>
+          <label for="floatingSelect">Semester</label>
+        </div>
+        <div class="invalid-feedback" id="semester">
+          <!--content to display incase of invalid input-->
+        </div>
     </div>
 
+    <button type="submit" class="btn btn-danger" onclick="reset()" style="margin-right:0.5%;">&nbsp; Reset &nbsp; &nbsp;</button>
+    <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <!-- form-end -->
+  </div>
+  </div>
 </body>
 
 {% endblock body %}

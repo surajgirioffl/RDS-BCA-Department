@@ -1,0 +1,13 @@
+.form-label {
+    text-align: left;
+    font-size: 120%;
+}
+
+.icons {
+    color: #0078d4;
+}
+
+.mandatory::after {
+    content: " *";
+    color: red;
+}
