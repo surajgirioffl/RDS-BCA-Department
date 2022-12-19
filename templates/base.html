@@ -60,13 +60,13 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link active" href="#">Students-Corner</a>
+              <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">person</i>Students-Corner</a>
             </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Study-Materials
+                <i class="material-icons icons d-inline-block align-text-top">local_library</i>Study-Materials
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Semester 1<sup>st</sup></a></li>
@@ -94,7 +94,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="{{url_for('notice')}}">Notice</a>
+            <a class="nav-link active" href="{{url_for('notice')}}"><i class="material-icons icons d-inline-block align-text-top">notifications</i>Notice</a>
           </li>
 
           <li class="nav-item">
@@ -102,32 +102,32 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="{{url_for('gallery')}}">Gallery</a>
+            <a class="nav-link active" href="{{url_for('gallery')}}"><i class="material-icons icons d-inline-block align-text-top">image</i>Gallery</a>
           </li>
           {%if isLogined%}
                 <li class="nav-item">
-                <a class="nav-link active" href="#">Dashboard</a>
+                <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">dashboard</i>Dashboard</a>
+                </li>  
+
+                <li class="nav-item">
+                <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">logout</i>Logout</a>
                 </li>
           {%else%}
                 <li class="nav-item">
-                  <a class="nav-link active" href="{{url_for('login')}}">Login</a>
+                  <a class="nav-link active" href="{{url_for('login')}}"><i class="material-icons icons d-inline-block align-text-top">login</i>Login</a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link active" href="{{url_for("register")}}">Register</a>
+                  <a class="nav-link active" href="{{url_for("register")}}"><i class="material-icons icons d-inline-block align-text-top">how_to_reg</i>Register</a>
                 </li>
           {%endif%}
 
           <li class="nav-item">
-            <a class="nav-link active" href="#">Contact</a>
+            <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">contact_support</i>Contact</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="#">About</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link active" href="https://forms.gle/F7hxnRh5TvaALRMQ8" target="_blank">Feedback</a>
+            <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">info</i>About</a>
           </li>
 
 
@@ -177,7 +177,7 @@
               <a href="/credits" class="text-reset">Credits</a>
             </p>
             <p>
-              <a href="#!" class="text-reset">Feedback</a>
+              <a href="https://forms.gle/F7hxnRh5TvaALRMQ8" class="text-reset">Feedback</a>
             </p>
             <p>
               <a href="#!" class="text-reset">Contact</a>
