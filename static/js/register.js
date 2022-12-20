@@ -25,6 +25,20 @@ function leading91(element) {
 const regElement = document.getElementById('floatingInputGroup1'); /*registrationNo input element*/
 regElement.addEventListener('change', checkInDatabase);
 
+/*converting the desired input to uppercase*/
+/*1. registration Number*/
+regElement.addEventListener('input', () => { regElement.value = regElement.value.toUpperCase() });
+
+/*2. First Name*/
+let firstName = document.getElementById('floatingInputGroup2');
+firstName.addEventListener('input', () => firstName.value = firstName.value.toUpperCase());
+
+/*3. Last Name*/
+let lastName = document.getElementById('floatingInputGroup3');
+lastName.addEventListener('input', () => lastName.value = lastName.value.toUpperCase());
+
+
+/*function to check if the registration number is already in database. If yes, then fill the other fields automatically by fetching the details using API from server (HTTP request)*/
 function checkInDatabase() {
     const regNo = regElement.value;
     if (regNo.length < 10)
