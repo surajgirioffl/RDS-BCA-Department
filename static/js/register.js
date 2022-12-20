@@ -4,3 +4,9 @@ function reset() {
         inputElements[i].value = '';
     }
 }
+
+/*function to add +91 before mobile number if there is no value.*/
+function leading91(element) {
+    if (element.value == "")
+        element.value = "+91 ";
+}
