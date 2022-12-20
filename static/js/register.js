@@ -1,4 +1,4 @@
-"userStrict"
+"use strict";
 
 function reset() {
     const inputElements = document.getElementsByTagName('input');
@@ -27,7 +27,14 @@ regElement.addEventListener('change', checkInDatabase);
 
 function checkInDatabase() {
     const regNo = regElement.value;
-    const url = 'http://127.0.0.1:5000/getDetails/' + regNo;
+    if (regNo.length < 10)
+        return;
+
+    let url;
+    if (window.location.href.includes('127.0.0.1'))
+        url = 'http://127.0.0.1:5000/getDetails/' + regNo;
+    else
+        url = 'https://rdsbca.pythonanywhere.com/getDetails/' + regNo;
     fetch(url)
         .then(response => response.json())
         .then(data => {
