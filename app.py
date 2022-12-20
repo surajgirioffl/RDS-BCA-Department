@@ -1,8 +1,9 @@
 import logging
-from flask import Flask, render_template, request, url_for, send_from_directory
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
+from db_scripts import registration_db as regDb
 import setTimeZone as tz
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
 
@@ -136,6 +137,14 @@ def ip():
             ipObject.insertInfo(**ipDictionary)
             return 'success'
     return "failed"
+
+
+# api route 2 (api endpoint)
+@app.route('/getDetails/<string:registrationNo>', methods=['GET'])
+def getDetails(registrationNo):
+    print('API GET Request for details of registration No:', registrationNo)
+    response = regDb.FetchDetails().getDetails(registrationNo)
+    return jsonify(response)
 
 
 if __name__ == '__main__':
