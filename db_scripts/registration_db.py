@@ -37,7 +37,7 @@ class FetchDetails:
                 * None
         """
         try:
-            self.conn = sqlite.connect(f'../database/{databaseName}.db')
+            self.conn = sqlite.connect(f'database/{databaseName}.db')
             self.cursor = self.conn.cursor()
             self.connectionStatus = True
         except Exception as e:
@@ -70,7 +70,7 @@ class FetchDetails:
                         - In case of any failure.
         """
         try:
-            return sqlite.connect(f'../database/{databaseName}.db')
+            return sqlite.connect(f'database/{databaseName}.db')
         except Exception as e:
             print(e)
             print('Connection failed. Error Code 102.')
@@ -106,7 +106,8 @@ class FetchDetails:
         conn = FetchDetails.__connectToDatabase(session)
         cursor = conn.cursor()
         details = cursor.execute(
-            'SELECT name,classRoll,examRoll FROM Students WHERE registrationNo=?', (registrationNo,)).fetchone()[0]
+            'SELECT name,classRoll,examRoll FROM Students WHERE registrationNo=?', (registrationNo,)).fetchone()
+        print(details)
         conn.close()
         detailsDictionary = {
             'name': details[0], 'classRoll': details[1], 'examRoll': details[2]}
