@@ -1,8 +1,8 @@
 import logging
 from flask import Flask, render_template, request, url_for, send_from_directory
-import results_db as db
-import previous_year_questions_db as pyqDb
-import userIPDb as ipDB
+from db_scripts import results_db as db
+from db_scripts import previous_year_questions_db as pyqDb
+from db_scripts import userIPDb as ipDB
 import setTimeZone as tz
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
 
