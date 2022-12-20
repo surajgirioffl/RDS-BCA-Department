@@ -100,10 +100,10 @@ class FetchDetails:
         # if connection is established then fetch the data.
 
         session = self.cursor.execute(
-            'SELECT session FROM Students WHERE registrationNo=?', (registrationNo,)).fetchone()[0]
+            'SELECT session FROM Students WHERE registrationNo=?', (registrationNo,)).fetchone()
         if session is None:
             return None
-        conn = FetchDetails.__connectToDatabase(session)
+        conn = FetchDetails.__connectToDatabase(session[0])
         cursor = conn.cursor()
         details = cursor.execute(
             'SELECT name,classRoll,examRoll FROM Students WHERE registrationNo=?', (registrationNo,)).fetchone()
