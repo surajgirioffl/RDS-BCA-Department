@@ -1,4 +1,5 @@
 function overlay() {
+    if (sessionStorage.getItem('isOverlayClosed') === 'True') return;
     const element = document.getElementById('overlay');
     setTimeout(() => { _overlay(element) }, 2000)
 }
@@ -27,4 +28,5 @@ function closeOverlay(element) {
     setTimeout(() => {
         element.style.display = 'none';
     }, 1000);
+    sessionStorage.setItem('isOverlayClosed', 'True');
 }

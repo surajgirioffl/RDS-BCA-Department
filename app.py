@@ -18,9 +18,7 @@ def home():
     logging.info('Home page is called...')
     global funCall
     funCall += 1
-
-    if funCall == 1:
-        return render_template('index.html', initialStage=True)
+    print(f"Home page called {funCall} times")
     return render_template('index.html')
 
 

@@ -14,23 +14,21 @@
 
 
   <!--overlay starts-->
-  {%if initialStage==True%}
-      <div id="overlay">
-        <style onload="overlay()"></style> <!--There is no use of style here but I have used it for calling overlay because 'onload' doesn't support by div tag-->
-          <div id="overlayText">
-              <strong>
-                  <span id="overlayHeading">Website Is Under Development</span>
-                  <span>
-                      <br>Signed-off-by: Suraj Giri
-                      <br>Contact: <a href="mailto:surajgirioffl@gmail.com">surajgirioffl@gmail.com</a>
-                  </span>
-              </strong>
-              <br><br>
-              <button type="button" class="btn btn-primary" onclick="closeOverlay()">Close</button>
-              <p id="autoClose"></p>
-          </div>
-      </div>
-  {%endif%}
+    <div id="overlay">
+      <style onload="overlay()"></style> <!--There is no use of style here but I have used it for calling overlay because 'onload' doesn't support by div tag-->
+        <div id="overlayText">
+            <strong>
+                <span id="overlayHeading">Website Is Under Development</span>
+                <span>
+                    <br>Signed-off-by: Suraj Giri
+                    <br>Contact: <a href="mailto:surajgirioffl@gmail.com">surajgirioffl@gmail.com</a>
+                </span>
+            </strong>
+            <br><br>
+            <button type="button" class="btn btn-primary" onclick="closeOverlay()">Close</button>
+            <p id="autoClose"></p>
+        </div>
+    </div>
 
   <!--overlay ends-->
 
