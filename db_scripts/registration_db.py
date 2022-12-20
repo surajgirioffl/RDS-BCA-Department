@@ -110,7 +110,7 @@ class FetchDetails:
         print(details)
         conn.close()
         detailsDictionary = {
-            'name': details[0], 'classRoll': details[1], 'examRoll': details[2]}
+            'name': details[0], 'classRoll': details[1], 'examRoll': details[2], 'session': session}
         return detailsDictionary
 
 
