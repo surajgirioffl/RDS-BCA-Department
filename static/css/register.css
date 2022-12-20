@@ -11,3 +11,28 @@
     content: " *";
     color: red;
 }
+
+@keyframes moveLeftToRight {
+    0% {
+        transform: translateX(-200%);
+    }
+
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+#edge-loading {
+    border: 1px solid #018df8;
+    display: block;
+    margin-left: 30%;
+    margin-right: 30%;
+    align-self: center;
+    animation: moveLeftToRight 3s linear infinite;
+    display: none;
+}
+
+body {
+    /*to hide horizontal scrollbar during animation*/
+    overflow-x: hidden;
+}

@@ -49,9 +49,11 @@ function checkInDatabase() {
         url = 'http://127.0.0.1:5000/getDetails/' + regNo;
     else
         url = 'https://rdsbca.pythonanywhere.com/getDetails/' + regNo;
+    showEdgeLoading();
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            hideEdgeLoading();
             if (data != null) {
                 console.log(data)
                 const nameArray = data.name.split(' ');
@@ -72,4 +74,16 @@ function checkInDatabase() {
                 document.getElementById('floatingSelect').value = "";
             }
         })
+}
+
+
+/*function to show and hide edge loading animation while fetching data from server using API (using registration number) */
+function hideEdgeLoading() {
+    const element = document.getElementById('edge-loading');
+    element.style.display = 'none';
+}
+
+function showEdgeLoading(type = 'block') {
+    const element = document.getElementById('edge-loading');
+    element.style.display = type;
 }
