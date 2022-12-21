@@ -116,6 +116,11 @@ def sources():
     return render_template('sources.html')
 
 
+@app.route('/teachers', methods=['GET'])
+def teachers():
+    return render_template('teachers.html')
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
