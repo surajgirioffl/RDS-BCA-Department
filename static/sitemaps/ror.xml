@@ -13,6 +13,14 @@
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
+     <link>https://rdsbca.pythonanywhere.com/studyMaterials</link>
+     <title> Study Materials - BCA RDS College, Muzaffarpur  </title>
+     <description> Study Materials - BCA RDS College, Muzaffarpur  </description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
      <link>https://rdsbca.pythonanywhere.com/previousYearQuestions</link>
      <title> Previous Year Question - BCA RDS College, Muzaffarpur </title>
      <description> Previous Year Question - BCA RDS College, Muzaffarpur </description>
@@ -37,6 +45,14 @@
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
+     <link>https://rdsbca.pythonanywhere.com/teachers</link>
+     <title> Teachers - BCA RDS College, Muzaffarpur  </title>
+     <description> Teachers - BCA RDS College, Muzaffarpur  </description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
      <link>https://rdsbca.pythonanywhere.com/gallery</link>
      <title>Page Not Found</title>
      <description>Page Not Found</description>
@@ -45,15 +61,23 @@
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
-     <link>https://rdsbca.pythonanywhere.com/register</link>
-     <title>BCA RDS College, Muzaffarpur</title>
-     <description>BCA RDS College, Muzaffarpur</description>
+     <link>https://rdsbca.pythonanywhere.com/login</link>
+     <title> Login - BCA RDS College, Muzaffarpur  </title>
+     <description> Login - BCA RDS College, Muzaffarpur  </description>
      <ror:updatePeriod></ror:updatePeriod>
      <ror:sortOrder>1</ror:sortOrder>
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
-     <link>https://rdsbca.pythonanywhere.com/static/Notice.pdf</link>
+     <link>https://rdsbca.pythonanywhere.com/register</link>
+     <title> Register - BCA RDS College, Muzaffarpur  </title>
+     <description> Register - BCA RDS College, Muzaffarpur  </description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>https://rdsbca.pythonanywhere.com/notice.pdf</link>
      <title></title>
      
      <ror:updatePeriod></ror:updatePeriod>
@@ -61,9 +85,17 @@
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
+     <link>https://rdsbca.pythonanywhere.com/sources</link>
+     <title> Sources - BCA RDS College, Muzaffarpur  </title>
+     <description> Sources - BCA RDS College, Muzaffarpur  </description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
      <link>https://rdsbca.pythonanywhere.com/credits</link>
-     <title> Credits </title>
-     <description> Credits </description>
+     <title> Credits - BCA RDS College, Muzaffarpur  </title>
+     <description> Credits - BCA RDS College, Muzaffarpur  </description>
      <ror:updatePeriod></ror:updatePeriod>
      <ror:sortOrder>1</ror:sortOrder>
      <ror:resourceOf>sitemap</ror:resourceOf>
