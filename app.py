@@ -111,6 +111,11 @@ def studyMaterials():
     return render_template('study-materials.html')
 
 
+@app.route('/sources', methods=['GET'])
+def sources():
+    return render_template('sources.html')
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
