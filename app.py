@@ -52,7 +52,7 @@ def credits():
 @app.route("/gallery")
 def gallery():
     logging.info("Gallery page is called...")
-    return render_template('404.html')
+    return render_template('404.html', message="Gallery page is under development.")
 
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
