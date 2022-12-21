@@ -119,11 +119,23 @@
           <div class="invalid-feedback" id="password">
             <!--content to display incase of invalid input-->
           </div>
+        </div>    
+        
+        <div class=" input-group mb-4">
+          <span class="input-group-text"><i class="material-icons icons registrationIcons">lock_outline</i></span>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword1" placeholder="Verify Password" name="verifyPassword"
+              required>
+            <label for="floatingPassword" class="mandatory">Verify Password</label>
+          </div>
+          <div class="invalid-feedback" id="verifyPassword">
+            <!--content to display incase of invalid input-->
+          </div>
         </div>
 
         <div class="input-group mb-4">
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInputGroup7" placeholder="Exam Roll Number"
+            <input type="number" class="form-control" id="floatingInputGroup7" placeholder="Exam Roll Number"
               name="examRoll">
             <label for="floatingInputGroup1">Exam Roll Number</label>
           </div>
@@ -134,7 +146,7 @@
 
         <div class="input-group mb-4">
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInputGroup8" placeholder="Class Roll Number"
+            <input type="number" class="form-control" id="floatingInputGroup8" placeholder="Class Roll Number"
               name="classRoll">
             <label for="floatingInputGroup1">Class Roll Number</label>
           </div>
@@ -151,6 +163,7 @@
             <option value="2020-23">2020-23</option>
             <option value="2021-24">2021-24</option>
             <option value="2022-25">2022-25</option>
+            <option value="2023-26">2023-26</option>
           </select>
           <label for="floatingSelect" class="mandatory">Session</label>
         </div>
