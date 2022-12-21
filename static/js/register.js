@@ -21,6 +21,8 @@ function leading91(element) {
  *floatingInputGroup7 for examRollNumber field
  *floatingInputGroup8 for classRollNumber field
  *floatingSelect for session field
+
+ *floatingInputGroup9 for city.
  */
 const regElement = document.getElementById('floatingInputGroup1'); /*registrationNo input element*/
 regElement.addEventListener('change', checkInDatabase);
@@ -36,6 +38,10 @@ firstName.addEventListener('input', () => firstName.value = firstName.value.toUp
 /*3. Last Name*/
 let lastName = document.getElementById('floatingInputGroup3');
 lastName.addEventListener('input', () => lastName.value = lastName.value.toUpperCase());
+
+/*3. Last Name*/
+let city = document.getElementById('floatingInputGroup9');
+city.addEventListener('input', () => city.value = city.value.toUpperCase());
 
 
 /*function to check if the registration number is already in database. If yes, then fill the other fields automatically by fetching the details using API from server (HTTP request)*/
