@@ -106,6 +106,11 @@ def temp_files():
     return send_from_directory(app.static_folder+'/temp-files', request.path[1:])
 
 
+@app.route("/studyMaterials", methods=["GET"])
+def studyMaterials():
+    return render_template('study-materials.html')
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
