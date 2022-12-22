@@ -121,6 +121,12 @@ def teachers():
     return render_template('teachers.html')
 
 
+@app.route('/studentsCorner', methods=['GET'])
+def studentsCorner():
+    message = "Hello, Programmers! This page is under development."
+    return render_template('students-corner.html', message=message)
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():

@@ -1,0 +1,21 @@
+{% extends "base.html"%}
+{%block title%} Student's Corner - BCA RDS College, Muzaffarpur  {%endblock title%}
+{%block css%}<link rel="stylesheet" href="static/css/image-effects.css">{%endblock css%}
+{%block script%}<script src="static/js/image-effects.js"></script>{%endblock script%}
+{% block body%}
+
+<div class="main wrapper clearfix data imagesDiv">
+    <p class="text-center fs-2 text fw-bolder">STUDENT'S CORNER</p>
+    <hr>
+
+    <div class="alert alert-success" style="font-weight:bold; font-size: 120%; font-family: sans-serif;" role="alert">
+        {{message}}
+    </div>
+    
+    <p>
+    <img src="static/illustrations/programming.png" class="resize images">
+    <img src="static/illustrations/programming2.png" class="resize images no-shadow">
+    </p>
+    
+</div>
+{%endblock body%}
