@@ -1,0 +1,35 @@
+.resize {
+    width: 60%;
+    height: 50%;
+}
+
+.images {
+    border-radius: 5.5%;
+    /* border-radius: 2rem; */
+    box-shadow: 10px 10px 5px 5px grey;
+    transition: transform 0.5s;
+    transition: scale 0.5s;
+    cursor: pointer;
+    margin: 3%;
+}
+
+.no-shadow {
+    box-shadow: none;
+}
+
+@keyframes rotate {
+    0% {}
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.images:hover {
+    transition: scale 0.5s;
+    scale: 1.1;
+}
+
+.imagesDiv {
+    perspective: 1000px;
+}
