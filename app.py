@@ -132,6 +132,11 @@ def contact():
     return render_template('contact.html')
 
 
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
