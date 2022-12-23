@@ -1,4 +1,5 @@
 https://rdsbca.pythonanywhere.com/
+https://rdsbca.pythonanywhere.com/studentsCorner
 https://rdsbca.pythonanywhere.com/studyMaterials
 https://rdsbca.pythonanywhere.com/previousYearQuestions
 https://rdsbca.pythonanywhere.com/result
@@ -7,6 +8,8 @@ https://rdsbca.pythonanywhere.com/teachers
 https://rdsbca.pythonanywhere.com/gallery
 https://rdsbca.pythonanywhere.com/login
 https://rdsbca.pythonanywhere.com/register
+https://rdsbca.pythonanywhere.com/contact
+https://rdsbca.pythonanywhere.com/about
 https://rdsbca.pythonanywhere.com/notice.pdf
 https://rdsbca.pythonanywhere.com/sources
 https://rdsbca.pythonanywhere.com/credits
