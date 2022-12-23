@@ -127,6 +127,11 @@ def studentsCorner():
     return render_template('students-corner.html', message=message)
 
 
+@app.route('/contact', methods=['GET'])
+def contact():
+    return render_template('contact.html')
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
