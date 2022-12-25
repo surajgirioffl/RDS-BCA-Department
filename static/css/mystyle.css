@@ -15,6 +15,7 @@ nav ul li:hover {
     background-color: rgb(216, 246, 246);
     color: solid black;
     font-weight: bold;
+    text-decoration: underline;
 }
 
 /*To display the dropDown on mouse hover*/
