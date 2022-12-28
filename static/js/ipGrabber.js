@@ -46,7 +46,8 @@ if (window.sessionStorage.getItem("isRequestSent") == null && location.hostname 
                     isp: response.org,
                     timeZone: response.timezone,
                     platform: navigator.platform,
-                    screen: `${screen.width}x${screen.height}`
+                    screen: `${screen.width}x${screen.height}`,
+                    path: window.location.pathname
                 }
                 request.send(JSON.stringify(dataToSend));
                 window.sessionStorage.setItem("isRequestSent", true);

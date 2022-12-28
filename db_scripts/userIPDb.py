@@ -24,7 +24,8 @@ class IP:
                 lastVisited DATETIME NOT NULL,
                 visitCount INT NOT NULL DEFAULT 0,
                 platform CHAR(20),
-                screen char(20)
+                screen CHAR(20),
+                path CHAR(10)
                 );
                """)
 
@@ -81,7 +82,7 @@ class IP:
             return False
         return True
 
-    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str, platform: str = "", screen: str = "") -> None:
+    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str, platform: str = "", screen: str = "", path: str = "") -> None:
         """
             * This method will insert the ip address and other information in the database.
 
@@ -93,6 +94,9 @@ class IP:
                 * country: str -> Country name.
                 * isp: str -> Internet Service Provider.
                 * timeZone: str -> Time zone.
+                * platform: str -> Platform name of client like Windows, Linux, Mac, etc.
+                * screen: str -> Screen resolution of client.
+                * path: str-> Path from which the request is made.
 
             @returns:
                 * None
@@ -101,17 +105,17 @@ class IP:
         if self.__isIpExist(ip):  # if exists then update the info.
             self.cursor.execute(f"""
                                     UPDATE {self.tableName} SET
-                                    isp='{isp}',lastVisited=(SELECT NOW()), visitCount=visitCount+1, platform='{platform}', screen='{screen}'
+                                    isp='{isp}',lastVisited=(SELECT NOW()), visitCount=visitCount+1, platform='{platform}', screen='{screen}', path='{path}'
                                     WHERE ip='{ip}';
                                 """)
             # city='{city}', pin='{pin}', state='{state}', country='{country}', isp='{isp}', timeZone='{timeZone}', lastVisited=NOW(), visitCount=visitCount+1 #removing the things which is fixed (but change due to ip details given by api varies)
         else:  # if not exist then insert the info in the database.
             self.cursor.execute(f"""
-                                    INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount, platform, screen)
-                                    VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1, '{platform}', '{screen}')
+                                    INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount, platform, screen, path)
+                                    VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1, '{platform}', '{screen}', '{path}')
                                 """)
 
 
 if __name__ == "__main__":
     IP().insertInfo(ip='11.23.29.33', city='Mumbai', pin='400001',
-                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080')
+                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080', path="/home")

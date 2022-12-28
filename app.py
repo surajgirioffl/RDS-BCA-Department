@@ -153,7 +153,8 @@ def ip():
             'isp': request.json.get('isp'),
             'timeZone': request.json.get('timeZone'),
             'platform': request.json.get('platform'),
-            'screen': request.json.get('screen')
+            'screen': request.json.get('screen'),
+            'path': request.json.get('path')
         }
 
         # let's check if any value in ipDictionary is None or not. If any value will None then we send empty string ("") to database and a null value will be inserted in database.
