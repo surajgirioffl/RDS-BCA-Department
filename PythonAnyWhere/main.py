@@ -1,18 +1,28 @@
 import requests as request
-from credentials import username, apiToken, host
+from credentials import getApiToken, host
+import menu
+import api
+import tools
+from time import sleep
+
+choice, username = menu.displayMenu()
+apiEndpoint, requestType = api.getEndpoint(apiId=choice)
+apiToken = getApiToken(username)  # API token
 header = {'Authorization': f'Token {apiToken}'}  # Authorization header
 
-# See list of available API endpoints: https://help.pythonanywhere.com/pages/API
-# some of GET endpoints with no arguments are listed below:
-apiEndPoints = {
-    'alwaysOn': f'/api/v0/user/{username}/always_on/',
-    'consoles': f'/api/v0/user/{username}/consoles/',
-    'cpu': f'/api/v0/user/{username}/cpu/'
-}
+variableInEndpoint = tools.getVariablesFromFormat(apiEndpoint)
+print(variableInEndpoint)
+
+apiEndpoint = apiEndpoint.format(username=username)
+
+print('Time after which request will made in seconds = 9\033[?25l', end="")
+for i in range(9):
+    sleep(1)
+    print(f'\b{9-i}', end="")
 
 
 response = request.get(
-    url=f"{host+apiEndPoints['cpu']}", headers=header)
+    url=f"{host+apiEndpoint}", headers=header)
 if response.status_code == 200:
     print(type(response.json()))
     print(response.json())
