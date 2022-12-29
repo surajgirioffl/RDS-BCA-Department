@@ -8,7 +8,8 @@
         * Module to display menu and handle user input.
         
     @functions:
-        * 
+        * displayMenu()
+            - To display menu and handle user input after displaying menu.
 """
 from time import sleep
 from os import system
@@ -67,6 +68,15 @@ def __ipMenu() -> str:
 
 
 def displayMenu() -> tuple[int, str]:
+    """
+        Description:
+            To display menu and handle user input after displaying menu.
+        Returns:
+            * tuple[int,str]:
+                - int: user's choice
+                - str: selected username
+        
+    """
     global username
 
     while True:
