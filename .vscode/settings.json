@@ -1,5 +1,122 @@
 {
     "cSpell.words": [
         "Muzaffarpur"
-    ]
+    ],
+    /*source: https://stackoverflow.com/questions/49026995/vscode-specific-word-color*/
+    "todohighlight.keywords": [
+        {
+            "scope": "string.quoted.docstring.multi.python",
+            "text": "@author",
+            "color": "cyan",
+            "backgroundColor": "",
+            "fontStyle": "italic"
+            // "overviewRulerColor": "grey",
+        },
+        {
+            "text": "@description",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@file",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@param",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@init-date",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@last-modified",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@classes",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@global-variables",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@functions",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@classes",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@class-attributes",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@class-methods",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@args",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@returns",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@summary",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@brief",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "@methods",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        },
+        {
+            "text": "Suraj Kumar Giri",
+            "color": "#8e47e8",
+            "fontStyle": "italic",
+            "fontWeight": "bold",
+            "backgroundColor": ""
+        },
+    ],
+    "files.associations": {
+        "iostream": "cpp"
+    }
 }
