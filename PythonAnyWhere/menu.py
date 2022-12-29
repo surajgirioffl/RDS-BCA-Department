@@ -1,5 +1,5 @@
 """
-    @file: credentials.py
+    @file: menu.py
     @author: Suraj Kumar Giri
     @init-date: 29th Dec 2022
     @last-modified: 29th Dec 2022
@@ -10,6 +10,8 @@
     @functions:
         * 
 """
+from time import sleep
+from os import system
 
 __author__ = 'Suraj Kumar Giri'
 __email__ = 'surajgirioffl@gmail.com'
@@ -17,11 +19,13 @@ __email__ = 'surajgirioffl@gmail.com'
 username = 'rdsbca'
 
 
-def __ipMenu():
+def __ipMenu() -> str:
     print(
-        """
-        \033[2J\033[H
-        01. Change username (default is rdsbca).
+        f"""
+        \033[2J;\033[H
+        =================== PythonAnyWhere API Menu ===================
+        00. To exit.
+        01. Change username (selected username is {username}).
         Console:
             02. List all your consoles [GET].
             03. Get information about specific console [GET].
@@ -58,6 +62,45 @@ def __ipMenu():
         """
     )
 
+    choice = input("\nWrite your choice: ")
+    return choice
+
+
+def displayMenu() -> tuple[int, str]:
+    global username
+
+    while True:
+        try:
+            choice = int(__ipMenu())
+        except Exception as e:
+            print(e)
+            print("Invalid input. Try again.")
+            sleep(1)
+            continue
+        else:
+            if choice not in range(0, 28):
+                print("Invalid input. Try again.")
+                sleep(1)
+                continue
+
+        if choice == 0:
+            exit(0)
+        elif choice == 1:
+            print("""
+                  1. rdsbca
+                  2. surajgiridev
+                  """)
+            selection = input("select username: ")
+            if selection == '1':
+                username = 'rdsbca'
+            elif selection == '2':
+                username = 'surajgiridev'
+            else:
+                print("Invalid selection. Try again.")
+                sleep(1)
+        else:
+            return choice, username
+
 
 if __name__ == '__main__':
-    __ipMenu()
+    print(displayMenu())
