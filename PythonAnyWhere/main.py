@@ -31,6 +31,7 @@ while True:
 
     # replacing variables in endpoint with desired credentials
     isMoreThanOneVariable = False
+    continueToMenu = False
     if len(variableInEndpoint) == 1:  # means only username is required
         apiEndpoint = apiEndpoint.format(username=username)
         break
@@ -43,10 +44,13 @@ while True:
                 isMoreThanOneVariable = True
                 value = input(f"\nEnter {variable} (Press # for menu): ")
                 if value == '#':
-                    continue
+                    continueToMenu = True
+                    break
                 else:
                     variablesValue[variable] = value
-        break
+    if continueToMenu:
+        continue
+    break
 
 # replacing variables in endpoint with desired credentials in case of more than one variable in format string
 if isMoreThanOneVariable:
