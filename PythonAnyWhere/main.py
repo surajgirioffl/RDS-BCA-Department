@@ -67,28 +67,52 @@ for i in range(5):
 
 #----------------- Making request -----------------#
 # source: https://requests.readthedocs.io/en/latest/api/
-response = request.request(method=requestType,
-                           url=f"{host+apiEndpoint}", headers=header)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
+try:
+    response = request.request(method=requestType,
+                               url=f"{host+apiEndpoint}", headers=header)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
+except Exception as e:
+    print("\nError in request:", e)
+    exit(-1)
+else:
+    print("\nRequest successful")
 
-print("Status Code:", response.status_code)
+print("\nStatus Code:", response.status_code)
 
-print("\n----------------------------- Response --------------------------------")
-print("\nResponse type:", type(response.json()))
-# print(response.json())
+if response.status_code not in [200, 201, 202, 204]:
+    print("\nError:", response.status_code, response.reason)
+    print("Response:", response.text)
+    exit(-1)
 
-if response.status_code == 200:
+print("\n----------------------------- Response Header--------------------------------")
+print("Response Header Type:", type(response.headers), end="\n\n")
+for key, value in response.headers.items():
+    print(key, ":", value)
+print()
+
+print("\n----------------------------- Response Content--------------------------------")
+
+# if response is json then print it in readable format else print as it is
+if response.headers['Content-Type'] == 'application/json':
+    print("\nResponse type:", type(response.json()))
+    # print(response.json())
+
     if isinstance(response.json(), list):
         for json in response.json():
-            for key, value in json.items():
-                print(key, ":", value)
+            if isinstance(json, dict):
+                for key, value in json.items():
+                    print(key, ":", value)
+            else:
+                print(json)
             print()
     elif isinstance(response.json(), dict):
         for key, value in response.json().items():
             print(key, ":", value)
     else:
         print(response.json())
-else:
-    print("\nError:", response.status_code, response.reason)
-    print("Response:", response.text)
 
+else:
+    print("\nResponse type:", type(response.content))
+    print(response.content)
+
+response.close()  # closing response
 print("\n")
