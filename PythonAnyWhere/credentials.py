@@ -33,6 +33,7 @@ def getApiToken(username: str = 'rdsbca') -> str:
                 - API token for the given username.
     """
     tokenDictionary = {
-        'rdsbca': '08c8fd81396723df0627ce2a5cd3550d5ddc9a08'
+        'rdsbca': '08c8fd81396723df0627ce2a5cd3550d5ddc9a08',
+        'surajgiridev': '68a120e0213c5b6b09f20c9a3e81dba7984f621b'
     }
     return tokenDictionary[username]
