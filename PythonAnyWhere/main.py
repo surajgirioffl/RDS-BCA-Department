@@ -1,3 +1,14 @@
+
+"""
+    @file: main.py
+    @author: Suraj Kumar Giri
+    @init-date: 29th Dec 2022
+    @last-modified: 30th Dec 2022
+    
+    @description:
+        * Module deals with all required APIs of PythonAnyWhere.
+"""
+
 import requests as request
 from credentials import getApiToken, host
 import menu
