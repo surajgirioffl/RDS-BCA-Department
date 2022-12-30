@@ -1,3 +1,17 @@
+"""
+    @file: api.py
+    @author: Suraj Kumar Giri
+    @init-date: 29th Dec 2022
+    @last-modified: 29th Dec 2022
+    
+    @description:
+        * Module to handle database related operations related to PythonAnyWhere API.
+        
+    @functions:
+        * getEndpoints()
+            - To fetch Api Endpoints based on different parameters from the database.
+"""
+
 import sqlite3 as sqlite
 
 # See list of available API endpoints: https://help.pythonanywhere.com/pages/API

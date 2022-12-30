@@ -1,3 +1,17 @@
+"""
+    @file: tools.py
+    @author: Suraj Kumar Giri
+    @init-date: 29th Dec 2022
+    @last-modified: 29th Dec 2022
+    
+    @description:
+        * Module containing program to perform multiple operation while dealing with PythonAnyWhere API in @file main.py.
+        
+    @functions:
+        * getVariablesFromFormat()
+            - To extract the list of variables from a format string.
+"""
+
 
 def getVariablesFromFormat(stringFormat) -> list | None:
     """
