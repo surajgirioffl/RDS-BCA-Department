@@ -21,6 +21,14 @@ username = 'rdsbca'
 
 
 def __ipMenu() -> str:
+    """
+        Description:
+            - To display menu and handle user input after displaying menu
+        
+        Returns:
+            * str:
+                - User's choice
+    """
     print(
         f"""
         \033[2J;\033[H

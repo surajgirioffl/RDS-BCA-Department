@@ -20,6 +20,19 @@ import sqlite3 as sqlite
 
 class __API:
     def __init__(self, databaseName: str = 'PythonAnyWhere/api.db', tableName='ApiList'):
+        """
+            Description:
+                - Constructor to create object of __API class.
+                - It will establish connection with the database and create cursor object.
+
+            Args:
+                * databaseName (str, optional): 
+                    - Name of the database file.
+                    - Defaults to 'PythonAnyWhere/api.db'.
+                * tableName (str, optional):
+                    - Name of the table.
+                    - Defaults to 'ApiList'.
+        """
         self.databaseName = databaseName
         self.tableName = tableName
         try:
@@ -33,9 +46,29 @@ class __API:
             self.isConnected = True
 
     def __del__(self):
+        """
+            Description:
+                - Destructor.
+                - It will close the connection with the database.
+        """
         self.conn.close()
 
     def getEndpointById(self, apiId: int) -> tuple[str, str] | None:
+        """
+            Description:
+                - To fetch the API endpoint and request type based on the endpoint id.
+
+            Args:
+               * apiId (int):
+                    - API Id of the endpoint to be fetched. e.g. 2, 9, 12, 89 etc
+
+            Returns:
+                * tuple[str, str]:
+                    - Tuple (endpoint, requestType) containing endpoint and request type.
+                * None:
+                    - If no endpoint found on given id or in case of any error.
+
+        """ 
         if not self.isConnected:
             return None
         row = self.cursor.execute(f"""
@@ -47,6 +80,21 @@ class __API:
         return None
 
     def getEndpointByKey(self, apiKey: str) -> tuple[str, str] | None:
+        """
+            Description:
+                - To fetch the API endpoint and request type based on the endpoint key name.
+
+            Args:
+               * apiKey (str):
+                    - API key of the endpoint to be fetched. e.g, 'cpuUsage', 'listConsole', 'listWebApp' etc
+
+            Returns:
+                * tuple[str, str]:
+                    - Tuple (endpoint, requestType) containing endpoint and request type.
+                * None:
+                    - If no endpoint found on given API key or in case of any error.
+
+        """ 
         if not self.isConnected:
             return None
         row = self.cursor.execute(f"""
@@ -59,6 +107,23 @@ class __API:
 
 
 def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[str, str] | None:
+    """
+        Description:
+            - To fetch Api Endpoints based on different parameters from the database.
+        Args:
+            * apiId (int | None, optional): 
+                - Api Id of the endpoint to be fetched. e.g. 2, 9, 12, 89 etc
+                - Defaults to None.
+            * apiKey (str | None, optional): 
+                - API key of the endpoint to be fetched. e.g, 'cpuUsage', 'listConsole', 'listWebApp' etc
+                - Defaults to None.
+            * Both are specified optional but one of them are compulsory otherwise it will return None.
+
+        Returns:
+            tuple[str, str] | None:
+                - tuple containing endpoint and requestType.
+                - None if no endpoint is found or in case of any error or no argument is passed.
+    """
     if apiId is None and apiKey is None:
         print("Error: Both apiId and apiKey are None.")
         print("Please pass at least one argument.")
