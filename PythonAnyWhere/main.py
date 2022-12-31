@@ -58,8 +58,25 @@ class API:
 
     def setCredentials(self) -> None:
         # Get API endpoint and request type and other required credentials
-        self.apiEndpoint, self.requestType = api.getEndpoint(apiId=self.choice)
-        apiToken = getApiToken(self.username)  # API token
+        self.apiEndpoint, self.requestType, parameters = api.getEndpoint(
+            apiId=self.choice)
+
+        # Get data from user if required by the API endpoint (Normally in POST, PUT, PATCH request data is required)
+        self.data = parameters  # if parameters is None then self.data will be None
+        if parameters is not None:
+            self.data = {}
+            print('\nParameters are required for this API endpoint.')
+            for key in parameters:
+                while True:
+                    self.data[key] = input(f"Enter {key}: ")
+                    # if user press enter without entering any value
+                    if (self.data[key]) == "":
+                        print("Empty value not allowed. Please write again..")
+                        continue
+                    break
+
+        # API token
+        apiToken = getApiToken(self.username)
         # Authorization header
         self.header = {'Authorization': f'Token {apiToken}'}
 
@@ -133,7 +150,7 @@ class API:
         # source: https://requests.readthedocs.io/en/latest/api/
         try:
             self.response = request.request(method=self.requestType,
-                                            url=f"{host+self.apiEndpoint}", headers=self.header)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
+                                            url=f"{host+self.apiEndpoint}", headers=self.header, data=self.data)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
         except Exception as e:
             print("\nError in request:", e)
             return False
