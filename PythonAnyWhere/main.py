@@ -103,11 +103,13 @@ class API:
                 * False:
                     - if response status is other than above mentioned status codes.
         """
-        print("\nStatus Code:", self.response.status_code)
+        print("\n----------------------------- Response Status--------------------------------")
+        print("Status Code:", self.response.status_code)
 
         if self.response.status_code not in [200, 201, 202, 204]:
             print("\nError:", self.response.status_code, self.response.reason)
             print("Response:", self.response.text)
+            print("----------------------------------- End--------------------------------------")
             return False
         return True
 
@@ -123,7 +125,7 @@ class API:
 
         # if response is json then print it in readable format else print as it is
         if self.response.headers['Content-Type'] == 'application/json':
-            print("\nResponse type:", type(self.response.json()))
+            print("Response type:", type(self.response.json()))
             # print(response.json())
 
             if isinstance(self.response.json(), list):
@@ -181,11 +183,22 @@ def main():
                     api.printResponseHeader()
                     api.printResponseContent()
                     Terminal.pause()
+                    continue
                 else:
-                    ...
+                    print(
+                        "\nResponse is not satisfactory. Something went wrong either client side or server side.")
+                    print("Press any key to main menu")
+                    Terminal.pause()
+                    continue
             else:
-                ...
+                print("\nSomething went wrong while making request.")
+                print("Press any key to main menu")
+                Terminal.pause()
+                continue
         else:
+            print('Something went wrong in variable replacement in format string..')
+            print("Press any key to main menu")
+            Terminal.pause()
             continue
 
 
