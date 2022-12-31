@@ -3,12 +3,14 @@
     @file: main.py
     @author: Suraj Kumar Giri
     @init-date: 29th Dec 2022
-    @last-modified: 30th Dec 2022
+    @last-modified: 31st Dec 2022
 
     @description:
         * Module deals with all required APIs of PythonAnyWhere.
 """
 
+from os import system
+from sys import platform
 import requests as request
 from credentials import getApiToken, host
 import menu
@@ -16,107 +18,176 @@ import api
 import tools
 from time import sleep
 
-while True:
-    # Display menu and get user's choice and username
-    choice, username = menu.displayMenu()
 
-    # Get API endpoint and request type and other required credentials
-    apiEndpoint, requestType = api.getEndpoint(apiId=choice)
-    apiToken = getApiToken(username)  # API token
-    header = {'Authorization': f'Token {apiToken}'}  # Authorization header
+class API:
 
-    # fetching variables from endpoint
-    variableInEndpoint = tools.getVariablesFromFormat(apiEndpoint)
-    print("Variable in API endpoint: ", variableInEndpoint)
+    def __del__(self) -> None:
+        ...
 
-    # replacing variables in endpoint with desired credentials
-    isMoreThanOneVariable = False
-    continueToMenu = False
-    if len(variableInEndpoint) == 1:  # means only username is required
-        apiEndpoint = apiEndpoint.format(username=username)
-        break
-    else:
-        variablesValue = {}
-        for variable in variableInEndpoint:
-            if variable == 'username':
-                variablesValue[variable] = username
-            else:
-                isMoreThanOneVariable = True
-                value = input(f"\nEnter {variable} (Press # for menu): ")
-                if value == '#':
-                    continueToMenu = True
-                    break
+    def displayMenu(self) -> None:
+        # Display menu and get user's choice and username
+        self.choice, self.username = menu.displayMenu()
+
+    def setCredentials(self) -> None:
+        # Get API endpoint and request type and other required credentials
+        self.apiEndpoint, self.requestType = api.getEndpoint(apiId=self.choice)
+        apiToken = getApiToken(self.username)  # API token
+        # Authorization header
+        self.header = {'Authorization': f'Token {apiToken}'}
+
+    def setFormatVariables(self) -> bool:
+        """
+            Returns:
+                - True:
+                    - if everything is fine and variables are replaced in endpoint URL.
+                - False:
+                    - If user want to go back to main menu.
+        """
+        # fetching variables from endpoint
+        variableInEndpoint = tools.getVariablesFromFormat(self.apiEndpoint)
+        print("Variable in API endpoint: ", variableInEndpoint)
+
+        # replacing variables in endpoint with desired credentials
+        if len(variableInEndpoint) == 1:  # means only username is required
+            self.apiEndpoint = self.apiEndpoint.format(username=self.username)
+            return True
+        else:  # means more than one variables are to be replaced in the endpoint url
+            variablesValue = {}
+            for variable in variableInEndpoint:
+                if variable == 'username':
+                    variablesValue[variable] = self.username
                 else:
-                    variablesValue[variable] = value
-    if continueToMenu:
-        continue
-    break
+                    value = input(f"\nEnter {variable} (Press # for menu): ")
+                    if value == '#':
+                        return False
+                    else:
+                        variablesValue[variable] = value
 
-# replacing variables in endpoint with desired credentials in case of more than one variable in format string
-if isMoreThanOneVariable:
-    apiEndpoint = apiEndpoint.format(**variablesValue)
+        # replacing variables in endpoint with desired credentials in case of more than one variable in format string
+        self.apiEndpoint = self.apiEndpoint.format(**variablesValue)
+        return True
 
-# Displaying API endpoint and request type and other details to user for verification
-print(f"""\n
-      Username: {username}
-      Endpoint: {apiEndpoint}
-      Request: {requestType}
-      """)
+    def displayEndpointDetails(self) -> None:
+        # Displaying API endpoint and request type and other details to user for verification
+        print(f"""\n
+              Username: {self.username}
+              Endpoint: {self.apiEndpoint}
+              Request: {self.requestType}
+              """)
 
-# Sleep for 5 seconds before making request for user to cancel request  or verify the credentials before making request
-print('Time after which request will made in seconds = 5\033[?25l', end="")
-for i in range(5):
-    sleep(1)
-    print(f'\b{5-i-1}', end="")
+    def makeRequest(self) -> bool:
+        """
+            Returns:
+                * True:
+                    - if request was successful
+                * False:
+                    - if request failed or any error due to which request was unsuccessful.
+        """
+        #----------------- Making request -----------------#
+        # source: https://requests.readthedocs.io/en/latest/api/
+        try:
+            self.response = request.request(method=self.requestType,
+                                            url=f"{host+self.apiEndpoint}", headers=self.header)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
+        except Exception as e:
+            print("\nError in request:", e)
+            return False
+        else:
+            print("\nRequest successful")
+            return True
 
-#----------------- Making request -----------------#
-# source: https://requests.readthedocs.io/en/latest/api/
-try:
-    response = request.request(method=requestType,
-                               url=f"{host+apiEndpoint}", headers=header)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
-except Exception as e:
-    print("\nError in request:", e)
-    exit(-1)
-else:
-    print("\nRequest successful")
+    def showResponseStatus(self) -> bool:
+        """
+            Returns:
+                * True:
+                    - if response status code is 200, 201, 202, 204
+                * False:
+                    - if response status is other than above mentioned status codes.
+        """
+        print("\nStatus Code:", self.response.status_code)
 
-print("\nStatus Code:", response.status_code)
+        if self.response.status_code not in [200, 201, 202, 204]:
+            print("\nError:", self.response.status_code, self.response.reason)
+            print("Response:", self.response.text)
+            return False
+        return True
 
-if response.status_code not in [200, 201, 202, 204]:
-    print("\nError:", response.status_code, response.reason)
-    print("Response:", response.text)
-    exit(-1)
+    def printResponseHeader(self):
+        print("\n----------------------------- Response Header--------------------------------")
+        print("Response Header Type:", type(self.response.headers), end="\n\n")
+        for key, value in self.response.headers.items():
+            print(key, ":", value)
+        print()
 
-print("\n----------------------------- Response Header--------------------------------")
-print("Response Header Type:", type(response.headers), end="\n\n")
-for key, value in response.headers.items():
-    print(key, ":", value)
-print()
+    def printResponseContent(self):
+        print("\n----------------------------- Response Content--------------------------------")
 
-print("\n----------------------------- Response Content--------------------------------")
+        # if response is json then print it in readable format else print as it is
+        if self.response.headers['Content-Type'] == 'application/json':
+            print("\nResponse type:", type(self.response.json()))
+            # print(response.json())
 
-# if response is json then print it in readable format else print as it is
-if response.headers['Content-Type'] == 'application/json':
-    print("\nResponse type:", type(response.json()))
-    # print(response.json())
-
-    if isinstance(response.json(), list):
-        for json in response.json():
-            if isinstance(json, dict):
-                for key, value in json.items():
+            if isinstance(self.response.json(), list):
+                for json in self.response.json():
+                    if isinstance(json, dict):
+                        for key, value in json.items():
+                            print(key, ":", value)
+                    else:
+                        print(json)
+                    print()
+            elif isinstance(self.response.json(), dict):
+                for key, value in self.response.json().items():
                     print(key, ":", value)
             else:
-                print(json)
-            print()
-    elif isinstance(response.json(), dict):
-        for key, value in response.json().items():
-            print(key, ":", value)
-    else:
-        print(response.json())
+                print(self.response.json())
 
-else:
-    print("\nResponse type:", type(response.content))
-    print(response.content)
+        else:
+            print("\nResponse type:", type(self.response.content))
+            print(self.response.content)
+        print("----------------------------------- End----------------------------------------")
 
-response.close()  # closing response
-print("\n")
+    def close(self):
+        self.response.close()  # closing response
+        print("\n")
+
+
+class Terminal:
+
+    def pause() -> None:
+        if platform == 'win32':
+            system('pause')
+        else:
+            system('read -n1 -r -p "Press any key to continue..."')
+
+    @staticmethod
+    def sleepTimer(self, timeout: int = 5) -> None:
+        # Sleep for specified seconds before making request for user to cancel request or verify the credentials before making request
+        print(
+            f'Time after which request will made in seconds = {timeout}\033[?25l', end="")
+        for i in range(timeout):
+            sleep(1)
+            print(f'\b{timeout-i-1}', end="")
+
+
+def main():
+    api = API()
+    while True:
+        api.displayMenu()
+        api.setCredentials()
+        if api.setFormatVariables():
+            api.displayEndpointDetails()
+            Terminal.sleepTimer(5)
+            if api.makeRequest():
+                if api.showResponseStatus():
+                    api.printResponseHeader()
+                    api.printResponseContent()
+                    Terminal.pause()
+                else:
+                    ...
+            else:
+                ...
+        else:
+            continue
+
+
+if __name__ == '__main__':
+    main()
