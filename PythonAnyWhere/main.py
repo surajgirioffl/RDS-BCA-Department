@@ -17,6 +17,7 @@ import menu
 import api
 import tools
 from time import sleep
+import filesApi as files
 
 
 class API:
@@ -92,9 +93,14 @@ class API:
         # in case of file uploading we need to take file path from user to upload
         elif self.apiEndpoint == '/api/v0/user/{username}/files/path{path}' and self.requestType == 'POST':
             print("File uploading endpoint....")
-            path = input("Please enter the file path to upload: ")
-            print('files module is under development. Please wait for some time...')
-            exit(0)
+            # path = input("Please enter the file path to upload: ")
+            # print('files module is under development. Please wait for some time...')
+            
+            # files.userInputUpload() returns a dictionary with fileName and content to be written in the file to be uploaded.
+            fileDict = files.userInputUpload()
+            self.apiEndpoint = self.apiEndpoint + '/' + fileDict['fileName']
+            self.files = {}
+            self.files = {'content': fileDict['content']}
 
         # API token
         apiToken = getApiToken(self.username)
