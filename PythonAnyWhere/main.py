@@ -57,11 +57,20 @@ class API:
         self.choice, self.username = menu.displayMenu()
 
     def setCredentials(self) -> None:
+        """
+            Description:
+                - To set credentials like API endpoint, request type, token, headers etc.
+                - Also get parameters data from user if required in the API endpoint.
+                - Perform some basic checks on the data entered by user.
+
+            Returns:
+                * None
+        """
         # Get API endpoint and request type and other required credentials
         self.apiEndpoint, self.requestType, parameters = api.getEndpoint(
             apiId=self.choice)
 
-        # Get data from user if required by the API endpoint (Normally in POST, PUT, PATCH request data is required)
+        # Get parameters data from user if required by the API endpoint (Normally in POST, PUT, PATCH request data is required)
         self.data = parameters  # if parameters is None then self.data will be None
         if parameters is not None:
             self.data = {}
@@ -93,7 +102,7 @@ class API:
         """
         # fetching variables from endpoint
         variableInEndpoint = tools.getVariablesFromFormat(self.apiEndpoint)
-        print("Variable in API endpoint: ", variableInEndpoint)
+        print("\nVariable in API endpoint: ", variableInEndpoint)
 
         # replacing variables in endpoint with desired credentials
         if len(variableInEndpoint) == 1:  # means only username is required
