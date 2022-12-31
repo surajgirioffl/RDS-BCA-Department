@@ -20,12 +20,40 @@ from time import sleep
 
 
 class API:
+    """
+        @description:
+            Class deals with all required APIs of PythonAnyWhere.
+
+        @methods:
+            * displayMenu()
+                - Display menu and get user's choice and username
+            * setCredentials()
+                - Set credentials like API endpoint, request type, token, headers etc.
+            * setFormatVariables()
+                - To set variable (query parameters) in API endpoint URL.
+            * displayEndpointDetails()
+                - Display all details related to the API endpoint for verification.
+            * makeRequest()
+                - To make request to the API endpoint.
+            * showResponseStatus()
+                - To show the response status of the request.
+            * printResponseHeader()
+                - To print the response header of the request.
+            * printResponseContent()
+                - To print the response content of the request.
+    """
 
     def __del__(self) -> None:
         ...
 
     def displayMenu(self) -> None:
-        # Display menu and get user's choice and username
+        """
+            Description:
+                - Display menu and get user's choice and username
+
+            Returns:
+                * None
+        """
         self.choice, self.username = menu.displayMenu()
 
     def setCredentials(self) -> None:
@@ -37,6 +65,9 @@ class API:
 
     def setFormatVariables(self) -> bool:
         """
+            Description:
+                - To set variables (query parameters) in API endpoint URL.
+
             Returns:
                 - True:
                     - if everything is fine and variables are replaced in endpoint URL.
@@ -74,7 +105,13 @@ class API:
         return True
 
     def displayEndpointDetails(self) -> None:
-        # Displaying API endpoint and request type and other details to user for verification
+        """ 
+            Description:
+                - Displaying API endpoint and request type and other details to user for verification
+
+            Returns:
+                - None
+        """
         print(f"""\n
               Username: {self.username}
               Endpoint: {self.apiEndpoint}
@@ -83,6 +120,9 @@ class API:
 
     def makeRequest(self) -> bool:
         """
+            Description:
+                - To make request to the API endpoint.
+
             Returns:
                 * True:
                     - if request was successful
@@ -103,6 +143,9 @@ class API:
 
     def showResponseStatus(self) -> bool:
         """
+            Description:
+                - To show the response status of the request.
+
             Returns:
                 * True:
                     - if response status code is 200, 201, 202, 204
@@ -121,6 +164,13 @@ class API:
         return True
 
     def printResponseHeader(self):
+        """
+            Description:
+                - To print the response headers.
+
+            Returns:
+                * None
+        """
         print("\n----------------------------- Response Header--------------------------------")
         print("Response Header Type:", type(self.response.headers), end="\n\n")
         for key, value in self.response.headers.items():
@@ -128,6 +178,13 @@ class API:
         print()
 
     def printResponseContent(self):
+        """
+            Description:
+                - To print the response content of any type to user.
+
+            Returns:
+                * None
+        """
         print("\n----------------------------- Response Content--------------------------------")
 
         # if response is json then print it in readable format else print as it is
@@ -154,14 +211,39 @@ class API:
             print(self.response.content)
         print("----------------------------------- End----------------------------------------")
 
-    def close(self):
+    def close(self) -> None:
+        """
+            Description:
+                To close the response object.
+
+            Returns:
+                * None
+        """
         self.response.close()  # closing response
         print("\n")
 
 
 class Terminal:
+    """
+        @description:
+            - class to perform different operation related to terminal of system.
+            - Can be use in both windows and linux.
+
+        @methods (can be used with class name -> @staticmethod)):
+            * pause()
+                - To pause the terminal until user press any key.
+            * sleepTimer()
+                - To sleep the terminal for specified seconds along with displaying countdown timer.
+    """
 
     def pause() -> None:
+        """
+            Description:
+                - To pause the terminal until user press any key.
+
+            Returns:
+                - None
+        """
         if platform == 'win32':
             system('pause')
         else:
@@ -169,6 +251,13 @@ class Terminal:
 
     @staticmethod
     def sleepTimer(self, timeout: int = 5) -> None:
+        """
+            Description:
+                - To sleep the terminal for specified seconds along with displaying countdown timer.
+
+            Returns:
+                - None
+        """
         # Sleep for specified seconds before making request for user to cancel request or verify the credentials before making request
         print(
             f'Time after which request will made in seconds = {timeout}\033[?25l', end="")
@@ -177,7 +266,12 @@ class Terminal:
             print(f'\b{timeout-i-1}', end="")
 
 
-def main():
+def main() -> None:
+    """
+        Description:
+            - Main menu to handle all API related operations in systematic manner 
+            - Operations like setting credentials, setting format variables, making request, showing response status, printing response header and content using API class.
+    """
     api = API()
     while True:
         api.displayMenu()
