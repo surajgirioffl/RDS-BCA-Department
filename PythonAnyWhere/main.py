@@ -72,6 +72,7 @@ class API:
 
         # Get parameters data from user if required by the API endpoint (Normally in POST, PUT, PATCH request data is required)
         self.data = parameters  # if parameters is None then self.data will be None
+        self.files = None
         if parameters is not None:
             self.data = {}
             print('\nParameters are required for this API endpoint.')
@@ -87,6 +88,13 @@ class API:
                         self.data[key] = self.data[key]+'\n'
                         break
                     break
+
+        # in case of file uploading we need to take file path from user to upload
+        elif self.apiEndpoint == '/api/v0/user/{username}/files/path{path}' and self.requestType == 'POST':
+            print("File uploading endpoint....")
+            path = input("Please enter the file path to upload: ")
+            print('files module is under development. Please wait for some time...')
+            exit(0)
 
         # API token
         apiToken = getApiToken(self.username)
@@ -165,7 +173,7 @@ class API:
         # source: https://requests.readthedocs.io/en/latest/api/
         try:
             self.response = request.request(method=self.requestType,
-                                            url=f"{host+self.apiEndpoint}", headers=self.header, data=self.data)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
+                                            url=f"{host+self.apiEndpoint}", headers=self.header, data=self.data, files=self.files)  # we will not use request.get() because request type can be POST, PUT, DELETE etc.
         except Exception as e:
             print("\nError in request:", e)
             return False
