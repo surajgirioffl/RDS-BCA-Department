@@ -68,7 +68,7 @@ class __API:
                 * None:
                     - If no endpoint found on given id or in case of any error.
 
-        """ 
+        """
         if not self.isConnected:
             return None
         row = self.cursor.execute(f"""
@@ -94,7 +94,7 @@ class __API:
                 * None:
                     - If no endpoint found on given API key or in case of any error.
 
-        """ 
+        """
         if not self.isConnected:
             return None
         row = self.cursor.execute(f"""
@@ -104,6 +104,62 @@ class __API:
             apiDict = {'endpoint': row[0], 'requestType': row[1]}
             return apiDict
         return None
+
+    def getEndpointParameters(self, apiId: int | None = None, apiKey: str | None = None, tableName: str = 'Parameters') -> list | None:
+        """
+            Description:    
+                - To fetch the parameters of the API endpoint based on the endpoint id or key name.
+                - Use only for those endpoints which require parameters. And most endpoints which is of GET type doesn't require any parameters. So, use it only for those endpoints which are of POST, PUT, PATCH etc type.
+
+            Args:
+                * apiId (int | None, optional): 
+                    - API Id of the endpoint to be fetched. e.g. 2, 9, 12, 89 etc
+                    - Defaults to None.
+                * apiKey (str | None, optional):
+                    - API key of the endpoint to be fetched. e.g, 'cpuUsage', 'listConsole', 'listWebApp' etc
+                    - Defaults to None.
+                * tableName (str, optional):
+                    - Table Name in which the parameters of the endpoints are stored.
+                    - Defaults to 'Parameters'.
+                - If both apiId and apiKey are None, then it will return None.
+
+            Returns:
+                * list
+                    - List of parameters of the endpoint.
+                * None
+                    - If no parameters are found for the given endpoint id/key or in case of any error.
+                    - If no arguments passed.
+                    - If unable to establish connection with the database.
+                    - Any other error.
+        """
+        # if no argument is passed
+        if apiId is None and apiKey is None:
+            print("Error: Both apiId and apiKey are None.")
+            print("Please pass at least one argument.")
+            return None
+
+        # if database is not connected
+        if not self.isConnected:
+            return None
+
+        if apiId is None:
+            apiId = self.cursor.execute(
+                f"SELECT id FROM {self.tableName} WHERE key = '{apiKey}'").fetchone()
+            if apiId is None:  # if no apiId found for given apiKey
+                return None
+            apiId = apiId[0]
+
+        row = self.cursor.execute(f"""
+                                  SELECT Params from {tableName} WHERE id={apiId}
+                                  """).fetchone()
+        if row is None:  # if no parameters are found
+            return None
+        parameters = row[0].split(',')
+
+        # after splitting the parameters, some of list items may contain spaces. Let's trim them.
+        for i in range(len(parameters)):
+            parameters[i] = parameters[i].strip()
+        return parameters
 
 
 def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[str, str] | None:
