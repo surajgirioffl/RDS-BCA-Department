@@ -162,7 +162,7 @@ class __API:
         return parameters
 
 
-def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[str, str] | None:
+def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[str, str, list | None] | None:
     """
         Description:
             - To fetch Api Endpoints based on different parameters from the database.
@@ -176,9 +176,13 @@ def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[st
             * Both are specified optional but one of them are compulsory otherwise it will return None.
 
         Returns:
-            tuple[str, str] | None:
-                - tuple containing endpoint and requestType.
-                - None if no endpoint is found or in case of any error or no argument is passed.
+            * tuple[str, str, list | None]:
+                - tuple containing endpoint, requestType and parameters.
+                    - endpoint in string.
+                    - request type in string.
+                    - parameter in list or None in case of no parameters found.
+            * None
+                - if no endpoint is found or in case of any error or no argument is passed.
     """
     if apiId is None and apiKey is None:
         print("Error: Both apiId and apiKey are None.")
@@ -191,7 +195,11 @@ def getEndpoint(apiId: int | None = None, apiKey: str | None = None) -> tuple[st
         apiDict = api.getEndpointByKey(apiKey)
 
     if apiDict is not None:
-        return apiDict['endpoint'], apiDict['requestType']
+        if apiDict['requestType'] == 'GET':
+            # because GET request required no parameters.
+            return apiDict['endpoint'], apiDict['requestType'], None
+        return apiDict['endpoint'], apiDict['requestType'], api.getEndpointParameters(apiId, apiKey)
+
     return None
 
 
