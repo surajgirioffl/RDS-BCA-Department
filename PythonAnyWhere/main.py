@@ -144,7 +144,7 @@ class API:
               Request: {self.requestType}
               """)
         if self.data is not None:
-            print("Parameters: ", self.data)
+            print("              Parameters: ", self.data)
 
     def makeRequest(self) -> bool:
         """
