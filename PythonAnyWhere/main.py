@@ -284,12 +284,14 @@ def main() -> None:
                     api.printResponseHeader()
                     api.printResponseContent()
                     Terminal.pause()
+                    api.close()
                     continue
                 else:
                     print(
                         "\nResponse is not satisfactory. Something went wrong either client side or server side.")
                     print("Press any key to main menu")
                     Terminal.pause()
+                    api.close()
                     continue
             else:
                 print("\nSomething went wrong while making request.")
