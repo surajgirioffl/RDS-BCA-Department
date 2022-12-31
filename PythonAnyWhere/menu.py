@@ -40,6 +40,7 @@ def __ipMenu() -> str:
             03. Get information about specific console [GET].
             04. Get latest output from console [GET].
             05. Send input to console [POST].
+            28. List all consoles shared with you [GET].
         CPU:
             06. Get CPU usage information [GET].
         Files:
@@ -96,7 +97,7 @@ def displayMenu() -> tuple[int, str]:
             sleep(1)
             continue
         else:
-            if choice not in range(0, 28):
+            if choice not in range(0, 29):
                 print("Invalid input. Try again.")
                 sleep(1)
                 continue
