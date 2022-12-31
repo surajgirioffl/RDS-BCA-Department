@@ -102,7 +102,7 @@ class API:
         """
         # fetching variables from endpoint
         variableInEndpoint = tools.getVariablesFromFormat(self.apiEndpoint)
-        print("\nVariable in API endpoint: ", variableInEndpoint)
+        print("\nVariables in API endpoint: ", variableInEndpoint)
 
         # replacing variables in endpoint with desired credentials
         if len(variableInEndpoint) == 1:  # means only username is required
@@ -143,6 +143,8 @@ class API:
               Endpoint: {self.apiEndpoint}
               Request: {self.requestType}
               """)
+        if self.data is not None:
+            print("Parameters: ", self.data)
 
     def makeRequest(self) -> bool:
         """
@@ -290,6 +292,7 @@ class Terminal:
         for i in range(timeout):
             sleep(1)
             print(f'\b{timeout-i-1}', end="")
+        print("\033[?25h")
 
 
 def main() -> None:
