@@ -57,11 +57,17 @@ class API:
                 if variable == 'username':
                     variablesValue[variable] = self.username
                 else:
-                    value = input(f"\nEnter {variable} (Press # for menu): ")
-                    if value == '#':
-                        return False
-                    else:
-                        variablesValue[variable] = value
+                    while True:
+                        value = input(
+                            f"\nEnter {variable} (Press # for menu): ")
+                        if value == '#':
+                            return False
+                        elif value == "":  # if user press enter without entering any value
+                            print("Empty value not allowed. Please write again..")
+                            continue
+                        else:
+                            variablesValue[variable] = value
+                            break
 
         # replacing variables in endpoint with desired credentials in case of more than one variable in format string
         self.apiEndpoint = self.apiEndpoint.format(**variablesValue)
@@ -109,7 +115,8 @@ class API:
         if self.response.status_code not in [200, 201, 202, 204]:
             print("\nError:", self.response.status_code, self.response.reason)
             print("Response:", self.response.text)
-            print("----------------------------------- End--------------------------------------")
+            print(
+                "----------------------------------- End--------------------------------------")
             return False
         return True
 
@@ -196,7 +203,7 @@ def main():
                 Terminal.pause()
                 continue
         else:
-            print('Something went wrong in variable replacement in format string..')
+            print('\nUser want to go to Main Menu or Something went wrong in variable replacement in format string..')
             print("Press any key to main menu")
             Terminal.pause()
             continue
