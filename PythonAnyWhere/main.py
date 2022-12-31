@@ -82,6 +82,10 @@ class API:
                     if (self.data[key]) == "":
                         print("Empty value not allowed. Please write again..")
                         continue
+                    # in case of sending input to console. We need to add newline character at the end of the input. (Only for API Id 5)
+                    elif list(self.data.keys())[0] == 'input':
+                        self.data[key] = self.data[key]+'\n'
+                        break
                     break
 
         # API token
