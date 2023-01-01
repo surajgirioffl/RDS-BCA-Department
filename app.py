@@ -111,6 +111,13 @@ def studyMaterials():
     return render_template('study-materials.html')
 
 
+@app.route("/study-materials/sem/<int:semester>", methods=["GET"])
+def semesterWiseStudyMaterials(semester):
+    # if semester not in [1, 2, 3, 4, 5, 6]:
+        # return render_template('404.html', message="Invalid Semester")
+    return render_template('semester-wise-study-materials.html')
+
+
 @app.route('/sources', methods=['GET'])
 def sources():
     return render_template('sources.html')
