@@ -1,0 +1,83 @@
+{%extends "base.html"%}
+{%block title%} Study Materials - BCA RDS College, Muzaffarpur  {%endblock title%}
+{%block description%}Study Materials For Semester {{semester|default(1)}} of BCA Department RDS College Muzaffarpur{% endblock description%}
+{%block keywords%}Study Material, Programming Study Materials, Study Materials for student's of BCA Department RDS College Muzaffarpur, BCA Department RDS College Muzaffarpur, Study material for BCA Students, RDS College Study Materials, Study Material's for BCA Students{%endblock keywords%}
+{%block body%}
+<body>
+    <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
+        <p class="text-center fs-2 text fw-bolder">Semester {{semester|default(1)}} Study Materials</p>
+        <hr>
+
+    <!--Subjection Selection-->
+    <div class="form-floating">
+        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+          <option selected>Select Subject</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <label for="floatingSelect">Subject</label>
+    </div>
+    <div class="col-auto pt-3">
+        <button type="submit" class="btn btn-primary mb-3">Confirm Subject</button>
+    </div>
+
+    <br>
+
+    <!--Study Materials of selected subject-->
+    <div>
+        <!--IGNOU-->
+        <p>
+            <p type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              IGNOU Study Materials
+            </p>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            </div>
+        </div>
+
+
+        <!--Ebooks-->
+        <p>
+            <p type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">
+              Ebooks
+            </p>
+        </p>
+        <div class="collapse" id="collapseExample1">
+            <div class="card card-body">
+              Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            </div>
+        </div>
+
+
+        <!--Others-->
+        <p>
+            <p type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+              Others Study Materials
+            </p>
+        </p>
+        <div class="collapse" id="collapseExample2">
+            <div class="card card-body">
+              Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            </div>
+        </div>
+
+
+        <!--External-->
+        <p>
+            <p type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
+              External Study Materials
+            </p>
+        </p>
+        <div class="collapse" id="collapseExample3">
+            <div class="card card-body">
+              Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            </div>
+        </div>
+
+
+    </div>
+</body
+{%endblock body%}
