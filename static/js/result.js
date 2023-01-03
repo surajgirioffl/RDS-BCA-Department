@@ -23,19 +23,26 @@ function displayWarning() {
     if (warningDiv == null) {
         const warningDiv = document.createElement('div');
         warningDiv.innerHTML = `<div id="warning">All fields are mandatory.</div>`;
+        warningDiv.style.animationName = 'slide-right';
+        warningDiv.style.animationDuration = '1s';
         const form = document.getElementsByTagName('form')[0];
 
         /*inserting before first child of form. Making the warning div the first child of form*/
         form.insertBefore(warningDiv, form.firstElementChild);
     }
+    warningDiv.style.animationName = 'slide-right';
+    warningDiv.style.animationDuration = '1s';
     warningDiv.style.display = 'block';
 }
 
 /*function to hide warning if all the options are selected*/
 function hideWarning() {
     const warningDiv = document.getElementById('warning');
-    if (warningDiv != null)
-        warningDiv.style.display = 'none';
+    if (warningDiv != null) {
+        warningDiv.style.animationName = 'slide-left';
+        warningDiv.style.animationDuration = '1s';
+        setTimeout(() => { warningDiv.style.display = 'none' }, 1000);
+    }
 }
 
 
