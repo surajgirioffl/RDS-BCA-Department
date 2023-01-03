@@ -11,6 +11,7 @@
 
 from os import system
 from sys import platform
+from msvcrt import getch
 import requests as request
 from credentials import getApiToken, host
 import menu
@@ -95,7 +96,7 @@ class API:
             print("File uploading endpoint....")
             # path = input("Please enter the file path to upload: ")
             # print('files module is under development. Please wait for some time...')
-            
+
             # files.userInputUpload() returns a dictionary with fileName and content to be written in the file to be uploaded.
             fileDict = files.userInputUpload()
             self.apiEndpoint = self.apiEndpoint + '/' + fileDict['fileName']
@@ -326,7 +327,9 @@ def main() -> None:
         if api.setFormatVariables():
             api.displayEndpointDetails()
             # Terminal.sleepTimer(5)
-            input("Press enter to continue...")
+            print("Press any key to continue...", end="")
+            getch()  # press any key to continue
+            print("\nOkay. Requesting to the server...")
             if api.makeRequest():
                 if api.showResponseStatus():
                     api.printResponseHeader()
