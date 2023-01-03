@@ -325,7 +325,8 @@ def main() -> None:
         api.setCredentials()
         if api.setFormatVariables():
             api.displayEndpointDetails()
-            Terminal.sleepTimer(5)
+            # Terminal.sleepTimer(5)
+            input("Press enter to continue...")
             if api.makeRequest():
                 if api.showResponseStatus():
                     api.printResponseHeader()
