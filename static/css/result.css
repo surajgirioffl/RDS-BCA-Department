@@ -1,0 +1,19 @@
+#warning {
+    width: 80%;
+    margin: auto;
+    padding: auto;
+    margin-top: -2%;
+    margin-bottom: 0.2%;
+    padding: 0.5%;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    display: block;
+}
+
+@media screen and (min-width: 500px) {
+    #warning::before {
+        content: "Please select all the options. ";
+    }
+
+}
