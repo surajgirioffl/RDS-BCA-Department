@@ -50,7 +50,7 @@ function hideWarning() {
 /*document.getElementsByTagName('form')[0].onsubmit = "return false;"; //It will work in html because it has more priority. But not here because it is suppressed by displayResult() function called on click event of submit button. . So, I have to use preventDefault() method.*/
 document.getElementsByTagName('form')[0].addEventListener('submit', function (event) { event.preventDefault(); });
 var submitButton = document.getElementById('submit-button');
-submitButton.addEventListener('click', displayResult);
+submitButton.addEventListener('click', displayResult); /*this will suppress the default behavior of submit button. 'required' will not behave as expected because more than one EventListeners are set for same event. And this lister will work first. So, 'required' will work after it. So, we will have to check if all the options are selected or not.*/
 
 /*function to check if all the options are selected*/
 function checkInput() {
@@ -59,7 +59,7 @@ function checkInput() {
         const semester = document.querySelector('select[name="semester"]');
         const idName = document.querySelector('select[name="idName"]');
         const idValue = document.querySelector('input[name="idValue"]');
-        if (session.value != '' && semester.value != '' && idName.value != '') {
+        if (session.value != '' && semester.value != '' && idName.value != '' && idValue.value != '') {
             return { isAllSelected: true, session: session.value, semester: semester.value, idName: idName.value, idValue: idValue.value }
         }
         throw new Error('Please select all the options.\nAll fields are mandatory.');
