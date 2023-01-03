@@ -9,11 +9,35 @@
     color: red;
     font-weight: bold;
     display: block;
+    animation-timing-function: linear;
 }
 
 @media screen and (min-width: 500px) {
     #warning::before {
         content: "Please select all the options. ";
+    }
+
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+    }
+
+
+    100% {
+        transform: translateX(0px);
+
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(-100%);
     }
 
 }
