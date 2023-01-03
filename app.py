@@ -23,15 +23,21 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/result', methods=['POST', 'GET'])
+@app.route('/result', methods=['GET'])
 def result():
     logging.info("Result page is called...")
+    return render_template('result.html')
+
+
+# api route to display result
+@app.route('/api/display-result', methods=['POST'])
+def displayResult():
     if request.method == "POST":
-        clientDataDict = request.form
+        clientDataDict = request.json
         print(clientDataDict)
         if clientDataDict.get('session') == None or clientDataDict.get('semester') == None or clientDataDict.get('idValue') == None or clientDataDict.get('idName') not in ['registrationNo', 'examRoll', 'classRoll']:
             # if user has changed the name using dev tools.
-            return render_template('result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
+            return render_template('display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
 
         result = db.Result(clientDataDict.get('session'), clientDataDict.get(
             'semester'))  # creating instance of Result class
@@ -39,8 +45,7 @@ def result():
         parameterDict = {clientDataDict.get(
             'idName'): clientDataDict.get('idValue')}
         databaseResponse = result.getResult(**parameterDict)
-        return render_template('result.html', result=databaseResponse, isSubmitClicked=True)
-    return render_template('result.html')
+        return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
 
 
 @app.route("/credits")
@@ -114,7 +119,7 @@ def studyMaterials():
 @app.route("/study-materials/sem/<int:semester>", methods=["GET"])
 def semesterWiseStudyMaterials(semester):
     # if semester not in [1, 2, 3, 4, 5, 6]:
-        # return render_template('404.html', message="Invalid Semester")
+    # return render_template('404.html', message="Invalid Semester")
     return render_template('semester-wise-study-materials.html')
 
 
