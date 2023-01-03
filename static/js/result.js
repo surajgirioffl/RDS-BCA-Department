@@ -46,6 +46,10 @@ function displayResult() {
     obj = checkInput();
     console.log(obj);
     if (obj) {
+        const resultContainer = document.getElementById('result-container'); /*div to display result*/
+        const loadingSvg = `<center><img src="static/gif/ball.svg" alt="Loading"><center>`;
+        resultContainer.innerHTML = loadingSvg; /*display loading svg*/
+
         request = new XMLHttpRequest();
         if (location.hostname == '127.0.0.1')
             request.open('POST', 'http://127.0.0.1:5000/api/display-result', true);
@@ -66,11 +70,11 @@ function displayResult() {
                 responseText = responseText.replace("classRoll", "Class Roll");
                 responseText = responseText.replace("TotalMarks", "Total Marks");
                 responseText = responseText.replace("ResultStatus", "Result Status");
-                document.getElementById('result-container').innerHTML = responseText;
+                resultContainer.innerHTML = responseText;
                 /*console.log(request.responseText)*/
             }
             else {
-                document.getElementById('result-container').innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
+                resultContainer.innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
             }
         }
     }
