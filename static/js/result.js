@@ -65,7 +65,7 @@ function displayResult() {
         request.onload = () => {
             if (request.status == 200) {
                 /*request.responseText = request.responseText.replace("examRoll", "Exam Roll") // not work because request.responseText is read only.*/
-                console.log(request.responseText)
+                /*console.log(request.responseText)*/
                 let responseText = request.responseText.replace("examRoll", "Exam Roll");
                 responseText = responseText.replace("classRoll", "Class Roll");
                 responseText = responseText.replace("TotalMarks", "Total Marks");
