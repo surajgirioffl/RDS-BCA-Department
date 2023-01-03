@@ -15,6 +15,30 @@ function fillInputPlaceholder(selector) {
 
 }
 
+/*function to display warning if all the options are not selected*/
+function displayWarning() {
+    const warningDiv = document.getElementById('warning'); /*div to display warning*/
+
+    /*if waring div is not present then create it*/
+    if (warningDiv == null) {
+        const warningDiv = document.createElement('div');
+        warningDiv.innerHTML = `<div id="warning">All fields are mandatory.</div>`;
+        const form = document.getElementsByTagName('form')[0];
+
+        /*inserting before first child of form. Making the warning div the first child of form*/
+        form.insertBefore(warningDiv, form.firstElementChild);
+    }
+    warningDiv.style.display = 'block';
+}
+
+/*function to hide warning if all the options are selected*/
+function hideWarning() {
+    const warningDiv = document.getElementById('warning');
+    if (warningDiv != null)
+        warningDiv.style.display = 'none';
+}
+
+
 /***************To display result***********************/
 /*document.getElementsByTagName('form')[0].onsubmit = "return false;"; //It will work in html because it has more priority. But not here because it is suppressed by displayResult() function called on click event of submit button. . So, I have to use preventDefault() method.*/
 document.getElementsByTagName('form')[0].addEventListener('submit', function (event) { event.preventDefault(); });
@@ -46,6 +70,7 @@ function displayResult() {
     obj = checkInput();
     console.log(obj);
     if (obj) {
+        hideWarning();/*hiding warning after successful submission.*/
         const resultContainer = document.getElementById('result-container'); /*div to display result*/
         const loadingSvg = `<center><img src="static/gif/ball.svg" alt="Loading"><center>`;
         resultContainer.innerHTML = loadingSvg; /*display loading svg*/
@@ -77,5 +102,8 @@ function displayResult() {
                 resultContainer.innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
             }
         }
+    }
+    else {
+        displayWarning();/*displaying warning because submit button is clicked without filling all the desired fields.*/
     }
 }
