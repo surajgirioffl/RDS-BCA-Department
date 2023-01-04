@@ -49,7 +49,7 @@ def pause() -> None:
     print()  # for new line
 
 
-def __menu() -> tuple[str, int]:
+def menu() -> tuple[str, int]:
 
     method = 1
     while True:
@@ -147,5 +147,5 @@ def __menu() -> tuple[str, int]:
 
 
 if __name__ == '__main__':
-    link, method = __menu()
+    link, method = menu()
     print("Download Link:", convertToDownloadLink(link, method))
