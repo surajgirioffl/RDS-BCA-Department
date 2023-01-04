@@ -16,6 +16,8 @@
             - This function will pause the execution of the script until user press any key and display a message "Press any key to continue...".
         * menu():
             - This function will display the menu and take input from user and manage all issues related to input. And returns the link and method required in conversion.        
+        * copyToClipboard():
+            - This function will copy the given text to clipboard.
 """
 
 import win32clipboard as clipboard
@@ -196,16 +198,37 @@ def menu() -> tuple[str, int]:
             pause()
 
 
-def main() -> None:
+def copyToClipboard(text: str) -> None:
+    """
+        Description:
+            - To copy the text to clipboard.
+
+        Args:
+            * text (str):
+                - Text to be copied to clipboard.
+    """
+    clipboard.OpenClipboard()
+    clipboard.EmptyClipboard()  # first empty the clipboard
+    clipboard.SetClipboardText(text)  # set the text to clipboard
+    clipboard.CloseClipboard()
+
+
+def main() -> str:
     """
         Description:
             - Main function to execute the script.
-            
+
         Returns: 
-            * None
+            * str:
+                - Direct download link.
     """
     link, method = menu()
-    print("Download Link:", convertToDownloadLink(link, method))
+    downloadLink = convertToDownloadLink(link, method)
+    print("Download Link:", downloadLink)
+    copyToClipboard(downloadLink)
+    print("Download link copied to clipboard...")
+    print("Thank you for using this script...")
+    return downloadLink
 
 
 if __name__ == '__main__':
