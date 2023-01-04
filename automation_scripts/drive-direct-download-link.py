@@ -67,6 +67,7 @@ def __menu() -> tuple[str, int]:
         if choice == "" or choice == "1":
             clipboard.OpenClipboard()
             link = clipboard.GetClipboardData()
+            clipboard.CloseClipboard()
             if link == "":
                 print("Clipboard is empty...")
                 print("Please copy the link and try again or enter link manually...")
