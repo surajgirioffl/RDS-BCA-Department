@@ -196,6 +196,17 @@ def menu() -> tuple[str, int]:
             pause()
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """
+        Description:
+            - Main function to execute the script.
+            
+        Returns: 
+            * None
+    """
     link, method = menu()
     print("Download Link:", convertToDownloadLink(link, method))
+
+
+if __name__ == '__main__':
+    main()
