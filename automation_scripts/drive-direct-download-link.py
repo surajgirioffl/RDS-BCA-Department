@@ -12,6 +12,7 @@
 """
 
 import win32clipboard as clipboard
+from sys import platform
 from msvcrt import getch
 
 """
@@ -65,6 +66,10 @@ def __menu() -> tuple[str, int]:
         choice = input("Enter your choice: ")
         print()
         if choice == "" or choice == "1":
+            if platform != "win32":
+                print("Warning: This feature is only available on Windows...")
+                pause()
+                continue
             clipboard.OpenClipboard()
             link = clipboard.GetClipboardData()
             clipboard.CloseClipboard()
