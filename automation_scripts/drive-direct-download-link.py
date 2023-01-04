@@ -8,7 +8,14 @@
         * This script will convert the view link of a files of Google Drive to direct download link.
 
     @functions:
-        *
+        * convertToDownloadLink():
+            - This function will convert the view link of a files of Google Drive to direct download link.
+        * checkLink():
+            - This function will check that the link is valid or not means is it a view link of a file of Google Drive or not.
+        * pause():
+            - This function will pause the execution of the script until user press any key and display a message "Press any key to continue...".
+        * menu():
+            - This function will display the menu and take input from user and manage all issues related to input. And returns the link and method required in conversion.        
 """
 
 import win32clipboard as clipboard
@@ -26,7 +33,23 @@ from msvcrt import getch
 
 
 def convertToDownloadLink(viewLink: str, method: int = 1) -> str:
+    """
+        Description:
+            - To convert the view link of a files of Google Drive to direct download link.
 
+        Args:
+            * viewLink (str):
+                - View link. The link to be converted.
+            * method (int, optional): 
+                - Method of conversion. (Only two methods are available.)
+                - 1 for first method and any other number for second method. (see option 4 of main menu for details).
+                - Defaults to 1.
+
+        Returns:
+            * str:
+                - Direct download link.
+    """
+    # if method will be 1 then it will use first method otherwise it will use second method.
     if method == 1:
         viewLink = viewLink.removesuffix("/view?usp=share_link")
         viewLink = viewLink.replace("file/d/", "uc?export=download&id=")
@@ -38,18 +61,45 @@ def convertToDownloadLink(viewLink: str, method: int = 1) -> str:
 
 
 def checkLink(link: str) -> bool:
+    """
+        Description:
+            - To check the link is valid or not means is it a view link of a file of Google Drive or not.
+
+        Args:
+            * link (str):
+                - Link to be checked.
+
+        Returns:
+            * True:
+                - If link is valid.
+            * False:
+                - If link is invalid.
+    """
     if link.startswith("https://drive.google.com/file/d/") and link.endswith("/view?usp=share_link"):
         return True
     return False
 
 
 def pause() -> None:
+    """
+        Description:
+            - To pause the execution of the script until user press any key and display a message "Press any key to continue...".
+    """
     print("Press any key to continue...", end="")
     getch()
     print()  # for new line
 
 
 def menu() -> tuple[str, int]:
+    """
+        Description:
+            - To display the menu and take input from user and manage all issues related to input. And returns the link and method required in conversion.
+
+        Returns:
+            * tuple[str, int]:
+                - str: Link to be converted.
+                - int: Method of conversion.
+    """
 
     method = 1
     while True:
