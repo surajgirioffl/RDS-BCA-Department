@@ -57,8 +57,8 @@ def __menu() -> tuple[str, int]:
     	==============> Generate download link for Google Drive file <==============
     	              1. Copy link from clipboard (Default. Press Enter)
     	              2. Input link manually
-    	              3. Change method of generating link (Default: {method})
-    	              4. Details about the methods of generating link
+    	              3. Change method of link conversion (Default: {method})
+    	              4. Details about the methods of link conversion
     	              5. Exit
     	    """)
 
@@ -113,6 +113,21 @@ def __menu() -> tuple[str, int]:
 
         elif choice == "4":
             print("""
+                  =============> Details about the methods link conversion<===========
+                  There are only two methods to convert the view link to download link.
+                  See example:
+                    * View link of file: 
+                        - https://drive.google.com/file/d/1oRuyF-EKZDV7z8D_REpyLugzf5HPmCee/view?usp=share_link
+                    * Download link of file:
+                        - 1) https://drive.google.com/uc?export=download&id=1oRuyF-EKZDV7z8D_REpyLugzf5HPmCee
+                        - 2) https://drive.google.com/uc?id=1oRuyF-EKZDV7z8D_REpyLugzf5HPmCee&export=download
+                  
+                  Method 1 is default method. If you want to change the method, then enter 3 in main menu.
+                  If you select anything other than 1 then method 2 will be used.
+                  It is recommended to use method 1 because
+                        - file id is one side (right) and other side is the query parameters for download(left).
+                        - It is easy to understand.
+                        
                   """)
             pause()
 
