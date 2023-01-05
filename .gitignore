@@ -132,4 +132,4 @@ dmypy.json
 # My stuff
 temp/
 files/
-database/
+databases/
