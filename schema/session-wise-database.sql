@@ -29,3 +29,17 @@ CREATE TABLE `Contact` (
     `City` CHAR(30),
     FOREIGN KEY(RegistrationNo) REFERENCES Students(RegistrationNo)
 );
+
+----
+-- You can use this table schema to create table for result of all semesters. Like 'ResultSem2', 'ResultSem3', ... 
+-- 3. Table `ResultSem1`
+----
+CREATE TABLE `ResultSem1`(
+    `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `RegistrationNo` CHAR(50) PRIMARY KEY NOT NULL,
+    `ExamRoll` MEDIUMINT UNIQUE NOT NULL,
+    `TotalMarks` SMALLINT NOT NULL,
+    `ResultStatus` VARCHAR(100) NOT NULL DEFAULT 'Pass',
+    `MoreInfo` VARCHAR(200),
+    FOREIGN KEY(RegistrationNo) REFERENCES Students(RegistrationNo)
+);
