@@ -14,7 +14,7 @@ CREATE TABLE `Students` (
     `ExamRoll` MEDIUMINT UNIQUE NOT NULL,
     `ClassRoll` TINYINT UNIQUE NOT NULL,
     `Name` VARCHAR(50) NOT NULL,
-    `Gender` VARCHAR(10) NOT NULL DEFAULT 'Male',
+    `Gender` VARCHAR(10) NOT NULL DEFAULT 'Male'
 );
 
 -- First execute above query then run below query because of foreign key constraint.
