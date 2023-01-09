@@ -16,3 +16,16 @@ CREATE TABLE `Students` (
     `Name` CHAR(50) NOT NULL,
     `Gender` CHAR(10) NOT NULL DEFAULT 'Male',
 );
+
+-- First execute above query then run below query because of foreign key constraint.
+----
+-- 2. Table `Contact` 
+----
+CREATE TABLE `Contact` (
+    `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `RegistrationNo` CHAR(50) PRIMARY KEY NOT NULL,
+    `Email` CHAR(100) UNIQUE NOT NULL,
+    `PhoneNo` CHAR(15) UNIQUE,
+    `City` CHAR(30),
+    FOREIGN KEY(RegistrationNo) REFERENCES Students(RegistrationNo)
+);
