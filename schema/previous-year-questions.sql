@@ -2,7 +2,8 @@
  * MySQL
  * Schema for database `PreviousYearQuestions` or `rdsbca$PreviousYearQuestions`.
  * Created by: Suraj Kumar Giri
- * Created on: 9th Jan 2023
+ * Created on: 8th Jan 2023
+ * Last updated on: 9th Jan 2023
  */
 ----
 -- 1. Table `Brabu` 
