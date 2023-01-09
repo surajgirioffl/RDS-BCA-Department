@@ -2,7 +2,7 @@
     @file: credentials.py
     @author: Suraj Kumar Giri
     @init-date: 29th Dec 2022
-    @last-modified: 29th Dec 2022
+    @last-modified: 9th Jan 2023
     
     @description:
         * Module to store and handle credentials related to account and APIs of PythonAnyWhere.
@@ -11,6 +11,7 @@
         * host
             - Host name of PythonAnyWhere.
 """
+from os import environ
 
 __author__ = 'Suraj Kumar Giri'
 __email__ = 'surajgirioffl@gmail.com'
@@ -33,7 +34,7 @@ def getApiToken(username: str = 'rdsbca') -> str:
                 - API token for the given username.
     """
     tokenDictionary = {
-        'rdsbca': '08c8fd81396723df0627ce2a5cd3550d5ddc9a08',
-        'surajgiridev': '68a120e0213c5b6b09f20c9a3e81dba7984f621b'
+        'rdsbca': environ.get('PAW-RDSBCA-TOKEN'),
+        'surajgiridev': environ.get('PAW-RDSBCA-TOKEN')
     }
     return tokenDictionary[username]
