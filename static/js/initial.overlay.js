@@ -7,6 +7,9 @@ function overlay() {
 var called = 0;
 function _overlay(element) {
     element.style.display = "block";
+    document.body.addEventListener('keydown', (event) => {
+        event.key === 'Escape' ? closeOverlay(element) : null;
+    });
     closeAfter();
 
     function closeAfter() {
