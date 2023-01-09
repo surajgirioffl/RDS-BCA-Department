@@ -34,7 +34,7 @@ def getApiToken(username: str = 'rdsbca') -> str:
                 - API token for the given username.
     """
     tokenDictionary = {
-        'rdsbca': environ.get('PAW-RDSBCA-TOKEN'),
-        'surajgiridev': environ.get('PAW-RDSBCA-TOKEN')
+        'rdsbca': environ.get('PAW_RDSBCA_TOKEN'),
+        'surajgiridev': environ.get('PAW_RDSBCA_TOKEN')
     }
     return tokenDictionary[username]
