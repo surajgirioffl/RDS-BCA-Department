@@ -3,6 +3,7 @@
  * Schema for database `StudyMaterials` or `rdsbca$Sem1StudyMaterials', `rdsbca$Sem2StudyMaterials' and so on.
  * Created by: Suraj Kumar Giri
  * Created on: 7th Jan 2023
+ * Last updated on: 10th Jan 2023
  */
 ----
 -- 1. Table `Ignou`
@@ -39,7 +40,7 @@ CREATE TABLE `Others` (
 ----
 CREATE TABLE `Externals` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `Link` CHAR(255) PRIMARY KEY NOT NULL,
+    `Link` VARCHAR(200) PRIMARY KEY NOT NULL,
     `SubjectCode` SMALLINT UNSIGNED NOT NULL,
     `DisplayOrder` DECIMAL(5, 2) NOT NULL DEFAULT 0
 );
