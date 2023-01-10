@@ -1,14 +1,14 @@
 /*
  * MySQL
- * Schema for database `PreviousYearQuestions` or `rdsbca$PreviousYearQuestions`.
+ * Schema for database `previous_year_questions` or `rdsbca$previous_year_questions`.
  * Created by: Suraj Kumar Giri
  * Created on: 8th Jan 2023
- * Last updated on: 9th Jan 2023
+ * Last updated on: 10th Jan 2023
  */
 ----
--- 1. Table `Brabu` 
+-- 1. Table `brabu` 
 ----
-CREATE TABLE `Brabu`(
+CREATE TABLE `brabu`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `Year` SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
     `Sem1` MEDIUMINT UNSIGNED UNIQUE,
@@ -19,9 +19,9 @@ CREATE TABLE `Brabu`(
 );
 
 ----
--- 2. Table `LnMishra` 
+-- 2. Table `ln_mishra` 
 ----
-CREATE TABLE `LnMishra`(
+CREATE TABLE `ln_mishra`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `Year` SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
     `Sem1` MEDIUMINT UNSIGNED UNIQUE,
@@ -32,9 +32,9 @@ CREATE TABLE `LnMishra`(
 );
 
 ----
--- 3. Table `Vaishali` 
+-- 3. Table `vaishali` 
 ----
-CREATE TABLE `Vaishali`(
+CREATE TABLE `vaishali`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `Year` SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
     `Sem1` MEDIUMINT UNSIGNED UNIQUE,

@@ -1,23 +1,23 @@
 /*
  * MySQL
- * Schema for database `Bca` or `rdsbca$Bca`
+ * Schema for database `bca` or `rdsbca$bca`
  * Created by: Suraj Kumar Giri
  * Created on: 7th Jan 2023
  * Last Updated on: 10th Jan 2023
  */
 ----
--- 1. Table `Students`
+-- 1. Table `students`
 ----
-CREATE TABLE Students(
+CREATE TABLE students(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
     `Session` VARCHAR(10) NOT NULL
 );
 
 ----
--- 2. Table `Teachers`
+-- 2. Table `teachers`
 ----
-CREATE TABLE Teachers(
+CREATE TABLE teachers(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `TeacherId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `Name` VARCHAR(50) NOT NULL,
@@ -28,9 +28,9 @@ CREATE TABLE Teachers(
 );
 
 ----
--- 3. Table `Subjects `
+-- 3. Table `subjects `
 ----
-CREATE TABLE `Subjects`(
+CREATE TABLE `subjects`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `SubjectCode` SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
     `SubjectCodeChar` CHAR(7) NOT NULL UNIQUE,

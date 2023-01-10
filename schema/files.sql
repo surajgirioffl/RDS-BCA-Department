@@ -1,12 +1,12 @@
 -- MySQL
--- Schema for database `Files` or `rdsbca$Files`
+-- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
 -- Last updated on: 10th Jan 2023
 ----
--- 1. Table `Files`
+-- 1. Table `files`
 ----
-CREATE TABLE IF NOT EXISTS Files(
+CREATE TABLE IF NOT EXISTS files(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `Title` VARCHAR(255) NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS Files(
 
 ----
 -- First execute above query then run below query because of foreign key constraint.
--- 2. Table `FilesPath`
+-- 2. Table `files_path`
 ----
-CREATE TABLE IF NOT EXISTS FilesPath(
+CREATE TABLE IF NOT EXISTS files_path(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `FilePath` VARCHAR(400) NOT NULL UNIQUE,
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS FilesPath(
 );
 
 ----
--- 3. Table `Drive`
+-- 3. Table `drive`
 ----
-CREATE TABLE IF NOT EXISTS Drive(
+CREATE TABLE IF NOT EXISTS drive(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `ViewLink` VARCHAR(200) NOT NULL UNIQUE,
@@ -37,9 +37,9 @@ CREATE TABLE IF NOT EXISTS Drive(
 );
 
 ----
--- 4. Table `FileContentsInfo`
+-- 4. Table `file_contents_info`
 ----
-CREATE TABLE IF NOT EXISTS FileContentsInfo(
+CREATE TABLE IF NOT EXISTS file_contents_info(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `Description` VARCHAR(800) NOT NULL,

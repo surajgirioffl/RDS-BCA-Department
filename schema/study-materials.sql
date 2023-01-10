@@ -1,14 +1,14 @@
 /*
  * MySQL
- * Schema for database `StudyMaterials` or `rdsbca$Sem1StudyMaterials', `rdsbca$Sem2StudyMaterials' and so on.
+ * Schema for database `study_materials` or `rdsbca$sem1_study_materials', `rdsbca$sem2_study_materials' and so on.
  * Created by: Suraj Kumar Giri
  * Created on: 7th Jan 2023
  * Last updated on: 10th Jan 2023
  */
 ----
--- 1. Table `Ignou`
+-- 1. Table `ignou`
 ----
-CREATE TABLE `Ignou` (
+CREATE TABLE `ignou` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `SubjectCode` SMALLINT UNSIGNED NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE `Ignou` (
 );
 
 ----
--- 2. Table `Ebooks`
+-- 2. Table `ebooks`
 ----
-CREATE TABLE `Ebooks` (
+CREATE TABLE `ebooks` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `SubjectCode` SMALLINT UNSIGNED NOT NULL,
@@ -26,9 +26,9 @@ CREATE TABLE `Ebooks` (
 );
 
 ----
--- 3. Table `Others`
+-- 3. Table `others`
 ----
-CREATE TABLE `Others` (
+CREATE TABLE `others` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `SubjectCode` SMALLINT UNSIGNED NOT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE `Others` (
 );
 
 ----
--- 4. Table `Externals`
+-- 4. Table `externals`
 ----
-CREATE TABLE `Externals` (
+CREATE TABLE `externals` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `Link` VARCHAR(200) PRIMARY KEY NOT NULL,
     `SubjectCode` SMALLINT UNSIGNED NOT NULL,
