@@ -1,3 +1,17 @@
+"""
+    @file: app.py
+    @author: Suraj Kumar Giri
+    @init-date: 15th Oct 2022
+    @last-modified: 11th Jan 2022
+    
+    @description:
+        * Module to run the web app and handle all the routes.
+"""
+__author__ = "Suraj Kumar Giri"
+__email__ = 'surajgirioffl@gmail.com'
+__version__ = "2.0.0"
+
+
 import logging
 from flask import Flask, render_template, request, url_for, send_from_directory, jsonify
 from db_scripts import results_db as db
