@@ -29,3 +29,15 @@ CREATE TABLE IF NOT EXISTS `ip_info`(
     `TimeZone` VARCHAR(50) NOT NULL,
     FOREIGN KEY(Id) REFERENCES visitors(Id)
 );
+
+----
+-- 3. Table `visitors_info`
+----
+CREATE TABLE IF NOT EXISTS `visitors_info`(
+    `Id` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `Platform` VARCHAR(30) DEFAULT NULL,
+    `Screen` VARCHAR(20) DEFAULT NULL,
+    `Path` VARCHAR(50) NOT NULL,
+    `Referrer` VARCHAR(200) DEFAULT NULL,
+    FOREIGN KEY(Id) REFERENCES visitors(Id)
+);
