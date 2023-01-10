@@ -8,7 +8,7 @@
 ----
 -- 1. Table `students` 
 ----
-CREATE TABLE `students` (
+CREATE TABLE IF NOT EXISTS `students` (
     `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
     `ExamRoll` MEDIUMINT UNIQUE NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE `students` (
 ----
 -- 2. Table `contact` 
 ----
-CREATE TABLE `contact` (
+CREATE TABLE IF NOT EXISTS `contact` (
     `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
     `Email` VARCHAR(100) UNIQUE NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `contact` (
 -- You can use this table schema to create table for result of all semesters. Like 'result_sem1', 'result_sem2', 'result_sem3', ... 
 -- 3. Table `result_sem1`
 ----
-CREATE TABLE `result_sem1`(
+CREATE TABLE IF NOT EXISTS `result_sem1`(
     `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
     `ExamRoll` MEDIUMINT UNIQUE NOT NULL,

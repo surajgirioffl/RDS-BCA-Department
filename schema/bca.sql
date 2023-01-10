@@ -8,7 +8,7 @@
 ----
 -- 1. Table `students`
 ----
-CREATE TABLE students(
+CREATE TABLE IF NOT EXISTS students(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
     `Session` VARCHAR(10) NOT NULL
@@ -17,7 +17,7 @@ CREATE TABLE students(
 ----
 -- 2. Table `teachers`
 ----
-CREATE TABLE teachers(
+CREATE TABLE IF NOT EXISTS teachers(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `TeacherId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
     `Name` VARCHAR(50) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE teachers(
 ----
 -- 3. Table `subjects `
 ----
-CREATE TABLE `subjects`(
+CREATE TABLE IF NOT EXISTS `subjects`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `SubjectCode` SMALLINT UNSIGNED PRIMARY KEY NOT NULL,
     `SubjectCodeChar` CHAR(7) NOT NULL UNIQUE,
