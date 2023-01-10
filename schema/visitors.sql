@@ -14,3 +14,18 @@ CREATE TABLE IF NOT EXISTS `visitors`(
     `LastVisited` DATETIME NOT NULL,
     `VisitCount` SMALLINT UNSIGNED DEFAULT 0
 );
+
+----
+-- First execute above query then run below query because of foreign key constraint.
+-- 2. Table `ip_info`
+----
+CREATE TABLE IF NOT EXISTS `ip_info`(
+    `Id` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `Pin` VARCHAR(10) NOT NULL,
+    `City` VARCHAR(30) NOT NULL,
+    `State` VARCHAR(30) NOT NULL,
+    `Country` VARCHAR(30) NOT NULL,
+    `Isp` VARCHAR(50) NOT NULL,
+    `TimeZone` VARCHAR(50) NOT NULL,
+    FOREIGN KEY(Id) REFERENCES visitors(Id)
+);
