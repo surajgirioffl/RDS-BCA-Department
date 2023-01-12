@@ -2,6 +2,7 @@
     Module to handle all insert/update operation on database/table related to user IP.
 """
 
+from os import environ
 import mysql.connector as mysql
 
 
@@ -10,7 +11,7 @@ class IP:
         * Class to store and update user's ip address and related information to the database.
     """
 
-    def __init__(self, host: str = "localhost", user: str = "root", port: int = 3306, password: str = "sadashiv@123", database: str = "rdsCollegeIpInfo", tableName: str = '', timeZoneForDatabase="Asia/Kolkata") -> None:
+    def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSER'), port: int = int(environ.get('DBPORT')), password: str = environ.get('DBPASSWORD'), database: str = "visitors", timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             * This class is used to store user's ip address and other information in database.
             * Constructor of this class will create a table named 'userIp' if it doesn't exist.
