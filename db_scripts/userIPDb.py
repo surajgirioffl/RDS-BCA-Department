@@ -10,25 +10,6 @@ class IP:
         * Class to store and update user's ip address and related information to the database.
     """
 
-    def __createTable(self):
-        self.cursor.execute(f"""
-               CREATE TABLE IF NOT EXISTS {self.tableName}(
-                id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                ip CHAR(30) NOT NULL UNIQUE,
-                city CHAR(30) NOT NULL,
-                pin CHAR(10) NOT NULL,
-                state CHAR(30) NOT NULL,
-                country CHAR(30) NOT NULL,
-                isp CHAR(30) NOT NULL,
-                timeZone CHAR(40) NOT NULL,
-                lastVisited DATETIME NOT NULL,
-                visitCount INT NOT NULL DEFAULT 0,
-                platform CHAR(20),
-                screen CHAR(20),
-                path CHAR(10)
-                );
-               """)
-
     def __init__(self, host: str = "localhost", user: str = "root", port: int = 3306, password: str = "sadashiv@123", database: str = "rdsCollegeIpInfo", tableName: str = '', timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             * This class is used to store user's ip address and other information in database.
@@ -50,7 +31,6 @@ class IP:
                 self.tableName = 'userIp'
             else:
                 self.tableName = tableName
-            self.__createTable()
             print('Connection with database established.')
         except Exception as e:
             # if connection is not established then set connectionStatus to False.
