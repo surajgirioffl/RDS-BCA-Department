@@ -186,7 +186,10 @@ def ip():
             'timeZone': request.json.get('timeZone'),
             'platform': request.json.get('platform'),
             'screen': request.json.get('screen'),
-            'path': request.json.get('path')
+            'path': request.json.get('path'),
+            'referrer': request.json.get('referrer'),
+            # currently feature is not available (After implementing session support, we will add username here.)
+            'username': ""
         }
 
         # let's check if any value in ipDictionary is None or not. If any value will None then we send empty string ("") to database and a null value will be inserted in database.
