@@ -152,7 +152,5 @@ class IP:
 
 
 if __name__ == "__main__":
-    # currently not in state to run this file. So, for security purpose exiting the program.
-    exit(0)
     IP().insertInfo(ip='11.23.29.33', city='Mumbai', pin='400001',
-                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080', path="/home")
+                    state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080', path="/home", referrer="https://google.com/", username="surajgirioffl")
