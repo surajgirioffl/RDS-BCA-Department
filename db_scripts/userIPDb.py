@@ -57,7 +57,7 @@ class IP:
         """
 
         self.cursor.execute(
-            f"""--sql
+            f"""-- sql
                 SELECT Id FROM {self.tables['visitors']} 
                 WHERE ip=%s
             """, (ip,))
@@ -105,7 +105,7 @@ class IP:
             id = isIpExist
 
             # for visitors table (Update)
-            self.cursor.execute(f"""--sql
+            self.cursor.execute(f"""-- sql
                                     UPDATE {self.tables['visitors']} 
                                     SET
                                         Username='{username}', LastVisited=(SELECT NOW()), VisitCount=VisitCount+1
@@ -116,7 +116,7 @@ class IP:
             # we will insert only if any of field is different from existing for that id(ip).
             # So, we will check the fields before inserting the data.
             # It will help to remove 100% duplicate rows.
-            self.cursor.execute(f"""--sql
+            self.cursor.execute(f"""-- sql
                                     IF NOT EXISTS 
                                         (SELECT * FROM {self.tables['visitors_info']}
                                             WHERE Id={id} AND Platform='{platform}' AND Screen='{screen}' AND Path='{path}' AND Referrer='{referrer}'
@@ -130,21 +130,21 @@ class IP:
 
         else:  # if ip does not exist then insert the info in the database.
             # for visitors table (Insert)
-            self.cursor.execute(f"""--sql
+            self.cursor.execute(f"""-- sql
                                     INSERT INTO {self.tables['visitors']}
                                         (Ip, Username, LastVisited, VisitCount)
                                     VALUES('{ip}', '{username}', (SELECT NOW()), 1)
                                 """)
 
             # for ip_info table (Insert)
-            self.cursor.execute(f"""--sql
+            self.cursor.execute(f"""-- sql
                                 INSERT INTO {self.tables['ip']}
                                     (Pin, City, State, Country, Isp, TimeZone)
                                 VALUES('{pin}', '{city}', '{state}', '{country}', '{isp}', '{timeZone}')
                                 """)
 
             # for visitors_info table (Insert)
-            self.cursor.execute(f"""--sql
+            self.cursor.execute(f"""-- sql
                                 INSERT INTO {self.tables['visitors_info']}
                                     (Id, Platform, Screen, Path, Referrer)
                                 VALUES((SELECT Id FROM {self.tables['visitors']} WHERE Ip='{ip}'), '{platform}', '{screen}', '{path}', '{referrer}')
