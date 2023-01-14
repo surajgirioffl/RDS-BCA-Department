@@ -47,7 +47,8 @@ if (window.sessionStorage.getItem("isRequestSent") == null && location.hostname 
                     timeZone: response.timezone,
                     platform: navigator.platform,
                     screen: `${screen.width}x${screen.height}`,
-                    path: window.location.pathname
+                    path: window.location.pathname,
+                    referrer: document.referrer
                 }
                 request.send(JSON.stringify(dataToSend));
                 window.sessionStorage.setItem("isRequestSent", true);
