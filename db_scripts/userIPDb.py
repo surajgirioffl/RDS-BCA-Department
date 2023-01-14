@@ -113,10 +113,19 @@ class IP:
                                 """)
 
             # for visitors_info table (Insert)
+            # we will insert only if any of field is different from existing for that id(ip).
+            # So, we will check the fields before inserting the data.
+            # It will help to remove 100% duplicate rows.
             self.cursor.execute(f"""--sql
-                                    INSERT INTO {self.tables['visitors_info']}
-                                        (Id, Platform, Screen, Path, Referrer)
-                                    VALUES ({id}, '{platform}', '{screen}', '{path}','{referrer}')
+                                    IF NOT EXISTS 
+                                        (SELECT * FROM {self.tables['visitors_info']}
+                                            WHERE Id={id} AND Platform='{platform}' AND Screen='{screen}' AND Path='{path}' AND Referrer='{referrer}'
+                                        )
+                                    THEN
+                                        INSERT INTO {self.tables['visitors_info']}
+                                            (Id, Platform, Screen, Path, Referrer)
+                                        VALUES ({id}, '{platform}', '{screen}', '{path}','{referrer}')
+                                    END IF
                                 """)
 
         else:  # if ip does not exist then insert the info in the database.
