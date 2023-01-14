@@ -25,7 +25,13 @@ class IP:
                 host=f'{host}', user=f'{user}', password=f'{password}', port=port)
             self.cursor = self.conn.cursor(buffered=True)
             self.cursor.execute(f'USE {self.database}')
-            self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
+
+            # setting timezone for database
+            try:
+                self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
+            except Exception as e:
+                print("Unable to set time_zone. Error code 1201")
+
             self.connectionStatus = True  # if connection is established then it will be true
             self.tables = {
                 'visitors': 'visitors',
