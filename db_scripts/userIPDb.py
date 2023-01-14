@@ -11,7 +11,7 @@ class IP:
         * Class to store and update user's ip address and related information to the database.
     """
 
-    def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSER'), port: int = int(environ.get('DBPORT')), password: str = environ.get('DBPASSWORD'), database: str = "visitors", timeZoneForDatabase="Asia/Kolkata") -> None:
+    def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSER'), port: int = int(environ.get('DBPORT')), password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$visitors", timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             * This class is used to store user's ip address and other information in database.
             * Constructor of this class will create a table named 'userIp' if it doesn't exist.
@@ -21,17 +21,17 @@ class IP:
         # creating connection
         self.database = database
         try:
-            self.conn = mysql.connect(host=f'{host}', user=f'{user}',
-                                      password=f'{password}', port=port)
+            self.conn = mysql.connect(
+                host=f'{host}', user=f'{user}', password=f'{password}', port=port)
             self.cursor = self.conn.cursor(buffered=True)
             self.cursor.execute(f'USE {self.database}')
-            self.cursor.execute(
-                f"SET time_zone = '{timeZoneForDatabase}'")
+            self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             self.connectionStatus = True  # if connection is established then it will be true
-            if tableName == '':
-                self.tableName = 'userIp'
-            else:
-                self.tableName = tableName
+            self.tables = {
+                'visitors': 'visitors',
+                'ip': 'ip_info',
+                'visitors_info': 'visitors_info'
+            }
             print('Connection with database established.')
         except Exception as e:
             # if connection is not established then set connectionStatus to False.
@@ -44,7 +44,7 @@ class IP:
             self.conn.commit()
             self.conn.close()
 
-    def __isIpExist(self, ip: str) -> bool:
+    def __isIpExist(self, ip: str) -> bool | int:
         """
             * This method will check if the ip address is already present in the database.
 
@@ -52,22 +52,29 @@ class IP:
                 * ip: str -> Desired IP address.
 
             @returns:
-                * bool -> True if ip address is present in the database, else False.
+                * int  -> Id of the ip address if ip address is present in the database
+                * bool -> False if ip address is not present in the database.
         """
 
         self.cursor.execute(
-            f'SELECT * FROM {self.tableName} WHERE ip=%s', (ip,))
+            f"""--sql
+                SELECT Id FROM {self.tables['visitors']} 
+                WHERE ip=%s
+            """, (ip,))
 
         # if no data is fetched then ip is not present in the database.
-        if self.cursor.fetchall() == []:
+        data = self.cursor.fetchall()
+        if data == []:
             return False
-        return True
+        return data[0][0]
 
-    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str, platform: str = "", screen: str = "", path: str = "") -> None:
+    def insertInfo(self, ip: str, city: str, pin: str, state: str, country: str, isp: str, timeZone: str, platform: str = "", screen: str = "", path: str = "", referrer: str = "", username: str = "") -> None:
         """
-            * This method will insert the ip address and other information in the database.
+            Description:
+                * This method will perform and update all information about the visitors in the database.
+                * This method will insert the ip address and other information in the database.
 
-            @Param:
+            Args:
                 * ip: str -> Desired IP address.
                 * city: str -> City name.
                 * pin: str -> Pin code.
@@ -78,25 +85,65 @@ class IP:
                 * platform: str -> Platform name of client like Windows, Linux, Mac, etc.
                 * screen: str -> Screen resolution of client.
                 * path: str-> Path from which the request is made.
+                * username: str -> Username of the client if logged in.
+                * referrer: str -> Referrer of the client.
 
-            @returns:
+            Returns:
                 * None
         """
 
-        if self.__isIpExist(ip):  # if exists then update the info.
-            self.cursor.execute(f"""
-                                    UPDATE {self.tableName} SET
-                                    isp='{isp}',lastVisited=(SELECT NOW()), visitCount=visitCount+1, platform='{platform}', screen='{screen}', path='{path}'
-                                    WHERE ip='{ip}';
+        isIpExist = self.__isIpExist(ip=ip)
+
+        if isIpExist:  # if exists then update the info.
+            # ip is same. So, ip_info remain same. So, we are not updating ip_info.
+            # but we are updating visitors_info and visitors table.
+            # Same ip can have different platform, screen, path, referrer, username in different visit.
+            # means user may open site in different platform, screen, path in different session.
+
+            # id of the ip address in database.
+            # return value of __isIpExist method (it is id of the ip address in database.)
+            id = isIpExist
+
+            # for visitors table (Update)
+            self.cursor.execute(f"""--sql
+                                    UPDATE {self.tables['visitors']} 
+                                    SET
+                                        Username='{username}', LastVisited=(SELECT NOW()), VisitCount=VisitCount+1
+                                    WHERE Ip='{ip}';
                                 """)
-            # city='{city}', pin='{pin}', state='{state}', country='{country}', isp='{isp}', timeZone='{timeZone}', lastVisited=NOW(), visitCount=visitCount+1 #removing the things which is fixed (but change due to ip details given by api varies)
-        else:  # if not exist then insert the info in the database.
-            self.cursor.execute(f"""
-                                    INSERT INTO {self.tableName}(ip, city, pin, state, country, isp, timeZone, lastVisited, visitCount, platform, screen, path)
-                                    VALUES('{ip}', '{city}', '{pin}', '{state}', '{country}', '{isp}', '{timeZone}', (SELECT NOW()), 1, '{platform}', '{screen}', '{path}')
+
+            # for visitors_info table (Insert)
+            self.cursor.execute(f"""--sql
+                                    INSERT INTO {self.tables['visitors_info']}
+                                        (Id, Platform, Screen, Path, Referrer)
+                                    VALUES ({id}, '{platform}', '{screen}', '{path}','{referrer}')
+                                """)
+
+        else:  # if ip does not exist then insert the info in the database.
+            # for visitors table (Insert)
+            self.cursor.execute(f"""--sql
+                                    INSERT INTO {self.tables['visitors']}
+                                        (Ip, Username, LastVisited, VisitCount)
+                                    VALUES('{ip}', '{username}', (SELECT NOW()), 1)
+                                """)
+
+            # for ip_info table (Insert)
+            self.cursor.execute(f"""--sql
+                                INSERT INTO {self.tables['ip']}
+                                    (Pin, City, State, Country, Isp, TimeZone)
+                                VALUES('{pin}', '{city}', '{state}', '{country}', '{isp}', '{timeZone}')
+                                """)
+
+            # for visitors_info table (Insert)
+            self.cursor.execute(f"""--sql
+                                INSERT INTO {self.tables['visitors_info']}
+                                    (Id, Platform, Screen, Path, Referrer)
+                                VALUES((SELECT Id FROM {self.tables['visitors']} WHERE Ip='{ip}'), '{platform}', '{screen}', '{path}', '{referrer}')
                                 """)
 
 
 if __name__ == "__main__":
+    # currently not in state to run this file. So, for security purpose exiting the program.
+    exit(0)
     IP().insertInfo(ip='11.23.29.33', city='Mumbai', pin='400001',
                     state='Maharashtra', country='India', isp='Jio', timeZone='Asia/Kolkata', platform='Windows', screen='1920x1080', path="/home")
