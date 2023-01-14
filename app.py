@@ -195,8 +195,7 @@ def ip():
             if value is None:
                 ipDictionary[key] = ""
 
-        ipObject = ipDB.IP(host='rdsbca.mysql.pythonanywhere-services.com', user='rdsbca',
-                           database='rdsbca$RdsBca', password='Badam@123')  # port=3307
+        ipObject = ipDB.IP()  # port=3307
         if ipObject.connectionStatus:
             ipObject.insertInfo(**ipDictionary)
             return 'success'
