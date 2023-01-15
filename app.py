@@ -18,6 +18,8 @@ __email__ = 'surajgirioffl@gmail.com'
 __version__ = "2.0.0"
 
 
+from platform import system
+import os
 import logging
 from flask import Flask, render_template, request, url_for, send_from_directory, jsonify
 from db_scripts import results_db as db
@@ -25,6 +27,9 @@ from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 import setTimeZone as tz
+from dotenv import load_dotenv
+
+load_dotenv()  # loading environment variables from .env file
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
 
 app = Flask(__name__)
@@ -198,7 +203,12 @@ def ip():
             if value is None:
                 ipDictionary[key] = ""
 
-        ipObject = ipDB.IP()  # port=3307
+        # if system is windows then we will use local database. (for testing purpose). It's for my local machine.
+        if system() == 'Windows':
+            ipObject = ipDB.IP()  # Every parameter will be default. (for local machine)
+        else:  # it's for the server which running on linux.
+            ipObject = ipDB.IP(host=os.environ.get('DBHOST'), user=os.environ.get(
+                'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD'))
         if ipObject.connectionStatus:
             ipObject.insertInfo(**ipDictionary)
             return 'success'
