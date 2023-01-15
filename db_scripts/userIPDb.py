@@ -11,7 +11,7 @@ class IP:
         * Class to store and update user's ip address and related information to the database.
     """
 
-    def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')), password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$visitors", timeZoneForDatabase="Asia/Kolkata") -> None:
+    def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$visitors", timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             * This class is used to store user's ip address and other information in database.
             * Constructor of this class will create a table named 'userIp' if it doesn't exist.
