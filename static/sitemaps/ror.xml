@@ -109,6 +109,14 @@
      <ror:resourceOf>sitemap</ror:resourceOf>
 </item>
 <item>
+     <link>https://rdsbca.pythonanywhere.com/about-rds-college</link>
+     <title> About RDS College - BCA RDS College, Muzaffarpur  </title>
+     <description>About Ram Dayalu Singh College Muzaffarpur</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
      <link>https://rdsbca.pythonanywhere.com/sources</link>
      <title> Sources - BCA RDS College, Muzaffarpur  </title>
      <description>Sources of contents of the app BCA RDS College Muzaffarpur</description>
