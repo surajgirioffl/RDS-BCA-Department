@@ -13,11 +13,10 @@
 }
 
 .top-border {
-    color: aqua;
     padding-top: 1px;
     border-radius: 3%;
     border-width: 0;
-    border-top-width: 5px;
+    border-top-width: 4px;
     border-top-color: rgb(0, 110, 255);
     border-style: solid;
 
