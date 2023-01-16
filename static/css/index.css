@@ -8,6 +8,10 @@
     border-left-width: 5px;
 }
 
+.card-text-container {
+    background-color: azure;
+}
+
 .top-border {
     color: aqua;
     padding-top: 1px;
