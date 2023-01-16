@@ -26,3 +26,15 @@ article section h3 {
     border-style: solid;
     color: darkmagenta;
 }
+
+.alert {
+    padding: auto;
+    margin: auto;
+    width: 90%;
+    text-align: center;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    margin-top: -1%;
+    margin-bottom: 1%;
+    font-weight: bold;
+}
