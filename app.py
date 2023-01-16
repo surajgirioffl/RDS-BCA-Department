@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 11th Jan 2022
+    @last-modified: 16th Jan 2022
     
     @description:
         * Module to run the web app and handle all the routes.
@@ -172,6 +172,11 @@ def contact():
 @app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
+
+
+@app.route('/about-rds-college', methods=['GET'])
+def aboutRdsCollege():
+    return render_template('about-rds-college.html')
 
 
 # api routes
