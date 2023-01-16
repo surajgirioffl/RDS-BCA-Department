@@ -1,0 +1,28 @@
+article {
+    /* background-color: azure; */
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+article section p {
+    font-size: 105%;
+    text-align: left;
+    padding: 10px;
+    border-radius: 2%;
+    border-left-color: rgb(0, 110, 255);
+    border-style: solid;
+    border-width: 0;
+    border-left-width: 5px;
+    margin-left: 2%;
+    background-color: rgb(228, 228, 228);
+}
+
+article section h3 {
+    text-align: left;
+    padding-top: 1px;
+    border-width: 0;
+    border-top-width: 4px;
+    border-top-color: #8EC5FC;
+    border-style: solid;
+    color: darkmagenta;
+}
