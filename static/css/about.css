@@ -15,6 +15,7 @@ article section p {
     border-left-width: 5px;
     margin-left: 2%;
     background-color: rgb(228, 228, 228);
+    font-weight: 450;
 }
 
 article section h3 {
@@ -25,6 +26,7 @@ article section h3 {
     border-top-color: #8EC5FC;
     border-style: solid;
     color: darkmagenta;
+    font-weight: bold;
 }
 
 .alert {
