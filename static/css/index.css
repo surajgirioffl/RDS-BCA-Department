@@ -1,0 +1,34 @@
+/*About Section CSS Starts*/
+.left-border {
+    padding: 10px;
+    border-radius: 3%;
+    border-left-color: rgb(0, 110, 255);
+    border-style: solid;
+    border-width: 0;
+    border-left-width: 5px;
+}
+
+.top-border {
+    color: aqua;
+    padding-top: 1px;
+    border-radius: 3%;
+    border-width: 0;
+    border-top-width: 5px;
+    border-top-color: rgb(0, 110, 255);
+    border-style: solid;
+
+    /*border style is compulsory. If you don't write this, the border will not appear.
+     * default border style is none. 
+    */
+}
+
+.card-text {
+    font-size: 80%;
+    font-weight: normal;
+}
+
+.card-title {
+    font-size: 110%;
+}
+
+/*About Section CSS Ends*/
