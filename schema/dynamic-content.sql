@@ -22,3 +22,15 @@ CREATE TABLE IF NOT EXISTS `notice` (
     `BottomMarquee3` VARCHAR(300) DEFAULT NULL,
     `DateModified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
+
+----
+-- Table `credits`
+----
+CREATE TABLE IF NOT EXISTS `credits`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Name` VARCHAR(50) NOT NULL,
+    `Designation` VARCHAR(50) NOT NULL,
+    `Contributions` VARCHAR(200) NOT NULL,
+    `ContactTitle` VARCHAR(50) DEFAULT NULL,
+    `ContactLink` VARCHAR(100) DEFAULT NULL,
+);
