@@ -13,7 +13,39 @@ import mysql.connector as mysql
 
 
 class DynamicContents:
+    """
+        Description:
+            * Class to handle database related operations related to serving dynamic contents on the website.
+    """
+
     def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$dynamic_contents", timeZoneForDatabase="Asia/Kolkata") -> None:
+        """
+            Description:
+                - Class to handle database related operations related to serving dynamic contents on the website
+                - Constructor of the class DynamicContents
+            Args:
+                * host (str, optional): 
+                    - Host of the database.
+                    - Defaults to hostname set in the environment for the database.
+                * user (str, optional):
+                    - Username of the database.
+                    - Defaults to username set in the environment for the database.
+                * port (int, optional): 
+                    - Port of the database.
+                    - Defaults to port set in the environment for the database.
+                * password (str, optional): 
+                    - Password of the database.
+                    - Defaults to password set in the environment for the database.
+                * database (str, optional): 
+                    - Name of the database.
+                    - Defaults to rdsbca$dynamic_contents
+                * timeZoneForDatabase (str, optional):
+                    - TimeZone for the current session of the database (May not work in Windows).
+                    - Defaults to "Asia/Kolkata".
+
+            Returns:
+                * None
+        """
         try:
             # establishing connection and creating cursor object
             self.conn = mysql.connect(
@@ -46,7 +78,14 @@ class DynamicContents:
                 'sources': 'sources'
             }
 
-    def __del__(self):
+    def __del__(self) -> None:
+        """
+            Description:
+                * Destructor
+                * Commit and close the session.
+            Returns:
+                * None
+        """
         if self.connectionStatus:
             self.conn.commit()
             self.conn.close()
