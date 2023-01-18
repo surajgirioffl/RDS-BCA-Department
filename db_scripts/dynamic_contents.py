@@ -90,6 +90,53 @@ class DynamicContents:
             self.conn.commit()
             self.conn.close()
 
+    def notice(self, index: int = 0) -> tuple | None:
+        """
+            Description:
+                - Method to fetch latest or desired notice from the database.
+
+            Args:
+                * index (int, optional): 
+                    - SNo (index) of the notice.
+                    - Defaults to 0 (Latest notice).
+                    - For last 2nd notice index will 1
+
+            Returns:
+                * tuple:
+                    - Notice data (desired row of the database)
+                * None:
+                    - If no data is found for given index.
+                    - Any other error occurred.
+        """
+        # notice are arranged in descending order. Means latest notice has maximum index (SNO.).
+        # We will sort the table in descending order to get the latest notice on top.
+        # To get last 2nd, 3rd etc notice we use "Desired Sno = Latest S.no - Index" during fetching from the database.
+        # For top (latest) notice index is 0.
+        # For last 2nd notice index is 1 and so on ....
+        self.cursor.execute(f"""-- sql
+                                SELECT * FROM {self.tables.get('notice')}
+                                ORDER BY SNo DESC
+                                LIMIT 1;
+                            """)
+        latestNotice = self.cursor.fetchone()
+
+        # if no notice found
+        if latestNotice is None:
+            return None
+        elif index == 0:  # means user needs only latest notice
+            return latestNotice
+
+        # If user wants to see previous notice
+        # In schema SNo is the first attribute.
+        latestNoticeSNo = latestNotice[0]
+        self.cursor.execute(f"""-- sql
+                                SELECT * FROM {self.tables.get('notice')}
+                                ORDER BY SNo DESC
+                                WHERE SNo = {latestNoticeSNo-index}
+                            """)
+        desiredNotice = self.cursor.fetchone()
+        return desiredNotice  # it will return None if no rows found else returns the desired row
+
 
 if __name__ == '__main__':
-    DynamicContents()
+    print(DynamicContents().notice())
