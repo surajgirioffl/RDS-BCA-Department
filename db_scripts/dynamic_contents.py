@@ -39,6 +39,11 @@ class DynamicContents:
             except Exception as e:
                 print("Unable to set time_zone. Error code 1301")
 
+    def __del__(self):
+        if self.connectionStatus:
+            self.conn.commit()
+            self.conn.close()
+
 
 if __name__ == '__main__':
     DynamicContents()
