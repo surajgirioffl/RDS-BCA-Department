@@ -32,3 +32,9 @@ class DynamicContents:
             # if connection is established then set connectionStatus to True.
             self.connectionStatus = True
             print(f"Connection with database established ({database}).")
+
+            # setting the timezone for database
+            try:
+                self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
+            except Exception as e:
+                print("Unable to set time_zone. Error code 1301")
