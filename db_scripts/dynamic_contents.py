@@ -113,11 +113,16 @@ class DynamicContents:
         # To get last 2nd, 3rd etc notice we use "Desired Sno = Latest S.no - Index" during fetching from the database.
         # For top (latest) notice index is 0.
         # For last 2nd notice index is 1 and so on ....
-        self.cursor.execute(f"""-- sql
-                                SELECT * FROM {self.tables.get('notice')}
-                                ORDER BY SNo DESC
-                                LIMIT 1;
-                            """)
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM {self.tables.get('notice')}
+                                    ORDER BY SNo DESC
+                                    LIMIT 1;
+                                """)
+        except Exception as e:
+            print("Unable to fetch notice from database. Error Code 1302")
+            print("Exception: ", e)
+            return None
         latestNotice = self.cursor.fetchone()
 
         # if no notice found
@@ -129,11 +134,17 @@ class DynamicContents:
         # If user wants to see previous notice
         # In schema SNo is the first attribute.
         latestNoticeSNo = latestNotice[0]
-        self.cursor.execute(f"""-- sql
-                                SELECT * FROM {self.tables.get('notice')}
-                                ORDER BY SNo DESC
-                                WHERE SNo = {latestNoticeSNo-index}
-                            """)
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM {self.tables.get('notice')}
+                                    ORDER BY SNo DESC
+                                    WHERE SNo = {latestNoticeSNo-index}
+                                """)
+        except Exception as e:
+            print("Unable fetch desired notice from the database. Error Code 1303")
+            print("Exception: ", e)
+            return None
+
         desiredNotice = self.cursor.fetchone()
         return desiredNotice  # it will return None if no rows found else returns the desired row
 
