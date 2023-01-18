@@ -34,3 +34,13 @@ CREATE TABLE IF NOT EXISTS `credits`(
     `ContactTitle` VARCHAR(50) DEFAULT NULL,
     `ContactLink` VARCHAR(100) DEFAULT NULL,
 );
+
+----
+-- Table `sources`
+----
+CREATE TABLE IF NOT EXISTS `sources`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Name` VARCHAR(50) NOT NULL,
+    `Contributions` VARCHAR(200) NOT NULL,
+    `Link` VARCHAR(100) DEFAULT NULL,
+);
