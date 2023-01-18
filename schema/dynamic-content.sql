@@ -2,9 +2,9 @@
 -- Schema for database `dynamic_contents` or `rdsbca$dynamic_contents`
 -- Created by: Suraj Kumar Giri
 -- Created on: 16th Jan 2023
--- Last updated on: 17th Jan 2023
+-- Last updated on: 18th Jan 2023
 ----
--- Table `notice`
+-- 1. Table `notice`
 ----
 CREATE TABLE IF NOT EXISTS `notice` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `notice` (
 );
 
 ----
--- Table `credits`
+-- 2. Table `credits`
 ----
 CREATE TABLE IF NOT EXISTS `credits`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `credits`(
 );
 
 ----
--- Table `sources`
+-- 3. Table `sources`
 ----
 CREATE TABLE IF NOT EXISTS `sources`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
