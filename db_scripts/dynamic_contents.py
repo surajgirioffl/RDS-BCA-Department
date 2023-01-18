@@ -38,3 +38,7 @@ class DynamicContents:
                 self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             except Exception as e:
                 print("Unable to set time_zone. Error code 1301")
+
+
+if __name__ == '__main__':
+    DynamicContents()
