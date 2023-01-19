@@ -204,6 +204,31 @@ class DynamicContents:
             return None
         return credits
 
+    def credits(self, orderBy: str = "Name", order: str = "ASC") -> list[tuple, tuple, ] | None:
+        """
+            Description:
+                - Method to fetch data from credits table of the database.
+
+            Args:
+                * orderBy (str, optional):
+                    - Order by which the tuples will be shorted and returned.
+                    - Defaults to "Name".
+                    - If any other value is passed then it will be set to "Name".
+                * order (str, optional): 
+                    - Order of the sorting. [ASC, DESC]
+                    - Defaults to "ASC".
+                    - If any other value is passed then it will be set to "ASC".
+
+            Returns:
+                * list[tuple, tuple, ] 
+                    - List of tuples containing the credits table data.
+                    - See schema for more details about the data.
+                * None:
+                    - If no data is found.
+                    - Any other error occurred.
+        """
+        return self.__credits_sources(self.tables.get('credits'), orderBy, order)
+
 
 if __name__ == '__main__':
     print(DynamicContents().credits())
