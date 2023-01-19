@@ -148,6 +148,48 @@ class DynamicContents:
         desiredNotice = self.cursor.fetchone()
         return desiredNotice  # it will return None if no rows found else returns the desired row
 
+    def credits(self, orderBy: str = "Name", order: str = "ASC") -> list[tuple, tuple, ] | None:
+        """
+            Description:
+                - Method to fetch credits from the database.
+
+            Args:
+                * orderBy (str, optional):
+                    - Order by which the tuples will be shorted and returned.
+                    - Defaults to "Name".
+                * order (str, optional): 
+                    - Order of the sorting. [ASC, DESC]
+                    - Defaults to "ASC".
+
+            Returns:
+                * list[tuple, tuple, ] 
+                    - List of tuples containing the credits table data.
+                    - See schema for more details about the data.
+                * None:
+                    - If no data is found.
+                    - Any other error occurred.
+        """
+        if orderBy not in ["Name", "SNo", "Designation"]:
+            orderBy = "Name"
+
+        if order not in ["ASC", "DESC"]:
+            order = "ASC"
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM {self.tables.get('credits')}
+                                    ORDER BY {orderBy} {order}
+                                """)
+        except Exception as e:
+            print("Unable to fetch credits from database. Error Code 1304")
+            print("Exception: ", e)
+            return None
+
+        credits = self.cursor.fetchall()  # fetching all the rows
+
+        if credits == []:  # if no rows found
+            return None
+        return credits
+
 
 if __name__ == '__main__':
-    print(DynamicContents().notice())
+    print(DynamicContents().credits())
