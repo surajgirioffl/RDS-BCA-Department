@@ -2,10 +2,14 @@
     @file: dynamic_contents.py
     @author: Suraj Kumar Giri
     @init-date: 18th Jan 2023
-    @last-modified: 18th Jan 2023
+    @last-modified: 19th Jan 2023
 
     @description:
         * Module to handle database related operations related to serving dynamic contents on the website.
+    
+    @classes:
+        * DynamicContents:
+            - Class to handle database related operations related to serving dynamic contents on the website.
 """
 
 from os import environ
@@ -16,6 +20,14 @@ class DynamicContents:
     """
         Description:
             * Class to handle database related operations related to serving dynamic contents on the website.
+
+        Methods(self):
+            * notice(self, ...) -> tuple | None:
+                - Method to fetch latest or desired notice from the database.
+            * credits(self, ...) -> tuple | None:
+                - Method to fetch data from credits table of the database.
+            * sources(self, ...) -> tuple | None:
+                - Method to fetch data from sources table of the database.
     """
 
     def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$dynamic_contents", timeZoneForDatabase="Asia/Kolkata") -> None:
@@ -171,7 +183,7 @@ class DynamicContents:
 
             Returns:
                 * list[tuple, tuple, ] 
-                    - List of tuples containing the credits table data.
+                    - List of tuples containing the credits/sources table data.
                     - See schema for more details about the data.
                 * None:
                     - If no data is found.
