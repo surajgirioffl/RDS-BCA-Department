@@ -148,18 +148,26 @@ class DynamicContents:
         desiredNotice = self.cursor.fetchone()
         return desiredNotice  # it will return None if no rows found else returns the desired row
 
-    def credits(self, orderBy: str = "Name", order: str = "ASC") -> list[tuple, tuple, ] | None:
+    def __credits_sources(self, tableName: str, orderBy: str = "Name", order: str = "ASC") -> list[tuple, tuple, ] | None:
         """
             Description:
-                - Method to fetch credits from the database.
+                - Method to fetch data from credits and sources table from the database.
+                - This method is private and should not be used directly.
+                - This method is used by credits() and sources() methods.
+                - Due to similar functionality of both the tables, this method is used to fetch data from both the tables.
 
             Args:
+                * tableName (str):
+                    - Name of the table from which data is to be fetched.
+                    - Must be one of the following: "credits", "sources"
                 * orderBy (str, optional):
                     - Order by which the tuples will be shorted and returned.
                     - Defaults to "Name".
+                    - If any other value is passed then it will be set to "Name".
                 * order (str, optional): 
                     - Order of the sorting. [ASC, DESC]
                     - Defaults to "ASC".
+                    - If any other value is passed then it will be set to "ASC".
 
             Returns:
                 * list[tuple, tuple, ] 
@@ -169,14 +177,20 @@ class DynamicContents:
                     - If no data is found.
                     - Any other error occurred.
         """
-        if orderBy not in ["Name", "SNo", "Designation"]:
-            orderBy = "Name"
+        if tableName == 'credits':
+            if orderBy not in ["Name", "SNo", "Designation"]:
+                orderBy = "Name"
+        elif tableName == 'sources':
+            if orderBy not in ["Name", "SNo"]:
+                orderBy = "Name"
+        else:
+            return None  # if tableName is not credits or sources
 
         if order not in ["ASC", "DESC"]:
             order = "ASC"
         try:
             self.cursor.execute(f"""-- sql
-                                    SELECT * FROM {self.tables.get('credits')}
+                                    SELECT * FROM {tableName}
                                     ORDER BY {orderBy} {order}
                                 """)
         except Exception as e:
