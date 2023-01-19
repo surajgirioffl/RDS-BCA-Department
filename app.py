@@ -26,6 +26,7 @@ from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
+from db_scripts import dynamic_contents as dynamicContents
 import setTimeZone as tz
 from dotenv import load_dotenv
 
@@ -112,7 +113,12 @@ def register():
 @app.route("/notice")
 def notice():
     logging.info("Notice page is called...")
-    return render_template('notice.html')
+    # fetching notice from database
+    notice = dynamicContents.DynamicContents().notice()
+    if notice is not None:
+        return render_template('notice.html', isNoticeAvailable=True, notice=notice)
+    else:
+        return render_template('notice.html', isNoticeAvailable=False)
 
 
 @app.route("/login", methods=["GET", "POST"])
