@@ -26,7 +26,9 @@
                 <img src="../static/gif/new2.gif" width="5%">
             </p>
             </div>
-            <a href="{{notice[7]}}" target="_blank"><button type="button" class="btn btn-info">{{notice[6]}}</button></a>
+            {%if notice[6] is not none%}
+                <a href="{{notice[7]}}" target="_blank"><button type="button" class="btn btn-info">{{notice[6]}}</button></a>
+            {%endif%}
             <!--<p style="margin: 1%;">Last Date: <span class="blink">15th Nov 2022<span></p>-->
             <p style="margin: 1%;">{{notice[8]}}: <span class="blink">{{notice[9]}}<span></p>
                 <span style="font-weight: 300; font-size: 70%; font-family: serif"><img src="../static/img/update.png" width="2.5%"><i> Last Updated On 9th January 2023 01:55 PM</i></span>
@@ -38,12 +40,16 @@
                 <div class="alert alert-primary bootstrap-alert" role="alert">
                     {{notice[10]}}
                 </div>
-                <div class="alert alert-success bootstrap-alert" role="alert">
-                        {{notice[11]}}
-                </div>
-                <div class="alert alert-success bootstrap-alert" role="alert">
-                        {{notice[12]}}
-                </div>
+                {%if notice[11] is not none%}
+                    <div class="alert alert-success bootstrap-alert" role="alert">
+                            {{notice[11]}}
+                    </div>
+                {%endif%}
+                {%if notice[12] is not none%}
+                    <div class="alert alert-success bootstrap-alert" role="alert">
+                            {{notice[12]}}
+                    </div>
+                {%endif%}
             </marquee>
         </div>
         
