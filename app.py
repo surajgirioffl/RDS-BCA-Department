@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 16th Jan 2022
+    @last-modified: 20th Jan 2022
     
     @description:
         * Module to run the web app and handle all the routes.
@@ -27,6 +27,7 @@ from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 from db_scripts import dynamic_contents as dynamicContents
+from app_scripts import my_time as myTime
 import setTimeZone as tz
 from dotenv import load_dotenv
 
@@ -116,6 +117,14 @@ def notice():
     # fetching notice from database
     notice = dynamicContents.DynamicContents().notice()
     if notice is not None:
+        # if notice is available
+        # date is on 13th index of the tuple. We will change MySQL date format to user friendly format.
+        print("MySQLDateTime:", notice[13], "Type:", type(notice[13]))
+        notice = list(notice)  # typecasting to list for updating a value
+
+        # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
+        # we will convert to datetime.datetime object to readable format.
+        notice[13] = myTime.readableDateTime(notice[13])
         return render_template('notice.html', isNoticeAvailable=True, notice=notice)
     else:
         return render_template('notice.html', isNoticeAvailable=False)
