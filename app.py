@@ -93,7 +93,12 @@ def displayResult():
 @app.route("/credits")
 def credits():
     logging.info("Credits page is called...")
-    return render_template('credits.html')
+
+    # fetching credits data from the database
+    credits = dynamicContents.DynamicContents().credits()
+    if credits is not None:  # if credits data are available
+        return render_template('credits.html', isCreditsAvailable=True, credits=credits)
+    return render_template('credits.html', isCreditsAvailable=False)
 
 
 @app.route("/gallery")
