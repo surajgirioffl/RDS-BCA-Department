@@ -66,26 +66,34 @@
     </button>
   </div>
 
-    <!-- Notification Starts-->
-    <div class="border-animation" id='notice'>
+  <!-- Notification Starts-->
+  {%if isNoticeAvailable%}
+      <div class="border-animation" id='notice'>
           <h4 style="text-decoration: underline;"><strong>NOTICE BOARD</strong><h4>
-          <marquee onmouseover="this.stop()" onmouseout="this.start()"><p><img src="../static/gif/new.gif"><a href="https://brabu.net/exam_form_voc_2022_2/index.php" target="_blank">BRABU Vocational Practical Examination will start around 15th January 2023 </a></p></marquee>
-
+          <marquee onmouseover="this.stop()" onmouseout="this.start()"><p><img src="../static/gif/new.gif"><a href="{{notice[2]}}" target="_blank">{{notice[1]}}</a></p></marquee>
+          
           <div class="alert alert-info" role="alert" id="noticeAlert">
-            Vocational Practical Examination For Sem - 2nd (2021-24), Sem - 3rd (2020-23) and Sem - 5th (2019-22)
+              {{notice[3]}}
           </div>
           <div class="alert alert-primary" role="alert" style="margin-top:-0.8%; padding-bottom: 0%;">
-            <p>
-                 <a href="https://drive.google.com/file/d/1CLbM_G6rOM-QgXLsxaSmE4U8t2zq0piV/view?usp=share_link" target="_blank"> Click Here For Official Notification And Exam Schedule</a>  
-                 <img src="../static/gif/new2.gif" width="5%">
-            </p>
-            </div>
-            <a href="/notice.pdf" target="_blank"><button type="button" class="btn btn-info">Click Here For Updated Notice</button></a>
-        <!--<p style="margin: 1%;">Last Date: <span class="blink">15th Nov 2022<span></p>-->
-          <p style="margin: 1%;">Exam Date: <span class="blink">Extended<span></p>
-        <span style="font-weight: 300; font-size: 70%; font-family: serif"><img src="../static/img/update.png" width="2.5%"><i> Last Updated On 9th January 2023 01:55 PM</i></span>
-    </div>
-    <!--Notification Ends-->
+          <p>
+              <a href="{{notice[5]}}" target="_blank"> {{notice[4]}}</a>  
+              <img src="../static/gif/new2.gif" width="5%">
+          </p>
+          </div>
+          {%if notice[6] is not none%}
+              <a href="{{notice[7]}}" target="_blank"><button type="button" class="btn btn-info">{{notice[6]}}</button></a>
+          {%endif%}
+          <!--<p style="margin: 1%;">Last Date: <span class="blink">15th Nov 2022<span></p>-->
+          <p style="margin: 1%;">{{notice[8]}}: <span class="blink">{{notice[9]}}<span></p>
+              <span style="font-weight: 300; font-size: 70%; font-family: serif"><img src="../static/img/update.png" width="2.5%"><i> Last Updated On {{notice[13]}}</i></span>
+      </div>
+  {%else%}
+      <div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center; margin-top: 2%;">
+          {{errorMessage|default("Notice Unavailable!")}}
+      </div>
+  {%endif%}
+  <!--Notification Ends-->
 
     <!--About Starts-->
     <div class="row about-wrapper">

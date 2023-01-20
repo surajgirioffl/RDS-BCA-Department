@@ -9,55 +9,44 @@
 <div class="main wrapper clearfix data">
     <p class="text-center fs-2 text fw-bolder">CREDITS</p>
     
-    <div class="alert alert-info" role="alert" style="padding:0.3%">
-        Arranged in Alphabetical Order!
-    </div>
+    {%if isCreditsAvailable%}
+            <div class="alert alert-info" role="alert" style="padding:0.3%">
+                Arranged in Alphabetical Order!
+            </div>
 
-    <div style="width:100%; margin:auto;padding:auto;">
-        <table class="table table-striped">
-            <thead>
-                <th>Name</th>
-                <th>Contribution</th>
-                <th>Contact</th>
-            </thead>
-            <tr>
-                <td>Abhishek Kumar</td>
-                <td>Database Creation, Designing, and Management</td>
-                <td><a href="https://instagram.com/abhiabhishek_offl" target="_blank">@AbhishekKumar</a></td>
-            </tr>
-
-            <tr>
-                <td>Anand Srivastava (Teacher)</td>
-                <td>Most of the Previous Year Questions</td>
-                <td><a href="https://github.com/anandrdscollege" target="_blank ">@AnandSrivastava</a></td>
-            </tr>
-
-            <tr>
-                <td>Nicky Ranjan</td>
-                <td>Pictures of the Gallery</td>
-                <td><a href="https://instagram.com/max__ranjan" target="_blank ">@NickyRanjan</a></td>
-            </tr>
-
-            <tr>
-                <td>Rashek Kumar (Teacher)</td>
-                <td>Most of the Previous Year Questions</td>
-                <td><a href="#">Not Available</a></td>
-            </tr>
-
-            <tr>
-                <td>Ritu Raj</td>
-                <td>Previous Year Question (Semester 3rd - 2020)</td>
-                <td><a href="https://instagram.com/beastkinn" target="_blank">@RituRaj</a></td>
-            </tr>
-
-            <tr>
-                <td>Siddhu Pandey</td>
-                <td>Publicity And Dissemination of Web Application</td>
-                <td><a href="https://instagram.com/siddhu.pandey.7" target="_blank">@SiddhuPandey</a></td>
-            </tr>
-
-        </table>
-    </div>
+            <div style="width:100%; margin:auto;padding:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Contribution</th>
+                        <th>Contact</th>
+                    </thead>
+                    {% for contributor in credits%}
+                        <tr>
+                            <td>{{contributor[1]}}
+                                {%if contributor[2] is not none%}
+                                    (<i>{{contributor[2]}}</i>)
+                                {%endif%}
+                            </td>
+                            <td>{{contributor[3]}}</td>
+                            <td>
+                                <a href={%if contributor[5] is not none%} "{{contributor[5]}}" target="_blank" {%else%} "javascript:void(0)" {%endif%}>
+                                    {%if contributor[4] is not none%}
+                                        {{contributor[4]}}
+                                    {%else%}
+                                        N/A
+                                    {%endif%}
+                                </a>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+    {%else%}
+        <div class="alert alert-danger" role="alert" style="padding:0.3%">
+                {{errorMessage|default('No contributors data Available!')}}
+        </div>
+    {%endif%}
 </div>
 
 {% endblock body%}
