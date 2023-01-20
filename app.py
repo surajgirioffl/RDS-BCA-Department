@@ -47,6 +47,19 @@ def home():
     global funCall
     funCall += 1
     print(f"Home page called {funCall} times")
+
+    # fetching notice from database
+    notice = dynamicContents.DynamicContents().notice()
+    if notice is not None:
+        # if notice is available
+        # date is on 13th index of the tuple. We will change MySQL date format to user friendly format.
+        print("MySQLDateTime:", notice[13], "Type:", type(notice[13]))
+        notice = list(notice)  # typecasting to list for updating a value
+
+        # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
+        # we will convert to datetime.datetime object to readable format.
+        notice[13] = myTime.readableDateTime(notice[13])
+        return render_template('index.html', isNoticeAvailable=True, notice=notice)
     return render_template('index.html')
 
 
