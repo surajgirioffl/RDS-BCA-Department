@@ -15,38 +15,38 @@
             </div>
 
             <div style="width:100%; margin:auto;padding:auto;">
-            <table class="table table-striped">
-                <thead>
-                    <th>Name</th>
-                    <th>Contribution</th>
-                    <th>Contact</th>
-                </thead>
-                {% for contributor in credits%}
-                    <tr>
-                        <td>{{contributor[1]}}
-                            {%if contributor[2] is not none%}
-                                (<i>{{contributor[2]}}</i>)
-                            {%endif%}
-                        </td>
-                        <td>{{contributor[3]}}</td>
-                        <td>
-                            <a href={%if contributor[5] is not none%} "{{contributor[5]}}" target="_blank" {%else%} "javascript:void(0)" {%endif%}>
-                                {%if contributor[4] is not none%}
-                                    {{contributor[4]}}
-                                {%else%}
-                                    N/A
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Contribution</th>
+                        <th>Contact</th>
+                    </thead>
+                    {% for contributor in credits%}
+                        <tr>
+                            <td>{{contributor[1]}}
+                                {%if contributor[2] is not none%}
+                                    (<i>{{contributor[2]}}</i>)
                                 {%endif%}
-                            </a>
-                        </td>
-                    </tr>
-                {%endfor%}
-            </table>
-        {%else%}
-            <div class="alert alert-danger" role="alert" style="padding:0.3%">
-                {{errorMessage|default('No contributors data Available!')}}
+                            </td>
+                            <td>{{contributor[3]}}</td>
+                            <td>
+                                <a href={%if contributor[5] is not none%} "{{contributor[5]}}" target="_blank" {%else%} "javascript:void(0)" {%endif%}>
+                                    {%if contributor[4] is not none%}
+                                        {{contributor[4]}}
+                                    {%else%}
+                                        N/A
+                                    {%endif%}
+                                </a>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </table>
             </div>
-        {%endif%}
-    </div>
+    {%else%}
+        <div class="alert alert-danger" role="alert" style="padding:0.3%">
+                {{errorMessage|default('No contributors data Available!')}}
+        </div>
+    {%endif%}
 </div>
 
 {% endblock body%}
