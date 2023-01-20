@@ -1,7 +1,7 @@
 """
     @author: Suraj Kumar Giri
     @init-date: 19th Jan 2023
-    @last-modified: 19th Jan 2023
+    @last-modified: 20th Jan 2023
 
     @description:
         * Module to handle all the time related operations involving in the web app.
@@ -31,22 +31,23 @@ def readableDateTime(dateTime: datetime.datetime = datetime.datetime.now()) -> s
     return dateTime.strftime("%d %b %Y %I:%M:%S %p")
 
 
-def readableMySqlDateTime(dateTime: str) -> str:
+def readableStringDateTime(dateTime: str) -> str:
     """
         Description:
-            - Function to convert MySQL datetime string to readable format.
+            - Function to convert string format of datetime to readable format.
             - Readable format is like 19 Jan 2023 12:30:00 PM
 
         Args:
             * dateTime (str):
-                - MySQL datetime string to be converted in to readable format.
+                - Datetime string to be converted in to readable format.
+                - Accepted format is "2023-01-09 13:55:30"
 
         Returns:
             * str:
                 - Readable datetime string.
                 - Format is like 19 Jan 2023 12:30:00 PM
     """
-    # Below is the format of MySQL datetime string
+    # Below is the format of MySQL datetime string (But by fetching DATETIME data using mysql.connector, it will convert it into python datetime.datetime object similarly as done by this function.)
     # 2023-01-09 13:55:30
 
     # fetching each element from the datetime string
@@ -63,4 +64,4 @@ def readableMySqlDateTime(dateTime: str) -> str:
 
 if __name__ == '__main__':
     print(readableDateTime())
-    print(readableMySqlDateTime('2023-01-09 13:55:30'))
+    print(readableStringDateTime('2023-01-09 13:55:30'))
