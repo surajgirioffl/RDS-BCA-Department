@@ -8,38 +8,32 @@
 <div class="main wrapper clearfix data">
     <p class="text-center fs-2 text fw-bolder">SOURCES</p>
     
-    <div class="alert alert-info" role="alert" style="padding:0.3%">
-        Arranged in Alphabetical Order!
-    </div>
+    {%if isSourcesAvailable%}
+        <div class="alert alert-info" role="alert" style="padding:0.3%">
+            Arranged in Alphabetical Order!
+        </div>
 
-    <div style="width:100%; margin:auto;padding:auto;">
-        <table class="table table-striped">
-            <thead>
-                <th>Source</th>
-                <th>Contribution</th>
-                <th>Connect</th>
-            </thead>
-
-            <tr>
-                <td>BRABU</td>
-                <td>Student's result and other details</td>
-                <td><a href="https://brabu.net/" target="_blank "><i class="material-icons icons registrationIcons">open_in_new</i></a></td>
-            </tr>
-
-            <tr>
-                <td>IGNOU</td>
-                <td>Some of the Study Materials</td>
-                <td><a href="http://www.ignou.ac.in/" target="_blank"><i class="material-icons icons registrationIcons">open_in_new</i></a></td>
-            </tr>
-
-            <tr>
-                <td>Vaishali Institute</td>
-                <td>Previous Year Questions of Vaishali Institute</td>
-                <td><a href="https://www.vibrm.in" target="_blank "><i class="material-icons icons registrationIcons">open_in_new</i></a></td>
-            </tr>
-
-        </table>
-    </div>
+        <div style="width:100%; margin:auto;padding:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Source</th>
+                        <th>Contribution</th>
+                        <th>Connect</th>
+                    </thead>
+                    {%for source in sources%}
+                        <tr>
+                            <td>{{source[1]}}</td>
+                            <td>{{source[2]}}</td>
+                            <td><a href= {%if sources[3] is not none%} "{{source[3]}}" target="_blank" {%else%} "javascript:void(0)" {%endif%}><i class="material-icons icons registrationIcons">open_in_new</i></a></td>
+                        </tr>
+                    {%endfor%}
+                </table>
+        </div>
+    {%else%}
+        <div class="alert alert-danger" role="alert" style="padding:0.3%">
+                {{errorMessage|default('No sources data Available!')}}
+        </div>
+    {%endif%}
 </div>
 
 {% endblock body%}
