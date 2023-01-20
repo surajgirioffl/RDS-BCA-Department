@@ -187,6 +187,10 @@ def semesterWiseStudyMaterials(semester):
 
 @app.route('/sources', methods=['GET'])
 def sources():
+    # fetching sources data from the database
+    sources = dynamicContents.DynamicContents().sources()
+    if sources is not None:  # if credits data are available
+        return render_template('sources.html', isSourcesAvailable=True, sources=sources)
     return render_template('sources.html')
 
 
