@@ -39,24 +39,18 @@ app = Flask(__name__)
 
 funCall = 0
 
-# fetched notice to be used if request on another route without fetching from database again
-fetchedNotice = None  # default to None
-
 
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
     logging.info('Home page is called...')
-    global funCall, fetchedNotice
+    global funCall
     funCall += 1
     print(f"Home page called {funCall} times")
 
-    # fetching notice from database if not already fetched by 'notice' method
-    if not fetchedNotice:
-        notice = dynamicContents.DynamicContents().notice()
-    else:  # if notice is already fetched then no need to query from database again
-        print("Notice is already available. No need to fetch from database again. Serving from global variable fetchedNotice")
-        return render_template('index.html', isNoticeAvailable=True, notice=fetchedNotice)
+    # fetching notice from database
+    print('Fetching notice from the database...')
+    notice = dynamicContents.DynamicContents().notice()
 
     if notice is not None:
         # if notice is available
@@ -67,9 +61,6 @@ def home():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-
-        # setting the global variable fetchedNotice. So, next time if any route request latest notice (default in GET request) then it will used.
-        fetchedNotice = notice
         return render_template('index.html', isNoticeAvailable=True, notice=notice)
     return render_template('index.html')
 
@@ -137,15 +128,10 @@ def register():
 
 @app.route("/notice")
 def notice():
-    global fetchedNotice
     logging.info("Notice page is called...")
 
-    # fetching notice from database if not already fetched by 'notice' method
-    if not fetchedNotice:
-        notice = dynamicContents.DynamicContents().notice()
-    else:  # if notice is already fetched then no need to query from database again
-        print("Notice is already available. No need to fetch from database again. Serving from global variable fetchedNotice")
-        return render_template('notice.html', isNoticeAvailable=True, notice=fetchedNotice)
+    # fetching notice from database
+    notice = dynamicContents.DynamicContents().notice()
 
     if notice is not None:
         # if notice is available
@@ -156,9 +142,6 @@ def notice():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-
-        # setting the global variable fetchedNotice. So, next time if any route request latest notice (default in GET request) then it will used.
-        fetchedNotice = notice
         return render_template('notice.html', isNoticeAvailable=True, notice=notice)
     else:
         return render_template('notice.html', isNoticeAvailable=False)
