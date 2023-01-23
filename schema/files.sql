@@ -45,3 +45,16 @@ CREATE TABLE IF NOT EXISTS file_contents_info(
     `Keywords` VARCHAR(600) NOT NULL,
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
+
+----
+-- 5. Table `files_metadata`
+----
+CREATE TABLE IF NOT EXISTS `files_metadata`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
+    `FileName` VARCHAR(100) NOT NULL,
+    `DownloadName` VARCHAR(100) NOT NULL,
+    `Extension` VARCHAR(10) NOT NULL,
+    `Size` VARCHAR(20) NOT NULL,
+    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+);
