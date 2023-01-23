@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS files(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `Title` VARCHAR(255) NOT NULL,
-    `Permission` ENUM('Public', 'Private', 'Restricted') NOT NULL DEFAULT 'Public'
+    `Access` ENUM('Public', 'Private', 'Restricted') NOT NULL DEFAULT 'Public'
 );
 
 ----
