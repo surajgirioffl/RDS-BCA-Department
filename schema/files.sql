@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `files_tracking`(
 
 ----
 -- 9. Table `credits`
+-- Write username instead of full name in attributes such as UploadedBy, LastModifiedBy, ApprovedBy etc to identify the user from users and related database.
 ----
 CREATE TABLE IF NOT EXISTS `credits`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
