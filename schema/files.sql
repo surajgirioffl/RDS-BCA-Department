@@ -58,3 +58,12 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `Size` VARCHAR(20) NOT NULL,
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
+
+----
+-- 6. Table `files_type`
+----
+CREATE TABLE IF NOT EXISTS `files_type`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Extension` VARCHAR(10) NOT NULL PRIMARY KEY,
+    `FileType` VARCHAR(30)
+);
