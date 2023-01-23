@@ -2,14 +2,15 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 22nd Jan 2023
+-- Last updated on: 23nd Jan 2023
 ----
 -- 1. Table `files`
 ----
 CREATE TABLE IF NOT EXISTS files(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
-    `Title` VARCHAR(255) NOT NULL
+    `Title` VARCHAR(255) NOT NULL,
+    `Permission` ENUM('Public', 'Private', 'Restricted') NOT NULL DEFAULT 'Public'
 );
 
 ----
