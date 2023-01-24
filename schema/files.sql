@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `DownloadName` VARCHAR(100) NOT NULL,
     `Extension` VARCHAR(10) NOT NULL,
     `Size` VARCHAR(20) NOT NULL,
+    INDEX `ExtensionIndex` (Extension),
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
 
@@ -111,6 +112,7 @@ CREATE TABLE IF NOT EXISTS `credits`(
     `ApprovedBy` VARCHAR(50) NOT NULL,
     `ApprovedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `RootSource` VARCHAR(100) NOT NULL,
+    INDEX `RootSourceIndex` (RootSource),
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
 
