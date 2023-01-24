@@ -95,7 +95,8 @@ def credits():
     logging.info("Credits page is called...")
 
     # fetching credits data from the database
-    credits = dynamicContents.DynamicContents().credits()
+    credits = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
+        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).credits()
     if credits is not None:  # if credits data are available
         return render_template('credits.html', isCreditsAvailable=True, credits=credits)
     return render_template('credits.html', isCreditsAvailable=False)
@@ -136,7 +137,8 @@ def notice():
     logging.info("Notice page is called...")
 
     # fetching notice from database
-    notice = dynamicContents.DynamicContents().notice()
+    notice = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
+        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).notice()
 
     if notice is not None:
         # if notice is available
@@ -188,7 +190,8 @@ def semesterWiseStudyMaterials(semester):
 @app.route('/sources', methods=['GET'])
 def sources():
     # fetching sources data from the database
-    sources = dynamicContents.DynamicContents().sources()
+    sources = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
+        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).sources()
     if sources is not None:  # if credits data are available
         return render_template('sources.html', isSourcesAvailable=True, sources=sources)
     return render_template('sources.html')
