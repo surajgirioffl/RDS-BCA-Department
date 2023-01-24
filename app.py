@@ -34,6 +34,14 @@ from dotenv import load_dotenv
 load_dotenv()  # loading environment variables from .env file
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
 
+# database credentials
+databaseCredentials = {
+    "host": os.environ.get('DBHOST'),
+    "user": os.environ.get('DBUSERNAME'),
+    "port": int(os.environ.get('DBPORT')),
+    "password": os.environ.get('DBPASSWORD')
+}
+
 app = Flask(__name__)
 
 
@@ -95,8 +103,7 @@ def credits():
     logging.info("Credits page is called...")
 
     # fetching credits data from the database
-    credits = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
-        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).credits()
+    credits = dynamicContents.DynamicContents(**databaseCredentials).credits()
     if credits is not None:  # if credits data are available
         return render_template('credits.html', isCreditsAvailable=True, credits=credits)
     return render_template('credits.html', isCreditsAvailable=False)
@@ -137,8 +144,7 @@ def notice():
     logging.info("Notice page is called...")
 
     # fetching notice from database
-    notice = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
-        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).notice()
+    notice = dynamicContents.DynamicContents(**databaseCredentials).notice()
 
     if notice is not None:
         # if notice is available
@@ -190,8 +196,7 @@ def semesterWiseStudyMaterials(semester):
 @app.route('/sources', methods=['GET'])
 def sources():
     # fetching sources data from the database
-    sources = dynamicContents.DynamicContents(host=os.environ.get('DBHOST'), user=os.environ.get(
-        'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD')).sources()
+    sources = dynamicContents.DynamicContents(**databaseCredentials).sources()
     if sources is not None:  # if credits data are available
         return render_template('sources.html', isSourcesAvailable=True, sources=sources)
     return render_template('sources.html')
@@ -256,8 +261,7 @@ def ip():
         if system() == 'Windows':
             ipObject = ipDB.IP()  # Every parameter will be default. (for local machine)
         else:  # it's for the server which running on linux.
-            ipObject = ipDB.IP(host=os.environ.get('DBHOST'), user=os.environ.get(
-                'DBUSERNAME'), port=int(os.environ.get('DBPORT')), password=os.environ.get('DBPASSWORD'))
+            ipObject = ipDB.IP(**databaseCredentials)
         if ipObject.connectionStatus:
             ipObject.insertInfo(**ipDictionary)
             return 'success'
