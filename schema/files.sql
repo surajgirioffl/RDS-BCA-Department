@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 24th Jan 2023
+-- Last updated on: 25th Jan 2023
 ----
 -- 1. Table `files`
 ----
@@ -119,13 +119,13 @@ CREATE TABLE IF NOT EXISTS `creditors_info` (
 CREATE TABLE IF NOT EXISTS `credits`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
-    `SubmitterId` SMALLINT NOT NULL,
+    `SubmitterId` SMALLINT UNSIGNED NOT NULL,
     `SubmittedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `UploaderId` SMALLINT NOT NULL,
+    `UploaderId` SMALLINT UNSIGNED NOT NULL,
     `UploadedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ModifierId` SMALLINT NOT NULL,
+    `ModifierId` SMALLINT UNSIGNED NOT NULL,
     `LastModifiedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ApproverId` SMALLINT NOT NULL,
+    `ApproverId` SMALLINT UNSIGNED NOT NULL,
     `ApprovedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `RootSource` VARCHAR(100) NOT NULL,
     INDEX `RootSourceIndex` (RootSource),
