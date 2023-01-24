@@ -58,7 +58,7 @@ def home():
 
     # fetching notice from database
     print('Fetching notice from the database...')
-    notice = dynamicContents.DynamicContents().notice()
+    notice = dynamicContents.DynamicContents(**databaseCredentials).notice()
 
     if notice is not None:
         # if notice is available
