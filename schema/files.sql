@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 23nd Jan 2023
+-- Last updated on: 24th Jan 2023
 ----
 -- 1. Table `files`
 ----
@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS files(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `Title` VARCHAR(255) NOT NULL,
-    `Access` ENUM('Public', 'Private', 'Restricted') NOT NULL DEFAULT 'Public'
+    `Access` ENUM('Public', 'Private', 'Restricted') NOT NULL DEFAULT 'Public',
+    `ServeVia` ENUM('FileSystem', 'Drive') NOT NULL DEFAULT 'Drive'
 );
 
 ----
