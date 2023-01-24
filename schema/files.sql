@@ -65,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
 CREATE TABLE IF NOT EXISTS `files_type`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `Extension` VARCHAR(10) NOT NULL PRIMARY KEY,
-    `FileType` VARCHAR(30) NOT NULL
+    `FileType` VARCHAR(30) NOT NULL,
+    FOREIGN KEY (Extension) REFERENCES files_metadata(Extension)
 );
 
 ----
