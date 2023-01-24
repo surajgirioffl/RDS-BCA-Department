@@ -111,3 +111,14 @@ CREATE TABLE IF NOT EXISTS `credits`(
     `RootSource` VARCHAR(100) NOT NULL,
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
+
+----
+-- 10. Table `root_source`
+----
+CREATE TABLE IF NOT EXISTS `root_source` (
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `RootSource` VARCHAR(100) NOT NULL PRIMARY KEY,
+    `SourceFileLink` VARCHAR(200) DEFAULT NULL,
+    `ContactSource` VARCHAR(100) NOT NULL,
+    FOREIGN KEY (RootSource) REFERENCES credits(RootSource)
+);
