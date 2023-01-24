@@ -111,22 +111,26 @@ CREATE TABLE IF NOT EXISTS `creditors_info` (
 
 ----
 -- 10. Table `credits`
--- Write username instead of full name in attributes such as UploadedBy, LastModifiedBy, ApprovedBy etc to identify the user from users and related database.
+-- Write Id of table 'creditors_info' instead of full name or username in attributes such as UploadedBy, LastModifiedBy, ApprovedBy etc to identify the user from users and related databases.
 ----
 CREATE TABLE IF NOT EXISTS `credits`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
-    `Submittedby` VARCHAR(50) DEFAULT NULL,
+    `SubmitterId` SMALLINT NOT NULL,
     `SubmittedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `UploadedBy` VARCHAR(50) NOT NULL,
+    `UploaderId` SMALLINT NOT NULL,
     `UploadedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `LastModifiedBy` VARCHAR(50) NOT NULL,
+    `ModifierId` SMALLINT NOT NULL,
     `LastModifiedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `ApprovedBy` VARCHAR(50) NOT NULL,
+    `ApproverId` SMALLINT NOT NULL,
     `ApprovedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `RootSource` VARCHAR(100) NOT NULL,
     INDEX `RootSourceIndex` (RootSource),
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES Files(FileId),
+    FOREIGN KEY (SubmitterId) REFERENCES creditors_info(Id),
+    FOREIGN KEY (UploaderId) REFERENCES creditors_info(Id),
+    FOREIGN KEY (ModifierId) REFERENCES creditors_info(Id),
+    FOREIGN KEY (ApproverId) REFERENCES creditors_info(Id)
 );
 
 ----
