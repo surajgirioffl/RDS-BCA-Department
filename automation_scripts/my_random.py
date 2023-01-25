@@ -102,6 +102,11 @@ class Random:
         numberList = [random.choice(digits)for _ in range(self.numberOfDigits)]
         return int("".join(numberList))
 
+    def __pyIntRandom(self) -> int | None:
+        if self.numberOfDigits > 0:
+            return random.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
+        return None
+
 
 if __name__ == "__main__":
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
