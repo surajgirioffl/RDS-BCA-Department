@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 24th Jan 2023
+    @last-modified: 25th Jan 2023
     
     @description:
         * Module to insert data into the database rdsbca$files.
@@ -37,6 +37,21 @@ class Files:
                 self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             except Exception as e:
                 print("Unable to set time_zone. Error code 1301")
+
+            # listing all the tables in the database
+            self.tables = {
+                'files': 'files',
+                'files_path': 'files_path',
+                'drive': 'drive',
+                'file_contents_info': 'file_contents_info',
+                'files_metadata': 'files_metadata',
+                'files_type': 'files_type',
+                'files_info': 'files_info',
+                'files_tracking': 'files_tracking',
+                'creditors_info': 'creditors_info',
+                'credits': 'credits',
+                'root_sources': 'root_sources'
+            }
 
     def __del__(self):
         ...
