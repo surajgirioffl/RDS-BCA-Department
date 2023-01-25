@@ -57,7 +57,7 @@ class Random:
         Description:
             - Class to generate random numbers of desired digits.
             - Also provide facility to generate number which is not already exists in the database.
-        
+
         Methods:
             *
     """
@@ -68,6 +68,26 @@ class Random:
         self.columnName = columnName
         self.numberOfDigits = digits
         self.kwargs = kwargs
+
+    def __mysqlRandom(self) -> int | None:
+        try:
+            if self.cursor is ...:
+                raise Exception("Cursor object is not provided")
+        except Exception as e:
+            print("Exception:", e)
+            return None
+
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT FLOOR(RAND()* {10**self.numberOfDigits}) as Value
+                                """)
+            number = self.cursor.fetchone()
+            if number is None:
+                return None
+            return number[0]
+        except Exception as e:
+            print("Something went wrong while executing the query... Error code 1301")
+            return None
 
 
 if __name__ == "__main__":
