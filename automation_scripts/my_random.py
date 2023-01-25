@@ -89,6 +89,19 @@ class Random:
             print("Something went wrong while executing the query... Error code 1301")
             return None
 
+    def __pyStrRandom(self) -> int | None:
+        if self.numberOfDigits < 0:
+            return None
+
+        global digits
+        # strings are immutable in python. So, we can't use random.shuffle() on it.
+        # So, converting the string to list and then shuffling it.
+        # digits is a string containing all digits from 0 to 9
+        digits = list(digits)
+        random.shuffle(digits)  # shuffling the list
+        numberList = [random.choice(digits)for _ in range(self.numberOfDigits)]
+        return int("".join(numberList))
+
 
 if __name__ == "__main__":
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
