@@ -131,7 +131,7 @@ class Random:
             number = self.cursor.fetchone()
             if number is None:
                 return None
-            return number[0]
+            return int(number[0])
         except Exception as e:
             print("Something went wrong while executing the query... Error code 1301")
             return None
