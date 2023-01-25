@@ -250,7 +250,7 @@ if __name__ == "__main__":
     print(Random(cursor, 'users', 'userId', method='pyInt').generate())
 
     print("With checking the database and using method pyStr", end=": ")
-    print(Random(cursor, 'users', 'userId', method='myStr').generate())
+    print(Random(cursor, 'users', 'userId', method='pyStr').generate())
 
     
     conn.close()
