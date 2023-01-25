@@ -107,6 +107,42 @@ class Random:
             return random.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
         return None
 
+    def generate(self, checkInDatabase: bool = True) -> int:
+        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr']:
+            category = 'pyInt'  # default method to generate random number
+        else:
+            category = self.kwargs.get('method')
+
+        # now storing the desired method in a variable 'method' for further use without using if-else every time.
+        if category == 'mysql':
+            method = self.__mysqlRandom
+        elif category == 'pyStr':
+            method = self.__pyStrRandom
+        else:
+            method = self.__pyIntRandom
+
+        if checkInDatabase:
+            while True:
+                number = method()
+                if number is None:
+                    # default method to generate random number if any error occurred
+                    number = self.__pyIntRandom()
+                isNumberExists = isExists(
+                    self.cursor, number, self.tableName, self.columnName) is None
+                if isNumberExists is None:
+                    raise Exception(
+                        "Database is not connected or configured properly. Error code 1303")
+                elif isNumberExists:
+                    continue  # if number already exists then generate another number because we don't want duplicate numbers
+                else:
+                    return number
+        else:
+            number = method()
+            if number is None:
+                # default method to generate random number if any error occurred
+                number = self.__pyIntRandom()
+            return number
+
 
 if __name__ == "__main__":
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
