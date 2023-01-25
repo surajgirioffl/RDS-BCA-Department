@@ -7,6 +7,13 @@
     @description:
         * Module to generate random numbers of desired digits.
         * Also check if number already exists in the database or not.
+    
+    @classes:
+        * Random:
+            - Class to handle all operations related to generating random numbers, checking the existence of number in the database etc.
+    @methods:
+        * isExists():
+            - Function to check if number already exists in the database or not. 
 """
 import random
 import mysql.connector as mysql
@@ -252,5 +259,4 @@ if __name__ == "__main__":
     print("With checking the database and using method pyStr", end=": ")
     print(Random(cursor, 'users', 'userId', method='pyStr').generate())
 
-    
     conn.close()
