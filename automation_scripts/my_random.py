@@ -59,10 +59,39 @@ class Random:
             - Also provide facility to generate number which is not already exists in the database.
 
         Methods:
-            *
+            * generate():
+                - Method to generate random number.
     """
 
-    def __init__(self, cursor: Type[mysql.connect().cursor] = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> int | None:
+    def __init__(self, cursor: Type[mysql.connect().cursor] = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> None:
+        """
+            Description:
+                - Class to generate random numbers of desired digits based on specified parameters.
+                - Constructor to initialize the class.
+
+            Args:
+                * cursor (Type[mysql.connect, optional):
+                    - Defaults to ...(ellipsis) which means cursor object is not provided.
+                * tableName (str, optional):
+                    - Defaults to ...(ellipsis) which means table name is not provided.
+                * columnName (str, optional):
+                    - Defaults to ...(ellipsis) which means column name is not provided.
+                * digits (int, optional):
+                    - Number of digits of the random number.
+                    - Defaults to 8.
+                * kwargs (dict, optional):
+                    - key arguments to pass additional parameters.
+                    - You can pass key 'method' to specify the method to generate random number.
+                    - Pass any other key-value if required. If key is not provided, default value will be used.
+
+            Returns:
+                * None:
+
+            Additional Info:
+                * Provide database related parameters only if you want to check if number already exists in the database or not.
+                * It also depends on the method you are using to generate random number.
+                * If you are using mysql method, then you have to provide database related parameters.
+        """
         self.cursor = cursor
         self.tableName = tableName
         self.columnName = columnName
@@ -70,6 +99,20 @@ class Random:
         self.kwargs = kwargs
 
     def __mysqlRandom(self) -> int | None:
+        """
+            Description:
+                - Method to generate random number using mysql RAND() function and other functions of mysql.
+
+            Raises:
+                * Exception:
+                    - If cursor object is not provided.
+
+            Returns:
+                * None: 
+                    - Returns None if any error occurred while executing the query or any other error occurred.
+                * int
+                    - Returns random number if no error occurred.
+        """
         try:
             if self.cursor is ...:
                 raise Exception("Cursor object is not provided")
@@ -90,6 +133,16 @@ class Random:
             return None
 
     def __pyStrRandom(self) -> int | None:
+        """
+            Description:
+                - Method to generate random number using python's random module.
+
+            Returns:
+                * None: 
+                    - Returns None if any error occurred while executing the query or any other error occurred.
+                * int
+                    - Returns random number if no error occurred.
+        """
         if self.numberOfDigits < 0:
             return None
 
@@ -103,11 +156,41 @@ class Random:
         return int("".join(numberList))
 
     def __pyIntRandom(self) -> int | None:
+        """
+            Description:
+                - Method to generate random number using python's random and string modules.
+
+            Returns:
+                * None: 
+                    - Returns None if any error occurred while executing the query or any other error occurred.
+                * int
+                    - Returns random number if no error occurred.
+        """
         if self.numberOfDigits > 0:
             return random.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
         return None
 
     def generate(self, checkInDatabase: bool = True) -> int:
+        """
+            Description:
+                - Method to generate random number.
+                - Prime method to handle all the methods to generate random number.
+
+            Args:
+                * checkInDatabase (bool, optional): 
+                    - If specified true, then it will check if number already exists in the database or not.
+                        - So, if number already exists, then it will generate another random number to return UNIQUE number.
+                    - if specified false, then it will not check if number already exists in the database or not and returns whatever number it generates in the first attempt. 
+                    - Defaults to True.
+
+            Raises:
+                * Exception:
+                    - If Database is not connected or configured properly, so that it can check if number already exists in the database or not.
+
+            Returns:
+                * int:
+                    - Returns random number.
+        """
         if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr']:
             category = 'pyInt'  # default method to generate random number
         else:
