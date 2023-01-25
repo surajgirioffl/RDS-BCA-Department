@@ -211,7 +211,7 @@ class Random:
                     # default method to generate random number if any error occurred
                     number = self.__pyIntRandom()
                 isNumberExists = isExists(
-                    self.cursor, number, self.tableName, self.columnName) is None
+                    self.cursor, number, self.tableName, self.columnName)
                 if isNumberExists is None:
                     raise Exception(
                         "Database is not connected or configured properly. Error code 1303")
@@ -228,12 +228,14 @@ class Random:
 
 
 if __name__ == "__main__":
+    # testing the functionality of the class Random
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
         'DBPORT')) if environ.get('DBPORT') is not None else 3306, password=environ.get('DBPASSWORD'), database="temp",)
     cursor = conn.cursor()
-    if isExists(cursor, 1235, 'users', 'userId') is None:
-        print("Something went wrong while executing the query... Error code 1300")
-    elif isExists(cursor, 1235, 'users', 'userId'):
-        print("Number already exists")
-    else:
-        print("Number does not exists")
+
+    # Without checking the database and without specifying the method to generate random number
+    print(Random().generate(False))
+
+    # With checking the database and without specifying the method to generate random number
+    print(Random(cursor=cursor, tableName='users', columnName='Id').generate())
+    conn.close()
