@@ -11,6 +11,8 @@
 import random
 import mysql.connector as mysql
 from os import environ
+from typing import Type
+from string import digits
 
 
 def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, columnName: str) -> bool | None:
@@ -48,6 +50,24 @@ def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, column
         print("Something went wrong while executing the query... Error code 1300")
         print("Exception:", e)
         return None
+
+
+class Random:
+    """
+        Description:
+            - Class to generate random numbers of desired digits.
+            - Also provide facility to generate number which is not already exists in the database.
+        
+        Methods:
+            *
+    """
+
+    def __init__(self, cursor: Type[mysql.connect().cursor] = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> int | None:
+        self.cursor = cursor
+        self.tableName = tableName
+        self.columnName = columnName
+        self.numberOfDigits = digits
+        self.kwargs = kwargs
 
 
 if __name__ == "__main__":
