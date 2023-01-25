@@ -83,6 +83,10 @@ class Random:
                     - key arguments to pass additional parameters.
                     - You can pass key 'method' to specify the method to generate random number.
                     - Pass any other key-value if required. If key is not provided, default value will be used.
+                    - methods:
+                        - ['mysql', 'pyInt', 'pyStr']
+                        - You can pass any of the above three methods to generate random number. Default is 'pyInt'.
+                        - And if any error occurs in other method then automatically 'pyInt' will be use to generate random number irrespective which method was passed.
 
             Returns:
                 * None:
@@ -233,9 +237,20 @@ if __name__ == "__main__":
         'DBPORT')) if environ.get('DBPORT') is not None else 3306, password=environ.get('DBPASSWORD'), database="temp",)
     cursor = conn.cursor()
 
-    # Without checking the database and without specifying the method to generate random number
+    print("Without checking the database and without specifying the method to generate random number", end=": ")
     print(Random().generate(False))
 
-    # With checking the database and without specifying the method to generate random number
-    print(Random(cursor=cursor, tableName='users', columnName='Id').generate())
+    print("With checking the database and without specifying the method to generate random number", end=": ")
+    print(Random(cursor=cursor, tableName='users', columnName='userId').generate())
+
+    print("With checking the database and using method mysql", end=": ")
+    print(Random(cursor, 'users', 'userId', method='mysql').generate())
+
+    print("With checking the database and using method pyInt", end=": ")
+    print(Random(cursor, 'users', 'userId', method='pyInt').generate())
+
+    print("With checking the database and using method pyStr", end=": ")
+    print(Random(cursor, 'users', 'userId', method='myStr').generate())
+
+    
     conn.close()
