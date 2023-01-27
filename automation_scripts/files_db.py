@@ -9,6 +9,7 @@
 """
 from os import environ
 import mysql.connector as mysql
+import my_random as myRandom
 
 
 class Files:
@@ -53,8 +54,17 @@ class Files:
                 'root_sources': 'root_sources'
             }
 
-    def __del__(self):
-        ...
+    def __del__(self) -> None:
+        """
+            Description:
+                - Destructor to delete the object after committing the changes and closing the database.
+
+            Returns:
+                * None
+        """
+        if self.connectionStatus:
+            self.conn.commit()
+            self.conn.close()
 
 
 if __name__ == '__main__':
