@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 25th Jan 2023
+-- Last updated on: 27th Jan 2023
 ----
 -- 1. Table `files`
 ----
@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `files_tracking`(
 CREATE TABLE IF NOT EXISTS `creditors_info` (
     `Id` SMALLINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `Name` VARCHAR(100) NOT NULL,
+    `Email` VARCHAR(100) UNIQUE NOT NULL,
     `Designation` VARCHAR(50) DEFAULT NULL,
     `Username` VARCHAR(50) UNIQUE DEFAULT NULL,
     `AccountId` INT UNSIGNED UNIQUE DEFAULT NULL,
