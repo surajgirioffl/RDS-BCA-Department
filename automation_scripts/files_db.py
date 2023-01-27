@@ -67,22 +67,5 @@ class Files:
             self.conn.close()
 
 
-class UserInput:
-    """
-        description:
-            * Class to get the user input and validate it and send to Files.insert() method to insert into desired table of the database.
-    """
-
-    def __init__(self, filesObject: Files) -> None:
-        """
-            Description:
-                - Constructor of class UserInput.
-            Args:
-                * filesObject (Files): 
-                    - Object of class Files.
-        """
-        self.files = filesObject
-
-
 if __name__ == '__main__':
     Files()
