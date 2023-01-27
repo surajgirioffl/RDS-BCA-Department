@@ -142,5 +142,11 @@ class Files:
                             """)
 
 
+def main():
+    files = Files()
+    files.files()
+
+
 if __name__ == '__main__':
-    Files()
+    print("\033[2J\033[H")
+    main()
