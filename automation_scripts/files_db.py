@@ -3,7 +3,7 @@
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
     @last-modified: 25th Jan 2023
-    
+
     @description:
         * Module to insert data into the database rdsbca$files.
 """
@@ -65,6 +65,23 @@ class Files:
         if self.connectionStatus:
             self.conn.commit()
             self.conn.close()
+
+
+class UserInput:
+    """
+        description:
+            * Class to get the user input and validate it and send to Files.insert() method to insert into desired table of the database.
+    """
+
+    def __init__(self, filesObject: Files) -> None:
+        """
+            Description:
+                - Constructor of class UserInput.
+            Args:
+                * filesObject (Files): 
+                    - Object of class Files.
+        """
+        self.files = filesObject
 
 
 if __name__ == '__main__':
