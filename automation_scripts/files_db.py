@@ -51,6 +51,42 @@ class Files:
             self.conn.commit()
             self.conn.close()
 
+    def setTableAttributes(self) -> None:
+        # listing all the tables in the database along with their attributes
+        # only those tables are listed in which data need to be inserted. So, table like 'files_tracking' etc are not listed.
+        self.tables = {
+            'files': ["SNo", "FileId", "Title", "Access", "ServeVia"],
+            'files_path': ["SNo", "FileId", "FilePath"],
+            'drive': ["SNo", "FileId", "ViewLink", "DownloadLink"],
+            'file_contents_info': ["SNo", "FileId", "Description", "Keywords"],
+            'files_metadata': ["SNo", "FileId", "FileName", "DownloadName", "Extension", "Size"],
+            'files_type': ["SNo", "Extension", "FileType"],
+            'files_info': ["SNo", "FileId", "Category", "FileFor", "DateCreated", "DateModified", "Tags"],
+            'creditors_info': ["Id", "Name", "Email", "Designation", "Username", "AccountId", "Contact"],
+            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSource"],
+            'root_sources': ["SNo", "RootSource", "SourceFileLink", "ContactSource"]
+        }
+
+        # attributes of type ENUM (means having a predefined values)
+        self.enumAttributes = {
+            "Access": {
+                "options": ["Public", "Private", "Restricted"],
+                "default": "Public"
+            },
+            "ServeVia": {
+                "options": ["FileSystem", "Drive"],
+                "default": "Drive"
+            }
+        }
+
+        # attributes having default values except NULL as default value (auto-increment is included)
+        # attributes in which DEFAULT need to be set if user doesn't provide any value or no need to provide value
+        # mysql date time is like : 2023-01-28 01:00:46 (CURRENT_TIMESTAMP)
+        # Except ENUM attributes
+        self.passDefault = ["SNo", "Access", "ServeVia", "DateCreated",
+                            "DateModified", "SubmittedOn", "UploadedOn", "LastModifiedOn", "ApprovedOn"]
+
+        # don't ask from 
     # Now taking input from user and inserting into database (Table by Table).
     def files(self) -> int:
         print("------------------------------Table files------------------------------")
