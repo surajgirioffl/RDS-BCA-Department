@@ -88,7 +88,9 @@ def displayResult():
         print(clientDataDict)
         if clientDataDict.get('session') == None or clientDataDict.get('semester') == None or clientDataDict.get('idValue') == None or clientDataDict.get('idName') not in ['registrationNo', 'examRoll', 'classRoll']:
             # if user has changed the name using dev tools.
-            return render_template('display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
+            content = render_template(
+                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
+            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
 
         result = db.Result(clientDataDict.get('session'), clientDataDict.get(
             'semester'))  # creating instance of Result class
