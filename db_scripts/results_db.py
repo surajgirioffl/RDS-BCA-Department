@@ -38,15 +38,23 @@ class Result:
         """
         self.session = session
         self.semester = semester
-        self.conn = sqlite.connect(f"database/{session}.db")
-        self.cursor = self.conn.cursor()
+        try:
+            self.conn = sqlite.connect(f"database/{session}.db")
+            self.cursor = self.conn.cursor()
+            self.connectionStatus = True  # flag to check if connection is established or not
+        except Exception as e:
+            print(
+                f"Unable to connect with the database of session {session}. Error code 1400")
+            print("Exception:", e)
+            self.connectionStatus = False  # if connection not established
 
     def __del__(self):
         """
             Description:
                 - To close the database connection when constructor called.
         """
-        self.conn.close()
+        if self.connectionStatus:
+            self.conn.close()
 
     def __fetchAllData(self, registrationNo: str) -> dict | None:
         """
