@@ -21,7 +21,8 @@ __version__ = "2.0.0"
 from platform import system
 import os
 import logging
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify
+from http import HTTPStatus
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
@@ -125,8 +126,10 @@ def previousYearQuestions():
         print(userSelection)
         print("semester: ", userSelection.get('semester'))
         if(userSelection.get('semester') == None or userSelection.get('source') == None):
-            # if user has changed the name using dev tools.
-            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=None, errorMessage="Invalid Request")
+            # if user has changed the name using dev tools. INVALID REQUEST
+            content = render_template('previousYearQuestions.html', isSubmitClicked=True,
+                                      databaseResponse=None, errorMessage="Invalid Request")
+            return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
         pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
         databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
         return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
