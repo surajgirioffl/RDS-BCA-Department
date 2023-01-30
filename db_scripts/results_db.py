@@ -12,6 +12,7 @@
 __author__ = 'Suraj Kumar Giri'
 __email__ = 'surajgirioffl@gmail.com'
 
+import os
 import sqlite3 as sqlite
 
 
@@ -39,6 +40,8 @@ class Result:
         self.session = session
         self.semester = semester
         try:
+            if not os.path.exists(os.getcwd() + f"/database/{session}.db"):
+                raise Exception("Invalid database name.")
             self.conn = sqlite.connect(f"database/{session}.db")
             self.cursor = self.conn.cursor()
             self.connectionStatus = True  # flag to check if connection is established or not
