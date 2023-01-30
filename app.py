@@ -143,6 +143,13 @@ def previousYearQuestions():
             content = render_template('previousYearQuestions.html', isSubmitClicked=True,
                                       databaseResponse=None, errorMessage="Invalid Request")
             return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+
+        # validating semester
+        if userSelection.get('semester') not in ['1', '2', '3', '4', '5', '6']:
+            content = render_template('previousYearQuestions.html', isSubmitClicked=True,
+                                      databaseResponse=None, errorMessage="Invalid Request")
+            return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+
         pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
         databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
         return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
