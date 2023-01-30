@@ -92,6 +92,12 @@ def displayResult():
                 'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
             return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
 
+        # checking if session is valid (session is like '2019-20', '2020-21' etc.)
+        if False if clientDataDict.get('session').count('-') == 1 and clientDataDict['session'].replace('-', '').isdigit() else True:
+            content = render_template(
+                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
+            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+
         result = db.Result(clientDataDict.get('session'), clientDataDict.get(
             'semester'))  # creating instance of Result class
         if not result.connectionStatus:
