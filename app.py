@@ -94,6 +94,11 @@ def displayResult():
 
         result = db.Result(clientDataDict.get('session'), clientDataDict.get(
             'semester'))  # creating instance of Result class
+        if not result.connectionStatus:
+            # means database connection is not established. Invalid session passed.
+            content = render_template(
+                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
+            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
 
         parameterDict = {clientDataDict.get(
             'idName'): clientDataDict.get('idValue')}
