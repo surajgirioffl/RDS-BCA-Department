@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 20th Jan 2022
+    @last-modified: 31st Jan 2023
     
     @description:
         * Module to run the web app and handle all the routes.
@@ -83,28 +83,39 @@ def result():
 # api route to display result
 @app.route('/api/display-result', methods=['POST'])
 def displayResult():
+    def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
+        """
+            Description:
+                - Function to send send invalid request along with status 400 when called.
+
+            Args:
+                * errorMessage (str, optional):
+                    - Error message to be sent along with status 400 (shown on the web page).
+
+            Returns:
+                * Response:
+                    - Response object with status 400 and error message in response body/content.
+        """
+        content = render_template(
+            'display-result.html', result=None, isSubmitClicked=True, errorMessage=errorMessage)
+        return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+
     if request.method == "POST":
         clientDataDict = request.json
         print(clientDataDict)
         if clientDataDict.get('session') == None or clientDataDict.get('semester') == None or clientDataDict.get('idValue') == None or clientDataDict.get('idName') not in ['registrationNo', 'examRoll', 'classRoll']:
             # if user has changed the name using dev tools.
-            content = render_template(
-                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
-            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+            return invalidRequest()
 
-        # checking if session is valid (session is like '2019-20', '2020-21' etc.)
+            # checking if session is valid (session is like '2019-20', '2020-21' etc.)
         if False if clientDataDict.get('session').count('-') == 1 and clientDataDict['session'].replace('-', '').isdigit() else True:
-            content = render_template(
-                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
-            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+            return invalidRequest()
 
         result = db.Result(clientDataDict.get('session'), clientDataDict.get(
             'semester'))  # creating instance of Result class
         if not result.connectionStatus:
             # means database connection is not established. Invalid session passed.
-            content = render_template(
-                'display-result.html', result=None, isSubmitClicked=True, errorMessage="Invalid Request")
-            return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+            return invalidRequest()
 
         parameterDict = {clientDataDict.get(
             'idName'): clientDataDict.get('idValue')}
