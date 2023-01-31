@@ -62,7 +62,8 @@ def isValidSession(session: str, duration: int = 3) -> bool:
     if len(session) == 7:
         # checking session must contains 1 hyphen and rest characters must be digits and session must be startswith '2'
         # checking difference between 2 digits before hyphen and 2 digits after hyphen (used string slicing for this purpose)
-        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{ends}-{starts}'.format(starts=session[:4], ends=session[:2]+session[-2:])) == duration:
+        # From this commit, session after 2097-xx will also be validated and returned as true.
+        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and str(eval(session[:4] + '+' + str(duration)))[2:] == session[-2:]:
             return True  # if all conditions are satisfied
         return False
     else:
