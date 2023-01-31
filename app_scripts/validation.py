@@ -21,6 +21,15 @@
 """
 
 
+class __Tools:
+    """
+        Description:
+            - Class to provide some tools which can be used while validating data in their respective functions.
+            - All methods are static. So, one can access them directly using class name.
+            - This is just a wrapper class to wrap methods used as tools while validating data.
+    """
+
+
 def isValidSession(session: str, duration: int = 3) -> bool:
     """
         Description:
