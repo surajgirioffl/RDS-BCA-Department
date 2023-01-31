@@ -58,7 +58,12 @@ def isValidSession(session: str) -> bool:
 
 
 if __name__ == "__main__":
-    data = input("Enter data: ")
-    if data == "":
-        data = None
-    print(isValidSession(data))
+    print("Module Testing... (Press CTRL+C to exit)")
+    try:
+        while True:
+            data = input("Enter data : ")
+            if data == "":
+                data = None
+            print(isValidSession(data))
+    except KeyboardInterrupt:
+        exit(0)
