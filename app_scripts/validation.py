@@ -50,9 +50,9 @@ def isValidSession(session: str) -> bool:
     if len(session) == 7:
         # checking session must contains 1 hyphen and rest characters must be digits and session must be startswith '2'
         # checking difference between 2 digits before hyphen and 2 digits after hyphen
-        if False if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{starts}-{ends}'.format(starts=session[:4], ends=session[:2]+session[5:])) == -3 else True:
-            return False
-        return True  # if all conditions are satisfied
+        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{starts}-{ends}'.format(starts=session[:4], ends=session[:2]+session[5:])) == -3:
+            return True  # if all conditions are satisfied
+        return False
     else:
         return False
 
