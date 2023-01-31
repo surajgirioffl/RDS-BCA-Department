@@ -142,6 +142,23 @@ def gallery():
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
 def previousYearQuestions():
+    def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
+        """
+            Description:
+                - Function to send send invalid request along with status 400 when called.
+
+            Args:
+                * errorMessage (str, optional):
+                    - Error message to be sent along with status 400 (shown on the web page).
+
+            Returns:
+                * Response:
+                    - Response object with status 400 and error message in response body/content.
+        """
+        content = render_template('previousYearQuestions.html', isSubmitClicked=True,
+                                  databaseResponse=None, errorMessage=errorMessage)
+        return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+
     logging.info("Previous Year Questions page is called...")
     if request.method == "POST":
         logging.info(
@@ -151,15 +168,11 @@ def previousYearQuestions():
         print("semester: ", userSelection.get('semester'))
         if(userSelection.get('semester') == None or userSelection.get('source') == None):
             # if user has changed the name using dev tools. INVALID REQUEST
-            content = render_template('previousYearQuestions.html', isSubmitClicked=True,
-                                      databaseResponse=None, errorMessage="Invalid Request")
-            return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+            return invalidRequest()
 
         # validating semester
         if userSelection.get('semester') not in ['1', '2', '3', '4', '5', '6']:
-            content = render_template('previousYearQuestions.html', isSubmitClicked=True,
-                                      databaseResponse=None, errorMessage="Invalid Request")
-            return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+            return invalidRequest()
 
         pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
         databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
