@@ -70,6 +70,34 @@ def isValidSession(session: str, duration: int = 3) -> bool:
         return False
 
 
+def isValidSemester(semester: str, maxSemester: int = 6) -> bool:
+    """
+        Description:
+            - Function to check if the semester is valid
+            - As per the specification of the application:
+                - valid sessions are like: 1, 2, 3 and so on till 6.
+
+        Args:
+            * semester (str):
+                - Semester
+                - Semester in string format because from normal form only string format is send from client and received by the server.
+            * maxSemester (int, optional):
+                - Maximum number of semesters.
+                - Defaults to 6.
+
+        Returns:
+            * bool:
+                - Returns True if semester is valid else False.
+    """
+    # in case of None or empty string passed as session.
+    if semester in [None, ""]:
+        return False
+
+    if semester in [str(sem) for sem in range(1, maxSemester+1)]:
+        return True  # if all conditions are satisfied
+    return False
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -77,6 +105,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidSession(data))
+            print(isValidSemester(data))
     except KeyboardInterrupt:
         exit(0)
