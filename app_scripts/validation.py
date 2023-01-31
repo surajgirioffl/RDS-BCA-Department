@@ -52,8 +52,8 @@ def isValidSession(session: str, duration: int = 3) -> bool:
     # validating number of characters in session
     if len(session) == 7:
         # checking session must contains 1 hyphen and rest characters must be digits and session must be startswith '2'
-        # checking difference between 2 digits before hyphen and 2 digits after hyphen
-        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{starts}-{ends}'.format(starts=session[:4], ends=session[:2]+session[5:])) == -duration:
+        # checking difference between 2 digits before hyphen and 2 digits after hyphen (used string slicing for this purpose)
+        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{ends}-{starts}'.format(starts=session[:4], ends=session[:2]+session[-2:])) == duration:
             return True  # if all conditions are satisfied
         return False
     else:
