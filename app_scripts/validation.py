@@ -18,6 +18,8 @@
             - Logical check must be performed in the destination script like db_scripts or others responsible for processing data send from client.
         * Usage:
             - May be used as first server side validation check for data received from the client.
+            - From client form data is received as string. So, all functions of this module accept that data in string format only.
+            - Whatever data received from the client, pass it to the desired function of this module to check validation directly without any modification or processing.
 """
 
 
