@@ -21,16 +21,19 @@
 """
 
 
-def isValidSession(session: str) -> bool:
+def isValidSession(session: str, duration: int = 3) -> bool:
     """
         Description:
             - Function to check if the session is valid
             - As per the specification of the application:
-                - valid session is like: 2015-18, 2020-23, 2019-22 and so on.
+                - valid sessions are like: 2015-18, 2020-23, 2019-22 and so on.
 
         Args:
             * session (str):
                 - session to check.
+            * duration (int):
+                - Duration of the session in years.
+                - Default to 3 years.
 
         Returns:
             * bool:
@@ -39,7 +42,7 @@ def isValidSession(session: str) -> bool:
     ##### Conditions for session as per application's specification #####
     # session contains one hyphen(-) and rest characters must be digits.
     # year in session must be after 2000 means 2001, 2020, 2010 and so on... (means must be starts with '2')
-    # difference between starting year (before hyphen(-)) and ending year (after hyphen(-)) must be 3.
+    # difference between starting year (before hyphen(-)) and ending year (after hyphen(-)) must be 3 or as specified (in years).
     # length of session must be 7.
 
     # in case of None or empty string passed as session.
@@ -50,7 +53,7 @@ def isValidSession(session: str) -> bool:
     if len(session) == 7:
         # checking session must contains 1 hyphen and rest characters must be digits and session must be startswith '2'
         # checking difference between 2 digits before hyphen and 2 digits after hyphen
-        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{starts}-{ends}'.format(starts=session[:4], ends=session[:2]+session[5:])) == -3:
+        if session.count('-') == 1 and session.replace('-', '').isdigit() and session.startswith('2') and eval('{starts}-{ends}'.format(starts=session[:4], ends=session[:2]+session[5:])) == -duration:
             return True  # if all conditions are satisfied
         return False
     else:
