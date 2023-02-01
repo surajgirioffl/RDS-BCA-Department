@@ -75,7 +75,7 @@ def isValidSession(session: str, duration: int = 3) -> bool:
     # length of session must be 7.
 
     # in case of None or empty string passed as session.
-    if session in [None, ""]:
+    if isEmpty(session):
         return False
 
     # validating number of characters in session
@@ -110,7 +110,7 @@ def isValidSemester(semester: str, maxSemester: int = 6) -> bool:
                 - Returns True if semester is valid else False.
     """
     # in case of None or empty string passed as session.
-    if semester in [None, ""]:
+    if isEmpty(semester):
         return False
 
     if semester in [str(sem) for sem in range(1, maxSemester+1)]:
