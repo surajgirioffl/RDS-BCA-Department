@@ -32,6 +32,24 @@ class __Tools:
     """
 
 
+def isEmpty(value: str) -> bool:
+    """
+        Description:
+            - Function to check if value is empty or null.
+
+        Args:
+            * value (str):
+                - Value to be checked.
+
+        Returns:
+            * bool: 
+                - Returns True if value is empty else False.
+    """
+    if value in [None, ""]:
+        return True
+    return False
+
+
 def isValidSession(session: str, duration: int = 3) -> bool:
     """
         Description:
@@ -107,6 +125,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidSemester(data))
+            print(isEmpty(data))
     except KeyboardInterrupt:
         exit(0)
