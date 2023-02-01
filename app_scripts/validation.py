@@ -118,6 +118,32 @@ def isValidSemester(semester: str, maxSemester: int = 6) -> bool:
     return False
 
 
+def isValidIdName(idName: str, validIdList: list | tuple | dict = ['registrationNo', 'examRoll', 'classRoll']) -> bool:
+    """
+        Description:
+            - Function to check if id name is valid or not as the specified criteria of the web application.
+
+        Args:
+            * idName (str):
+                - ID name to be checked.
+            * validIdList (list | tuple | dict, optional):
+                - List of valid id names.
+                - List may be in list or tuple or dictionary. But in case of dictionary only keys will be used.
+                - Defaults to ['registrationNo', 'examRoll', 'classRoll'].
+
+        Returns:
+            * Bool:
+                - Returns True if id name is valid else False.
+    """
+    # checking for empty name
+    if isEmpty(idName):
+        return False
+
+    if idName in validIdList:
+        return True  # if id name found in valid id list.
+    return False
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -125,6 +151,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isEmpty(data))
+            print(isValidIdName(data))
     except KeyboardInterrupt:
         exit(0)
