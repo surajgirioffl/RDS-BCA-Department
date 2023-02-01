@@ -144,6 +144,27 @@ def isValidIdName(idName: str, validIdList: list | tuple | dict = ['registration
     return False
 
 
+def isValidSource(source: str, validSourceList: list | tuple | dict = ["all", "brabu", "vaishali", "lnMishra"]) -> bool:
+    """
+        Description:
+            - Function to check if source name is valid or not as the specified criteria of the web application.
+            - Can be used in route like previous year question.
+
+        Args:
+            * source (str):
+                - Source name to be checked.
+            * validSourceList (list | tuple | dict, optional):
+                - List of valid source names.
+                - List may be in list or tuple or dictionary. But in case of dictionary only keys will be used.
+                - Defaults to ["all", "brabu", "vaishali", "lnMishra"].
+
+        Returns:
+            * Bool:
+                - Returns True if source name is valid else False.
+    """
+    return isValidIdName(source, validSourceList)
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -151,6 +172,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidIdName(data))
+            print(isValidSource(data))
     except KeyboardInterrupt:
         exit(0)
