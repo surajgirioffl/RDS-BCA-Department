@@ -316,6 +316,9 @@ def isValidExamRollNo(examRollNo: str, isDefinedRange: bool = False, start: int 
                 * If both include and exclude will be passed and both contains common(same) roll number then finally common roll number will be included.
                 * Means include has more priority than exclude.
     """
+    ##### Conditions for valid exam roll number as per application's specification #####
+    # Exam roll number must be a positive integer [may be in a specified range (inclusive) (May be different in some special cases)]
+
     return isValidClassRollNo(examRollNo, isDefinedRange, start, end, include, exclude)
 
 
