@@ -2,7 +2,7 @@
     @file: validation.py
     @author: Suraj Kumar Giri
     @init-date: 1st Feb 2023
-    @last-modified: 1st Feb 2023
+    @last-modified: 2nd Feb 2023
 
     @description:
         * Module to validate the data/input sent from client to server as per application configuration and requirements.
@@ -165,6 +165,29 @@ def isValidSource(source: str, validSourceList: list | tuple | dict = ["all", "b
     return isValidIdName(source, validSourceList)
 
 
+def isValidRegistrationNo(registrationNo: str) -> bool:
+    """
+    Description:
+        - Function to check if registration number is valid or not as the specified criteria of the web application.
+
+    Args:
+        * registrationNo (str):
+            - Registration number to be checked.
+
+    Returns:
+        * bool:
+            - Returns True if registration number is valid else False.
+
+    """
+    ##### Conditions for valid registration number as per application's specification #####
+    # registration number must be alphanumeric
+
+    # if registration number is empty
+    if isEmpty(registrationNo):
+        return False
+    return registrationNo.isalnum()
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -172,6 +195,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidSource(data))
+            print(isValidRegistrationNo(data))
     except KeyboardInterrupt:
         exit(0)
