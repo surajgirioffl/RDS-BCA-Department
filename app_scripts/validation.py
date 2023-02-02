@@ -244,7 +244,7 @@ def isValidClassRollNo(classRollNo: str, isDefinedRange: bool = True, start: int
                 * Means include has more priority than exclude.
     """
     ##### Conditions for valid class roll number as per application's specification #####
-    # class roll number must be integer and in range of 1 to 60 (inclusive) (May be different in some special cases)
+    # class roll number must be a positive integer and in range of 1 to 60 (inclusive) (May be different in some special cases)
 
     # checking for empty class roll number
     if isEmpty(classRollNo):
@@ -252,6 +252,10 @@ def isValidClassRollNo(classRollNo: str, isDefinedRange: bool = True, start: int
 
     # checking if roll number is integer or not
     if classRollNo.isnumeric():
+        # checking if roll number is positive or not
+        if int(classRollNo) < 1:
+            return False  # if roll number is negative
+
         # 'include' list need to be added. So, converting all elements to string because rollNo is string.
         include = [str(roll) for roll in include]
 
