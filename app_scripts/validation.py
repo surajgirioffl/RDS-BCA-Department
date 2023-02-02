@@ -199,14 +199,14 @@ def isValidRegistrationNo(registrationNo: str) -> bool:
     return registrationNo.isalnum()
 
 
-def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1, end: int = 60,  include: list = [], exclude: list = []) -> bool:
+def isValidClassRollNo(classRollNo: str, isDefinedRange: bool = True, start: int = 1, end: int = 60,  include: list = [], exclude: list = []) -> bool:
     """
         Description:
             - Function to check if class roll number is valid or not as the specified criteria of the web application.
 
         Args:
-            * rollNo (str):
-                - Roll number to be checked.
+            * classRollNo (str):
+                - Class Roll number to be checked.
                 - Strictly in string format.
             * isDefinedRange (bool, optional):
                 - If the range is predefined or not.
@@ -237,7 +237,7 @@ def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1,
 
             Returns:
                 * bool: 
-                    - Returns True if roll number is valid else False.
+                    - Returns True if class roll number is valid else False.
 
             Special:
                 * If both include and exclude will be passed and both contains common(same) roll number then finally common roll number will be included.
@@ -246,24 +246,24 @@ def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1,
     ##### Conditions for valid class roll number as per application's specification #####
     # class roll number must be integer and in range of 1 to 60 (inclusive) (May be different in some special cases)
 
-    # checking for empty roll number
-    if isEmpty(rollNo):
+    # checking for empty class roll number
+    if isEmpty(classRollNo):
         return False
 
     # checking if roll number is integer or not
-    if rollNo.isnumeric():
+    if classRollNo.isnumeric():
         # 'include' list need to be added. So, converting all elements to string because rollNo is string.
         include = [str(roll) for roll in include]
 
         # if range is predefined then only roll numbers in the range(start to end) will be considered.
         if isDefinedRange:
-            if rollNo in [str(roll) for roll in range(start, end+1) if roll not in exclude]+include:
+            if classRollNo in [str(roll) for roll in range(start, end+1) if roll not in exclude]+include:
                 # if range is defined and roll number is within the range.
                 return True
         # if range is not predefined then all roll numbers will be considered except listed in exclude list (no need to use 'include' list here)
         else:
             exclude = [str(roll) for roll in exclude]
-            if rollNo not in exclude:
+            if classRollNo not in exclude:
                 return True
     return False  # invalid roll number (no condition satisfied)
 
@@ -322,6 +322,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidRegistrationNo(data))
+            print(isValidExamRollNo(data))
     except KeyboardInterrupt:
         exit(0)
