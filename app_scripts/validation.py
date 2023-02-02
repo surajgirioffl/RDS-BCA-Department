@@ -20,6 +20,11 @@
             - May be used as first server side validation check for data received from the client.
             - From client form data is received as string. So, all functions of this module accept that data in string format only.
             - Whatever data received from the client, pass it to the desired function of this module to check validation directly without any modification or processing.
+
+        >>> All functions of this module accept only string as argument which need to be validated irrespective of the type of data it is.
+                - Like if you want to validate a roll number then pass it as string.
+                - Simply pass the data as it is received from the client. Don't convert it to any other type.
+                - And by default data from client is received as string.
 """
 
 
@@ -68,7 +73,7 @@ def isValidSession(session: str, duration: int = 3) -> bool:
             * bool:
                 - True if the session is valid else False.
     """
-    ##### Conditions for session as per application's specification #####
+    ##### Conditions for valid session as per application's specification #####
     # session contains one hyphen(-) and rest characters must be digits.
     # year in session must be after 2000 means 2001, 2020, 2010 and so on... (means must be starts with '2')
     # difference between starting year (before hyphen(-)) and ending year (after hyphen(-)) must be 3 or as specified (in years).
@@ -109,6 +114,9 @@ def isValidSemester(semester: str, maxSemester: int = 6) -> bool:
             * bool:
                 - Returns True if semester is valid else False.
     """
+    ##### Conditions for valid semester as per application's specification #####
+    # semester must be integer and in range of 1 to 6.
+
     # in case of None or empty string passed as session.
     if isEmpty(semester):
         return False
@@ -167,16 +175,16 @@ def isValidSource(source: str, validSourceList: list | tuple | dict = ["all", "b
 
 def isValidRegistrationNo(registrationNo: str) -> bool:
     """
-    Description:
-        - Function to check if registration number is valid or not as the specified criteria of the web application.
+        Description:
+            - Function to check if registration number is valid or not as the specified criteria of the web application.
 
-    Args:
-        * registrationNo (str):
-            - Registration number to be checked.
+        Args:
+            * registrationNo (str):
+                - Registration number to be checked.
 
-    Returns:
-        * bool:
-            - Returns True if registration number is valid else False.
+        Returns:
+            * bool:
+                - Returns True if registration number is valid else False.
 
     """
     ##### Conditions for valid registration number as per application's specification #####
