@@ -105,6 +105,9 @@ function displayResult() {
                 resultContainer.innerHTML = responseText;
                 /*console.log(request.responseText)*/
             }
+            else if (request.status == 400) {
+                resultContainer.innerHTML = request.responseText;
+            }
             else {
                 resultContainer.innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
             }
