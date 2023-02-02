@@ -47,7 +47,7 @@ def isEmpty(value: str) -> bool:
                 - Value to be checked.
 
         Returns:
-            * bool: 
+            * bool:
                 - Returns True if value is empty else False.
     """
     if value in [None, ""]:
@@ -194,6 +194,74 @@ def isValidRegistrationNo(registrationNo: str) -> bool:
     if isEmpty(registrationNo):
         return False
     return registrationNo.isalnum()
+
+
+def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1, end: int = 60,  include: list = [], exclude: list = []) -> bool:
+    """
+        Description:
+            - Function to check if class roll number is valid or not as the specified criteria of the web application.
+
+        Args:
+            * rollNo (str):
+                - Roll number to be checked.
+            * isDefinedRange (bool, optional):
+                - If the range is predefined or not.
+                - If this is true then only roll numbers in the range(start to end) will be considered.
+                - Defaults to True.
+            * start (int, optional):
+                - Starting number of the range to be considered while validating roll number.
+                - This will included while validating.
+                - Not considered if isDefinedRange is False.
+                - Defaults to 1.
+            * end (int, optional):
+                - End number of the range to be considered while validating roll number.
+                - This will included while validating.
+                - Not considered if isDefinedRange is False.
+                - Defaults to 60.
+            * include (list, optional):
+                - List of roll numbers others than the range to be considered while validating roll number.
+                - Roll number contains in this list be considered as valid while validating even if it is not in the range.
+                - May be used for some special cases.
+                - Defaults to [] (empty list).
+                - Must be empty or list of integers (or string of integers but recommended to be integer)
+            * exclude (list, optional):
+                - List of roll numbers to be excluded while validating roll number.
+                - Roll number contains in this list be not considered as valid while validating even if it is in the range.
+                - May be used for some special cases.
+                - Defaults to [].
+                - Must be empty or list of integers (only integers. No string of integers are allowed.)
+
+            Returns:
+                * bool: 
+                    - Returns True if roll number is valid else False.
+
+            Special:
+                * If both include and exclude will be passed and both contains common(same) roll number then finally common roll number will be included.
+                * Means include has more priority than exclude.
+    """
+    ##### Conditions for valid class roll number as per application's specification #####
+    # class roll number must be integer and in range of 1 to 60 (inclusive) (May be different in some special cases)
+
+    # checking for empty roll number
+    if isEmpty(rollNo):
+        return False
+
+    # checking if roll number is integer or not
+    if rollNo.isnumeric():
+        # 'include' list need to be added. So, converting all elements to string because rollNo is string.
+        include = [str(roll) for roll in include]
+
+        # if range is predefined then only roll numbers in the range(start to end) will be considered.
+        if isDefinedRange:
+            if rollNo in [str(roll) for roll in range(start, end+1) if roll not in exclude]+include:
+                # if range is defined and roll number is within the range.
+                return True
+        # if range is not predefined then all roll numbers will be considered except listed in exclude list (no need to use 'include' list here)
+        else:
+            exclude = [str(roll) for roll in exclude]
+            if rollNo not in exclude:
+                return True
+    return False  # invalid roll number (no condition satisfied)
 
 
 if __name__ == "__main__":
