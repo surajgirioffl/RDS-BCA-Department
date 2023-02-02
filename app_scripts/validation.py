@@ -322,6 +322,38 @@ def isValidExamRollNo(examRollNo: str, isDefinedRange: bool = False, start: int 
     return isValidClassRollNo(examRollNo, isDefinedRange, start, end, include, exclude)
 
 
+def isValidIdValue(idName: str, idValue: str) -> bool:
+    """
+        Description:
+            - Function to check if id value is valid or not for the given id name as per the specified criteria of the web application.
+            - Id name may be 'registrationNo', 'classRoll', 'examRoll' etc.
+            - This function is helpful in such condition when both are supplied by the client/user and need to be checked.
+            - This function is helpful if user has given to select id name from a list of options and then need to enter id value.
+            - Or can used as per the requirement.
+
+        Args:
+            * idName (str):
+                - Name of the id to be checked.
+            * idValue (str):
+                - Value of the provided id name to be checked.
+                - Strictly in string format irrespective of any condition.
+
+        Returns:
+            * bool:
+                - Returns True if id value is valid else False.
+                - Return False if id name is not found.
+    """
+    if idName == 'registrationNo':
+        return isValidRegistrationNo(idValue)
+    elif idName == 'classRoll':
+        return isValidClassRollNo(idValue)
+    elif idName == 'examRoll':
+        return isValidExamRollNo(idValue)
+    else:
+        print(f"ID Name '{idName}' not found.")
+        return False
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
