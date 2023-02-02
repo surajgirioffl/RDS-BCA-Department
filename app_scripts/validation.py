@@ -65,6 +65,7 @@ def isValidSession(session: str, duration: int = 3) -> bool:
         Args:
             * session (str):
                 - session to check.
+                - Strictly in string format.
             * duration (int):
                 - Duration of the session in years.
                 - Default to 3 years.
@@ -104,7 +105,8 @@ def isValidSemester(semester: str, maxSemester: int = 6) -> bool:
 
         Args:
             * semester (str):
-                - Semester
+                - Semester to be checked.
+                - Strictly in string format.
                 - Semester in string format because from normal form only string format is send from client and received by the server.
             * maxSemester (int, optional):
                 - Maximum number of semesters.
@@ -181,6 +183,7 @@ def isValidRegistrationNo(registrationNo: str) -> bool:
         Args:
             * registrationNo (str):
                 - Registration number to be checked.
+                - Strictly in string format.
 
         Returns:
             * bool:
@@ -204,6 +207,7 @@ def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1,
         Args:
             * rollNo (str):
                 - Roll number to be checked.
+                - Strictly in string format.
             * isDefinedRange (bool, optional):
                 - If the range is predefined or not.
                 - If this is true then only roll numbers in the range(start to end) will be considered.
