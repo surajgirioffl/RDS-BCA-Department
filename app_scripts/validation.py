@@ -268,6 +268,53 @@ def isValidClassRollNo(rollNo: str, isDefinedRange: bool = True, start: int = 1,
     return False  # invalid roll number (no condition satisfied)
 
 
+def isValidExamRollNo(examRollNo: str, isDefinedRange: bool = False, start: int = ..., end: int = ...,  include: list = [], exclude: list = []) -> bool:
+    """
+        Description:
+            - Function to check if exam roll number is valid or not as per the specified criteria of the web application.
+
+        Args:
+            * rollNo (str):
+                - Exam Roll number to be checked.
+                - Strictly in string format.
+            * isDefinedRange (bool, optional):
+                - If the range is predefined or not.
+                - If this is true then only roll numbers in the range(start to end) will be considered.
+                - Defaults to False.
+            * start (int, optional):
+                - Starting number of the range to be considered while validating roll number.
+                - This will included while validating.
+                - Not considered if isDefinedRange is False.
+                - Defaults to ...
+            * end (int, optional):
+                - End number of the range to be considered while validating roll number.
+                - This will included while validating.
+                - Not considered if isDefinedRange is False.
+                - Defaults to ...
+            * include (list, optional):
+                - List of roll numbers others than the range to be considered while validating roll number.
+                - Roll number contains in this list be considered as valid while validating even if it is not in the range.
+                - May be used for some special cases.
+                - Defaults to [] (empty list).
+                - Must be empty or list of integers (or string of integers but recommended to be integer)
+            * exclude (list, optional):
+                - List of roll numbers to be excluded while validating roll number.
+                - Roll number contains in this list be not considered as valid while validating even if it is in the range.
+                - May be used for some special cases.
+                - Defaults to [].
+                - Must be empty or list of integers (only integers. No string of integers are allowed.)
+
+            Returns:
+                * bool: 
+                    - Returns True if exam roll number is valid else False.
+
+            Special:
+                * If both include and exclude will be passed and both contains common(same) roll number then finally common roll number will be included.
+                * Means include has more priority than exclude.
+    """
+    return isValidClassRollNo(examRollNo, isDefinedRange, start, end, include, exclude)
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
