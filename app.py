@@ -165,14 +165,17 @@ def previousYearQuestions():
             'A post request is received in previousYearQuestions route...')
         userSelection = request.form
         print(userSelection)
-        print("semester: ", userSelection.get('semester'))
 
-        if validation.isValidSource(userSelection.get('source')) and validation.isValidSemester(userSelection.get('semester')):
+        # credentials received
+        semester = userSelection.get('semester')
+        source = userSelection.get('source')
+        print("semester: ", semester)
+
+        if validation.isValidSource(source) and validation.isValidSemester(semester):
             print("All data are valid...")
-            pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
-            databaseResponse: tuple = pyqObj.getLinks(
-                userSelection.get('source'))
-            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
+            pyqObj = pyqDb.PreviousYearQuestions(semester)
+            databaseResponse: tuple = pyqObj.getLinks(source)
+            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
         else:
             print("Invalid data passed...")
             return invalidRequest()
