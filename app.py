@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 31st Jan 2023
+    @last-modified: 4th Feb 2023
     
     @description:
         * Module to run the web app and handle all the routes.
@@ -29,6 +29,7 @@ from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 from db_scripts import dynamic_contents as dynamicContents
 from app_scripts import my_time as myTime
+from app_scripts import validation
 import setTimeZone as tz
 from dotenv import load_dotenv
 
@@ -103,24 +104,23 @@ def displayResult():
     if request.method == "POST":
         clientDataDict = request.json
         print(clientDataDict)
-        if clientDataDict.get('session') == None or clientDataDict.get('semester') == None or clientDataDict.get('idValue') == None or clientDataDict.get('idName') not in ['registrationNo', 'examRoll', 'classRoll']:
-            # if user has changed the name using dev tools.
-            return invalidRequest()
+        if validation.isValidSession(clientDataDict.get('session')) and validation.isValidSemester(clientDataDict.get('semester')) and validation.isValidIdName(clientDataDict.get('idName')) and validation.isValidIdValue(clientDataDict.get('idName'), clientDataDict.get('idValue')):
+            # if all the data are valid
+            print("All data are valid..")
+            result = db.Result(clientDataDict.get('session'), clientDataDict.get(
+                'semester'))  # creating instance of Result class
+            if not result.connectionStatus:
+                # means database connection is not established. Invalid session passed.
+                return invalidRequest()
 
-            # checking if session is valid (session is like '2019-20', '2020-21' etc.)
-        if False if clientDataDict.get('session').count('-') == 1 and clientDataDict['session'].replace('-', '').isdigit() else True:
+            parameterDict = {clientDataDict.get(
+                'idName'): clientDataDict.get('idValue')}
+            databaseResponse = result.getResult(**parameterDict)
+            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
+        else:
+            # if user has changed the name using dev tools or changes using interception
+            print("Invalid data passed...")
             return invalidRequest()
-
-        result = db.Result(clientDataDict.get('session'), clientDataDict.get(
-            'semester'))  # creating instance of Result class
-        if not result.connectionStatus:
-            # means database connection is not established. Invalid session passed.
-            return invalidRequest()
-
-        parameterDict = {clientDataDict.get(
-            'idName'): clientDataDict.get('idValue')}
-        databaseResponse = result.getResult(**parameterDict)
-        return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
 
 
 @app.route("/credits")
