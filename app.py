@@ -9,7 +9,7 @@
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
     @last-modified: 4th Feb 2023
-    
+
     @description:
         * Module to run the web app and handle all the routes.
 """
@@ -166,17 +166,17 @@ def previousYearQuestions():
         userSelection = request.form
         print(userSelection)
         print("semester: ", userSelection.get('semester'))
-        if(userSelection.get('semester') == None or userSelection.get('source') == None):
-            # if user has changed the name using dev tools. INVALID REQUEST
+
+        if validation.isValidSource(userSelection.get('source')) and validation.isValidSemester(userSelection.get('semester')):
+            print("All data are valid...")
+            pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
+            databaseResponse: tuple = pyqObj.getLinks(
+                userSelection.get('source'))
+            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
+        else:
+            print("Invalid data passed...")
             return invalidRequest()
 
-        # validating semester
-        if userSelection.get('semester') not in ['1', '2', '3', '4', '5', '6']:
-            return invalidRequest()
-
-        pyqObj = pyqDb.PreviousYearQuestions(userSelection.get('semester'))
-        databaseResponse: tuple = pyqObj.getLinks(userSelection.get('source'))
-        return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=userSelection.get('semester'))
     return render_template('previousYearQuestions.html')
 
 
