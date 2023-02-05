@@ -1,5 +1,6 @@
 # RDS BCA Deapartment
-> Web Application For BCA (Bachelor of Computer Application) of Ram Dayalu Singh Collge, Muzaffarpur (RDS)
+> * Web Application For BCA (Bachelor of Computer Application) of Ram Dayalu Singh Collge, Muzaffarpur (RDS)
+> * See deployement: [Click here](https://rdsbca.pythonanywhere.com/)
 
 ## Developed For
 * Students of BCA Department of RDS College
