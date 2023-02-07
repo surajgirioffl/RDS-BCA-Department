@@ -2,7 +2,8 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 28th Jan 2023
+    @last-modified: 7th Feb 2023
+    @error-series: 1500
 
     @description:
         * Module to insert data into the database rdsbca$files.
@@ -24,7 +25,7 @@ class Files:
             self.cursor.execute(f'USE {database}')
         except Exception as e:
             print(
-                f"Unable to establish connection with the database ({database}). Error code 1300")
+                f"Unable to establish connection with the database ({database}). Error code 1500")
             print("Exception: ", e)
             # if connection is not established then set connectionStatus to False.
             self.connectionStatus = False
@@ -37,7 +38,7 @@ class Files:
             try:
                 self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             except Exception as e:
-                print("Unable to set time_zone. Error code 1301")
+                print("Unable to set time_zone. Error code 1501")
 
     def __del__(self) -> None:
         """
