@@ -96,6 +96,10 @@ class Files:
 
 def main():
     files = Files()
+    if not files.connectionStatus:
+        print("Connection not established. Exiting...")
+        exit(-1)
+    files.setTableAttributes()  # setting the table attributes and related data
     files.files()
 
 
