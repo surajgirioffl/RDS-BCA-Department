@@ -15,14 +15,14 @@
         <!--1st Notification Panel-->
         <div class="border-animation" id='notice'>
             <h4 style="text-decoration: underline;"><strong>NOTICE BOARD</strong><h4>
-            <marquee onmouseover="this.stop()" onmouseout="this.start()"><p><img src="../static/gif/new.gif"><a href="{{notice[2]}}" target="_blank">{{notice[1]}}</a></p></marquee>
+            <marquee onmouseover="this.stop()" onmouseout="this.start()"><p><img src="../static/gif/new.gif"><a href={%if notice[2] is not none%} "{{notice[2]}}" target="_blank" {%else%} "javascript:void(0)" {%endif%}>{{notice[1]}}</a></p></marquee>
             
             <div class="alert alert-info" role="alert" id="noticeAlert">
                 {{notice[3]}}
             </div>
             <div class="alert alert-primary" role="alert" style="margin-top:-0.8%; padding-bottom: 0%;">
             <p>
-                <a href="{{notice[5]}}" target="_blank"> {{notice[4]}}</a>  
+                <a href={%if notice[5] is not none%} "{{notice[5]}}" target="_blank" {%else%} "javascript:void(0)"{%endif%}> {{notice[4]}}</a>  
                 <img src="../static/gif/new2.gif" width="5%">
             </p>
             </div>
