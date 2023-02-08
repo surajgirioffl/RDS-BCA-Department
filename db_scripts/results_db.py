@@ -14,8 +14,8 @@
 __author__ = 'Suraj Kumar Giri'
 __email__ = 'surajgirioffl@gmail.com'
 
-import os
-import sqlite3 as sqlite
+from os import environ
+import mysql.connector as mysql
 
 
 class Result:
@@ -28,7 +28,7 @@ class Result:
                 - To fetch result of students using various methods (using registrationNo, examRoll, classRoll).
     """
 
-    def __init__(self, session: str, semester: int) -> None:
+    def __init__(self, session: str, semester: int | str, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD')) -> None:
         """
             Description:
                 - To initialize the database connection and cursor using student's session and semester.
@@ -36,20 +36,40 @@ class Result:
             Args:
                 * session (str):
                     - Student's session. E.g., 2020-23, 2021-24, etc.
-                * semester (int):
+                * semester (int | str):
                     - Student's semester. E.g., 1,2,5 etc. (Between 1 to 6)
+                    - string format is recommended.
+                * host (str, optional):
+                    - Hostname of the database server.
+                    - Defaults to the hostname set in the environment variable DBHOST.
+                * user (str, optional):
+                    - Username of the database server.
+                    - Defaults to the username set in the environment variable DBUSERNAME.
+                * port (int, optional): 
+                    - Port number of the database server.
+                    - Defaults to the port number set in the environment variable DBPORT or 3306.
+                * password (str, optional):
+                    - Password of the database server.
+                    - Defaults to the password set in the environment variable DBPASSWORD.
         """
-        self.session = session
-        self.semester = semester
+
+        self.semester = str(semester) if type(semester) == int else semester
+
+        # trying to establish connection with the database.
         try:
-            if not os.path.exists(os.getcwd() + f"/database/{session}.db"):
-                raise Exception("Invalid database name.")
-            self.conn = sqlite.connect(f"database/{session}.db")
-            self.cursor = self.conn.cursor()
+            self.conn = mysql.connect(
+                host=host, user=user, port=port, password=password)
+            self.cursor = self.conn.cursor(buffered=True)
+
+            database = f"rdsbca${session}"
+            self.cursor.execute(f"""-- sql
+                                    USE `{database}`
+                                """)
             self.connectionStatus = True  # flag to check if connection is established or not
+            print(f"Connection established with the database {database}.")
         except Exception as e:
             print(
-                f"Unable to connect with the database of session {session}. Error code 1400")
+                f"Unable to connect with the database {database}. Error code 1400")
             print("Exception:", e)
             self.connectionStatus = False  # if connection not established
 
