@@ -1,8 +1,10 @@
 """
     @author: Suraj Kumar Giri
-    @date: 17th Oct 2022
+    @init-date: 17th Oct 2022
+    @last-modified: 9th Feb 2023
+    @error-series: 1400
     @description:
-        * Module to handle database operations.
+        * Module to handle database operations related to fetching result.
     @classes:
         * Result:
             - Class to handle database operations for student's result.
