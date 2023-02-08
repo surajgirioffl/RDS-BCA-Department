@@ -164,7 +164,7 @@ class Result:
 
         try:
             if id != {}:
-                self.cursor.execute("""-- sql
+                self.cursor.execute(f"""-- sql
                                         SELECT RegistrationNo FROM students 
                                         WHERE {list(id.keys())[0]}=%s
                                     """, (list(id.values())[0],))
