@@ -56,7 +56,7 @@ class Result:
     def __del__(self):
         """
             Description:
-                - To close the database connection when constructor called.
+                - To close the database connection when destructor called.
         """
         if self.connectionStatus:
             self.conn.close()
@@ -145,10 +145,6 @@ class Result:
             return None
 
         return None
-
-
-class StudentDetails:
-    ...
 
 
 if __name__ == '__main__':
