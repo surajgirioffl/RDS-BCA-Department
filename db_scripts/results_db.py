@@ -93,28 +93,35 @@ class Result:
             Returns:
                 * dict:
                         - If data found on given constraints.
-                        - Dictionary containing all desired values with respective keys. 
+                        - Dictionary containing all desired values with respective keys.
                 * None:
                         - In case of any failure.
                         - If data not found in database.
                         - In case of invalid credentials
         """
-        attributes = ('Name', 'examRoll', 'classRoll',
+        attributes = ('Name', 'ExamRoll', 'ClassRoll',
                       'TotalMarks', 'ResultStatus')
         try:
-            data = self.cursor.execute(
-                f"SELECT {attributes[0]},{attributes[1]},{attributes[2]},{attributes[3]},{attributes[4]} FROM (SELECT * FROM Students JOIN ResultSem{self.semester} WHERE ResultSem{self.semester}.registrationNo = Students.registrationNo) WHERE RegistrationNo=?", (registrationNo,)).fetchall()
+            self.cursor.execute(f"""-- sql
+                                    SELECT {attributes[0]},{attributes[1]},{attributes[2]},{attributes[3]},{attributes[4]}
+                                    FROM (SELECT * FROM students JOIN result_sem{self.semester} WHERE result_sem{self.semester}.RegistrationNo = students.RegistrationNo)
+                                    WHERE RegistrationNo='{registrationNo}'
+                                    """)
         except Exception as e:
             print(e)
+            print(
+                "Error code 1401: Unable to fetch data from the database using registration number.")
             return None
 
-        if data == []:  # if no data found on given constraints
+        data = self.cursor.fetchone()  # fetching the desired tuple
+        if data is None:  # if no data found on given constraints
             return None
         else:
             requiredData = {}
             requiredData['Semester'] = int(self.semester)
-            for index, value in enumerate(data[0]):
+            for index, value in enumerate(data):
                 requiredData[attributes[index]] = value
+            requiredData['RegistrationNo'] = registrationNo
 
             return requiredData
 
@@ -122,6 +129,7 @@ class Result:
         """
             Description:
                 - To fetch result of students using different parameters (registrationNo, examRoll, classRoll).
+                - At least one of the parameters in (registrationNo, examRoll, classRoll) must be given.
 
             Args:
                 * registrationNo (str, optional):
@@ -137,7 +145,7 @@ class Result:
             Returns:
                 * dict:
                     - If data found on given constraints.
-                    - Dictionary containing all desired values with respective keys. 
+                    - Dictionary containing all desired values with respective keys.
                 * None:
                     - In case of any failure.
                     - If data not found in database.
@@ -147,7 +155,7 @@ class Result:
             return self.__fetchAllData(registrationNo)
 
         # Now, if registrationNo is not given, then we will search for examRoll and classRoll
-        key = ('examRoll', 'classRoll')
+        key = ('ExamRoll', 'ClassRoll')
         value = (examRoll, classRoll)
 
         # Using dictionary comprehension to get the index of the value which is not None instead of using if-else.
@@ -156,12 +164,20 @@ class Result:
 
         try:
             if id != {}:
-                registrationNo = self.cursor.execute(
-                    f"SELECT registrationNo FROM Students WHERE {list(id.keys())[0]}=?", (list(id.values())[0],)).fetchall()[0][0]
+                self.cursor.execute("""-- sql
+                                        SELECT RegistrationNo FROM students 
+                                        WHERE {list(id.keys())[0]}=%s
+                                    """, (list(id.values())[0],))
+
+                registrationNo = self.cursor.fetchall()[0][0]
                 if registrationNo:
                     return self.__fetchAllData(registrationNo)
         except Exception as e:
             print(e)
+            print("Error code 1402: Unable to fetch data from the database using exam roll number or class roll number.")
+            print(
+                "At least one of the parameters (registrationNo, examRoll, classRoll) is required.")
+            print("Invalid credentials or required parameters are not given.")
             return None
 
         return None
