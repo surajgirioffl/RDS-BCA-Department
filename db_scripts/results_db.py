@@ -18,6 +18,18 @@ from os import environ
 import mysql.connector as mysql
 
 
+class TableNotFound(Exception):
+    """
+        Description:
+            - Exception to handle the case when table not found in the database.
+
+        Args:
+            * Exception:
+                - Base class for all exceptions.
+    """
+    message = "Table not found in the database."
+
+
 class Result:
     """
         @description:
