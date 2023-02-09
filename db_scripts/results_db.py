@@ -103,8 +103,11 @@ class Result:
                       'TotalMarks', 'ResultStatus')
         try:
             self.cursor.execute(f"""-- sql
-                                    SELECT {attributes[0]},{attributes[1]},{attributes[2]},{attributes[3]},{attributes[4]}
-                                    FROM (SELECT * FROM students JOIN result_sem{self.semester} WHERE result_sem{self.semester}.RegistrationNo = students.RegistrationNo)
+                                    SELECT {attributes[0]}, {attributes[1]}, {attributes[2]}, {attributes[3]}, {attributes[4]}
+                                    FROM
+                                        (SELECT {attributes[0]}, students.{attributes[1]}, {attributes[2]}, {attributes[3]}, {attributes[4]}, students.RegistrationNo
+                                        FROM students INNER JOIN result_sem{self.semester} ON result_sem{self.semester}.RegistrationNo = students.RegistrationNo)
+                                        AS result
                                     WHERE RegistrationNo='{registrationNo}'
                                     """)
         except Exception as e:
