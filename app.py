@@ -108,7 +108,7 @@ def displayResult():
             # if all the data are valid
             print("All data are valid..")
             result = db.Result(clientDataDict.get('session'), clientDataDict.get(
-                'semester'))  # creating instance of Result class
+                'semester'), **databaseCredentials)  # creating instance of Result class
             if not result.connectionStatus:
                 # means database connection is not established. Invalid session passed.
                 return invalidRequest()
