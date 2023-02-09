@@ -99,13 +99,14 @@ class Result:
                         - If data not found in database.
                         - In case of invalid credentials
         """
-        attributes = ('Name', 'ExamRoll', 'ClassRoll',
-                      'TotalMarks', 'ResultStatus')
+        attributes = ('Name', 'RegistrationNo', 'ExamRoll',
+                      'ClassRoll', 'TotalMarks', 'ResultStatus')
         try:
+            # in query, only those attributes are used with leading table name which are present in both tables.
             self.cursor.execute(f"""-- sql
-                                    SELECT {attributes[0]}, {attributes[1]}, {attributes[2]}, {attributes[3]}, {attributes[4]}
+                                    SELECT {attributes[0]}, {attributes[1]}, {attributes[2]}, {attributes[3]}, {attributes[4]}, {attributes[5]}
                                     FROM
-                                        (SELECT {attributes[0]}, students.{attributes[1]}, {attributes[2]}, {attributes[3]}, {attributes[4]}, students.RegistrationNo
+                                        (SELECT {attributes[0]}, students.{attributes[1]}, students.{attributes[2]}, {attributes[3]}, {attributes[4]}, {attributes[5]}
                                         FROM students INNER JOIN result_sem{self.semester} ON result_sem{self.semester}.RegistrationNo = students.RegistrationNo)
                                         AS result
                                     WHERE RegistrationNo='{registrationNo}'
@@ -124,7 +125,6 @@ class Result:
             requiredData['Semester'] = int(self.semester)
             for index, value in enumerate(data):
                 requiredData[attributes[index]] = value
-            requiredData['RegistrationNo'] = registrationNo
 
             return requiredData
 
