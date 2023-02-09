@@ -116,6 +116,7 @@ function displayResult() {
                 responseText = responseText.replace("ResultStatus", "Result Status");
                 responseText = responseText.replace("RegistrationNo", "Registration Number");
                 resultContainer.innerHTML = responseText;
+                document.getElementById('download-as-pdf-button').style.display = 'block';
                 /*console.log(request.responseText)*/
             }
             else if (request.status == 400) {
