@@ -66,6 +66,7 @@ class Result:
         """
 
         self.semester = str(semester) if type(semester) == int else semester
+        self.session = session
 
         # trying to establish connection with the database.
         try:
@@ -134,6 +135,7 @@ class Result:
             return None
         else:
             requiredData = {}
+            requiredData['Session'] = self.session
             requiredData['Semester'] = int(self.semester)
             for index, value in enumerate(data):
                 requiredData[attributes[index]] = value
