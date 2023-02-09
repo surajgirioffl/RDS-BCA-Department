@@ -1,14 +1,26 @@
 /*for result.html*/
 function fillInputPlaceholder(selector) {
-    let element = document.getElementById('formGroupExampleInput');
+    let element = document.getElementById('formGroupExampleInput'); //input tag in which placeholder will be filled (user will input the id value in this input tag)
     if (selector.value != '') {
         let value = selector.value;
-        if (value === 'registrationNo')
+        if (value === 'registrationNo') {
             element.placeholder = 'Registration Number';
-        else if (value === 'examRoll')
+            element.type = 'text';
+            element.addEventListener('input', () => {
+                element.value = element.value.toUpperCase();
+            })
+        }
+        else if (value === 'examRoll') {
             element.placeholder = 'Exam Roll';
-        else if (value === 'classRoll')
+            element.type = 'number';
+            element.min = 1;
+        }
+        else if (value === 'classRoll') {
             element.placeholder = 'Class Roll';
+            element.type = 'number';
+            element.min = 1;
+            element.max = 60;
+        }
     }
     else
         element.placeholder = 'Registration Number / Exam Roll Number / Class Roll Number';
