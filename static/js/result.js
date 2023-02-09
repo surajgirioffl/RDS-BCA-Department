@@ -93,6 +93,7 @@ function displayResult() {
         const resultContainer = document.getElementById('result-container'); /*div to display result*/
         const loadingSvg = `<center><img src="static/gif/ball.svg" alt="Loading"><center>`;
         resultContainer.innerHTML = loadingSvg; /*display loading svg*/
+        const downloadAsPdfButton = document.getElementById('download-as-pdf-button'); /*button to download result as pdf*/
 
         request = new XMLHttpRequest();
         if (location.hostname == '127.0.0.1')
@@ -116,14 +117,16 @@ function displayResult() {
                 responseText = responseText.replace("ResultStatus", "Result Status");
                 responseText = responseText.replace("RegistrationNo", "Registration Number");
                 resultContainer.innerHTML = responseText;
-                document.getElementById('download-as-pdf-button').style.display = 'block';
+                downloadAsPdfButton.style.display = 'block';
                 /*console.log(request.responseText)*/
             }
             else if (request.status == 400) {
                 resultContainer.innerHTML = request.responseText;
+                downloadAsPdfButton.style.display = 'none';
             }
             else {
                 resultContainer.innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
+                downloadAsPdfButton.style.display = 'none';
             }
         }
     }
