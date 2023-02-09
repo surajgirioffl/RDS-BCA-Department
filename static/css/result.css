@@ -41,3 +41,15 @@
     }
 
 }
+
+.center {
+    position: relative;
+    left: 50%;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-45%, 0%)
+}
+
+#download-as-pdf-button {
+    margin-bottom: 2%;
+    display: none;
+}
