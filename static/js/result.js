@@ -86,6 +86,15 @@ function checkInput() {
 /**Global data related to downloading result as pdf*/
 var contentForPDF = "No Content Available";
 document.getElementById('download-as-pdf-button').addEventListener('click', () => { downloadAsPdf(contentForPDF) }); /*event listener for button to download result as pdf*/
+/** 
+ * we have removed adding event listener after getting response because due to this in every successful request, event listener is added again causing multiple event listeners for same event and cause execution of callback multiple times.
+ * we can also use another method that: remove event listener when a new request made by client to server and add event listener when response is received with status code 200.
+ *      - But we can't do so if callback is an anonymous function because remove event listener will not work in that case.
+ *      - So, we have to use normal function and for this we have to use a global variable for content of callback function (because we can't pass arguments to callback function if it's not an anonymous function)
+ * Now we are using a global variable for that purpose.
+ * Then it's not a better idea to remove and add event listener every time (in each request and response).
+ * So, we have use a global variable and add single event listener for that purpose (in above code).
+ */
 
 
 /*function to display result or error message after making request to server using ajax*/
