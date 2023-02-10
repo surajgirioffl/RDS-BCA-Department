@@ -194,7 +194,7 @@ function refactorContent(content) {
     console.log(trailingSemesterString);
 
     /*removing dynamic content (st/nd/rd/th) using regex*/
-    const re = RegExp('<sup style="margin:-3px">[snrt][tdh]</sup>');
+    const re = RegExp('<sup style="margin:-3px"> [snrt][tdh]</sup>');
     content = content.replace(re, trailingSemesterString);
     //console.log(content);
     return content;
