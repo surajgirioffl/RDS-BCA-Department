@@ -135,3 +135,11 @@ function displayResult() {
         displayWarning();/*displaying warning because submit button is clicked without filling all the desired fields.*/
     }
 }
+/***********Script to download result div as PDF using library jspdf************/
+/**
+ * @description: function to create result div as pdf 
+ * @param {string} content - HTML text content to be downloaded as PDF.
+ */
+function downloadAsPdf(content) {
+    console.log('called')
+}
