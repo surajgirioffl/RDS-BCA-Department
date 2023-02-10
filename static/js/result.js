@@ -193,7 +193,7 @@ function refactorContent(content) {
     const trailingSemesterString = content.substring(trailingSemesterStringIndex, trailingSemesterStringIndex + 2);
     console.log(trailingSemesterString);
 
-    /*removing dynamic content (st/nd/rd/th) using regex*/
+    /*removing superscript (dynamic content (st/nd/rd/th)) using regex because it's not working well in pdf*/
     const re = RegExp('<sup style="margin:-3px"> [snrt][tdh]</sup>');
     content = content.replace(re, trailingSemesterString);
     //console.log(content);
