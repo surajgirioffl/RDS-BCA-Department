@@ -85,10 +85,17 @@ function checkInput() {
 
 /**Global data related to downloading result as pdf*/
 var contentForPDF = "No Content Available";
+var credentialsObjSentToServer = {}; /*To store credentials sent to server to get result*/
 document.getElementById('download-as-pdf-button').addEventListener('click', () => {
     let refactoredContent = refactorContent(contentForPDF);
     // console.log(refactoredContent)
-    downloadAsPdf(refactoredContent);
+
+    /*For file name*/
+    let fileName;
+    if (credentialsObjSentToServer != {}) {
+        fileName = '(Session: ' + credentialsObjSentToServer.session + ' Semester: ' + credentialsObjSentToServer.semester + ' ' + credentialsObjSentToServer.idName + ': ' + credentialsObjSentToServer.idValue + ')';
+    }
+    downloadAsPdf(refactoredContent, fileName);
 }); /*event listener for button to download result as pdf*/
 /** 
  * we have removed adding event listener after getting response because due to this in every successful request, event listener is added again causing multiple event listeners for same event and cause execution of callback multiple times.
@@ -104,7 +111,7 @@ document.getElementById('download-as-pdf-button').addEventListener('click', () =
 /*function to display result or error message after making request to server using ajax*/
 function displayResult() {
 
-    obj = checkInput();
+    obj = credentialsObjSentToServer = checkInput();
     console.log(obj);
     if (obj) {
         hideWarning();/*hiding warning after successful submission.*/
