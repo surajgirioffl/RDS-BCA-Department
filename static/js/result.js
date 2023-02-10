@@ -118,6 +118,7 @@ function displayResult() {
                 responseText = responseText.replace("RegistrationNo", "Registration Number");
                 resultContainer.innerHTML = responseText;
                 downloadAsPdfButton.style.display = 'block';
+                downloadAsPdfButton.addEventListener('click', () => { downloadAsPdf(responseText) });
                 /*console.log(request.responseText)*/
             }
             else if (request.status == 400) {
