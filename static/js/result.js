@@ -85,7 +85,11 @@ function checkInput() {
 
 /**Global data related to downloading result as pdf*/
 var contentForPDF = "No Content Available";
-document.getElementById('download-as-pdf-button').addEventListener('click', () => { downloadAsPdf(contentForPDF) }); /*event listener for button to download result as pdf*/
+document.getElementById('download-as-pdf-button').addEventListener('click', () => {
+    let refactoredContent = refactorContent(contentForPDF);
+    // console.log(refactoredContent)
+    downloadAsPdf(refactoredContent);
+}); /*event listener for button to download result as pdf*/
 /** 
  * we have removed adding event listener after getting response because due to this in every successful request, event listener is added again causing multiple event listeners for same event and cause execution of callback multiple times.
  * we can also use another method that: remove event listener when a new request made by client to server and add event listener when response is received with status code 200.
@@ -170,4 +174,28 @@ function downloadAsPdf(content = contentForPDF, fileName = "result") {
     pdf.text(x = 420, y = 620, "Page 01", { align: "right" });
 
     pdf.save(`${fileName}.pdf`); /*saving pdf*/
+}
+
+/**
+ * @description: Function to refactor content to create interactive and user friendly pdf.
+ *              - This function is written as per current response received from server on successful request (status code 200).
+ * @param {string} content: HTML content received from server and to be save as PDF.
+ * @returns {string} refactored HTML content.
+ */
+function refactorContent(content) {
+    /*creating another table for top row for better visibility because it has only one column*/
+    content = content.replace('<th></th>', '');
+    content = content.replace('<thead>', '<tr>');
+    content = content.replace('</thead>', '</tr> </table> <table>');
+
+    /*fetching trailing string of semester like st, nd, rd and th for 1, 2, 3 and rest.. respectively.*/
+    const trailingSemesterStringIndex = content.search('[snrt][tdh]</sup>');
+    const trailingSemesterString = content.substring(trailingSemesterStringIndex, trailingSemesterStringIndex + 2);
+    console.log(trailingSemesterString);
+
+    /*removing dynamic content (st/nd/rd/th) using regex*/
+    const re = RegExp('<sup style="margin:-3px">[snrt][tdh]</sup>');
+    content = content.replace(re, '');
+    //console.log(content);
+    return content;
 }
