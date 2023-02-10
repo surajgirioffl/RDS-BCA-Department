@@ -152,12 +152,10 @@ function displayResult() {
 /***********Script to download result div as PDF using library jspdf************/
 /**
  * @description: function to create result div as pdf 
- * @param {string} content - HTML text content to be downloaded as PDF.
+ * @param {string} content - HTML text content to be downloaded as PDF. Default to contentForPDF (global variable).
  * @param {string} fileName - file name for the PDF to be downloaded (without extension). Default to 'result'. 
  */
-function downloadAsPdf(content, fileName = "result") {
-    content = contentForPDF;
-
+function downloadAsPdf(content = contentForPDF, fileName = "result") {
     /*fetching date and time to add in pdf*/
     let dateTime = new Date();
     const date = dateTime.toDateString(); /*readable date*/
