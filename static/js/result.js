@@ -83,6 +83,11 @@ function checkInput() {
 
 }
 
+/**Global data related to downloading result as pdf*/
+var contentForPDF = "No Content Available";
+document.getElementById('download-as-pdf-button').addEventListener('click', () => { downloadAsPdf(contentForPDF) }); /*event listener for button to download result as pdf*/
+
+
 /*function to display result or error message after making request to server using ajax*/
 function displayResult() {
 
@@ -118,7 +123,7 @@ function displayResult() {
                 responseText = responseText.replace("RegistrationNo", "Registration Number");
                 resultContainer.innerHTML = responseText;
                 downloadAsPdfButton.style.display = 'block';
-                downloadAsPdfButton.addEventListener('click', () => { downloadAsPdf(responseText) });
+                contentForPDF = responseText;
                 /*console.log(request.responseText)*/
             }
             else if (request.status == 400) {
