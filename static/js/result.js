@@ -153,7 +153,23 @@ function displayResult() {
 /**
  * @description: function to create result div as pdf 
  * @param {string} content - HTML text content to be downloaded as PDF.
+ * @param {string} fileName - file name for the PDF to be downloaded (without extension). Default to 'result'. 
  */
-function downloadAsPdf(content) {
-    console.log('called')
+function downloadAsPdf(content, fileName = "result") {
+    content = contentForPDF;
+
+    /*fetching date and time to add in pdf*/
+    let dateTime = new Date();
+    const date = dateTime.toDateString(); /*readable date*/
+    const time = dateTime.toLocaleTimeString(); /*readable time*/
+    dateTime = date + " " + time; /*concatenating both date and time*/
+
+    pdf = new window.jsPDF("p", "px", "a4"); /*instantiating jsPDF. We can also use jsPDF direct without using window... because window attributes are default accessible.*/
+    pdf.text(x = 10, y = 20, dateTime); /*header text*/
+    pdf.fromHTML(HTML = content, x = 60, y = 30); /*content text*/
+    /*footer texts*/
+    pdf.text(x = 10, y = 620, window.location.href, { align: "left" });
+    pdf.text(x = 420, y = 620, "Page 01", { align: "right" });
+
+    pdf.save(`${fileName}.pdf`); /*saving pdf*/
 }
