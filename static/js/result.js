@@ -93,7 +93,7 @@ document.getElementById('download-as-pdf-button').addEventListener('click', () =
     /*For file name*/
     let fileName;
     if (credentialsObjSentToServer != {}) {
-        fileName = '(Session: ' + credentialsObjSentToServer.session + ' Semester: ' + credentialsObjSentToServer.semester + ' ' + credentialsObjSentToServer.idName + ': ' + credentialsObjSentToServer.idValue + ')';
+        fileName = fetchNameFromContent(refactoredContent) + ' (Session: ' + credentialsObjSentToServer.session + ' Semester: ' + credentialsObjSentToServer.semester + ' ' + credentialsObjSentToServer.idName + ': ' + credentialsObjSentToServer.idValue + ')';
     }
     downloadAsPdf(refactoredContent, fileName);
 }); /*event listener for button to download result as pdf*/
@@ -205,4 +205,21 @@ function refactorContent(content) {
     content = content.replace(re, trailingSemesterString);
     //console.log(content);
     return content;
+}
+
+/**
+ * 
+ * @param {string} content: HTML content. 
+ * @returns: Name if found in the HTML content else return "Invalid".
+ */
+function fetchNameFromContent(content) {
+    /*name is written in "<th><strong>DETAILS OF SURAJ KUMAR GIRI</strong></th>"*/
+    const start = content.search('DETAILS OF ') + "DETAILS OF ".length
+    const end = content.search('</strong>')
+
+    /*if name found in the content. Means request is successful*/
+    if (start != -1 && end != -1) {
+        return content.substring(start, end);
+    }
+    return "Invalid"; /*name not found*/
 }
