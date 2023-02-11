@@ -84,22 +84,26 @@ def result():
 # api route to display result
 @app.route('/api/display-result', methods=['POST'])
 def displayResult():
-    def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
+    def invalidRequest(errorMessage: str = "Invalid Request", status: int = HTTPStatus.BAD_REQUEST) -> Response:
         """
             Description:
-                - Function to send send invalid request along with status 400 when called.
+                - Function to send response in case of invalid request or any others issue.
 
             Args:
                 * errorMessage (str, optional):
-                    - Error message to be sent along with status 400 (shown on the web page).
+                    - Error message to be sent along with given status code (shown on the web page).
+                    - Defaults to "Invalid Request".
+                * status (int, optional):
+                    - Status code to be sent along with error message.
+                    - Defaults to HTTPStatus.BAD_REQUEST (400).
 
             Returns:
                 * Response:
-                    - Response object with status 400 and error message in response body/content.
+                    - Response object with given status code and error message in response body/content.
         """
         content = render_template(
             'display-result.html', result=None, isSubmitClicked=True, errorMessage=errorMessage)
-        return Response(content, status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+        return Response(content, status=status, mimetype='text/html')
 
     if request.method == "POST":
         clientDataDict = request.json
