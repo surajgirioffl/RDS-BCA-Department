@@ -146,7 +146,7 @@ class Result:
                     if int(self.semester) < 6:
                         totalMarks = requiredData['TotalMarks']
                         # decimal point will only be shown if decimal part is not zero means if decimal part is available else it will be shown as integer.
-                        requiredData['Percentage'] = f'{totalMarks/6: .2f}%' if totalMarks % 6 != 0 else f'{totalMarks//6}%'
+                        requiredData['Percentage'] = f'{totalMarks/6:.2f}%' if totalMarks % 6 != 0 else f'{totalMarks//6}%'
                 requiredData[attributes[index]] = value
 
             return requiredData
