@@ -146,14 +146,17 @@ function displayResult() {
                 contentForPDF = responseText;
                 /*console.log(request.responseText)*/
             }
-            else if (request.status == 400) {
+            // else if (request.status == 400) {
+            else {
                 resultContainer.innerHTML = request.responseText;
                 downloadAsPdfButton.style.display = 'none';
             }
+            /*
             else {
                 resultContainer.innerHTML = `<div class="alert alert-danger" role="alert" style="width:80%; margin:auto;padding:auto; margin-bottom:2%; padding:0.5%; text-align:center;">Something Went Wrong. Error Code 1200</div>`
                 downloadAsPdfButton.style.display = 'none';
             }
+            */
         }
     }
     else {
