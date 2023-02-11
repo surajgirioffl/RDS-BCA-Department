@@ -138,6 +138,15 @@ class Result:
             requiredData['Session'] = self.session
             requiredData['Semester'] = int(self.semester)
             for index, value in enumerate(data):
+                # if index is 5, then it is the result status. Means value is either 'Pass' or 'Fail' or 'Absent' or Other.
+                # Percentage will be calculated only if result status is 'Pass'.
+                if index == 5 and value == 'Pass':
+                    # inserting an extra key 'Percentage' in the dictionary before inserting the result status
+                    # For semester 1 to 5, percentage can be calculated by dividing total marks by 6 because there are 6 subjects and each subject has 100 marks.
+                    if int(self.semester) < 6:
+                        totalMarks = requiredData['TotalMarks']
+                        # decimal point will only be shown if decimal part is not zero means if decimal part is available else it will be shown as integer.
+                        requiredData['Percentage'] = f'{totalMarks/6: .2f}%' if totalMarks % 6 != 0 else f'{totalMarks//6}%'
                 requiredData[attributes[index]] = value
 
             return requiredData
