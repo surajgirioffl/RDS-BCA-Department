@@ -120,6 +120,11 @@ def displayResult():
             parameterDict = {clientDataDict.get(
                 'idName'): clientDataDict.get('idValue')}
             databaseResponse = result.getResult(**parameterDict)
+
+            if databaseResponse is None:
+                # if no result found for given credentials due to any reason (either logically invalid credentials or result not yet uploaded/declared/available)
+                return invalidRequest(errorMessage="No result found for given credentials.", status=HTTPStatus.NOT_FOUND)
+
             return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
         else:
             # if user has changed the name using dev tools or changes using interception
