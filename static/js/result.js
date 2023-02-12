@@ -229,7 +229,7 @@ function fetchNameFromContent(content) {
 
     /*if name found in the content. Means request is successful*/
     if (start != -1 && end != -1) {
-        return content.substring(start, end);
+        return "RESULT OF " + content.substring(start, end);
     }
-    return "Invalid"; /*name not found*/
+    return "Invalid Credentials"; /*name not found*/
 }
