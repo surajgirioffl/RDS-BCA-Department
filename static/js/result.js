@@ -224,7 +224,10 @@ function refactorContent(content) {
  */
 function fetchNameFromContent(content) {
     /*name is written in "<th><strong>DETAILS OF SURAJ KUMAR GIRI</strong></th>"*/
-    const start = content.search('DETAILS OF ') + "DETAILS OF ".length
+    let start = content.search('DETAILS OF ')
+    if (start != -1) {
+        start += "DETAILS OF ".length
+    }
     const end = content.search('</strong>')
 
     /*if name found in the content. Means request is successful*/
