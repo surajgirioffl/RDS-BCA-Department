@@ -157,6 +157,22 @@ function displayResult() {
             else {
                 resultContainer.innerHTML = request.responseText;
                 downloadAsPdfButton.style.display = 'none';
+
+                contentForPDF = request.responseText; /*updating the content for PDF with response text received from the server*/
+                /*
+                 * In above line we have updated the contentForPDF global variable with current content received from the server which is not result because status code is other than 200.
+                 * This is not necessary but:
+                 * By the way button to download pdf ('downloadAsPdfButton') is invisible then also we are updating content for pdf.
+                 * It may be used if visibility changes via dev tools or other way.
+                 * If we don't update the contentForPDF with responseText (in case of response code other than 200) and button is visible (by any way) then
+                    * if it's first result check on the page then contentForPDF contains "No Content Available" and file name will save with leading "Invalid Credentials <current_request_credentials>". And here, there is no issue.
+                    * if there will any previous successful request and result received from server (with status code 200) then contentForPDF contains content of last result (received when request was successful and response code was 200) and file name will save with leading "RESULT FOR <student_name_from_last_successful_result> <current_request_credentials>". This is the problem.
+                        * In this case, pdf contains result of last successful request (having server response code = 200) and file name contains mixture of both result of last successful request and current request.
+                        * Here, request is not successful then pdf must not need to contains result but pdf contains a result.
+                        * But we don't want so.
+                 * That's why we are updating the contentForPDF with the responseText irrespective of response code received from the server.
+                 * Due to this everything will work as expected and pdf will also contains response text received from the server.
+                 */
             }
             /*
             else {
