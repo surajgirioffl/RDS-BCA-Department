@@ -1,9 +1,11 @@
 /*for result.html*/
 function fillInputPlaceholder(selector) {
     let element = document.getElementById('formGroupExampleInput'); //input tag in which placeholder will be filled (user will input the id value in this input tag)
+    const label = document.getElementById('id-descriptor-label'); /* label above the input tag (to write ID value) to describe to enter ID value*/
     if (selector.value != '') {
         let value = selector.value;
         if (value === 'registrationNo') {
+            label.innerText = "Enter Registration Number";
             element.placeholder = 'Registration Number';
             element.type = 'text';
             element.addEventListener('input', () => {
@@ -11,20 +13,24 @@ function fillInputPlaceholder(selector) {
             })
         }
         else if (value === 'examRoll') {
+            label.innerText = "Enter Exam Roll Number";
             element.placeholder = 'Exam Roll';
             element.type = 'number';
             element.min = 1;
             element.max = ""; /*No limit of max value*/
         }
         else if (value === 'classRoll') {
+            label.innerText = "Enter Class Roll Number";
             element.placeholder = 'Class Roll';
             element.type = 'number';
             element.min = 1;
             element.max = 60;
         }
     }
-    else
+    else {
+        label.innerText = "Enter ID Value";
         element.placeholder = 'Registration Number / Exam Roll Number / Class Roll Number';
+    }
 
 }
 
