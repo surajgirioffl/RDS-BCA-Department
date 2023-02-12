@@ -14,6 +14,7 @@ function fillInputPlaceholder(selector) {
             element.placeholder = 'Exam Roll';
             element.type = 'number';
             element.min = 1;
+            element.max = ""; /*No limit of max value*/
         }
         else if (value === 'classRoll') {
             element.placeholder = 'Class Roll';
