@@ -123,7 +123,7 @@ def displayResult():
 
             if databaseResponse is None:
                 # if no result found for given credentials due to any reason (either logically invalid credentials or result not yet uploaded/declared/available)
-                return invalidRequest(errorMessage="No result found for given credentials.", status=HTTPStatus.NOT_FOUND)
+                return invalidRequest(errorMessage="No Result Found For Given Credentials", status=HTTPStatus.NOT_FOUND)
 
             return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
         else:
