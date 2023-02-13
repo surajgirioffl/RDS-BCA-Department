@@ -126,6 +126,7 @@ function displayResult() {
         const loadingSvg = `<center><img src="static/gif/ball.svg" alt="Loading"><center>`;
         resultContainer.innerHTML = loadingSvg; /*display loading svg*/
         const downloadAsPdfButton = document.getElementById('download-as-pdf-button'); /*button to download result as pdf*/
+        downloadAsPdfButton.style.display = 'none'; /*hiding download button while request is being made to server. It will be displayed only if request is successful with status code 200.*/
 
         request = new XMLHttpRequest();
         if (location.hostname == '127.0.0.1')
