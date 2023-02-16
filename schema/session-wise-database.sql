@@ -43,3 +43,22 @@ CREATE TABLE IF NOT EXISTS `result_sem1`(
     `MoreInfo` VARCHAR(200) DEFAULT NULL,
     FOREIGN KEY(RegistrationNo) REFERENCES Students(RegistrationNo)
 );
+
+----
+-- You can use this table schema to create table for subject wise marks of all semesters. Like 'subject_wise_marks_sem1', 'subject_wise_marks_sem2', ...
+-- Must change subject code to subject code for respective semesters. Example: for sem3, it will 301, 302 and so on till 306.
+-- 4. Table `subject_wise_marks_sem1`
+-- Subject wise result for bca semester system published by the University on 17th Feb 2022. And may be in future the same will continue.
+----
+CREATE TABLE IF NOT EXISTS `subject_wise_marks_sem1`(
+    `SNo` TINYINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `RegistrationNo` VARCHAR(50) PRIMARY KEY NOT NULL,
+    `ExamRoll` MEDIUMINT UNIQUE NOT NULL,
+    `101` VARCHAR(15) DEFAULT NULL,
+    `102` VARCHAR(15) DEFAULT NULL,
+    `103` VARCHAR(15) DEFAULT NULL,
+    `104` VARCHAR(15) DEFAULT NULL,
+    `105` VARCHAR(15) DEFAULT NULL,
+    `106` VARCHAR(15) DEFAULT NULL,
+    FOREIGN KEY(RegistrationNo) REFERENCES Students(RegistrationNo)
+);
