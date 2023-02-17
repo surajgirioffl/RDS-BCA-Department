@@ -62,6 +62,14 @@ class Bca:
                 f"Unable to connect with the database {databaseName}. Error code 1600")
             print("Exception:", e)
             self.connectionStatus = False  # if connection not established
+        else:
+            # Tables of the database.
+            # Added here to ease in use as well as to avoid problems if there will any modification in the table name in future.
+            self.tables = {
+                "students": "students",
+                "teachers": "teachers",
+                "subjects": "subjects"
+            }
 
     def __del__(self):
         """
