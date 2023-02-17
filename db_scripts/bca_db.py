@@ -63,6 +63,15 @@ class Bca:
             print("Exception:", e)
             self.connectionStatus = False  # if connection not established
 
+    def __del__(self):
+        """
+            Description:
+                - To close the database connection when destructor called.
+        """
+        if self.connectionStatus:
+            # no need to commit the connection because only read-only functionalities are given in this script.
+            self.conn.close()
+
 
 if __name__ == "__main__":
     print(Bca())
