@@ -3,7 +3,7 @@
  * Schema for database of different sessions like `2020-23`, `2021-24`, ... or `rdsbca$2020-23`, `rdsbca$2021-24`, `rdsbca$2022-25`, ...
  * Created by: Suraj Kumar Giri
  * Created on: 9th Jan 2023
- * Last updated on: 8th Feb 2023
+ * Last updated on: 17th Feb 2023
  */
 ----
 -- 1. Table `students` 
