@@ -111,7 +111,11 @@ class Result:
                         - In case of any failure.
                         - If data not found in database.
                         - In case of invalid credentials
+                        - If connection is not yet established
         """
+        if not self.connectionStatus:  # checking if connection is established or not.
+            return None  # if connection is not established
+
         attributes = ('Name', 'RegistrationNo', 'ExamRoll',
                       'ClassRoll', 'TotalMarks', 'ResultStatus')
         try:
@@ -176,7 +180,12 @@ class Result:
                     - In case of any failure.
                     - If data not found in database.
                     - In case of invalid credentials
+                    - If connection is not yet established
+
         """
+        if not self.connectionStatus:  # checking if connection is established or not.
+            return None  # if connection is not established
+
         if registrationNo:
             return self.__fetchAllData(registrationNo)
 
