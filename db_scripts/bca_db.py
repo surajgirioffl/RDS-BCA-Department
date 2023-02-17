@@ -72,6 +72,29 @@ class Bca:
             # no need to commit the connection because only read-only functionalities are given in this script.
             self.conn.close()
 
+    @staticmethod
+    def getSubjectsCode(semester: int) -> list[int, int, ] | None:
+        """
+            Description:
+                - Class method to get all subjects code for specified semester.
+
+            Args:
+                * semester (int):
+                    - Semester for which subjects code need to be fetched.
+
+            Returns:
+                * list[int, int, ...]:
+                    - Returns list of integers where each item is subject code ordered in ascending order.
+                * None:
+                    - Returns None if invalid semester passed or something went wrong.
+        """
+        try:
+            return [code + (100*semester) for code in range(1, 7)]
+        except Exception as e:
+            print("Invalid semester or something went wrong. Error code 1601.")
+            print(f"Exception: {e}")
+            return None
+
 
 if __name__ == "__main__":
-    print(Bca())
+    print(Bca.getSubjectsCode(3))
