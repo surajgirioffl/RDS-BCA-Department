@@ -103,6 +103,61 @@ class Bca:
             print(f"Exception: {e}")
             return None
 
+    def getSubjectsTitle(self, semester: int = None, subjectCode: int = None) -> dict | None:
+        """
+            Description:
+                - Method to fetch subjects title for specified semester or specified subject code.
+                - If semester is passed then all subjects code with respective subject title will be returned.
+                - If subject code is passed then respective subject title will be returned.
+
+            Args:
+                * semester (int, optional):
+                    - Semester for which subjects title will be fetched.
+                    - Defaults to None.
+                * subjectCode (int, optional):
+                    - Subject code for which subjects title will be fetched.
+                    - Defaults to None.
+
+            Returns:
+                * dict:
+                    - Returns dictionary containing subjects code along with the corresponding subject title.
+                * None: 
+                    - Returns None if no data found for given semester or subject code.
+                    - Or something went wrong like connection not established or anything else.
+
+            More:
+                * One of the arguments [semester, subjectCode] is compulsory.
+                * If no argument passed then None will be returned.
+                * Semester has more priority than that of subjectCode in arguments.
+                    - If both of semester and subject code are specified then semester will be used.
+                * In both case, if data found then dictionary will be returned. In case of subject code, dictionary will contain only one key-value pair.
+
+        """
+        if not self.connectionStatus:  # checking if connection established or not
+            return None
+
+        if semester == None and subjectCode == None:
+            print("Unable to get subjects title. Error code 1602")
+            print(
+                "No argument passed. One of the arguments (semester or subjectCode) is required.")
+            return None
+
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT SubjectCode, SubjectTitle FROM {self.tables.get('subjects')}
+                                    WHERE {f"Semester={semester}" if semester is not None else f"SubjectCode={subjectCode}"}
+                                    ORDER BY SubjectCode ASC
+                                """)
+        except Exception as e:
+            print("Unable to get subjects title. Error code 1603")
+            print("Exception:", e)
+            return None
+        else:
+            fetchedData = self.cursor.fetchall()
+            if fetchedData:
+                return {row[0]: row[1] for row in fetchedData}
+            return None  # if no data found
+
 
 if __name__ == "__main__":
-    print(Bca.getSubjectsCode(3))
+    print(Bca().getSubjectsTitle(4))
