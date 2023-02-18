@@ -1,7 +1,7 @@
 """
     @author: Suraj Kumar Giri
     @init-date: 17th Oct 2022
-    @last-modified: 9th Feb 2023
+    @last-modified: 18th Feb 2023
     @error-series: 1400
     @description:
         * Module to handle database operations related to fetching result.
@@ -16,6 +16,7 @@ __email__ = 'surajgirioffl@gmail.com'
 
 from os import environ
 import mysql.connector as mysql
+import bca_db as bca
 
 
 class TableNotFound(Exception):
@@ -217,10 +218,63 @@ class Result:
 
         return None
 
+    def fetchSubjectsWiseMarks(self, registrationNo: str = None, examRoll: int = None) -> dict | None:
+        """
+            Description:
+                - Method to fetch subject wise marks of a student if available.
+                - At least one of the parameters in (registrationNo, examRoll) must be given.
+                - If both parameters are given, then exam roll will be given priority.
+
+            Args:
+                * registrationNo (str, optional):
+                    - For registration number of student.
+                    - Defaults to None.
+                * examRoll (int, optional):
+                    - For exam roll number of student.
+                    - Defaults to None.
+
+            Returns:
+                * dict
+                    - Dictionary containing subject code and corresponding marks.
+                * None:
+                    - In case of any failure.
+                    - If data not found or not available in the database.
+                    - In case of invalid credentials
+                    - Or something else.
+        """
+        if not self.connectionStatus:  # checking if connection is established or not.
+            return None  # if connection is not established
+
+        if registrationNo == None and examRoll == None:
+            print(
+                "At least one of the parameters (registrationNo, examRoll) is required.")
+            print("Required parameters are not given. Error code: 1403")
+            return None
+
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * from subject_wise_marks_sem{self.semester}
+                                    WHERE {f'ExamRoll={examRoll}' if examRoll else f'RegistrationNo={registrationNo}'}
+                                """)
+        except Exception as e:
+            print(e)
+            print(
+                "Error code 1404: Unable to fetch subject wise marks from the database.")
+            return None
+        else:
+            subjectsWiseMarks = self.cursor.fetchone()
+            if subjectsWiseMarks:
+                subjectsCode = bca.Bca.getSubjectsCode(semester=self.semester)
+                if subjectsCode:
+                    marksList = [marks for index, marks in enumerate(
+                        subjectsWiseMarks) if index not in [0, 1, 2]]  # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                    return dict(zip(subjectsCode, marksList))
+            return None
+
 
 if __name__ == '__main__':
-    obj = Result('2020-23', 2)
-    print(obj.getResult(examRoll=211084))
+    obj = Result('2020-23', 3)
+    print(obj.fetchSubjectsWiseMarks(examRoll=211084))
 
 
 # fetchall() return list of tuples on success(data found) and empty list on failure(data not found)
