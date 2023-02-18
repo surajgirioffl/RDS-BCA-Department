@@ -81,14 +81,15 @@ class Bca:
             self.conn.close()
 
     @staticmethod
-    def getSubjectsCode(semester: int) -> list[int, int, ] | None:
+    def getSubjectsCode(semester: int | str) -> list[int, int, ] | None:
         """
             Description:
                 - Class method to get all subjects code for specified semester.
 
             Args:
-                * semester (int):
+                * semester (int | str):
                     - Semester for which subjects code need to be fetched.
+                    - Semester may be passed as integer or string but integer is recommended.
 
             Returns:
                 * list[int, int, ...]:
@@ -97,6 +98,8 @@ class Bca:
                     - Returns None if invalid semester passed or something went wrong.
         """
         try:
+            # converting semester to integer if it is string
+            semester = semester if type(semester) == int else int(semester)
             return [code + (100*semester) for code in range(1, 7)]
         except Exception as e:
             print("Invalid semester or something went wrong. Error code 1601.")
