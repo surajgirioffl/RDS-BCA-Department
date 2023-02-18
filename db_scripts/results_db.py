@@ -16,7 +16,7 @@ __email__ = 'surajgirioffl@gmail.com'
 
 from os import environ
 import mysql.connector as mysql
-import bca_db as bca
+from . import bca_db as bca
 
 
 class TableNotFound(Exception):
