@@ -124,8 +124,7 @@ def displayResult():
             if databaseResponse is None:
                 # if no result found for given credentials due to any reason (either logically invalid credentials or result not yet uploaded/declared/available)
                 return invalidRequest(errorMessage="No Result Found For Given Credentials", status=HTTPStatus.NOT_FOUND)
-
-            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True)
+            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True, subjectsWiseMarks=result.fetchSubjectsWiseMarks(examRoll=databaseResponse.get('ExamRoll')))
         else:
             # if user has changed the name using dev tools or changes using interception
             print("Invalid data passed...")
