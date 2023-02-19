@@ -53,3 +53,54 @@
     margin-bottom: 2%;
     display: none;
 }
+
+/*styling for subjects-wise result*/
+.paper-code {
+    cursor: pointer;
+}
+
+.pop-up {
+    background-color: rgb(157, 156, 156);
+    position: absolute;
+    z-index: 10;
+    padding-left: 1%;
+    padding-right: 1%;
+    border-style: solid;
+    border-color: 55 transparent transparent transparent;
+    border-radius: 10px;
+    animation: fade-in 0.5s;
+}
+
+.remove-pop-up {
+    background-color: rgb(157, 156, 156);
+    position: absolute;
+    z-index: 10;
+    padding-left: 1%;
+    padding-right: 1%;
+    border-style: solid;
+    border-color: 55 transparent transparent transparent;
+    border-radius: 10px;
+    /*above are same as class pop-up*/
+    animation: fade-out 0.5s;
+    opacity: 0%;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+    }
+}
