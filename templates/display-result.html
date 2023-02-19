@@ -20,7 +20,7 @@
                             {% for subjectCode, subjectData in subjectsWiseMarks.items()%}
                                 {% if subjectData is mapping %}
                                     <tr>
-                                        <td title="{{subjectData.get('title')}}">Paper {{subjectCode}}  (Theory+Internal)</td>
+                                        <td title="{{subjectData.get('title')}}" class="paper-code" onclick="toggleSubjectTitlePopUp(this)">Paper {{subjectCode}}  (Theory+Internal)</td>
                                         <td>{{subjectData.get('marks')}}</td>
                                     </tr>
                                 {% else %}
