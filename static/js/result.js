@@ -253,3 +253,35 @@ function fetchNameFromContent(content) {
     }
     return "Invalid Credentials"; /*name not found*/
 }
+
+/**
+ * function to toggle display the pop-up div stating the subject title (if available).
+ * @param {String} element: Element below pop need to be displayed or removed.
+ */
+function toggleSubjectTitlePopUp(element) {
+    /*checking if popup div already exists or not */
+    const existingPopUp = element.firstElementChild;
+    let isPopUpExists = false; /*to check pop up exists or not*/
+    try {
+        if (existingPopUp.className == 'pop-up') {
+            isPopUpExists = true;
+        }
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if (isPopUpExists) {
+        /*removing the existing popup*/
+        existingPopUp.classList.replace('pop-up', 'remove-pop-up');
+        setTimeout(() => {
+            existingPopUp.remove();
+        }, 500);
+    }
+    else {
+        /*creating the new popup*/
+        const div = document.createElement("div");
+        div.textContent = element.title; /*subject title as div textContent */
+        div.className = "pop-up";
+        element.appendChild(div);
+    }
+}
