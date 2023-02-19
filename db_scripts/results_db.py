@@ -17,6 +17,7 @@ __email__ = 'surajgirioffl@gmail.com'
 from os import environ
 import mysql.connector as mysql
 from . import bca_db as bca
+# import bca_db as bca
 
 
 class TableNotFound(Exception):
@@ -58,7 +59,7 @@ class Result:
                 * user (str, optional):
                     - Username of the database server.
                     - Defaults to the username set in the environment variable DBUSERNAME.
-                * port (int, optional): 
+                * port (int, optional):
                     - Port number of the database server.
                     - Defaults to the port number set in the environment variable DBPORT or 3306.
                 * password (str, optional):
@@ -201,7 +202,7 @@ class Result:
         try:
             if id != {}:
                 self.cursor.execute(f"""-- sql
-                                        SELECT RegistrationNo FROM students 
+                                        SELECT RegistrationNo FROM students
                                         WHERE {list(id.keys())[0]}=%s
                                     """, (list(id.values())[0],))
 
@@ -218,7 +219,7 @@ class Result:
 
         return None
 
-    def fetchSubjectsWiseMarks(self, registrationNo: str = None, examRoll: int = None) -> dict | None:
+    def fetchSubjectsWiseMarks(self, registrationNo: str = None, examRoll: int = None, databaseCredentials: dict = ...) -> dict | None:
         """
             Description:
                 - Method to fetch subject wise marks of a student if available.
@@ -232,6 +233,11 @@ class Result:
                 * examRoll (int, optional):
                     - For exam roll number of student.
                     - Defaults to None.
+                * databaseCredentials (dict):
+                    - For database credentials (for database rdsbca$bca)
+                    - This dictionary must contains host, user, port and password.
+                    - Required for return subjects title along with marks.
+                    - If not provided, then subjects title will not be returned.
 
             Returns:
                 * dict
@@ -265,11 +271,36 @@ class Result:
             subjectsWiseMarks = self.cursor.fetchone()
             if subjectsWiseMarks:
                 subjectsCode = bca.Bca.getSubjectsCode(semester=self.semester)
-                if subjectsCode:
+                try:
+                    subjectsTitle: dict = bca.Bca(
+                        **databaseCredentials).getSubjectsTitle(semester=self.semester)
+                    if subjectsTitle is None:
+                        raise Exception(
+                            "Unable to fetch subjects title. None was returned.")
+                except Exception as e:
+                    print("Unable to fetch subjects title. Error code 1405")
+                    print("Exception:", e)
+                    # exception occurred means subjects titles are unavailable. So, we will return subject code along with respective subjects marks.
+                    if subjectsCode:
+                        marksList = [marks for index, marks in enumerate(
+                            subjectsWiseMarks) if index not in [0, 1, 2]]  # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                        return dict(zip(subjectsCode, marksList))
+                else:
+                    # subjectsTitle is a dictionary containing subject code and title. We are fetching only subjects title using list comprehension.
+                    # we are not using subject code from subjectTitle dictionary because a separate list of subjects code make the things easy while creating final dictionary.
+                    subjectsTitle = [
+                        subTitle for subTitle in subjectsTitle.values()]
                     marksList = [marks for index, marks in enumerate(
                         subjectsWiseMarks) if index not in [0, 1, 2]]  # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
-                    return dict(zip(subjectsCode, marksList))
-            return None
+                    # Now we have subjectCode, subjectTitle and marksList in list format.
+                    # we have to create a final dictionary containing all.
+                    subjectsDataDict: dict = {}
+                    for index, subCode in enumerate(subjectsCode):
+                        subjectsDataDict[subCode] = {
+                            'title': subjectsTitle[index], 'marks': marksList[index]}
+                    print(subjectsDataDict)
+                    return subjectsDataDict
+        return None
 
 
 if __name__ == '__main__':
