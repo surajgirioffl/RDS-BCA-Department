@@ -17,11 +17,18 @@
                 </thead>
                 {% for key, value in result.items() %}
                         {% if key == 'TotalMarks' and subjectsWiseMarks is not none%}
-                            {% for subjectCode, marks in subjectsWiseMarks.items()%}
-                                <tr>
-                                    <td>Paper {{subjectCode}}  (Theory+Internal)</td>
-                                    <td>{{marks}}</td>
-                                </tr>
+                            {% for subjectCode, subjectData in subjectsWiseMarks.items()%}
+                                {% if subjectData is mapping %}
+                                    <tr>
+                                        <td title="{{subjectData.get('title')}}">Paper {{subjectCode}}  (Theory+Internal)</td>
+                                        <td>{{subjectData.get('marks')}}</td>
+                                    <tr>
+                                {% else %}
+                                    <tr>
+                                        <td>Paper {{subjectCode}}  (Theory+Internal)</td>
+                                        <td>{{subjectData}}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}   
                         {% endif %}
                     <tr>
