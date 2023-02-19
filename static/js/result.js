@@ -257,8 +257,9 @@ function fetchNameFromContent(content) {
 /**
  * function to toggle display the pop-up div stating the subject title (if available).
  * @param {String} element: Element below pop need to be displayed or removed.
+ * @param {boolean} isCalledBySetTimeout: To check if this function is called by setTimeout callback or not. Default to false.
  */
-function toggleSubjectTitlePopUp(element) {
+function toggleSubjectTitlePopUp(element, isCalledBySetTimeout = false) {
     /*checking if popup div already exists or not */
     const existingPopUp = element.firstElementChild;
     let isPopUpExists = false; /*to check pop up exists or not*/
@@ -278,10 +279,22 @@ function toggleSubjectTitlePopUp(element) {
         }, 500);
     }
     else {
-        /*creating the new popup*/
-        const div = document.createElement("div");
-        div.textContent = element.title; /*subject title as div textContent */
-        div.className = "pop-up";
-        element.appendChild(div);
+        /**
+         ** creating the new popup only if user click (not by callback of setTimeout)
+         * checking using isCalledBySetTimeout is necessary because we are calling the function 3s after creating the popup.
+         * But if user click on the subject title within 3s then pop will be removed and then callback will be called and popup will be created again.
+         * Due to this, we have taken a new variable isCalledBySetTimeout to check if this function is called by setTimeout callback or not.
+         * If it's called by setTimeout callback then we will not create the popup again.
+         * If it's called by user click and popup doesn't exists then we will create the popup.
+         * * So, to avoid creating the popup again and again without user interaction, we have used isCalledBySetTimeout.
+         * * Means we are simply restricting the callback to create the popup. popup can be created by user interaction only.
+        */
+        if (!isCalledBySetTimeout) {
+            const div = document.createElement("div");
+            div.textContent = element.title; /*subject title as div textContent */
+            div.className = "pop-up";
+            element.appendChild(div);
+            setTimeout(() => { toggleSubjectTitlePopUp(element, true) }, 3000); /*removing the popup after 3 seconds. */
+        }
     }
 }
