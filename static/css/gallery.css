@@ -1,0 +1,22 @@
+.image {
+    width: 49%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5.5%;
+    object-position: center;
+    box-shadow: 5px 5px 1px 1px grey;
+    transition: transform 0.5s;
+    transition: scale 0.5s;
+    cursor: pointer;
+    z-index: default;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+
+.image:hover {
+    transition: scale 0.5s;
+    scale: 1.1;
+    z-index: 10;
+}
