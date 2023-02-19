@@ -10,7 +10,6 @@ https://rdsbca.pythonanywhere.com/login
 https://rdsbca.pythonanywhere.com/register
 https://rdsbca.pythonanywhere.com/contact
 https://rdsbca.pythonanywhere.com/about
-https://rdsbca.pythonanywhere.com/notice.pdf
 https://rdsbca.pythonanywhere.com/about-rds-college
 https://rdsbca.pythonanywhere.com/sources
 https://rdsbca.pythonanywhere.com/credits

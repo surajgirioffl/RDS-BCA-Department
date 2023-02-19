@@ -62,8 +62,8 @@
 </item>
 <item>
      <link>https://rdsbca.pythonanywhere.com/gallery</link>
-     <title>Page Not Found</title>
-     <description>Page Not Found</description>
+     <title> Gallery - BCA RDS College, Muzaffarpur </title>
+     <description>Pictures Gallery of BCA Department RDS College Muzaffarpur</description>
      <ror:updatePeriod></ror:updatePeriod>
      <ror:sortOrder>1</ror:sortOrder>
      <ror:resourceOf>sitemap</ror:resourceOf>
@@ -96,14 +96,6 @@
      <link>https://rdsbca.pythonanywhere.com/about</link>
      <title> About - BCA RDS College, Muzaffarpur  </title>
      <description>About BCA Department of RDS College Muzaffarpur</description>
-     <ror:updatePeriod></ror:updatePeriod>
-     <ror:sortOrder>1</ror:sortOrder>
-     <ror:resourceOf>sitemap</ror:resourceOf>
-</item>
-<item>
-     <link>https://rdsbca.pythonanywhere.com/notice.pdf</link>
-     <title></title>
-     
      <ror:updatePeriod></ror:updatePeriod>
      <ror:sortOrder>1</ror:sortOrder>
      <ror:resourceOf>sitemap</ror:resourceOf>
