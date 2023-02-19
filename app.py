@@ -145,7 +145,7 @@ def credits():
 @app.route("/gallery")
 def gallery():
     logging.info("Gallery page is called...")
-    return render_template('404.html', message="Gallery page is under development.")
+    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 10) if odd % 2 != 0])
 
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
