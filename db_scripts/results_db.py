@@ -282,16 +282,40 @@ class Result:
                     print("Exception:", e)
                     # exception occurred means subjects titles are unavailable. So, we will return subject code along with respective subjects marks.
                     if subjectsCode:
-                        marksList = [marks for index, marks in enumerate(
-                            subjectsWiseMarks) if index not in [0, 1, 2]]  # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                        try:
+                            # evaluating marks of each subject to display total(sum) of marks obtained in the subject along with marks of theory and practical
+                            marksList = [str(eval(marks))+f" ({marks})" for index, marks in enumerate(
+                                subjectsWiseMarks) if index not in [0, 1, 2]]
+                        except Exception as e:
+                            print(
+                                "Exception occurred while evaluating the subject marks. Error code: 1406")
+                            print("Exception:", e)
+                            print("Proceeding without evaluating the marks of theory and practical.")
+                            # fetching marks of each subject without evaluating.
+                            # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                            marksList = [marks for index, marks in enumerate(
+                                subjectsWiseMarks) if index not in [0, 1, 2]]
                         return dict(zip(subjectsCode, marksList))
                 else:
-                    # subjectsTitle is a dictionary containing subject code and title. We are fetching only subjects title using list comprehension.
+                    # evaluating marks of each subject to display total(sum) of marks obtained in the subject along with marks of theory and practical
                     # we are not using subject code from subjectTitle dictionary because a separate list of subjects code make the things easy while creating final dictionary.
                     subjectsTitle = [
                         subTitle for subTitle in subjectsTitle.values()]
-                    marksList = [marks for index, marks in enumerate(
-                        subjectsWiseMarks) if index not in [0, 1, 2]]  # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                    try:
+                        # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                        # evaluating marks of each subject along with marks of theory and practical
+                        marksList = [str(eval(marks))+f" ({marks})" for index, marks in enumerate(
+                            subjectsWiseMarks) if index not in [0, 1, 2]]
+                    except Exception as e:
+                        print(
+                            "Exception occurred while evaluating the subject marks. Error code: 1407")
+                        print("Exception:", e)
+                        print("Proceeding without evaluating the marks of theory and practical.")
+                        # fetching marks of each subject without evaluating.
+                        # because at index 0, 1  and 2 there are SNo, RegistrationNo and ExamRoll respectively.
+                        marksList = [marks for index, marks in enumerate(
+                            subjectsWiseMarks) if index not in [0, 1, 2]]
+
                     # Now we have subjectCode, subjectTitle and marksList in list format.
                     # we have to create a final dictionary containing all.
                     subjectsDataDict: dict = {}
