@@ -50,6 +50,20 @@ function displayFullScreen(image) {
         if (event.key == 'Escape') {
             fullScreenContainer.remove();
         }
+        /*viewing next image on pressing right arrow key*/
+        else if (event.key == 'ArrowRight') {
+            if (image.nextElementSibling.src != null) {
+                image = image.nextElementSibling;
+                copyImage.src = image.src;
+            }
+        }
+        /*viewing previous image on pressing left arrow key*/
+        else if (event.key == 'ArrowLeft') {
+            if (image.previousElementSibling.src != null) {
+                image = image.previousElementSibling;
+                copyImage.src = image.src;
+            }
+        }
         console.log(event)
     })
 }
