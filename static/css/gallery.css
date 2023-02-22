@@ -35,3 +35,71 @@
         z-index: default;
     }
 }
+
+#fullscreen-div {
+    /*Sit on top of the page content */
+    position: fixed;
+    /*Full width (cover the whole page) */
+    width: 100%;
+    /*Full height (cover the whole page)*/
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Black background with little opacity */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    /*
+     * in absolute foreground image: everything is moving both foreground and background images.
+     * in fixed foreground image: foreground image is fixed and background move on moving mouse wheel.
+     */
+}
+
+#image-container-div {
+    position: relative;
+    top: 5%;
+    bottom: 5%;
+    text-align: center;
+    align-items: center;
+}
+
+div#image-container-div img {
+    width: 90%;
+    height: 750px;
+}
+
+.carousel-control-prev-icon {
+    position: fixed;
+    top: 40%;
+    /*if position is static then top/bottom/left/right will not working.*/
+    padding-top: 10%;
+    padding-bottom: 10%;
+    cursor: pointer;
+    z-index: 12;
+}
+
+.carousel-control-next-icon {
+    position: fixed;
+    left: 97%;
+    top: 40%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    cursor: pointer;
+    z-index: 12;
+}
+
+@media screen and (max-width: 768px) {
+    div#image-container-div img {
+        width: 90%;
+        height: 400px;
+    }
+
+    .carousel-control-next-icon {
+        left: 95%;
+    }
+
+    #image-container-div {
+        top: 30%;
+    }
+}
