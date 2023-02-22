@@ -64,6 +64,10 @@ function displayFullScreen(image) {
                 copyImage.src = image.src;
             }
         }
+        else if (event.key === 'h' || event.key === 'H') {
+            document.querySelectorAll('div> ul> li')[0].firstElementChild.click();
+            console.log('clicked')
+        }
         console.log(event)
     })
 }
