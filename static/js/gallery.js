@@ -40,6 +40,18 @@ function displayFullScreen(image) {
 
     /*appending the main fullScreenContainer to the body*/
     document.body.appendChild(fullScreenContainer);
+
+    /**
+     * @special keyboard shortcuts to navigate through images, to exit full screen, to visit home page and more...
+     * some event listeners for ease of use with the help of keyboard.
+     */
+    document.body.addEventListener('keydown', (event) => {
+        /*removing the full screen container on pressing escape*/
+        if (event.key == 'Escape') {
+            fullScreenContainer.remove();
+        }
+        console.log(event)
+    })
 }
 
 (() => {
