@@ -2,7 +2,8 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 25th Jan 2023
+    @last-modified: 7th Feb 2023
+    @error-series: 1500
 
     @description:
         * Module to insert data into the database rdsbca$files.
@@ -24,7 +25,7 @@ class Files:
             self.cursor.execute(f'USE {database}')
         except Exception as e:
             print(
-                f"Unable to establish connection with the database ({database}). Error code 1300")
+                f"Unable to establish connection with the database ({database}). Error code 1500")
             print("Exception: ", e)
             # if connection is not established then set connectionStatus to False.
             self.connectionStatus = False
@@ -37,22 +38,7 @@ class Files:
             try:
                 self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             except Exception as e:
-                print("Unable to set time_zone. Error code 1301")
-
-            # listing all the tables in the database
-            self.tables = {
-                'files': 'files',
-                'files_path': 'files_path',
-                'drive': 'drive',
-                'file_contents_info': 'file_contents_info',
-                'files_metadata': 'files_metadata',
-                'files_type': 'files_type',
-                'files_info': 'files_info',
-                'files_tracking': 'files_tracking',
-                'creditors_info': 'creditors_info',
-                'credits': 'credits',
-                'root_sources': 'root_sources'
-            }
+                print("Unable to set time_zone. Error code 1501")
 
     def __del__(self) -> None:
         """
@@ -66,84 +52,54 @@ class Files:
             self.conn.commit()
             self.conn.close()
 
-    # Now taking input from user and inserting into database (Table by Table).
+    def setTableAttributes(self) -> None:
+        # listing all the tables in the database along with their attributes
+        # only those tables are listed in which data need to be inserted. So, table like 'files_tracking' etc are not listed.
+        self.tables = {
+            'files': ["SNo", "FileId", "Title", "Access", "ServeVia"],
+            'files_path': ["SNo", "FileId", "FilePath"],
+            'drive': ["SNo", "FileId", "ViewLink", "DownloadLink"],
+            'file_contents_info': ["SNo", "FileId", "Description", "Keywords"],
+            'files_metadata': ["SNo", "FileId", "FileName", "DownloadName", "Extension", "Size"],
+            'files_type': ["SNo", "Extension", "FileType"],
+            'files_info': ["SNo", "FileId", "Category", "FileFor", "DateCreated", "DateModified", "Tags"],
+            'creditors_info': ["Id", "Name", "Email", "Designation", "Username", "AccountId", "Contact"],
+            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSource"],
+            'root_sources': ["SNo", "RootSource", "SourceFileLink", "ContactSource"]
+        }
+
+        # attributes of type ENUM (means having a predefined values)
+        self.enumAttributes = {
+            "Access": {
+                "options": ["Public", "Private", "Restricted"],
+                "default": "Public"
+            },
+            "ServeVia": {
+                "options": ["FileSystem", "Drive"],
+                "default": "Drive"
+            }
+        }
+
+        # attributes having default values except NULL as default value (auto-increment is included)
+        # attributes in which DEFAULT need to be set if user doesn't provide any value or no need to provide value
+        # mysql date time is like : 2023-01-28 01:00:46 (CURRENT_TIMESTAMP)
+        # Except ENUM attributes
+        self.passDefault = ["SNo", "Access", "ServeVia", "DateCreated",
+                            "DateModified", "SubmittedOn", "UploadedOn", "LastModifiedOn", "ApprovedOn"]
+
     def files(self) -> int:
-        print("------------------------------Table files------------------------------")
-        while True:
-            # for attribute 'Title'
-            while True:
-                title = input(
-                    "Write title of file (It will display on the web page): ")
-                if title == "":
-                    print("Title can't be empty. Please write again...")
-                else:
-                    title = title.title()  # converting into title case
-                    break
-
-            # for attribute 'Access'
-            while True:
-                print("""
-                        Select the access right:
-                        1. Public (Default. Press enter)
-                        2. Private
-                        3. Restricted
-                    """)
-                choice = input("write your choice: ")
-                if choice == "1" or choice == "":
-                    access = "Public"
-                    break
-                elif choice == "2":
-                    access = "Private"
-                    break
-                elif choice == "3":
-                    access = "Restricted"
-                    break
-                else:
-                    print("Invalid choice... Please select again")
-
-            # for attribute 'ServeVia'
-            while True:
-                print("""
-                        Select the way to serve the file to client:
-                        1. Drive (Default. Press enter)
-                        2. FileSystem
-                    """)
-                choice = input("write your choice: ")
-                if choice == "1" or choice == "":
-                    serveVia = "Drive"
-                    break
-                elif choice == "2":
-                    serveVia = "FileSystem"
-                    break
-                else:
-                    print("Invalid choice... Please select again")
-
-            # verification of input data
-            print("================VERIFICATION=================")
-            print(f"""
-                    For table 'files':
-                    1. Title: {title}
-                    2. Access: {access}
-                    3. ServeVia: {serveVia}
-                    Press enter or yes to continue else press any key to re-enter the information.
-                """)
-            choice = input("write your choice: ")
-            if choice in ["", "yes", "Yes", "YES"]:
-                break
-
-        fileId = myRandom.Random(self.cursor, 'files', 'FileId').generate()
-
-        # Inserting data in table
-        self.cursor.execute(f"""-- sql
-                                INSERT INTO {self.tables.get('files')}
-                                VALUES (
-                                        DEFAULT, {fileId}, '{title}', '{access}', '{serveVia}'
-                                    );
-                            """)
+        """
+            Now taking input from user and inserting into database (Table by Table).
+        """
+        ...
 
 
 def main():
     files = Files()
+    if not files.connectionStatus:
+        print("Connection not established. Exiting...")
+        exit(-1)
+    files.setTableAttributes()  # setting the table attributes and related data
     files.files()
 
 

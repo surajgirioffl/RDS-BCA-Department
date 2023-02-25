@@ -116,6 +116,12 @@
             "fontWeight": "bold",
             "backgroundColor": ""
         },
+        {
+            "text": "@error-series",
+            "color": "cyan",
+            "fontStyle": "italic",
+            "backgroundColor": ""
+        }
     ],
     "files.associations": {
         "iostream": "cpp"
