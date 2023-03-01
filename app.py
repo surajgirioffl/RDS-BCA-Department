@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 25th Feb 2023
+    @last-modified: 1st March 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -145,7 +145,7 @@ def credits():
 @app.route("/gallery")
 def gallery():
     logging.info("Gallery page is called...")
-    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 10) if odd % 2 != 0])
+    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0])
 
 
 @app.route("/previousYearQuestions", methods=["GET", "POST"])
