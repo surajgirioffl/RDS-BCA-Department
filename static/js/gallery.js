@@ -38,6 +38,16 @@ function displayFullScreen(image) {
     })
     fullScreenContainer.appendChild(nextImageButton);
 
+
+    /*button to exit full screen*/
+    const crossButton = document.createElement('span');
+    crossButton.id = 'cross-button';
+    crossButton.innerHTML = '&times;';
+    crossButton.addEventListener('click', () => {
+        fullScreenContainer.remove();
+    })
+    fullScreenContainer.appendChild(crossButton);
+
     /*appending the main fullScreenContainer to the body*/
     document.body.appendChild(fullScreenContainer);
 
