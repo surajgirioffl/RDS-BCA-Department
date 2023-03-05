@@ -5,6 +5,17 @@ function displayFullScreen(image) {
     const fullScreenContainer = document.createElement('div');
     fullScreenContainer.id = 'fullscreen-div';
 
+    /*div containing images*/
+    const imageContainer = document.createElement('div');
+    imageContainer.id = 'image-container-div';
+    fullScreenContainer.appendChild(imageContainer);
+
+    /*image which is displaying currently*/
+    let copyImage = document.createElement('img');
+    copyImage.src = image.src;
+    imageContainer.appendChild(copyImage);
+    console.log('done');
+
     /*button to view previous image */
     const previousImageButton = document.createElement('span');
     previousImageButton.className = "carousel-control-prev-icon";
@@ -16,16 +27,6 @@ function displayFullScreen(image) {
     })
     fullScreenContainer.appendChild(previousImageButton);
 
-    /*div containing images*/
-    const imageContainer = document.createElement('div');
-    imageContainer.id = 'image-container-div';
-    fullScreenContainer.appendChild(imageContainer);
-
-    /*image which is displaying currently*/
-    let copyImage = document.createElement('img');
-    copyImage.src = image.src;
-    imageContainer.appendChild(copyImage);
-    console.log('done');
 
     /*button to view next image */
     const nextImageButton = document.createElement('span');
