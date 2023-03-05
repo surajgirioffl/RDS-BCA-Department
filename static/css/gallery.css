@@ -58,8 +58,7 @@
 
 #image-container-div {
     position: relative;
-    top: 5%;
-    bottom: 5%;
+    transform: translate(0%, 10%);
     text-align: center;
     align-items: center;
 }
@@ -71,9 +70,10 @@ div#image-container-div img {
 }
 
 .carousel-control-prev-icon {
-    position: fixed;
-    top: 40%;
     /*if position is static then top/bottom/left/right will not working.*/
+    position: fixed;
+    left: 1%;
+    transform: translate(0%, -150%);
     padding-top: 10%;
     padding-bottom: 10%;
     cursor: pointer;
@@ -82,8 +82,8 @@ div#image-container-div img {
 
 .carousel-control-next-icon {
     position: fixed;
-    left: 97%;
-    top: 40%;
+    left: 96.5%;
+    transform: translate(0, -150%);
     padding-top: 10%;
     padding-bottom: 10%;
     cursor: pointer;
@@ -113,13 +113,18 @@ div#image-container-div img {
         width: 90%;
         height: 400px;
     }
+    .carousel-control-prev-icon{
+        left: -1%;
+        transform: translate(0, 0%);
+    }
 
     .carousel-control-next-icon {
         left: 95%;
+        transform: translate(0, 0%);
     }
 
     #image-container-div {
-        top: 30%;
+        transform: translate(0%, 70%);
     }
 
     #cross-button {
