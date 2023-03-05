@@ -2,16 +2,75 @@
 {%block title%} Login - BCA RDS College, Muzaffarpur  {%endblock title%}
 {%block description%}Login BCA Department RDS College Muzaffarpur{% endblock description%}
 {%block keywords%}Login, BCA Department RDS College Muzaffarpur, RDS College Muzaffarpur, Student's Login, login page, registration page, user's login, RDS College, Login page for registered user, Login page for students of BCA Department RDS College Muzaffarpur{%endblock keywords%}
+{%block css%}<link rel="stylesheet" href="../static/css/register.css">{%endblock css%}
+{%block css2%}<link rel="stylesheet" href="../static/css/login.css">{%endblock css2%}
 {%block body%}
 <!---Page Heading-->
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
     <p class="text-center fs-2 text fw-bolder">Login</p>
     <hr>
-    <div style="padding-left:10%; padding-right:10%;">
+    <div style="padding-left:10%; padding-right:10%;" class="form-parent-div">
         <p style="text-decoration:underline;"><strong>Fill The Following Fields</strong></p>
 
         <!-- form start -->
-        <form action="/register" method="POST">
+        <form action="/login" method="POST">
+            <!--Email-->
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="material-icons icons registrationIcons">mail</i></span>
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="floatingInputGroup4" placeholder="name@example.com" name="email" required>
+                    <label for="floatingInput" class="mandatory">Email address</label>
+                </div>
+                <div class="invalid-feedback" id="email">
+                <!--content to display incase of invalid input-->
+                </div>
+            </div>
+
+            <!--username-->
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="material-icons icons registrationIcons">person</i></span>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInputGroup6" placeholder="Username" name="userName" required>
+                <label for="floatingInput" class="mandatory">Username</label>
+                </div>
+                <div class="invalid-feedback" id="UserName">
+                <!--content to display incase of invalid input-->
+                </div>
+            </div>
+
+            <!--password-->
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="material-icons icons registrationIcons">lock_outline</i></span>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                <label for="floatingPassword" class="mandatory">Password</label>
+                </div>
+                <div class="invalid-feedback" id="password">
+                <!--content to display incase of invalid input-->
+                </div>
+            </div>  
+
+            <!-- 2 column grid layout for inline styling -->
+            <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                        <label class="form-check-label" for="form2Example31"> Remember me </label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Simple link -->
+                    <a href="javascript:void(0)">Forgot password?</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mb-3">SIGN IN</button>
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>Not a member? <a href="/register">Register</a></p>
+            </div>
+    
         </form>
     </div>
 </div>
