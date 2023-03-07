@@ -5,6 +5,9 @@
  * Created on: 6th March 2023
  * Last updated 7th March 2023
  */
+----
+-- 1. Table `users`
+----
 CREATE TABLE IF NOT EXISTS `users`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `UserId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -12,6 +15,9 @@ CREATE TABLE IF NOT EXISTS `users`(
     `Password` VARCHAR(100) NOT NULL,
 );
 
+----
+-- 2. Table `users_info`
+----
 CREATE TABLE IF NOT EXISTS `users_info`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `UserId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -25,6 +31,9 @@ CREATE TABLE IF NOT EXISTS `users_info`(
     FOREIGN KEY (`UserId`) REFERENCES users(`UserId`) ON DELETE CASCADE
 );
 
+----
+-- 3. Table `user_statistics`
+----
 CREATE TABLE IF NOT EXISTS `user_statistics`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `UserId` INT UNSIGNED PRIMARY KEY NOT NULL,

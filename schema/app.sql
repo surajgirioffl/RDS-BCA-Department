@@ -5,6 +5,9 @@
  * Created on: 7th March 2023
  * Last updated 7th March 2023
  */
+----
+-- 1. Table `otp_records`
+----
 CREATE TABLE IF NOT EXISTS `otp_records` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `OtpId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -15,6 +18,9 @@ CREATE TABLE IF NOT EXISTS `otp_records` (
     `ExpireOn` DATETIME DEFAULT NULL,
 );
 
+----
+-- 2. Table `otp_archive`
+----
 CREATE TABLE IF NOT EXISTS `otp_archive` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `OtpId` INT UNSIGNED NOT NULL,

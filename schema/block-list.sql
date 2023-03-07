@@ -5,6 +5,9 @@
  * Created on: 6th March 2023
  * Last updated 7th March 2023
  */
+----
+-- 1. Table `user_blocklist`
+----
 CREATE TABLE IF NOT EXISTS `user_blocklist`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `BlockId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -17,6 +20,9 @@ CREATE TABLE IF NOT EXISTS `user_blocklist`(
     /*BlockedBy & UnblockedBy - username or person/moderator/adminstrator who blocked the user*/
 );
 
+----
+-- 2. Table `ip_blocklist`
+----
 CREATE TABLE IF NOT EXISTS `ip_blocklist`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `BlockId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -29,6 +35,9 @@ CREATE TABLE IF NOT EXISTS `ip_blocklist`(
     /*BlockedBy & UnblockedBy - username or person/moderator/adminstrator who blocked the user*/
 );
 
+----
+-- 3. Table `blocked_users_archive`
+----
 CREATE TABLE IF NOT EXISTS `blocked_users_archive`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `BlockId` INT UNSIGNED PRIMARY KEY NOT NULL,
@@ -42,6 +51,9 @@ CREATE TABLE IF NOT EXISTS `blocked_users_archive`(
     /*BlockedBy & UnblockedBy - username or person/moderator/adminstrator who blocked the user*/
 );
 
+----
+-- 4. Table `blocked_ip_archive`
+----
 CREATE TABLE IF NOT EXISTS `blocked_ip_archive`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `BlockId` INT UNSIGNED PRIMARY KEY NOT NULL,
