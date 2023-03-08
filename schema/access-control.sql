@@ -28,3 +28,14 @@ CREATE TABLE IF NOT EXISTS `moderators` (
     `LastName` VARCHAR(50) NOT NULL,
     FOREIGN KEY (`ModeratorId`) REFERENCES moderator_administrator(`Id`) ON DELETE CASCADE
 );
+
+----
+-- 3. Table `administrators`
+----
+CREATE TABLE IF NOT EXISTS `administrators` (
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `AdminId` INT UNSIGNED PRIMARY KEY NOT NULL,
+    `FirstName` VARCHAR(50) NOT NULL,
+    `LastName` VARCHAR(50) NOT NULL,
+    FOREIGN KEY (`AdminId`) REFERENCES moderator_administrator(`Id`) ON DELETE CASCADE
+);
