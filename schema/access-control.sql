@@ -17,3 +17,14 @@ CREATE TABLE IF NOT EXISTS `moderator_administrator` (
     `Username` VARCHAR(50) UNIQUE NOT NULL,
     `Role` ENUM('admin', 'moderator') NOT NULL,
 );
+
+----
+-- 2. Table `moderators`
+----
+CREATE TABLE IF NOT EXISTS `moderators` (
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `ModeratorId` INT UNSIGNED PRIMARY KEY NOT NULL,
+    `FirstName` VARCHAR(50) NOT NULL,
+    `LastName` VARCHAR(50) NOT NULL,
+    FOREIGN KEY (`ModeratorId`) REFERENCES moderator_administrator(`Id`) ON DELETE CASCADE
+);
