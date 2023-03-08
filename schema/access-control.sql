@@ -39,3 +39,16 @@ CREATE TABLE IF NOT EXISTS `administrators` (
     `LastName` VARCHAR(50) NOT NULL,
     FOREIGN KEY (`AdminId`) REFERENCES moderator_administrator(`Id`) ON DELETE CASCADE
 );
+
+----
+-- 4. Table `access_statistics`
+-- This statics is independent from normal user statistics. It will be updated only if moderator/adminstrator visit the moderator/adminstrator dashboard.
+----
+CREATE TABLE IF NOT EXISTS `access_statistics`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Id` INT UNSIGNED PRIMARY KEY NOT NULL,
+    `LastVisited` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `VisitCount` INT UNSIGNED DEFAULT 0,
+    `RegisteredOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`Id`) REFERENCES moderator_administrator(`Id`)
+);
