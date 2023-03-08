@@ -9,6 +9,7 @@
 -- 1. Table `moderator_administrator`
 -- Username of moderator/adminstrator will be differ from that of normal user even that moderator/adminstrator is one of the normal user.
 -- Username will be equal to "<moderator/admin>+FirstName+Id" where for moderator, Id = ModeratorId and for adminstrator, Id = AdminId.
+-- Username must be unique among moderator_administrator table in this database and users table in users database. (Because in blocklist table, username is used and constraints are UNIQUE, NOT NULL etc and tuple may be from moderators/administrators/normal users table).
 ----
 CREATE TABLE IF NOT EXISTS `moderator_administrator` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
