@@ -29,7 +29,7 @@ class Mail:
                 - Method to configure the Flask app for Flask-Mail.
     """
     @staticmethod
-    def configureApp(app, **config):
+    def configureApp(app, **config) -> None:
         """
             Description:
                 - Method to configure the Flask app for Flask-Mail.
@@ -47,3 +47,16 @@ class Mail:
         app.config['MAIL_PORT'] = config['MAIL_PORT']
         app.config['MAIL_USE_SSL'] = config['MAIL_USE_SSL']
         app.config['MAIL_DEFAULT_SENDER'] = config['MAIL_DEFAULT_SENDER']
+
+    def __init__(self, app) -> None:
+        """
+            Description:
+                - Constructor of the class Mail.
+                - Initializes the Flask-Mail object and configures it for mail services.
+
+            Args:
+                * app (Flak): 
+                    - object of class Flask of Flask.
+
+        """
+        self.mail = FlaskMail(app)
