@@ -46,6 +46,15 @@ databaseCredentials = {
     "password": os.environ.get('DBPASSWORD')
 }
 
+# mail credentials
+mailCredentials: dict = {
+    'MAIL_USERNAME': os.environ.get('MAIL_USERNAME'),
+    'MAIL_PASSWORD': os.environ.get('MAIL_PASSWORD'),
+    'MAIL_SERVER': os.environ.get('MAIL_SERVER'),
+    'MAIL_DEFAULT_SENDER': os.environ.get('MAIL_DEFAULT_SENDER'),
+    'MAIL_PORT': os.environ.get('MAIL_PORT')
+}
+
 app = Flask(__name__)
 
 
@@ -339,18 +348,6 @@ def getDetails(registrationNo):
 # api route 3 (mail service)
 @app.route('/api/send-otp')
 def mailService():
-    mailCredentials: dict = {
-        'MAIL_USERNAME': os.environ.get('MAIL_USERNAME'),
-        'MAIL_PASSWORD': os.environ.get('MAIL_PASSWORD'),
-        'MAIL_SERVER': os.environ.get('MAIL_SERVER'),
-        'MAIL_DEFAULT_SENDER': os.environ.get('MAIL_DEFAULT_SENDER')
-    }
-    try:
-        mailCredentials['MAIL_PORT'] = int(os.environ.get('MAIL_PORT'))
-    except Exception as e:
-        logging.error("Error in converting MAIL_PORT to int: ", e)
-        mailCredentials['MAIL_PORT'] = 465
-
     mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
     myMail = mail.Mail(app)
     otp: int = myRandom.Random.generateOtp()
