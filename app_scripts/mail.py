@@ -45,7 +45,12 @@ class Mail:
         app.config['MAIL_USERNAME'] = config['MAIL_USERNAME']
         app.config['MAIL_PASSWORD'] = config['MAIL_PASSWORD']
         app.config['MAIL_SERVER'] = config['MAIL_SERVER']
-        app.config['MAIL_PORT'] = config['MAIL_PORT']
+        try:
+            app.config['MAIL_PORT'] = int(config['MAIL_PORT'])
+        except Exception as e:
+            print("Error in converting MAIL_PORT to int. Error Code: 1701")
+            print("Exception: ", e)
+            app.config['MAIL_PORT'] = 465
         app.config['MAIL_USE_SSL'] = config['MAIL_USE_SSL']
         app.config['MAIL_DEFAULT_SENDER'] = config['MAIL_DEFAULT_SENDER']
 
