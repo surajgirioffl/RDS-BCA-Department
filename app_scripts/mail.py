@@ -2,7 +2,8 @@
     @file: mail.py
     @author: Suraj Kumar Giri (@surajgirioffl)
     @init-date: 8th March 2022
-    @last-modified: 8th March 2022
+    @last-modified: 10th March 2022
+    @error-series: 1700
     
     @description:
         Script to send mail (in single or in batch).
@@ -60,3 +61,15 @@ class Mail:
 
         """
         self.mail = FlaskMail(app)
+
+    def sendMessage(self, subject: str, message: str,  recipients: list, html: str, sender: str | None = None) -> bool:
+        try:
+            msg = Message(subject=subject, body=message,
+                        recipients=recipients, sender=sender, html=html)
+            self.mail.send(msg)
+        except Exception as e:
+            print("Unable to send mail. Error Code: 1700")
+            print("Exception: ", e)
+            return False
+        else:
+            return True
