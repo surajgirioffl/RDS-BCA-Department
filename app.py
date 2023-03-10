@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 1st March 2023
+    @last-modified: 10th March 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -29,7 +29,9 @@ from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 from db_scripts import dynamic_contents as dynamicContents
 from app_scripts import my_time as myTime
+from app_scripts import mail
 from app_scripts import validation
+from automation_scripts import my_random as myRandom
 import setTimeZone as tz
 from dotenv import load_dotenv
 
@@ -332,6 +334,33 @@ def getDetails(registrationNo):
     print('API GET Request for details of registration No:', registrationNo)
     response = regDb.FetchDetails().getDetails(registrationNo)
     return jsonify(response)
+
+
+# api route 3 (mail service)
+@app.route('/api/send-otp')
+def mailService():
+    mailCredentials: dict = {
+        'MAIL_USERNAME': os.environ.get('MAIL_USERNAME'),
+        'MAIL_PASSWORD': os.environ.get('MAIL_PASSWORD'),
+        'MAIL_SERVER': os.environ.get('MAIL_SERVER'),
+        'MAIL_DEFAULT_SENDER': os.environ.get('MAIL_DEFAULT_SENDER')
+    }
+    try:
+        mailCredentials['MAIL_PORT'] = int(os.environ.get('MAIL_PORT'))
+    except Exception as e:
+        logging.error("Error in converting MAIL_PORT to int: ", e)
+        mailCredentials['MAIL_PORT'] = 465
+
+    mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
+    myMail = mail.Mail(app)
+    otp: int = myRandom.Random.generateOtp()
+    recipients = []
+    status: bool = myMail.sendMessage(subject=f"Verification Code {otp}", message=f"Your OTP is {otp}", recipients=[
+    ], html=render_template('mail-templates/otp.html', otp=otp))
+    if status:
+        return "Mail sent successfully"
+    else:
+        return "Mail sending failed"
 
 
 if __name__ == '__main__':
