@@ -368,6 +368,48 @@ def isValidIdValue(idName: str, idValue: str) -> bool:
 
 
 def isValidEmail(email: str, allowDefaultDisposableEmailDomains: bool = False, includeMails: list = ..., excludeMails: list = ..., prohibitedDomains: list = ..., allowedDomains: list = ...) -> bool:
+    """
+        Description:
+            - 
+
+        Args:
+            * email (str):
+                - Email address to be checked. 
+            * allowDefaultDisposableEmailDomains (bool, optional):
+                - Specify that default list of disposable domains should be allowed or not.
+                - If True then disposable domain list will be ignored.
+                - If False (default) then disposable domain list will be considered and if email matched with any of the domain then it will be considered as invalid.  
+                - Defaults to False.
+            * includeMails (list, optional):
+                - List of emails to be included while validating email.
+                - List of any emails that should be included at any cost.
+                - It will be considered with top priority. 
+                - It will be considered even if email matched with any of the disposable domain or exclude list emails.
+                - Defaults to ....
+            * excludeMails (list, optional): 
+                - List of emails to be excluded while validating email.
+                - List of any emails that should be excluded at any cost.
+                - It will be considered after include list.
+                - Defaults to ....
+            * prohibitedDomains (list, optional): 
+                - List of domains to be prohibited while validating email.
+                - You can pass any domain name that you want to prohibit. 
+                - Domains of this list will be considered as invalid.
+                - Given to extend the default list of disposable domains.
+                - Defaults to ....
+            * allowedDomains (list, optional): 
+                - List of domains to be allowed while validating email.
+                - Given to override the default list of disposable domains.
+                - Defaults to ....
+
+        Returns:
+            * bool: 
+                - Returns True if the email is valid else False.
+
+        More:
+            - prohibitedDomains has more priority than allowedDomains.
+            - Means if email matched with any of the domain of prohibitedDomains then it will be considered as invalid even if it matched with any of the domain of allowedDomains.
+    """
     # some disposable email domains (default)
     defaultDisposalEmailDomains: list = [
         "10minutemail.com",
