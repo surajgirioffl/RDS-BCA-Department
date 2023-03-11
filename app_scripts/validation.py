@@ -3,6 +3,7 @@
     @author: Suraj Kumar Giri
     @init-date: 1st Feb 2023
     @last-modified: 11th March 2023
+    @error-series: 1800
 
     @description:
         * Module to validate the data/input sent from client to server as per application configuration and requirements.
@@ -26,6 +27,8 @@
                 - Simply pass the data as it is received from the client. Don't convert it to any other type.
                 - And by default data from client is received as string.
 """
+
+import re
 
 
 class __Tools:
@@ -364,6 +367,60 @@ def isValidIdValue(idName: str, idValue: str) -> bool:
         return False
 
 
+def isValidEmail(email: str, allowDefaultDisposableEmailDomains: bool = False, includeMails: list = ..., excludeMails: list = ..., prohibitedDomains: list = ..., allowedDomains: list = ...) -> bool:
+    # some disposable email domains (default)
+    defaultDisposalEmailDomains: list = [
+        "10minutemail.com",
+        "temp-mail.org",
+        "guerrillamail.com",
+        "mailinator.com",
+        "sharklasers.com",
+        "throwawaymail.com",
+        "getairmail.com",
+        "fakeinbox.com",
+        "yopmail.com",
+        "burnermail.io"
+    ]
+
+    # if email is empty
+    if isEmpty(email):
+        return False
+    # if email is in include list
+    if not isEmpty(includeMails):
+        if email in includeMails:
+            return True
+    # if email is in exclude list
+    if not isEmpty(excludeMails):
+        if email in excludeMails:
+            print("Email is in exclude list.")
+            return False
+    # if email-domain is in prohibited domains list
+    if not isEmpty(prohibitedDomains):
+        for domain in prohibitedDomains:
+            if(email.endswith(domain)):
+                print("Email with prohibited domains are not allowed.")
+                return False
+    # if email-domain is in allowed domains list
+    if not isEmpty(allowedDomains):
+        for domain in allowedDomains:
+            try:
+                defaultDisposalEmailDomains.remove(domain)
+            except Exception as e:
+                print("Something went wrong while removing allowed domains from default disposable domains list. Error Code: 1800")
+                print("Exception: ", e)
+    # If default disposable email domains are allow or not
+    if not allowDefaultDisposableEmailDomains:
+        for domain in defaultDisposalEmailDomains:
+            if(email.endswith(domain)):
+                print(
+                    "Disposable Email Domains are not allowed (Found from default disposable list).")
+                return False
+    emailRegex: re.Pattern = re.compile("^[a-zA-Z0-9+.-_]+@[a-zA-Z0-9.-]+$")
+    if(emailRegex.match(email)):
+        return True
+    return False
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -371,6 +428,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isEmpty(data))
+            print(isValidEmail(data))
     except KeyboardInterrupt:
         exit(0)
