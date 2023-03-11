@@ -2,7 +2,7 @@
     @file: validation.py
     @author: Suraj Kumar Giri
     @init-date: 1st Feb 2023
-    @last-modified: 2nd Feb 2023
+    @last-modified: 11th March 2023
 
     @description:
         * Module to validate the data/input sent from client to server as per application configuration and requirements.
@@ -37,22 +37,32 @@ class __Tools:
     """
 
 
-def isEmpty(value: str) -> bool:
+def isEmpty(value: str | list | tuple | dict | None, ellipsisAsEmpty: bool = True) -> bool:
     """
         Description:
-            - Function to check if value is empty or null.
+            - Function to check if value is empty or not.
+            - If value is Ellipsis then by default it will taken as empty. And True will be returned.
+            - By the way, Python treats Ellipsis as non-empty value.
+            - You can specify that Ellipsis should be taken as empty or not via variable "ellipsisAsEmpty" whose default value is True.
 
         Args:
-            * value (str):
+            * value (str | list | tuple | dict | None | ...):
                 - Value to be checked.
+            * ellipsisAsEmpty (bool, optional):
+                - Specify that ellipsis should be taken as empty or not.
+                - Default to True. Means Ellipsis will be taken as empty.
+                - By the way, Python treats Ellipsis as non-empty value.
+                - So, if you want to treat Ellipsis as non-empty value then set this variable to False.
 
         Returns:
             * bool:
                 - Returns True if value is empty else False.
     """
-    if value in [None, ""]:
-        return True
-    return False
+    if value == ... and ellipsisAsEmpty:
+        return True  # in case of Ellipsis
+    elif value:
+        return False  # if no empty value
+    return True  # in case of empty value
 
 
 def isValidSession(session: str, duration: int = 3) -> bool:
@@ -236,7 +246,7 @@ def isValidClassRollNo(classRollNo: str, isDefinedRange: bool = True, start: int
                 - Must be empty or list of integers (only integers. No string of integers are allowed.)
 
             Returns:
-                * bool: 
+                * bool:
                     - Returns True if class roll number is valid else False.
 
             Special:
@@ -309,7 +319,7 @@ def isValidExamRollNo(examRollNo: str, isDefinedRange: bool = False, start: int 
                 - Must be empty or list of integers (only integers. No string of integers are allowed.)
 
             Returns:
-                * bool: 
+                * bool:
                     - Returns True if exam roll number is valid else False.
 
             Special:
@@ -361,6 +371,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidExamRollNo(data))
+            print(isEmpty(data))
     except KeyboardInterrupt:
         exit(0)
