@@ -1,10 +1,10 @@
 """
         ____  _________       ____  ____  _____    __________  __    __    __________________
        / __ )/ ____/   |     / __ \/ __ \/ ___/   / ____/ __ \/ /   / /   / ____/ ____/ ____/
-      / __  / /   / /| |    / /_/ / / / /\__ \   / /   / / / / /   / /   / __/ / / __/ __/   
-     / /_/ / /___/ ___ |   / _, _/ /_/ /___/ /  / /___/ /_/ / /___/ /___/ /___/ /_/ / /___   
-    /_____/\____/_/  |_|  /_/ |_/_____//____/   \____/\____/_____/_____/_____/\____/_____/   
-    
+      / __  / /   / /| |    / /_/ / / / /\__ \   / /   / / / / /   / /   / __/ / / __/ __/
+     / /_/ / /___/ ___ |   / _, _/ /_/ /___/ /  / /___/ /_/ / /___/ /___/ /___/ /_/ / /___
+    /_____/\____/_/  |_|  /_/ |_/_____//____/   \____/\____/_____/_____/_____/\____/_____/
+
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
@@ -28,6 +28,7 @@ from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 from db_scripts import dynamic_contents as dynamicContents
+from db_scripts import rds_project_db as rdsDb
 from app_scripts import my_time as myTime
 from app_scripts import mail
 from app_scripts import validation
@@ -369,6 +370,60 @@ def mailService():
             print(f"Invalid email {email}")
             return "Invalid email ID"
     return "Invalid request"
+
+
+# special api routes for the college project
+@app.route('/api/students-register', methods=['GET', 'POST'])
+def registerStudents():
+    if request.method == 'POST':
+        # validation check will be implemented later.
+        dataDict = {
+            'firstname': request.json.get('firstname'),
+            'middlename': request.json.get('middlename'),
+            'lastname': request.json.get('lastname'),
+            'course': request.json.get('course'),
+            'gender': request.json.get('gender'),
+            'country_code': request.json.get('country_code'),
+            'phone': request.json.get('phone'),
+            'address': request.json.get('address'),
+            'email': request.json.get('email'),
+            'password': request.json.get('password')
+        }
+        return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+    else:  # GET request
+        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllStudentDetails())
+
+
+@app.route('/api/students-register/<string:id>', methods=['GET', 'DELETE'])
+def registerStudents2(id):
+    if request.method == 'GET':
+        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchStudentDetails(id))
+    else:  # DELETE request
+        return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteStudent(id) else "Failed to delete data"
+
+
+@app.route('/api/contact-form', methods=['GET', 'POST'])
+def contactUs():
+    if request.method == 'POST':
+        # validation check will be implemented later.
+        dataDict = {
+            'firstname': request.json.get('firstname'),
+            'lastname': request.json.get('lastname'),
+            'country': request.json.get('country'),
+            'email': request.json.get('email'),
+            'content': request.json.get('content')
+        }
+        return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveContactFormDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+    else:  # GET request
+        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllContactFormDetails())
+
+
+@ app.route('/api/contact-form/<string:sno>', methods=['GET', 'DELETE'])
+def contactUs2(sno):
+    if request.method == 'GET':
+        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno))
+    else:  # DELETE request
+        return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteContact(sno) else "Failed to delete data"
 
 
 if __name__ == '__main__':
