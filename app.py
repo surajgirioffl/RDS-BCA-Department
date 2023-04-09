@@ -346,24 +346,29 @@ def getDetails(registrationNo):
 
 
 # api route 3 (mail service)
-@app.route('/api/send-otp', methods=['POST'])
+@app.route('/api/send-otp', methods=['POST', 'GET'])
 def mailService():
-    if request.method == 'POST':
-        dataDict = request.json()
-        email = dataDict.get('email')
-        if validation.isValidEmail(email):
-            print(f"Email ID {email} is valid.")
-            mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
-            myMail = mail.Mail(app)
-            otp: int = myRandom.Random.generateOtp()
-            recipients = [email]
-            status: bool = myMail.sendMessage(subject=f"Verification Code {otp}", message=f"Your OTP is {otp}",
-                                              recipients=recipients, html=render_template('mail-templates/otp.html', otp=otp))
-            if status:
-                return "Mail sent successfully"
-            else:
-                return "Mail sending failed"
-        print(f"Invalid email {email}")
+    print(request.url)
+    if request.url in ['/register']:
+        if request.method == 'POST':
+            dataDict = request.json()
+            email = dataDict.get('email')
+            if validation.isValidEmail(email):
+                print(f"Email ID {email} is valid.")
+                mail.Mail.configureApp(
+                    app, **mailCredentials, MAIL_USE_SSL=True)
+                myMail = mail.Mail(app)
+                otp: int = myRandom.Random.generateOtp()
+                recipients = [email]
+                status: bool = myMail.sendMessage(subject=f"Verification Code {otp}", message=f"Your OTP is {otp}",
+                                                  recipients=recipients, html=render_template('mail-templates/otp.html', otp=otp))
+                if status:
+                    return "Mail sent successfully"
+                else:
+                    return "Mail sending failed"
+            print(f"Invalid email {email}")
+            return "Invalid email ID"
+    return "Invalid request"
 
 
 if __name__ == '__main__':
