@@ -373,8 +373,16 @@ def mailService():
 
 
 # special api routes for the college project
-@app.route('/api/students-register', methods=['GET', 'POST'])
+@app.route('/api/students-register', methods=['GET', 'POST', 'OPTIONS'])
 def registerStudents():
+    if request.method == 'OPTIONS':  # Handle preflight requests
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add(
+            'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+        return response
+
     if request.method == 'POST':
         # validation check will be implemented later.
         dataDict = {
