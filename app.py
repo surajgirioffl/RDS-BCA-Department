@@ -390,7 +390,9 @@ def registerStudents():
             'password': request.json.get('password')
         }
         print("Data from admission form", dataDict)
-        return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+        headers = {'mimetype': 'text/html', "Access-Control-Allow-Origin": "*",
+                   "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"}
+        return Response("Data added in the database successfully", status=HTTPStatus.OK, headers=headers) if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, headers=headers)
     else:  # GET request
         return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllStudentDetails())
 
