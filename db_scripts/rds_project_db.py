@@ -136,7 +136,7 @@ class RdsProject:
     def fetchAllContactFormDetails(self):
         try:
             self.cursor.execute(f"""-- sql
-                                    SELECT sno, email, first_name, last_name
+                                    SELECT sno, email, first_name, last_name, country
                                     FROM 
                                     contact
                                 """)
