@@ -400,7 +400,7 @@ def registerStudents():
         print("Data from admission form", dataDict)
         headers = {'mimetype': 'text/html', "Access-Control-Allow-Origin": "*",
                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"}
-        return Response("Data added in the database successfully", status=HTTPStatus.OK, headers=headers) if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, headers=headers)
+        return Response("Data added in the database successfully", status=HTTPStatus.OK, headers=headers) if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, headers=headers)
     else:  # GET request
         return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllStudentDetails())
 
@@ -425,7 +425,7 @@ def contactUs():
             'content': request.json.get('content')
         }
         print("Data from contact form: ", dataDict)
-        return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveContactFormDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
+        return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveContactFormDetails(dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
     else:  # GET request
         return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllContactFormDetails())
 
