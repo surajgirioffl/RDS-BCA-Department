@@ -67,13 +67,13 @@ class RdsProject:
                                     INSERT INTO students(id, email, password, first_name, gender)
                                     VALUES
                                     ({studentsData.get('id')}, '{studentsData.get('email')}', '{studentsData.get('password')}',
-                                    '{studentsData.get('first_name')}', '{studentsData.get('gender')}')
+                                    '{studentsData.get('firstname')}', '{studentsData.get('gender')}')
                                 """)
             self.cursor.execute(f"""-- sql
                                     INSERT INTO students_details(id, middle_name, last_name, course, country_code, phone_number, address)
                                     VALUES
-                                    ({studentsData.get('id')}, '{studentsData.get('middle_name')}', '{studentsData.get('last_name')}',
-                                    '{studentsData.get('course')}', '{studentsData.get('country_code')}', '{studentsData.get('phone_number')}',
+                                    ({studentsData.get('id')}, '{studentsData.get('middlename')}', '{studentsData.get('lastname')}',
+                                    '{studentsData.get('course')}', '{studentsData.get('country_code')}', '{studentsData.get('phone')}',
                                     '{studentsData.get('address')}')
                                 """)
         except Exception as e:
@@ -90,8 +90,8 @@ class RdsProject:
             self.cursor.execute(f"""-- sql
                                     INSERT INTO contact(sno, email, first_name, last_name, country, contents)
                                     VALUES
-                                    (DEFAULT, '{contactFormData.get('email')}', '{contactFormData.get('first_name')}',
-                                    '{contactFormData.get('last_name')}', '{contactFormData.get('country')}', "{contactFormData.get('contents')}")
+                                    (DEFAULT, '{contactFormData.get('email')}', '{contactFormData.get('firstname')}',
+                                    '{contactFormData.get('lastname')}', '{contactFormData.get('country')}', "{contactFormData.get('contents')}")
                                 """)
         except Exception as e:
             print(
