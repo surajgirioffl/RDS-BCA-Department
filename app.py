@@ -413,8 +413,16 @@ def registerStudents2(id):
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteStudent(id) else "Failed to delete data"
 
 
-@app.route('/api/contact-form', methods=['GET', 'POST'])
+@app.route('/api/contact-form', methods=['GET', 'POST', 'OPTIONS'])
 def contactUs():
+    if request.method == 'OPTIONS':  # Handle preflight requests
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add(
+            'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+        return response
+    
     if request.method == 'POST':
         # validation check will be implemented later.
         dataDict = {
