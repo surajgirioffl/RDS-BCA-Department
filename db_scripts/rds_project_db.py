@@ -97,8 +97,10 @@ class RdsProject:
             print(
                 "Something went wrong while saving data into the database. Error code 2102")
             print("Exception:", e)
+            return False
         else:
             print("Data from the contact form saved successfully into the database.")
+            return True
 
     def fetchAllStudentDetails(self) -> list:
         try:
