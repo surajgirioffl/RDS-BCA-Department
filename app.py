@@ -389,6 +389,7 @@ def registerStudents():
             'email': request.json.get('email'),
             'password': request.json.get('password')
         }
+        print("Data from admission form", dataDict)
         return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveStudentDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
     else:  # GET request
         return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllStudentDetails())
@@ -413,6 +414,7 @@ def contactUs():
             'email': request.json.get('email'),
             'content': request.json.get('content')
         }
+        print("Data from contact form: ", dataDict)
         return Response("Data added in the database successfully", status=HTTPStatus.OK, mimetype='text/html') if rdsDb.RdsProject(**databaseCredentials).saveContactFormDetails(**dataDict) else Response("Failed to add data in the database", status=HTTPStatus.BAD_REQUEST, mimetype='text/html')
     else:  # GET request
         return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchAllContactFormDetails())
