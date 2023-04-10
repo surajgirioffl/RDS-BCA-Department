@@ -408,7 +408,10 @@ def registerStudents():
 @app.route('/api/students-register/<string:id>', methods=['GET', 'DELETE'])
 def registerStudents2(id):
     if request.method == 'GET':
-        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchStudentDetails(id))
+        # return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchStudentDetails(id))
+        tableAttributes: list = ['ID', 'First name', 'Middle Name', 'Last Name',
+                                 'Gender', 'Email', 'Course', 'Country Code', 'Phone Number', 'Address']
+        return render_template('rds-project/detail.html', data=rdsDb.RdsProject(**databaseCredentials).fetchStudentDetails(id), tableAttributes=tableAttributes)
     else:  # DELETE request
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteStudent(id) else "Failed to delete data"
 
@@ -422,7 +425,7 @@ def contactUs():
         response.headers.add(
             'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
         return response
-    
+
     if request.method == 'POST':
         # validation check will be implemented later.
         dataDict = {
@@ -444,7 +447,9 @@ def contactUs():
 @ app.route('/api/contact-form/<string:sno>', methods=['GET', 'DELETE'])
 def contactUs2(sno):
     if request.method == 'GET':
-        return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno))
+        # return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno))
+        tableAttributes: list = ['ID', 'Email', 'First Name', 'Last Name', 'Country', 'Contents']
+        return render_template('rds-project/detail.html', data=rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno), tableAttributes=tableAttributes)
     else:  # DELETE request
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteContact(sno) else "Failed to delete data"
 
