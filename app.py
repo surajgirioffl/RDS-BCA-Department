@@ -433,7 +433,7 @@ def contactUs():
             'lastname': request.json.get('lastname'),
             'country': request.json.get('country'),
             'email': request.json.get('email'),
-            'content': request.json.get('content')
+            'contents': request.json.get('content')
         }
         print("Data from contact form: ", dataDict)
 
