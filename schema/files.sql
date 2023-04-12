@@ -114,7 +114,18 @@ CREATE TABLE IF NOT EXISTS `creditors_info` (
 );
 
 ----
--- 10. Table `credits`
+-- 10. Table `root_sources`
+----
+CREATE TABLE IF NOT EXISTS `root_sources` (
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `RootSource` VARCHAR(100) NOT NULL PRIMARY KEY,
+    `SourceFileLink` VARCHAR(200) DEFAULT NULL,
+    `ContactSource` VARCHAR(100) NOT NULL,
+    FOREIGN KEY (RootSource) REFERENCES credits(RootSource)
+);
+
+----
+-- 11. Table `credits`
 -- Write Id of table 'creditors_info' instead of full name or username in attributes such as UploadedBy, LastModifiedBy, ApprovedBy etc to identify the user from users and related databases.
 ----
 CREATE TABLE IF NOT EXISTS `credits`(
@@ -135,15 +146,4 @@ CREATE TABLE IF NOT EXISTS `credits`(
     FOREIGN KEY (UploaderId) REFERENCES creditors_info(Id),
     FOREIGN KEY (ModifierId) REFERENCES creditors_info(Id),
     FOREIGN KEY (ApproverId) REFERENCES creditors_info(Id)
-);
-
-----
--- 11. Table `root_sources`
-----
-CREATE TABLE IF NOT EXISTS `root_sources` (
-    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `RootSource` VARCHAR(100) NOT NULL PRIMARY KEY,
-    `SourceFileLink` VARCHAR(200) DEFAULT NULL,
-    `ContactSource` VARCHAR(100) NOT NULL,
-    FOREIGN KEY (RootSource) REFERENCES credits(RootSource)
 );
