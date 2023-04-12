@@ -138,11 +138,13 @@ CREATE TABLE IF NOT EXISTS `credits`(
     `LastModifiedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `ApproverId` SMALLINT UNSIGNED NOT NULL,
     `ApprovedOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `RootSource` VARCHAR(100) NOT NULL,
-    INDEX `RootSourceIndex` (RootSource),
+    `RootSourceFileLink` VARCHAR(200) DEFAULT NULL,
+    `RootSourceId` INT UNSIGNED NOT NULL,
+    INDEX `RootSourceIndex` (RootSourceId),
     FOREIGN KEY (FileId) REFERENCES Files(FileId),
     FOREIGN KEY (SubmitterId) REFERENCES creditors_info(Id),
     FOREIGN KEY (UploaderId) REFERENCES creditors_info(Id),
     FOREIGN KEY (ModifierId) REFERENCES creditors_info(Id),
-    FOREIGN KEY (ApproverId) REFERENCES creditors_info(Id)
+    FOREIGN KEY (ApproverId) REFERENCES creditors_info(Id),
+    FOREIGN KEY (RootSourceId) REFERENCES root_sources(Id)
 );
