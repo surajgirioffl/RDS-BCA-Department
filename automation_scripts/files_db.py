@@ -87,6 +87,10 @@ class Files:
         self.passDefault = ["SNo", "Access", "ServeVia", "DateCreated",
                             "DateModified", "SubmittedOn", "UploadedOn", "LastModifiedOn", "ApprovedOn"]
 
+        # attributes of INT data type in above listed tables. Means no quotes(double or single) will be allowed while inserting data in the table.
+        self.intAttributes = ["SNo", "FileId", "SubmitterId",
+                              "UploaderId", "ModifierId", "ApproverId", "RootSourceId"]
+
     def files(self) -> int:
         """
             Now taking input from user and inserting into database (Table by Table).
