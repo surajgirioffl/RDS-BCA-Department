@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 7th Feb 2023
+    @last-modified: 13th April 2023
     @error-series: 1500
 
     @description:
@@ -55,17 +55,17 @@ class Files:
     def setTableAttributes(self) -> None:
         # listing all the tables in the database along with their attributes
         # only those tables are listed in which data need to be inserted. So, table like 'files_tracking' etc are not listed.
+        # files database has total of 11 tables.
+        # some tables like 'files_type', 'creditors_info', 'root_sources' are not added because of file independency because multiple files may use same contents of these tables. (Data should be inserted manually or by any separate script.)
+        # some tables like 'files_tracking' are not added because of user dependencies.
         self.tables = {
             'files': ["SNo", "FileId", "Title", "Access", "ServeVia"],
             'files_path': ["SNo", "FileId", "FilePath"],
             'drive': ["SNo", "FileId", "ViewLink", "DownloadLink"],
             'file_contents_info': ["SNo", "FileId", "Description", "Keywords"],
             'files_metadata': ["SNo", "FileId", "FileName", "DownloadName", "Extension", "Size"],
-            'files_type': ["SNo", "Extension", "FileType"],
             'files_info': ["SNo", "FileId", "Category", "FileFor", "DateCreated", "DateModified", "Tags"],
-            'creditors_info': ["Id", "Name", "Email", "Designation", "Username", "AccountId", "Contact"],
-            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSource"],
-            'root_sources': ["SNo", "RootSource", "SourceFileLink", "ContactSource"]
+            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSourceFileLink", "RootSourceId"],
         }
 
         # attributes of type ENUM (means having a predefined values)
