@@ -100,6 +100,18 @@ class Files:
         sql = sql.replace("'DEFAULT'", "DEFAULT")
         return sql
 
+    def insertData(self, tableName: str, query: str) -> bool:
+        try:
+            self.cursor.execute(query)
+        except Exception as e:
+            print(
+                f"Unable to insert data into table {tableName}. Error code 1502")
+            print("Exception: ", e)
+            return False
+        else:
+            print("Data inserted successfully....")
+            return True
+
     def files(self) -> int:
         """
             Now taking input from user and inserting into database (Table by Table).
