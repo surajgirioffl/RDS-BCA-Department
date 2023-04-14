@@ -91,6 +91,15 @@ class Files:
         self.intAttributes = ["SNo", "FileId", "SubmitterId",
                               "UploaderId", "ModifierId", "ApproverId", "RootSourceId"]
 
+    def getSqlQuery(self, tableName: str, dataList: list) -> str:
+        sql: str = f"""
+                        INSERT INTO {tableName} {(', '.join(self.tables[tableName]))}
+                        VALUES
+                        ({(str([data for data in dataList])).strip('[]')})
+                    """
+        sql = sql.replace("'DEFAULT'", "DEFAULT")
+        return sql
+
     def files(self) -> int:
         """
             Now taking input from user and inserting into database (Table by Table).
@@ -116,6 +125,8 @@ class Files:
                 else:
                     value = input(f"Enter value for {attribute}: ")
                     dataList.append(value)
+
+            print(self.getSqlQuery(table, dataList))
 
 
 def main():
