@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 13th April 2023
+    @last-modified: 14th April 2023
     @error-series: 1500
 
     @description:
@@ -95,7 +95,27 @@ class Files:
         """
             Now taking input from user and inserting into database (Table by Table).
         """
-        ...
+        for table in self.tables:
+            dataList = []
+            for attribute in self.tables[table]:
+                if attribute in self.enumAttributes:
+                    print(f"Select value for Enum attribute {attribute}")
+                    print(
+                        f"0: Default ({self.enumAttributes[attribute]['default']})")
+                    for index, option in enumerate(self.enumAttributes[attribute]['options']):
+                        print(f"{index+1}: {option}")
+                    choice = int(
+                        input(f"Enter your choice for attribute {attribute}: "))
+                    if choice == 0:
+                        dataList.append(f"DEFAULT")
+                    else:
+                        dataList.append(
+                            self.enumAttributes[attribute]['options'][choice-1])
+                elif attribute in self.passDefault:
+                    dataList.append(f"DEFAULT")
+                else:
+                    value = input(f"Enter value for {attribute}: ")
+                    dataList.append(value)
 
 
 def main():
