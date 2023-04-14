@@ -15,6 +15,34 @@ import my_random as myRandom
 
 class Files:
     def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$files", timeZoneForDatabase="Asia/Kolkata") -> None:
+        """
+            Description:
+                - Constructor to initialize the object and establish connection with the database.
+
+            Args:
+                * host (str, optional): 
+                    - Host of the database.
+                    - Defaults to host from the environment variable.
+                * user (str, optional): _description_. 
+                    - Username to use for authentication for establishing connection with the database.
+                    - Defaults to username from the environment variable.
+                * port (int, optional): 
+                    - Port to connect to the database.
+                    - Defaults to port from the environment variable.
+                    - 3306 if unspecified in the environment variable.
+                * password (str, optional):
+                    - Password to use while connecting to the database.
+                    - Defaults to password from the environment variable.
+                * database (str, optional): 
+                    - Name of the database.
+                    - Defaults to "rdsbca".
+                * timeZoneForDatabase (str, optional): 
+                    - Timezone to be used within the database.
+                    - Defaults to "Asia/Kolkata".
+
+        Returns:
+            * None
+        """
         try:
             # establishing connection and creating cursor object
             self.conn = mysql.connect(
@@ -53,6 +81,13 @@ class Files:
             self.conn.close()
 
     def setTableAttributes(self) -> None:
+        """
+            Description:
+                - Method to set the attributes of the tables of the database.
+
+            Returns:
+                * None
+        """
         # listing all the tables in the database along with their attributes
         # only those tables are listed in which data need to be inserted. So, table like 'files_tracking' etc are not listed.
         # files database has total of 11 tables.
@@ -92,6 +127,30 @@ class Files:
                               "UploaderId", "ModifierId", "ApproverId", "RootSourceId"]
 
     def getSqlQuery(self, tableName: str, dataList: list) -> str:
+        """
+            Description:
+                - Method to generate MySQL query for inserting data into the table.
+                - Generate query as per schema of the table.
+
+            Args:
+                * tableName (str):
+                    - Table name in which data need to be inserted. 
+                * dataList (list):
+                    - List of data to be inserted into the table.
+                    - Data to be inserted into the table should be in the same order as the attributes of the table.
+                    - DEFAULT, ENUM etc should be maintained in dataList.
+                    - DEFAULT should be written as 'DEFAULT' (single quotes included).
+
+            Returns:
+                * str:
+                    - MySQL query for inserting data into the table.
+
+            Drawbacks:
+                - INT type attributes are also written as string in the returned query.
+                - But this will not cause any problem because MySQL will automatically convert the string to int.
+                    - Example: "123" will be converted to 123.
+                    - MySQL auto perform implicit type conversion. Thanks to MySQL. 
+        """
         sql: str = f"""
                         INSERT INTO {tableName} {(', '.join(self.tables[tableName]))}
                         VALUES
@@ -101,6 +160,21 @@ class Files:
         return sql
 
     def insertData(self, tableName: str, query: str) -> bool:
+        """"""
+        """
+            Description:
+                - Method to insert data in desired table of files database.
+
+            Args:
+                * tableName (str):
+                    - Table name in which data will be inserted.
+                * query (str):
+                    - MySQL query for INSERT into desired table.
+
+            Returns:
+                * bool:
+                    - Returns True if data inserted successfully else False.
+        """
         try:
             self.cursor.execute(query)
         except Exception as e:
