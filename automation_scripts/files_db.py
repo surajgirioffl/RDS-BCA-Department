@@ -126,7 +126,7 @@ class Files:
         self.intAttributes = ["SNo", "FileId", "SubmitterId",
                               "UploaderId", "ModifierId", "ApproverId", "RootSourceId"]
 
-    def getSqlQuery(self, tableName: str, dataList: list) -> str:
+    def __getSqlQuery(self, tableName: str, dataList: list) -> str:
         """
             Description:
                 - Method to generate MySQL query for inserting data into the table.
@@ -159,7 +159,7 @@ class Files:
         sql = sql.replace("'DEFAULT'", "DEFAULT")
         return sql
 
-    def insertData(self, tableName: str, query: str) -> bool:
+    def __insertData(self, tableName: str, query: str) -> bool:
         """"""
         """
             Description:
