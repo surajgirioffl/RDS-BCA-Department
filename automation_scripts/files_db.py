@@ -186,9 +186,14 @@ class Files:
             print("Data inserted successfully....")
             return True
 
-    def inputAndInsertInDatabase(self) -> None:
+    def inputAndInsertInDatabase(self) -> bool:
         """
-            Now taking input from user and inserting into database (Table by Table).
+            Description:
+                - Take input from user as per schema and insert them into the database (Table by Table).
+
+            Returns:
+                * bool:
+                    - Returns True if everything went fine else False.
         """
         for table in self.tables:
             dataList = []
@@ -215,9 +220,16 @@ class Files:
             print(self.getSqlQuery(table, dataList))
 
 
-def main():
-    files = Files()
-    if not files.connectionStatus:
+def main() -> None:
+    """
+        Description:
+            - Driver function to perform the operation to insert data into the database.
+
+        Returns:
+            * None
+    """
+    files = Files()  # instantiating Files class
+    if not files.connectionStatus:  # checking if connection is established or not
         print("Connection not established. Exiting...")
         exit(-1)
     files.setTableAttributes()  # setting the table attributes and related data
