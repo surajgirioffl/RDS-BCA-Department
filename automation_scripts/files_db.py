@@ -186,7 +186,7 @@ class Files:
             print("Data inserted successfully....")
             return True
 
-    def files(self) -> int:
+    def inputAndInsertInDatabase(self) -> None:
         """
             Now taking input from user and inserting into database (Table by Table).
         """
@@ -221,7 +221,7 @@ def main():
         print("Connection not established. Exiting...")
         exit(-1)
     files.setTableAttributes()  # setting the table attributes and related data
-    files.files()
+    files.inputAndInsertInDatabase()
 
 
 if __name__ == '__main__':
