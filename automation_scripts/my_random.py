@@ -2,7 +2,7 @@
     @file: my_random.py
     @author: Suraj Kumar Giri
     @init-date: 25th Jan 2023
-    @last-modified: 25th Jan 2023
+    @last-modified: 15th April 2023
 
     @description:
         * Module to generate random numbers of desired digits.
@@ -20,6 +20,8 @@ import mysql.connector as mysql
 from os import environ
 from typing import Type
 from string import digits
+from time import time
+from math import ceil, floor
 
 
 def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, columnName: str) -> bool | None:
@@ -180,6 +182,79 @@ class Random:
         if self.numberOfDigits > 0:
             return random.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
         return None
+
+    def __epochTimeRandom(self) -> int | None:
+        """
+            Description:
+                - Method to generate random number using Unix epoch time.
+                - It uses Python's time module to get current time in seconds which is epoch time.
+                - Epoch time is the number of seconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
+
+            Returns:
+                * int
+                    - Returns random number if no error occurred.
+                * None:
+                    - Returns None if any error occurred.
+        """
+        def __reduceDigits(number: int, requiredDigits: int) -> int:
+            """
+                Description:
+                    - Function to reduce number of digits of give number.
+
+                Args:
+                    * number (int):
+                        - Number whose digits are to be reduced.
+                    * requiredDigits (int):
+                        - Number of digits required.
+                        - Number of digits in the output number.
+
+                Returns:
+                    * int: 
+                        - Returns number with reduced digits.
+
+                Caution:
+                    - Required digits must be less than or equal to the number of digits in the given number.
+                    - In this function, I have not handled the scenario in which given number will have less digits than the required number of digits.
+                    - This is because according to code in the parent method of this function, there is no possibility of underflow of digits than required of digits.
+                    - There will always same or more digits than required digits in the number generated in if or else block of parent method.
+                    - In case of same number of digits, the difference will 0 and n^(0) will be 1. So, it will not affect the output.
+            """
+            return number//(10**(len(str(number)) - requiredDigits))
+
+        if self.numberOfDigits <= 0:  # if invalid number of digits specified.
+            return None
+        # getting current epoch time in seconds
+        epochSeconds: int = ceil(time())
+        # Current value of epoch seconds is 1681569899.5771146 (10 digits excluding digits after decimal point)
+        # So, in future digits in epoch seconds will be equal or greater than 10.
+        # We use a functionality of random multiplier to increase the intensity of randomness.
+        # We have to generate a random number in such a way that it will not follow any sequence.
+        if self.numberOfDigits > len(str(epochSeconds)):
+            digitDiff = self.numberOfDigits - len(str(epochSeconds))
+            # least number of required digits will (epochSeconds x 10^diff)
+            # So, we will generate a random number between 10^diff and 10^(diff+1)-1 (this is range of multiplier).
+            # It will also increase the intensity of randomness.
+            # least multiplier will be 10^diff and maximum will be 10^(diff+1)-1
+            # Actually least multiplier ensures that number of digits in random number will be equal to number of digits specified.
+            # But maximum multiplier ensures that number of digits in random number will be greater than or equal to number of digits specified.
+            # So, in case of max multiplier, it's not sure that number of digits in random number will be same as required number of digits. It may same or more than required number of digits.
+            # So, for solve this issue, we will use method reduceDigits() to reduce the number of digits to required number of digits.
+            number: int = epochSeconds * \
+                random.randint(10**digitDiff, 10**(digitDiff+1)-1)
+            # here number of digits in the number may be same or more than required number of digits.
+            # So, we use reduceDigits() method to reduce the number of digits to required number of digits.
+            return __reduceDigits(number, self.numberOfDigits)
+        else:
+            # in else suite
+            # if number of digits is less than or equal to length of epoch seconds, then we don't need to use random multiplier for increase number of digits.
+            # Currently, length of epoch seconds is 10. So, we else suite execute when condition self.numberOfDigits <= 10 satisfies.
+            # Here, I am using multiplier for increase the intensity of randomness.
+            # here 2,5 in randint() are just selected randomly. There is no logic behind it except providing wide range to receive random number from randint().
+            number: int = epochSeconds * random.randint(10**2, 10**5)
+            return __reduceDigits(number, self.numberOfDigits)
+        # keep in mind, in both suite (if-else), the obtained random will have same or more number of digits than required number of digits.
+        # There is no possibility of underflow in number of digits.
+        # That's why I have not used any logic to handle underflow in number of digits in the function __reduceDigits().
 
     def generate(self, checkInDatabase: bool = True) -> int:
         """
