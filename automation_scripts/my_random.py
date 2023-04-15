@@ -93,8 +93,8 @@ class Random:
                     - You can pass key 'method' to specify the method to generate random number.
                     - Pass any other key-value if required. If key is not provided, default value will be used.
                     - methods:
-                        - ['mysql', 'pyInt', 'pyStr']
-                        - You can pass any of the above three methods to generate random number. Default is 'pyInt'.
+                        - ['mysql', 'pyInt', 'pyStr', 'epoch']
+                        - You can pass any of the above four methods to generate random number. Default is 'pyInt'.
                         - And if any error occurs in other method then automatically 'pyInt' will be use to generate random number irrespective which method was passed.
 
             Returns:
@@ -277,7 +277,7 @@ class Random:
                 * int:
                     - Returns random number.
         """
-        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr']:
+        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr', 'epoch']:
             category = 'pyInt'  # default method to generate random number
         else:
             category = self.kwargs.get('method')
@@ -287,6 +287,8 @@ class Random:
             method = self.__mysqlRandom
         elif category == 'pyStr':
             method = self.__pyStrRandom
+        elif category == 'epoch':
+            method = self.__epochTimeRandom
         else:
             method = self.__pyIntRandom
 
@@ -357,4 +359,6 @@ if __name__ == "__main__":
     print("With checking the database and using method pyStr", end=": ")
     print(Random(cursor, 'users', 'userId', method='pyStr').generate())
 
+    print("\nWithout checking the database and using method epoch", end=": ")
+    print("in main: ", Random(method='epoch').generate(False))
     conn.close()
