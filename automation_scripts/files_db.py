@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 14th April 2023
+    @last-modified: 16th April 2023
     @error-series: 1500
 
     @description:
@@ -195,29 +195,71 @@ class Files:
                 * bool:
                     - Returns True if everything went fine else False.
         """
-        for table in self.tables:
-            dataList = []
-            for attribute in self.tables[table]:
-                if attribute in self.enumAttributes:
-                    print(f"Select value for Enum attribute {attribute}")
+        fileIndex: int = 1
+        while True:
+            print(
+                f"\n======================FILE NUMBER {fileIndex:02}======================")
+            for table in self.tables:
+                while True:
+                    print(f"\n================Table {table}================")
+                    dataList = []
+                    for attributeIndex, attribute in enumerate(self.tables[table]):
+                        if attribute in self.enumAttributes:
+                            while True:
+                                print(
+                                    f"{attributeIndex+1:02}) Select value for Enum attribute {attribute}")
+                                print(
+                                    f"      0: Default ({self.enumAttributes[attribute]['default']}) (Press Enter to select)")
+                                for index, option in enumerate(self.enumAttributes[attribute]['options']):
+                                    print(f"      {index+1}: {option}")
+                                choice = input(
+                                    f"      Enter your choice for attribute {attribute}: ")
+                                if choice in ["0", ""]:
+                                    dataList.append("DEFAULT")
+                                    break
+                                elif choice in [str(x) for x in range(1, len(self.enumAttributes[attribute]['options'])+1)]:
+                                    dataList.append(
+                                        self.enumAttributes[attribute]['options'][int(choice)-1])
+                                    break
+                                else:
+                                    print("      Invalid choice. Select again...")
+                                    continue
+                        elif attribute in self.passDefault:
+                            print(f"{attributeIndex+1:02}) {attribute}: DEFAULT")
+                            dataList.append("DEFAULT")
+                        else:
+                            while True:
+                                value = input(
+                                    f"{attributeIndex+1:02}) Enter value for {attribute}: ")
+                                if value == "":
+                                    print(
+                                        "      Value can't be empty. Write again...")
+                                    continue
+                                else:
+                                    break
+                            dataList.append(value)
                     print(
-                        f"0: Default ({self.enumAttributes[attribute]['default']})")
-                    for index, option in enumerate(self.enumAttributes[attribute]['options']):
-                        print(f"{index+1}: {option}")
-                    choice = int(
-                        input(f"Enter your choice for attribute {attribute}: "))
-                    if choice == 0:
-                        dataList.append(f"DEFAULT")
+                        f"\n=>=>=>=>=>=>=>=>=>Verify Data For Table {table}<=<=<=<=<=<=<=<=<=")
+                    for attributeIndex, attribute in enumerate(self.tables[table]):
+                        print(
+                            f"{attributeIndex+1:02}) {attribute}: {dataList[attributeIndex]}")
+                    choice = input(
+                        f"Press enter to finalize and save in database (Any other key to rewrite the data for the table {table}): ")
+                    if choice == "":
+                        print(self.__getSqlQuery(table, dataList))
+                        break
                     else:
-                        dataList.append(
-                            self.enumAttributes[attribute]['options'][choice-1])
-                elif attribute in self.passDefault:
-                    dataList.append(f"DEFAULT")
-                else:
-                    value = input(f"Enter value for {attribute}: ")
-                    dataList.append(value)
-
-            print(self.getSqlQuery(table, dataList))
+                        print(
+                            f"Write again data to be inserted in the table {table}")
+                        continue
+            print("==> Press any key to continue to INSERT for next file..")
+            print("==> Press Ctrl + C to exit...")
+            try:
+                input("Write your choice: ")
+            except KeyboardInterrupt:
+                print("Exiting...")
+                return True
+                
 
 
 def main() -> None:
