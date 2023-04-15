@@ -21,7 +21,7 @@ from os import environ
 from typing import Type
 from string import digits
 from time import time
-from math import ceil, floor
+from math import ceil
 
 
 def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, columnName: str) -> bool | None:
@@ -359,6 +359,6 @@ if __name__ == "__main__":
     print("With checking the database and using method pyStr", end=": ")
     print(Random(cursor, 'users', 'userId', method='pyStr').generate())
 
-    print("\nWithout checking the database and using method epoch", end=": ")
-    print("in main: ", Random(method='epoch').generate(False))
+    print("Without checking the database and using method epoch", end=": ")
+    print(Random(method='epoch').generate(False))
     conn.close()
