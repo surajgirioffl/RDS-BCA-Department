@@ -259,7 +259,9 @@ class Files:
             except KeyboardInterrupt:
                 print("Exiting...")
                 return True
-                
+            else:
+                fileIndex += 1
+                continue
 
 
 def main() -> None:
