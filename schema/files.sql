@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 12th April 2023
+-- Last updated on: 17th April 2023
 ----
 -- 1. Table `files`
 ----
@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS file_contents_info(
 
 ----
 -- 5. Table `files_metadata`
+-- File Size must be in MB (Megabytes). 
 ----
 CREATE TABLE IF NOT EXISTS `files_metadata`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `FileName` VARCHAR(100) NOT NULL,
     `DownloadName` VARCHAR(100) NOT NULL,
     `Extension` VARCHAR(10) NOT NULL,
-    `Size` VARCHAR(20) NOT NULL,
+    `Size` DOUBLE(10, 5) NOT NULL,
     INDEX `ExtensionIndex` (Extension),
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
