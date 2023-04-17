@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `FileName` VARCHAR(100) NOT NULL,
     `DownloadName` VARCHAR(100) NOT NULL,
     `Extension` VARCHAR(10) NOT NULL,
-    `Size` DOUBLE(10, 5) NOT NULL,
+    `Size` DOUBLE UNSIGNED NOT NULL,
     INDEX `ExtensionIndex` (Extension),
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
