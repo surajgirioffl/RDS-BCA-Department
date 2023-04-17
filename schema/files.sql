@@ -2,9 +2,10 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 17th April 2023
+-- Last updated on: 18th April 2023
 ----
 -- 1. Table `files`
+-- FileId should be an unique 8 digit number. It will be used to identify file. It will be used to access file.
 ----
 CREATE TABLE IF NOT EXISTS files(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -38,6 +39,10 @@ CREATE TABLE IF NOT EXISTS drive(
 
 ----
 -- 4. Table `file_contents_info`
+-- Write Description in sentence case (In such way that it will describe file effectively and it will presented to user as file description)
+-- Write Keywords in small case comma separated words (space allowed in a keyword). Space is compulsory after comma but strictly not allowed before comma.
+-- Keep in mind, Keywords are related to file contents. It will be used to search specific content. It should be content oriented.
+-- E.g: "python, numpy, data science, machine learning, artificial intelligence, deep learning etc."
 ----
 CREATE TABLE IF NOT EXISTS file_contents_info(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -49,7 +54,9 @@ CREATE TABLE IF NOT EXISTS file_contents_info(
 
 ----
 -- 5. Table `files_metadata`
--- File Size must be in MB (Megabytes). 
+-- File name will same as file name in file system or drive.
+-- Download name should be in Proper Case (First letter of each word must be in capital letter). It is also called as Title Case.
+-- File Size must be in MB (Megabytes) (decimal value allowed)
 ----
 CREATE TABLE IF NOT EXISTS `files_metadata`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -64,6 +71,9 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
 
 ----
 -- 6. Table `files_type`
+-- Extension specifies the type of file such as pdf, doc, docx, ppt, pptx, xls, xlsx, txt, etc.
+-- FileType specifies the type of file such as image, document, video, audio, etc. 
+-- Use small case for Extension and FileType.
 ----
 CREATE TABLE IF NOT EXISTS `files_type`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -74,6 +84,12 @@ CREATE TABLE IF NOT EXISTS `files_type`(
 
 ----
 -- 7. Table `files_info`
+-- Category specifies the type of file such as notes, question paper, assignment, project, previous year question paper, etc.
+-- FileFor specifies the reason for uploading this file such as for study purpose, for reference, for practice, etc.
+-- Tags are used to search file. It is also used to categorize file. It is also used to find related files. 
+-- In this Schema, Tags are different from Keywords. Keywords contains content related words and Tags contains file related words.
+-- So, Tags must specify the file. It should be file oriented.
+-- E.g: "python handbook, python notes, python tutorial, etc."
 ----
 CREATE TABLE IF NOT EXISTS `files_info`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
