@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 16th April 2023
+    @last-modified: 18th April 2023
     @error-series: 1500
 
     @description:
@@ -125,6 +125,13 @@ class Files:
         # attributes of INT data type in above listed tables. Means no quotes(double or single) will be allowed while inserting data in the table.
         self.intAttributes = ["SNo", "FileId", "SubmitterId",
                               "UploaderId", "ModifierId", "ApproverId", "RootSourceId"]
+
+        # Special attributes whose value gathered after some processing (using same or another module) instead of user input dependency.
+        # Some special attributes whose values will be fetched before user input for a specific file.
+        # Some of these attribute's value will be fetched automatically after providing path of the file.
+        # User don't need to provide value for these attributes.
+        self.attributesWithAvailableValue = ["FileId", "FilePath", "ViewLink",
+                                             "DownloadLink", "FileName", "Extension", "Size", "DateCreated", "DateModified"]
 
     def __getSqlQuery(self, tableName: str, dataList: list) -> str:
         """
