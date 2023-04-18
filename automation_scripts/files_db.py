@@ -9,6 +9,7 @@
         * Module to insert data into the database rdsbca$files.
 """
 from os import environ
+import os
 import mysql.connector as mysql
 import my_random as myRandom
 
@@ -206,6 +207,25 @@ class Files:
         while True:
             print(
                 f"\n======================FILE NUMBER {fileIndex:02}======================")
+            attributesWithAvailableValueDict: dict = {}
+            while True:
+                filePath: str = input("Write file path: ")
+                if os.path.exists(filePath):
+                    # if path is valid then check if it is a file or not
+                    if os.path.isfile(filePath):
+                        attributesWithAvailableValueDict["FilePath"] = filePath
+                        break
+                    else:
+                        # if path is not a file then ask user to provide path again
+                        print("      Provided path is not a file. Try again...")
+                        continue
+                else:
+                    # if path is not valid then ask user to provide path again
+                    print("      Invalid file path. Try again...")
+                    continue
+
+            # Now, we have valid file path. So, we will fetch value of some file attributes.
+
             for table in self.tables:
                 while True:
                     print(f"\n================Table {table}================")
