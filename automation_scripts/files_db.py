@@ -225,6 +225,9 @@ class Files:
                     continue
 
             # Now, we have valid file path. So, we will fetch value of some file attributes.
+            while True:
+                viewLink: str = input("Write drive view link of the file: ")
+                ...
 
             for table in self.tables:
                 while True:
@@ -289,6 +292,38 @@ class Files:
             else:
                 fileIndex += 1
                 continue
+
+    @staticmethod
+    def fetchFileMetadata(filePath: str) -> dict | bool:
+        """
+            Description: 
+                - Static method to fetch metadata of a file.
+                - Meta data includes: File Name, Extension, Size, Date Created, Date Modified.
+                - Keep in mind that Date Created and Date Modified are in Epoch format.
+                    - You need to convert it to any specific format as per your requirement (Use time and datetime module).
+
+            Args:
+                * filePath (str): 
+                    - Path of the file whose metadata is to be fetched.
+
+            Returns:
+                * dict: 
+                    - Returns a dictionary containing metadata of the file.
+                * bool:
+                    - Returns False if any error occurs.
+                    - Error may be due to invalid file path, file not found, path doesn't specify a file etc.
+        """
+        if not os.path.exists(filePath) and not os.path.isfile(filePath):
+            # if path is not valid then return False or path is not a file.
+            return False
+        metaData: dict = {}
+        metaData['FileName'] = os.path.basename(filePath)
+        # os.path.splitext() returns a tuple of (file_name, extension). So, we will take the second element of the tuple.
+        metaData['Extension'] = os.path.splitext(filePath)[1]
+        metaData['Size'] = os.path.getsize(filePath)
+        metaData['DateCreated'] = os.path.getctime(filePath)
+        metaData['DateModified'] = os.path.getmtime(filePath)
+        return metaData
 
 
 def main() -> None:
