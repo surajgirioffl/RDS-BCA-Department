@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 18th April 2023
+    @last-modified: 19th April 2023
     @error-series: 1500
 
     @description:
@@ -10,8 +10,12 @@
 """
 from os import environ
 import os
+import sys
 import mysql.connector as mysql
 import my_random as myRandom
+import drive_direct_download_link as driveLink
+sys.path.append(os.getcwd())
+from app_scripts.my_time import epochToMySql
 
 
 class Files:
@@ -223,11 +227,30 @@ class Files:
                     # if path is not valid then ask user to provide path again
                     print("      Invalid file path. Try again...")
                     continue
+            fileMetaData: dict = Files.fetchFileMetadata(filePath)
+            for key, value in fileMetaData.items():
+                if key == 'Size':
+                    # fetchFileMetadata returns file size in bytes. So, we will convert it into MB.
+                    value = f'{value/1024**2:.03}'
+                elif key in ['DateCreated', 'DateModified']:
+                    value = epochToMySql(value)
+                attributesWithAvailableValueDict[key] = value
 
             # Now, we have valid file path. So, we will fetch value of some file attributes.
             while True:
                 viewLink: str = input("Write drive view link of the file: ")
-                ...
+                if driveLink.checkLink(viewLink):
+                    attributesWithAvailableValueDict['ViewLink'] = viewLink
+                    attributesWithAvailableValueDict['DownloadLink'] = driveLink.convertToDownloadLink(
+                        viewLink)
+                    break
+                else:
+                    print("      Invalid drive link. Try again...")
+                    continue
+
+            # Now, we will generate a random 8 digits FileID for the current file.
+            attributesWithAvailableValueDict['FileId'] = myRandom.Random(
+                cursor=self.cursor, tableName='files', columnName='FileId').generate()
 
             for table in self.tables:
                 while True:
