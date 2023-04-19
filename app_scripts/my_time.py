@@ -1,7 +1,7 @@
 """
     @author: Suraj Kumar Giri
     @init-date: 19th Jan 2023
-    @last-modified: 20th Jan 2023
+    @last-modified: 19th April 2023
 
     @description:
         * Module to handle all the time related operations involving in the web app.
@@ -10,6 +10,7 @@
         *
 """
 import datetime
+from time import time
 
 
 def readableDateTime(dateTime: datetime.datetime = datetime.datetime.now()) -> str:
@@ -62,6 +63,24 @@ def readableStringDateTime(dateTime: str) -> str:
     return readableDateTime(datetime.datetime(**dateTimeDict))
 
 
+def epochToMySql(epochSeconds: float = time()) -> str:
+    """
+        Description:
+            - Function to convert epoch seconds to MySQL datetime string.
+
+        Args:
+            * epochSeconds (float, optional): 
+                - Epoch seconds which needs to be converted to MySQL datetime string.
+                - Defaults to time(). Means current epoch seconds.
+
+        Returns:
+            * str: 
+                - MySQL datetime string.
+    """
+    return datetime.datetime.fromtimestamp(epochSeconds).strftime("%Y-%m-%d %H:%M:%S")
+
+
 if __name__ == '__main__':
     print(readableDateTime())
     print(readableStringDateTime('2023-01-09 13:55:30'))
+    print(epochToMySql())
