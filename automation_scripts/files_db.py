@@ -8,6 +8,7 @@
     @description:
         * Module to insert data into the database rdsbca$files.
 """
+from app_scripts.my_time import epochToMySql
 from os import environ
 import os
 import sys
@@ -15,7 +16,6 @@ import mysql.connector as mysql
 import my_random as myRandom
 import drive_direct_download_link as driveLink
 sys.path.append(os.getcwd())
-from app_scripts.my_time import epochToMySql
 
 
 class Files:
@@ -255,7 +255,7 @@ class Files:
             for table in self.tables:
                 while True:
                     print(f"\n================Table {table}================")
-                    dataList = []
+                    dataList = []  # list of data to be inserted into the table
                     for attributeIndex, attribute in enumerate(self.tables[table]):
                         if attribute in self.enumAttributes:
                             while True:
@@ -277,6 +277,11 @@ class Files:
                                 else:
                                     print("      Invalid choice. Select again...")
                                     continue
+                        elif attribute in attributesWithAvailableValueDict:
+                            print(
+                                f"{attributeIndex+1:02}) {attribute}: {attributesWithAvailableValueDict[attribute]}")
+                            dataList.append(
+                                attributesWithAvailableValueDict[attribute])
                         elif attribute in self.passDefault:
                             print(f"{attributeIndex+1:02}) {attribute}: DEFAULT")
                             dataList.append("DEFAULT")
