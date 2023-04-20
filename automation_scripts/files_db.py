@@ -124,8 +124,8 @@ class Files:
         # attributes in which DEFAULT need to be set if user doesn't provide any value or no need to provide value
         # mysql date time is like : 2023-01-28 01:00:46 (CURRENT_TIMESTAMP)
         # Except ENUM attributes
-        self.passDefault = ["SNo", "Access", "ServeVia", "DateCreated",
-                            "DateModified", "SubmittedOn", "UploadedOn", "LastModifiedOn", "ApprovedOn"]
+        # self.passDefault = ["SNo", "Access", "ServeVia", "DateCreated", "DateModified", "SubmittedOn", "UploadedOn", "LastModifiedOn", "ApprovedOn"]
+        self.passDefault = ["SNo", "Access", "ServeVia"]
 
         # attributes of INT data type in above listed tables. Means no quotes(double or single) will be allowed while inserting data in the table.
         self.intAttributes = ["SNo", "FileId", "SubmitterId",
