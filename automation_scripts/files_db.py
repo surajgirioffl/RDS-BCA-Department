@@ -234,6 +234,9 @@ class Files:
                     value = f'{value/1024**2:.03}'
                 elif key in ['DateCreated', 'DateModified']:
                     value = epochToMySql(value)
+                elif key == 'Extension':
+                    # removing leading dot from extension
+                    value = value.replace('.', '')
                 attributesWithAvailableValueDict[key] = value
 
             # Now, we have valid file path. So, we will fetch value of some file attributes.
