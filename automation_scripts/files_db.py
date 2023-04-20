@@ -2,13 +2,12 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 19th April 2023
+    @last-modified: 20th April 2023
     @error-series: 1500
 
     @description:
         * Module to insert data into the database rdsbca$files.
 """
-from app_scripts.my_time import epochToMySql
 from os import environ
 import os
 import sys
@@ -16,6 +15,7 @@ import mysql.connector as mysql
 import my_random as myRandom
 import drive_direct_download_link as driveLink
 sys.path.append(os.getcwd())
+from app_scripts.my_time import epochToMySql
 
 
 class Files:
