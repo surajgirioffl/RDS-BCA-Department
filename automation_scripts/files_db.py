@@ -105,7 +105,7 @@ class Files:
             'file_contents_info': ["SNo", "FileId", "Description", "Keywords"],
             'files_metadata': ["SNo", "FileId", "FileName", "DownloadName", "Extension", "Size"],
             'files_info': ["SNo", "FileId", "Category", "FileFor", "DateCreated", "DateModified", "Tags"],
-            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSourceFileLink", "RootSourceId"],
+            'credits': ["SNo", "FileId", "SubmitterId", "SubmittedOn", "UploaderId", "UploadedOn", "ModifierId", "LastModifiedOn", "ApproverId", "ApprovedOn", "RootSourceFileLink", "RootSourceId"]
         }
 
         # attributes of type ENUM (means having a predefined values)
