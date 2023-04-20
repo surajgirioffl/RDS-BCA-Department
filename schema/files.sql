@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 18th April 2023
+-- Last updated on: 20th April 2023
 ----
 -- 1. Table `files`
 -- FileId should be an unique 8 digit number. It will be used to identify file. It will be used to access file.
@@ -53,7 +53,19 @@ CREATE TABLE IF NOT EXISTS file_contents_info(
 );
 
 ----
--- 5. Table `files_metadata`
+-- 5. Table `files_type`
+-- Extension specifies the type of file such as pdf, doc, docx, ppt, pptx, xls, xlsx, txt, etc.
+-- FileType specifies the type of file such as image, document, video, audio, etc. 
+-- Use small case for Extension and FileType.
+----
+CREATE TABLE IF NOT EXISTS `files_type`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Extension` VARCHAR(10) NOT NULL PRIMARY KEY,
+    `FileType` VARCHAR(30) NOT NULL
+);
+
+----
+-- 6. Table `files_metadata`
 -- File name will same as file name in file system or drive.
 -- Download name should be in Proper Case (First letter of each word must be in capital letter). It is also called as Title Case.
 -- File Size must be in MB (Megabytes) (decimal value allowed)
@@ -66,20 +78,8 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `Extension` VARCHAR(10) NOT NULL,
     `Size` DOUBLE UNSIGNED NOT NULL,
     INDEX `ExtensionIndex` (Extension),
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
-);
-
-----
--- 6. Table `files_type`
--- Extension specifies the type of file such as pdf, doc, docx, ppt, pptx, xls, xlsx, txt, etc.
--- FileType specifies the type of file such as image, document, video, audio, etc. 
--- Use small case for Extension and FileType.
-----
-CREATE TABLE IF NOT EXISTS `files_type`(
-    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `Extension` VARCHAR(10) NOT NULL PRIMARY KEY,
-    `FileType` VARCHAR(30) NOT NULL,
-    FOREIGN KEY (Extension) REFERENCES files_metadata(Extension)
+    FOREIGN KEY (FileId) REFERENCES Files(FileId),
+    FOREIGN KEY (Extension) REFERENCES files_type(Extension)
 );
 
 ----
