@@ -195,6 +195,7 @@ class Files:
             print("Exception: ", e)
             return False
         else:
+            self.conn.commit()  # commit the changes to desired table of the database
             print("Data inserted successfully....")
             return True
 
@@ -307,7 +308,8 @@ class Files:
                     choice = input(
                         f"Press enter to finalize and save in database (Any other key to rewrite the data for the table {table}): ")
                     if choice == "":
-                        self.__insertData(table, self.__getSqlQuery(table, dataList))
+                        self.__insertData(
+                            table, self.__getSqlQuery(table, dataList))
                         break
                     else:
                         print(
