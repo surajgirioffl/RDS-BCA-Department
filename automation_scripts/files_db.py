@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 21st April 2023
+    @last-modified: 22nd April 2023
     @error-series: 1500
 
     @description:
@@ -307,7 +307,7 @@ class Files:
                     choice = input(
                         f"Press enter to finalize and save in database (Any other key to rewrite the data for the table {table}): ")
                     if choice == "":
-                        print(self.__getSqlQuery(table, dataList))
+                        self.__insertData(table, self.__getSqlQuery(table, dataList))
                         break
                     else:
                         print(
