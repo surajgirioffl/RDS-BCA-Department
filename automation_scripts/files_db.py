@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 20th April 2023
+    @last-modified: 21st April 2023
     @error-series: 1500
 
     @description:
@@ -25,23 +25,23 @@ class Files:
                 - Constructor to initialize the object and establish connection with the database.
 
             Args:
-                * host (str, optional): 
+                * host (str, optional):
                     - Host of the database.
                     - Defaults to host from the environment variable.
-                * user (str, optional): _description_. 
+                * user (str, optional): _description_.
                     - Username to use for authentication for establishing connection with the database.
                     - Defaults to username from the environment variable.
-                * port (int, optional): 
+                * port (int, optional):
                     - Port to connect to the database.
                     - Defaults to port from the environment variable.
                     - 3306 if unspecified in the environment variable.
                 * password (str, optional):
                     - Password to use while connecting to the database.
                     - Defaults to password from the environment variable.
-                * database (str, optional): 
+                * database (str, optional):
                     - Name of the database.
                     - Defaults to "rdsbca".
-                * timeZoneForDatabase (str, optional): 
+                * timeZoneForDatabase (str, optional):
                     - Timezone to be used within the database.
                     - Defaults to "Asia/Kolkata".
 
@@ -146,7 +146,7 @@ class Files:
 
             Args:
                 * tableName (str):
-                    - Table name in which data need to be inserted. 
+                    - Table name in which data need to be inserted.
                 * dataList (list):
                     - List of data to be inserted into the table.
                     - Data to be inserted into the table should be in the same order as the attributes of the table.
@@ -161,7 +161,7 @@ class Files:
                 - INT type attributes are also written as string in the returned query.
                 - But this will not cause any problem because MySQL will automatically convert the string to int.
                     - Example: "123" will be converted to 123.
-                    - MySQL auto perform implicit type conversion. Thanks to MySQL. 
+                    - MySQL auto perform implicit type conversion. Thanks to MySQL.
         """
         sql: str = f"""
                         INSERT INTO {tableName} {(', '.join(self.tables[tableName]))}
@@ -327,18 +327,18 @@ class Files:
     @staticmethod
     def fetchFileMetadata(filePath: str) -> dict | bool:
         """
-            Description: 
+            Description:
                 - Static method to fetch metadata of a file.
                 - Meta data includes: File Name, Extension, Size, Date Created, Date Modified.
                 - Keep in mind that Date Created and Date Modified are in Epoch format.
                     - You need to convert it to any specific format as per your requirement (Use time and datetime module).
 
             Args:
-                * filePath (str): 
+                * filePath (str):
                     - Path of the file whose metadata is to be fetched.
 
             Returns:
-                * dict: 
+                * dict:
                     - Returns a dictionary containing metadata of the file.
                 * bool:
                     - Returns False if any error occurs.
