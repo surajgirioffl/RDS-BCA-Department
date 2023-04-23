@@ -164,7 +164,7 @@ class Files:
                     - MySQL auto perform implicit type conversion. Thanks to MySQL.
         """
         sql: str = f"""
-                        INSERT INTO {tableName} {(', '.join(self.tables[tableName]))}
+                        INSERT INTO {tableName} ({(', '.join(self.tables[tableName]))})
                         VALUES
                         ({(str([data for data in dataList])).strip('[]')})
                     """
