@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 22nd April 2023
+    @last-modified: 23rd April 2023
     @error-series: 1500
 
     @description:
@@ -308,12 +308,17 @@ class Files:
                     choice = input(
                         f"Press enter to finalize and save in database (Any other key to rewrite the data for the table {table}): ")
                     if choice == "":
-                        self.__insertData(
-                            table, self.__getSqlQuery(table, dataList))
-                        break
+                        if self.__insertData(table, self.__getSqlQuery(table, dataList)):
+                            break
+                        else:
+                            print("Something went wrong while inserting data..")
+                            print(
+                                f"Write again the data that is to be inserted in the table {table}.")
+                            input("Press any key to continue...")
+                            continue
                     else:
                         print(
-                            f"Write again data to be inserted in the table {table}")
+                            f"Write again the data that is to be inserted in the table {table}.")
                         continue
             print("==> Press any key to continue to INSERT for next file..")
             print("==> Press Ctrl + C to exit...")
