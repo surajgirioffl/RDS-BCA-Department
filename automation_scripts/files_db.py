@@ -309,6 +309,7 @@ class Files:
                         f"Press enter to finalize and save in database (Any other key to rewrite the data for the table {table}): ")
                     if choice == "":
                         if self.__insertData(table, self.__getSqlQuery(table, dataList)):
+                            input("Press any key to continue for INSERT in the next table....")
                             break
                         else:
                             print("Something went wrong while inserting data..")
