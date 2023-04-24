@@ -8,3 +8,10 @@
     @description:
         * Module to insert data into the database rdsbca$previous_year_questions.
 """
+
+import mysql.connector as mysql
+from os import environ
+
+
+class PreviousYearQuestionsDB:
+    ...
