@@ -13,7 +13,8 @@
             - Class to INSERT/UPDATE data into the database rdsbca$previous_year_questions.
     
     @functions:
-        *     
+        * main()
+            - Main method to run the program.
 """
 
 import mysql.connector as mysql
@@ -27,7 +28,8 @@ class PreviousYearQuestionsDB:
             - Handle all INSERT/UPDATE operations on the database.
 
         @methods:
-            * 
+            * inputAndInsertInDatabase() 
+                - Method to take input from the user and insert/update the data in the database.
     """
 
     def __init__(self, host: str = environ.get("DBHOST"), user: str = environ.get("DBUSERNAME"), port: int = int(environ.get("DBPORT"))if environ.get("DBPORT") is not None else 3306, password: str = environ.get("DBPASSWORD"), database: str = "previous_year_questions", timeZoneForDatabase="Asia/Kolkata") -> None:
@@ -51,7 +53,7 @@ class PreviousYearQuestionsDB:
                     - Defaults to password from the environment variable.
                 * database (str, optional):
                     - Name of the database.
-                    - Defaults to "rdsbca".
+                    - Defaults to "previous_year_questions".
                 * timeZoneForDatabase (str, optional):
                     - Timezone to be used within the database.
                     - Defaults to "Asia/Kolkata".
