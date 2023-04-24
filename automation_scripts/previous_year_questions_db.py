@@ -96,3 +96,84 @@ class PreviousYearQuestionsDB:
         if self.connectionStatus:
             self.conn.commit()
             self.conn.close()
+
+    def inputAndInsertInDatabase(self):
+        index: int = 1
+        while True:
+            print(
+                f"\n=======================FOR INDEX {index}=======================")
+            # For `source`
+            while True:
+                print(
+                    """Select Source: 
+                        1. BRABU
+                        2. LN Mishra
+                        3. Vaishali
+                        """
+                )
+                choice = input("Write your choice: ")
+                if choice in ["1", "2", "3"]:
+                    if choice == "1":
+                        source = "brabu"
+                        break
+                    elif choice == "2":
+                        source = "ln_mishra"
+                        break
+                    else:
+                        source = "vaishali"
+                        break
+                else:
+                    print("Invalid choice.")
+                    print("Please select again....")
+                    continue
+
+            # for `semester`
+            while True:
+                semester = input("Write semester: ")
+                if semester not in [str(number) for number in range(1, 7)]:
+                    print("Invalid semester.")
+                    print("Please write again...")
+                    continue
+                break
+
+            # for `year`
+            while True:
+                year = input("Write year: ")
+                if not year.isdigit():
+                    print("Invalid semester.")
+                    print("Please write again...")
+                    continue
+                break
+
+            # for `fileId`
+            while True:
+                fileId = input("Write file ID: ")
+                if not year.isdigit():
+                    print("Invalid file ID.")
+                    print("Please write again...")
+                    continue
+                break
+
+            print(
+                f"""\n------VERIFICATION-------
+                    => Source: {source}
+                    => Semester: {semester}
+                    => Year: {year}
+                    => File ID: {fileId}
+                        """
+            )
+            choice = input(
+                "Press enter to INSERT/UPDATE else any key to rewrite the data: "
+            )
+            if choice == "":
+                ...
+            else:
+                continue
+
+
+def main():
+    PreviousYearQuestionsDB().inputAndInsertInDatabase()
+
+
+if __name__ == "__main__":
+    main()
