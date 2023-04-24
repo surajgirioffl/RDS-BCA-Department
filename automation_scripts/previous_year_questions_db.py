@@ -97,7 +97,24 @@ class PreviousYearQuestionsDB:
             self.conn.commit()
             self.conn.close()
 
-    def __isYearExists(self, source: str, year: str):
+    def __isYearExists(self, source: str, year: str) -> bool:
+        """
+            Description:
+                - Method to check if the year exists in the desired table of the database.
+
+            Args:
+                * source (str): 
+                    - Source name of the previous year question paper.
+                    - One of the following: brabu, ln_mishra, vaishali
+                    - It is the name of the table in the database.
+                * year (str):
+                    - Year to check if it exists in the table.
+                    - Year of the previous year question paper.
+
+            Returns:
+                * bool:
+                    - Returns True if the year exists in the table else returns False.
+        """
         try:
             self.cursor.execute(f"""-- sql
                                     SELECT * FROM {source} 
@@ -115,6 +132,27 @@ class PreviousYearQuestionsDB:
             return False
 
     def __insertData(self, source: str, semester: str, year: str, fileId: str) -> bool:
+        """
+            Description:
+                - Method to insert data into the table.
+
+            Args:
+                * source (str):
+                    - Source name of the previous year question paper.
+                    - One of the following: brabu, ln_mishra, vaishali
+                    - It is the name of the table in the database.
+                * semester (str):
+                    - Semester of the previous year question paper.
+                    - One of the following: 1, 2, 3, 4, 5, 6
+                * year (str):
+                    - Year of the previous year question paper.
+                * fileId (str):
+                    - File ID of the previous year question paper.
+
+            Returns:
+                * bool: 
+                    - Returns True if the data is inserted successfully else returns False.
+        """
         try:
             self.cursor.execute(f"""-- sql 
                                     INSERT INTO {source} (Year, Sem{semester})
@@ -133,6 +171,27 @@ class PreviousYearQuestionsDB:
             return True
 
     def __updateData(self, source: str, semester: str, year: str, fileId: str) -> bool:
+        """
+            Description:
+                - Method to update data into the table.
+
+            Args:
+                * source (str):
+                    - Source name of the previous year question paper.
+                    - One of the following: brabu, ln_mishra, vaishali
+                    - It is the name of the table in the database.
+                * semester (str):
+                    - Semester of the previous year question paper.
+                    - One of the following: 1, 2, 3, 4, 5, 6
+                * year (str):
+                    - Year of the previous year question paper.
+                * fileId (str):
+                    - File ID of the previous year question paper.
+
+            Returns:
+                * bool: 
+                    - Returns True if the data is updated successfully else returns False.
+        """
         try:
             self.cursor.execute(
                 f"""-- sql
@@ -152,7 +211,15 @@ class PreviousYearQuestionsDB:
             print("Data updated successfully.....")
             return True
 
-    def inputAndInsertInDatabase(self):
+    def inputAndInsertInDatabase(self) -> None:
+        """
+            Description:
+                - Method to take input from the user and insert/update the data in the database.
+                - Handles all the exceptions and errors while user input and inserting/updating the data in the database.
+
+            Returns:
+                * None
+        """
         index: int = 1
         while True:
             print(
@@ -245,7 +312,15 @@ class PreviousYearQuestionsDB:
                 continue
 
 
-def main():
+def main() -> None:
+    """
+        Description:
+            - Main function to run the program.
+            - Driver function.
+
+        Returns:
+            * None
+    """
     PreviousYearQuestionsDB().inputAndInsertInDatabase()
 
 
