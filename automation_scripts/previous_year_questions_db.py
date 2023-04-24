@@ -97,6 +97,23 @@ class PreviousYearQuestionsDB:
             self.conn.commit()
             self.conn.close()
 
+    def __isYearExists(self, source: str, year: str):
+        try:
+            self.cursor.execute("""-- sql
+                                    SELECT * FROM {source} 
+                                    WHERE 
+                                    Year = {year}
+                                """
+                                )
+        except Exception as e:
+            print("Unable read data from the table {source}. Error code: 1902")
+            print("Exception: ", e)
+            return False
+        else:
+            if self.cursor.fetchone():
+                return True
+            return False
+
     def __insertData(self, source: str, semester: str, year: str, fileId: str) -> bool:
         try:
             self.cursor.execute(f"""-- sql 
