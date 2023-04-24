@@ -97,6 +97,24 @@ class PreviousYearQuestionsDB:
             self.conn.commit()
             self.conn.close()
 
+    def __insertData(self, source: str, semester: str, year: str, fileId: str) -> bool:
+        try:
+            self.cursor.execute(f"""-- sql 
+                                    INSERT INTO {source} (Year, Sem{semester})
+                                    VALUES (
+                                            {year}, {fileId}
+                                    )
+                                """
+                                )
+        except Exception as e:
+            print("Unable update data in the table {source}. Error code: 1903")
+            print("Exception: ", e)
+            return False
+        else:
+            self.conn.commit()
+            print("Data inserted successfully.....")
+            return True
+
     def inputAndInsertInDatabase(self):
         index: int = 1
         while True:
