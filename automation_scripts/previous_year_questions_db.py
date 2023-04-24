@@ -7,6 +7,13 @@
     
     @description:
         * Module to insert data into the database rdsbca$previous_year_questions.
+        
+    @classes:
+        * PreviousYearQuestionsDB
+            - Class to INSERT/UPDATE data into the database rdsbca$previous_year_questions.
+    
+    @functions:
+        *     
 """
 
 import mysql.connector as mysql
