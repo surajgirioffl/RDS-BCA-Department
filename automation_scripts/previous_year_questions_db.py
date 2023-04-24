@@ -14,6 +14,15 @@ from os import environ
 
 
 class PreviousYearQuestionsDB:
+    """
+        @description:
+            - Class to insert data into the database rdsbca$previous_year_questions.
+            - Handle all INSERT/UPDATE operations on the database.
+
+        @methods:
+            * 
+    """
+
     def __init__(self, host: str = environ.get("DBHOST"), user: str = environ.get("DBUSERNAME"), port: int = int(environ.get("DBPORT"))if environ.get("DBPORT") is not None else 3306, password: str = environ.get("DBPASSWORD"), database: str = "previous_year_questions", timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             Description:
