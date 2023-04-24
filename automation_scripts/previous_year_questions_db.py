@@ -99,7 +99,7 @@ class PreviousYearQuestionsDB:
 
     def __isYearExists(self, source: str, year: str):
         try:
-            self.cursor.execute("""-- sql
+            self.cursor.execute(f"""-- sql
                                     SELECT * FROM {source} 
                                     WHERE 
                                     Year = {year}
