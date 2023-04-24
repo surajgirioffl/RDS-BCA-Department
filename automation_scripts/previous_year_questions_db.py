@@ -134,6 +134,7 @@ class PreviousYearQuestionsDB:
             return False
 
     def __insertData(self, source: str, semester: str, year: str, fileId: str) -> bool:
+        """"""
         """
             Description:
                 - Method to insert data into the table.
@@ -173,6 +174,7 @@ class PreviousYearQuestionsDB:
             return True
 
     def __updateData(self, source: str, semester: str, year: str, fileId: str) -> bool:
+        """"""
         """
             Description:
                 - Method to update data into the table.
@@ -214,6 +216,7 @@ class PreviousYearQuestionsDB:
             return True
 
     def inputAndInsertInDatabase(self) -> None:
+        """"""
         """
             Description:
                 - Method to take input from the user and insert/update the data in the database.
@@ -315,6 +318,7 @@ class PreviousYearQuestionsDB:
 
 
 def main() -> None:
+    """"""
     """
         Description:
             - Main function to run the program.
