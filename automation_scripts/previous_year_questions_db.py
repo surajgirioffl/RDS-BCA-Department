@@ -221,7 +221,26 @@ class PreviousYearQuestionsDB:
                 "Press enter to INSERT/UPDATE else any key to rewrite the data: "
             )
             if choice == "":
-                ...
+                if self.__isYearExists(source, year):
+                    print(
+                        "Warning: Year already exists. Updating data... (You may overwrite the data and it will be lost.)")
+                    choice = input(
+                        "Press enter to continue updating else any key to rewrite the data: ")
+                    if choice == "":
+                        self.__updateData(source, semester, year, fileId)
+                    else:
+                        continue
+                else:
+                    self.__insertData(source, semester, year, fileId)
+
+                try:
+                    input("Press any key to continue or press Ctrl+C to exit...")
+                except KeyboardInterrupt:
+                    print("Exiting...")
+                    return
+                else:
+                    index += 1
+                    continue  # not need to write this line
             else:
                 continue
 
