@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 20th April 2023
+-- Last updated on: 25th April 2023
 ----
 -- 1. Table `files`
 -- FileId should be an unique 8 digit number. It will be used to identify file. It will be used to access file.
@@ -121,7 +121,8 @@ CREATE TABLE IF NOT EXISTS `files_tracking`(
 -- AccountId is the id of a registered user/teacher which is from database such as rdsbca$users/rdsbca$bca.teachers.
 ----
 CREATE TABLE IF NOT EXISTS `creditors_info` (
-    `Id` SMALLINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `Id` INT UNSIGNED PRIMARY KEY NOT NULL,
     `Name` VARCHAR(100) NOT NULL,
     `Email` VARCHAR(100) UNIQUE NOT NULL,
     `Designation` VARCHAR(50) DEFAULT NULL,
