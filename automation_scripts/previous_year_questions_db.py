@@ -69,3 +69,14 @@ class PreviousYearQuestionsDB:
                 self.cursor.execute(f"SET time_zone = '{timeZoneForDatabase}'")
             except Exception as e:
                 print("Unable to set time_zone. Error code 1901")
+
+    def __del__(self) -> None:
+        """
+            Description:
+                - Destructor to delete the object after committing the changes and closing the database.
+            Returns:
+                * None
+        """
+        if self.connectionStatus:
+            self.conn.commit()
+            self.conn.close()
