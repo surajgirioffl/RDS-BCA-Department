@@ -40,8 +40,8 @@ class PreviousYearQuestionsDB:
                     - Timezone to be used within the database.
                     - Defaults to "Asia/Kolkata".
 
-        Returns:
-            * None
+            Returns:
+                * None
         """
         try:
             # establishing connection and creating cursor object
