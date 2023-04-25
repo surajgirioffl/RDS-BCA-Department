@@ -199,17 +199,20 @@ class Files:
             print("Data inserted successfully....")
             return True
 
-    def __getSessionScopedAttributes(self) -> dict | None:
+    def __setSessionScopedAttributes(self) -> None:
         """
             Description:
-                - Method to get session scoped attributes and respective values from the user.
+                - Method to set and get session scoped attributes and respective values from the user.
                 - Session scoped attributes are those attributes which are same for all the files of the current session.
                 - Means user don't need to provide these attributes for each file.
 
+            More Info:
+                - It will create a instance variable named 'sessionScopedAttributes` which is a dictionary of session scoped attributes and respective values if user want to provide session scoped attributes.
+                - If user refuse to provide session scoped attributes then also it will create a instance variable named 'sessionScopedAttributes` which will be an empty dictionary.
+
             Returns:
-                * dict | None:
-                    - Returns dictionary of session scoped attributes and respective values if user want to provide session scoped attributes.
-                    - Returns None if user refuse to provide session scoped attributes.
+                * None:
+                    - Returns None.
         """
         print("\n======================SESSION SCOPED ATTRIBUTES======================")
         print("Session scoped attributes are those attributes which are same for all the files of the current session.")
@@ -218,9 +221,12 @@ class Files:
         print("If you have any doubt regarding any attribute then don't add it here. Just provide it for each file manually.\n")
         choice = input(
             "Do you want to provide session scoped attributes (Press enter for yes else any key for no): ")
+
+        self.sessionScopedAttributes: dict = {}
+
         if choice != "":
-            return None
-        sessionScopedAttributes: dict = {}
+            return
+
         print("""KEEP IN MIND:
                     1. Attributes name must be same as in the schema.
                     2. Attributes name must be in PascalCase.
@@ -240,10 +246,10 @@ class Files:
                     print("      Attribute name or value can't be empty. Try again...")
                     continue
                 else:
-                    sessionScopedAttributes[attribute] = value
+                    self.sessionScopedAttributes[attribute] = value
                     index += 1
         except KeyboardInterrupt:
-            return sessionScopedAttributes
+            return
 
     def inputAndInsertInDatabase(self) -> bool:
         """
