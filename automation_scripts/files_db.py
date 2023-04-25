@@ -218,7 +218,8 @@ class Files:
                 if os.path.exists(filePath):
                     # if path is valid then check if it is a file or not
                     if os.path.isfile(filePath):
-                        attributesWithAvailableValueDict["FilePath"] = filePath
+                        attributesWithAvailableValueDict["FilePath"] = filePath.removeprefix(
+                            os.getcwd()+'\\').replace('\\', '/')
                         break
                     else:
                         # if path is not a file then ask user to provide path again
