@@ -235,21 +235,33 @@ class Files:
                     5. Now write attributes name and value as per schema.
                     6. Press Ctrl+C to stop providing attributes and save the data in session scoped attributes dictionary.\n
             """)
-        try:
-            index = 1
-            while True:
+
+        while True:
+            try:
+                index = 1
+                while True:
+                    print(
+                        f"======================ATTRIBUTE NUMBER {index:02}======================")
+                    attribute = input("Write attribute name as per schema: ")
+                    value = input(
+                        f"Write value for the attribute {attribute}: ")
+                    if attribute == "" or value == "":
+                        print(
+                            "      Attribute name or value can't be empty. Try again...")
+                        continue
+                    else:
+                        self.sessionScopedAttributes[attribute] = value
+                        index += 1
+            except KeyboardInterrupt:
                 print(
-                    f"======================ATTRIBUTE NUMBER {index:02}======================")
-                attribute = input("Write attribute name as per schema: ")
-                value = input(f"Write value for the attribute {attribute}: ")
-                if attribute == "" or value == "":
-                    print("      Attribute name or value can't be empty. Try again...")
-                    continue
-                else:
-                    self.sessionScopedAttributes[attribute] = value
-                    index += 1
-        except KeyboardInterrupt:
-            return
+                    "===========================VERIFICATION===========================")
+                for key, value in self.sessionScopedAttributes.items():
+                    print(f"{key}: {value}")
+                choice = input(
+                    "Press enter to save attributes-value if everything is fine else press any key to rewrite: ")
+                if choice == "":
+                    return
+                continue
 
     def inputAndInsertInDatabase(self) -> bool:
         """
