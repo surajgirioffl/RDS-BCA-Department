@@ -293,7 +293,7 @@ class Files:
                         else:
                             while True:
                                 value = input(
-                                    f"{attributeIndex+1:02}) Enter value for {attribute}: ")
+                                    f"{attributeIndex+1:02}) Enter value for {attribute} (Write DEFAULT for default value): ")
                                 if value == "":
                                     print(
                                         "      Value can't be empty. Write again...")
@@ -322,6 +322,7 @@ class Files:
                         print(
                             f"Write again the data that is to be inserted in the table {table}.")
                         continue
+            print("==> Add current file details to another database if you want to. It will ease if you do it now.")
             print("==> Press any key to continue to INSERT for next file..")
             print("==> Press Ctrl + C to exit...")
             try:
