@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 25th April 2023
+    @last-modified: 26th April 2023
     @error-series: 1500
 
     @description:
@@ -278,7 +278,7 @@ class Files:
         fileIndex: int = 1
         while True:
             print(
-                f"\n======================FILE NUMBER {fileIndex:02}======================")
+                f"\n\033[1;31m============================================FILE NUMBER {fileIndex:02}============================================\033[0m")
             attributesWithAvailableValueDict: dict = {}
             while True:
                 filePath: str = input("Write file path: ")
