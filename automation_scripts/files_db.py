@@ -215,10 +215,11 @@ class Files:
                     - Returns None.
         """
         print("\n======================SESSION SCOPED ATTRIBUTES======================")
-        print("Session scoped attributes are those attributes which are same for all the files of the current session.")
-        print("By providing this you don't need to provide these attributes for each file.")
-        print("Warning: If you provide session scoped attributes then you can't provide these attributes for any file.")
-        print("If you have any doubt regarding any attribute then don't add it here. Just provide it for each file manually.\n")
+        print("=> Session scoped attributes are those attributes which are same for all the files of the current session.")
+        print(
+            "=> By providing this you don't need to provide these attributes for each file.")
+        print("=> Warning: If you provide session scoped attributes then you can't provide these attributes for any file.")
+        print("=> If you have any doubt regarding any attribute then don't add it here. Just provide it for each file manually.\n")
         choice = input(
             "Do you want to provide session scoped attributes (Press enter for yes else any key for no): ")
 
@@ -228,12 +229,13 @@ class Files:
             return
 
         print("""KEEP IN MIND:
-                    1. Attributes name must be same as in the schema.
-                    2. Attributes name must be in PascalCase.
-                    3. Must provide value for each attribute.
-                    4. Warning: You will not able to provide these attributes for any file manually. It will be automatically provided by the program.
-                    5. Now write attributes name and value as per schema.
-                    6. Press Ctrl+C to stop providing attributes and save the data in session scoped attributes dictionary.\n
+        1. Attributes name must be same as in the schema.
+        2. Attributes name must be in PascalCase.
+        3. Must provide value for each attribute.
+        4. Warning: You will not able to provide value of these attributes for any file manually. 
+        5. Their values will be automatically provided by the program.
+        6. Now write attributes name and value as per schema.
+        7. Press Ctrl+C to stop providing attributes and save the data in session scoped attributes dictionary.\n
             """)
 
         while True:
@@ -241,7 +243,7 @@ class Files:
                 index = 1
                 while True:
                     print(
-                        f"======================ATTRIBUTE NUMBER {index:02}======================")
+                        f"\n======================ATTRIBUTE NUMBER {index:02}======================")
                     attribute = input("Write attribute name as per schema: ")
                     value = input(
                         f"Write value for the attribute {attribute}: ")
@@ -254,13 +256,14 @@ class Files:
                         index += 1
             except KeyboardInterrupt:
                 print(
-                    "===========================VERIFICATION===========================")
+                    "\n\n===========================VERIFICATION===========================")
                 for key, value in self.sessionScopedAttributes.items():
                     print(f"{key}: {value}")
                 choice = input(
                     "Press enter to save attributes-value if everything is fine else press any key to rewrite: ")
                 if choice == "":
                     return
+                print("Rewrite attributes-value....")
                 continue
 
     def inputAndInsertInDatabase(self) -> bool:
