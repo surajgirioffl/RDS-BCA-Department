@@ -354,6 +354,11 @@ class Files:
                         elif attribute in self.passDefault:
                             print(f"{attributeIndex+1:02}) {attribute}: DEFAULT")
                             dataList.append("DEFAULT")
+                        elif attribute in self.sessionScopedAttributes:
+                            print(
+                                f"{attributeIndex+1:02}) {attribute}: {self.sessionScopedAttributes[attribute]}")
+                            dataList.append(
+                                self.sessionScopedAttributes[attribute])
                         else:
                             while True:
                                 value = input(
@@ -449,6 +454,7 @@ def main() -> None:
         print("Connection not established. Exiting...")
         exit(-1)
     files.setTableAttributes()  # setting the table attributes and related data
+    files.setSessionScopedAttributes()  # setting session scoped attributes
     files.inputAndInsertInDatabase()
 
 
