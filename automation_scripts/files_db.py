@@ -199,6 +199,52 @@ class Files:
             print("Data inserted successfully....")
             return True
 
+    def __getSessionScopedAttributes(self) -> dict | None:
+        """
+            Description:
+                - Method to get session scoped attributes and respective values from the user.
+                - Session scoped attributes are those attributes which are same for all the files of the current session.
+                - Means user don't need to provide these attributes for each file.
+
+            Returns:
+                * dict | None:
+                    - Returns dictionary of session scoped attributes and respective values if user want to provide session scoped attributes.
+                    - Returns None if user refuse to provide session scoped attributes.
+        """
+        print("\n======================SESSION SCOPED ATTRIBUTES======================")
+        print("Session scoped attributes are those attributes which are same for all the files of the current session.")
+        print("By providing this you don't need to provide these attributes for each file.")
+        print("Warning: If you provide session scoped attributes then you can't provide these attributes for any file.")
+        print("If you have any doubt regarding any attribute then don't add it here. Just provide it for each file manually.\n")
+        choice = input(
+            "Do you want to provide session scoped attributes (Press enter for yes else any key for no): ")
+        if choice != "":
+            return None
+        sessionScopedAttributes: dict = {}
+        print("""KEEP IN MIND:
+                    1. Attributes name must be same as in the schema.
+                    2. Attributes name must be in PascalCase.
+                    3. Must provide value for each attribute.
+                    4. Warning: You will not able to provide these attributes for any file manually. It will be automatically provided by the program.
+                    5. Now write attributes name and value as per schema.
+                    6. Press Ctrl+C to stop providing attributes and save the data in session scoped attributes dictionary.\n
+            """)
+        try:
+            index = 1
+            while True:
+                print(
+                    f"======================ATTRIBUTE NUMBER {index:02}======================")
+                attribute = input("Write attribute name as per schema: ")
+                value = input(f"Write value for the attribute {attribute}: ")
+                if attribute == "" or value == "":
+                    print("      Attribute name or value can't be empty. Try again...")
+                    continue
+                else:
+                    sessionScopedAttributes[attribute] = value
+                    index += 1
+        except KeyboardInterrupt:
+            return sessionScopedAttributes
+
     def inputAndInsertInDatabase(self) -> bool:
         """
             Description:
