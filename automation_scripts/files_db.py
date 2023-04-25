@@ -202,7 +202,7 @@ class Files:
     def __setSessionScopedAttributes(self) -> None:
         """
             Description:
-                - Method to set and get session scoped attributes and respective values from the user.
+                - Method to get and set session scoped attributes and respective values after taking from the user.
                 - Session scoped attributes are those attributes which are same for all the files of the current session.
                 - Means user don't need to provide these attributes for each file.
 
