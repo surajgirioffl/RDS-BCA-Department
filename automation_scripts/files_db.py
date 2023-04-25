@@ -199,7 +199,7 @@ class Files:
             print("Data inserted successfully....")
             return True
 
-    def __setSessionScopedAttributes(self) -> None:
+    def setSessionScopedAttributes(self) -> None:
         """
             Description:
                 - Method to get and set session scoped attributes and respective values after taking from the user.
