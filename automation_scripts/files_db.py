@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th Jan 2023
-    @last-modified: 23rd April 2023
+    @last-modified: 25th April 2023
     @error-series: 1500
 
     @description:
@@ -331,6 +331,10 @@ class Files:
                 return True
             else:
                 fileIndex += 1
+                if sys.platform == 'win32':
+                    os.system('cls')
+                else:
+                    os.system('clear')
                 continue
 
     @staticmethod

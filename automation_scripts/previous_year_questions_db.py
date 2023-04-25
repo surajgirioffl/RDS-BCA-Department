@@ -2,7 +2,7 @@
     @file: previous_year_questions_db.py
     @author: Suraj Kumar Giri
     @init-date: 24th April 2023
-    @last-modified: 24th April 2023
+    @last-modified: 25th April 2023
     @error-series: 1900
     
     @description:
@@ -18,7 +18,8 @@
 """
 
 import mysql.connector as mysql
-from os import environ
+from os import environ, system
+from sys import platform
 
 
 class PreviousYearQuestionsDB:
@@ -312,6 +313,10 @@ class PreviousYearQuestionsDB:
                     return
                 else:
                     index += 1
+                    if platform == 'win32':
+                        system('cls')
+                    else:
+                        system('clear')
                     continue  # not need to write this line
             else:
                 continue
