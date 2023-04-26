@@ -395,7 +395,7 @@ class Files:
                         print(
                             f"Write again the data that is to be inserted in the table {table}.")
                         continue
-            print("==> Add current file details to another database if you want to. It will ease if you do it now.")
+            print("\n\033[1;32m==> Add current file details to another database if you want to. It will ease if you do it now...\033[0m")
             print("==> Press any key to continue to INSERT for next file..")
             print("==> Press Ctrl + C to exit...")
             try:
