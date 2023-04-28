@@ -106,17 +106,17 @@ class PreviousYearQuestions:
                     - Returns None if given source is not valid or any other error occurred.
         """
         if source == "all":
-            data = self.cursor.execute(f"""-- sql
-                                            SELECT * FROM
-                                            (
-                                                    SELECT "BRABU" AS Source, Year, Sem{semester} FROM brabu WHERE Sem{semester} IS NOT NULL 
-                                                    UNION
-                                                    SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{semester} AS Source FROM vaishali WHERE Sem{semester} IS NOT NULL 
-                                                    UNION
-                                                    SELECT "LN Mishra, Muzaffarpur", Year, Sem{semester} as Source FROM ln_mishra WHERE Sem{semester} IS NOT NULL
-                                            ) AS `Previous Year Questions`
-                                            ORDER BY Year DESC
-                                        """)
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM
+                                    (
+                                            SELECT "BRABU" AS Source, Year, Sem{semester} FROM brabu WHERE Sem{semester} IS NOT NULL 
+                                            UNION
+                                            SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{semester} AS Source FROM vaishali WHERE Sem{semester} IS NOT NULL 
+                                            UNION
+                                            SELECT "LN Mishra, Muzaffarpur", Year, Sem{semester} as Source FROM ln_mishra WHERE Sem{semester} IS NOT NULL
+                                    ) AS `Previous Year Questions`
+                                    ORDER BY Year DESC
+                                """)
             return self.cursor.fetchall()
 
         elif source == "brabu":
