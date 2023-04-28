@@ -1,3 +1,14 @@
+"""
+    @file: previous_year_questions_db.py
+    @author: Suraj Kumar Giri
+    @init-date: 09th Nov 2022
+    @last-modified: 28th April 2023
+    @error-series: 2000
+
+    @description:
+        * Module to fetch data from the rdsbca$previous_year_questions database.
+"""
+
 import sqlite3 as sqlite
 
 
