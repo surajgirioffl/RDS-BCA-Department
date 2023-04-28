@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 10th March 2023
+    @last-modified: 28th April 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -448,7 +448,8 @@ def contactUs():
 def contactUs2(sno):
     if request.method == 'GET':
         # return jsonify(rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno))
-        tableAttributes: list = ['ID', 'Email', 'First Name', 'Last Name', 'Country', 'Contents']
+        tableAttributes: list = [
+            'ID', 'Email', 'First Name', 'Last Name', 'Country', 'Contents']
         return render_template('rds-project/detail.html', data=rdsDb.RdsProject(**databaseCredentials).fetchContactFormDetails(sno), tableAttributes=tableAttributes)
     else:  # DELETE request
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteContact(sno) else "Failed to delete data"
