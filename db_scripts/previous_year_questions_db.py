@@ -79,37 +79,50 @@ class PreviousYearQuestions:
             self.conn.commit()
             self.conn.close()
 
-    def getLinks(self, source: str) -> tuple[int, str, str] | None:
+    def getLinks(self, source: str, semester: int | str) -> list[tuple[str, int, int], tuple[str, int, int], ] | None:
         if source == "all":
-            data = self.cursor.execute(f"""
-                                            SELECT * FROM(
-                                            SELECT "BRABU" AS Source, Year, Sem{self.semester} FROM brabu WHERE Sem{self.semester} IS NOT NULL UNION
-                                            SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{self.semester} AS Source FROM vaishali WHERE Sem{self.semester} IS NOT NULL UNION
-                                            SELECT "LN Mishra, Muzaffarpur", Year, Sem{self.semester} as Source FROM lnMishra WHERE Sem{self.semester} IS NOT NULL
-                                            ) ORDER BY Year DESC
-                                        """).fetchall()
-            return data
+            data = self.cursor.execute(f"""-- sql
+                                            SELECT * FROM
+                                            (
+                                                    SELECT "BRABU" AS Source, Year, Sem{semester} FROM brabu WHERE Sem{semester} IS NOT NULL 
+                                                    UNION
+                                                    SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{semester} AS Source FROM vaishali WHERE Sem{semester} IS NOT NULL 
+                                                    UNION
+                                                    SELECT "LN Mishra, Muzaffarpur", Year, Sem{semester} as Source FROM ln_mishra WHERE Sem{semester} IS NOT NULL
+                                            )
+                                            ORDER BY Year DESC
+                                        """)
+            return self.cursor.fetchall()
 
         elif source == "brabu":
-            data = self.cursor.execute(
-                f'SELECT "BRABU" AS Source, Year, Sem{self.semester} FROM brabu WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
-            return data
+            self.cursor.execute(f"""-- sql
+                                    SELECT "BRABU" AS Source, Year, Sem{semester}
+                                    FROM brabu WHERE Sem{semester} IS NOT NULL 
+                                    ORDER BY Year DESC
+                                """)
+            return self.cursor.fetchall()
 
         elif source == "vaishali":
-            data = self.cursor.execute(
-                f'SELECT "Vaishali Institute, Muzaffarpur" AS Source, Year, Sem{self.semester} FROM vaishali WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
-            return data
+            self.cursor.execute(f"""-- sql
+                                    SELECT "Vaishali Institute, Muzaffarpur" AS Source, Year, Sem{semester} 
+                                    FROM vaishali WHERE Sem{semester} IS NOT NULL 
+                                    ORDER BY Year DESC
+                                """)
+            return self.cursor.fetchall()
 
         elif source == "lnMishra":
-            data = self.cursor.execute(
-                f'SELECT "LN Mishra, Muzaffarpur" as Source, Year, Sem{self.semester} FROM lnMishra WHERE Sem{self.semester} IS NOT NULL ORDER BY Year DESC').fetchall()
-            return data
+            self.cursor.execute(f"""-- sql
+                                    SELECT "LN Mishra, Muzaffarpur" as Source, Year, Sem{semester}
+                                    FROM ln_mishra WHERE Sem{semester} IS NOT NULL
+                                    ORDER BY Year DESC
+                                """)
+            return self.cursor.fetchall()
         else:
             return None
 
 
 if __name__ == '__main__':
-    obj = PreviousYearQuestions(2)
-    data = obj.getLinks('all')
+    obj = PreviousYearQuestions()
+    data = obj.getLinks('all', 4)
     for row in data:
         print(row)
