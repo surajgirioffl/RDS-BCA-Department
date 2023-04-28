@@ -79,10 +79,10 @@ class PreviousYearQuestions:
             self.conn.commit()
             self.conn.close()
 
-    def getLinks(self, source: str, semester: int | str) -> list[tuple[str, int, int], tuple[str, int, int], ] | list:
+    def getLinks(self, source: str, semester: int | str) -> list[tuple[str, int, int], tuple[str, int, int], ] | list | None:
         """
             Description:
-                - Method to fetch the file ID (links) of previous year questions from the database (previous_year_questions).
+                - Method to fetch the file ID (used to create links) of previous year questions from the database (previous_year_questions).
 
             Args:
                 * source (str): 
@@ -101,6 +101,9 @@ class PreviousYearQuestions:
 
                 * list (empty)
                     - Returns empty list if no data (previous year questions) is available for the given semester.
+
+                * None
+                    - Returns None if given source is not valid or any other error occurred.
         """
         if source == "all":
             data = self.cursor.execute(f"""-- sql
@@ -139,6 +142,7 @@ class PreviousYearQuestions:
                                     ORDER BY Year DESC
                                 """)
             return self.cursor.fetchall()
+
         else:
             return None
 
