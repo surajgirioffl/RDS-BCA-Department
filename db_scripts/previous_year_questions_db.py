@@ -79,7 +79,29 @@ class PreviousYearQuestions:
             self.conn.commit()
             self.conn.close()
 
-    def getLinks(self, source: str, semester: int | str) -> list[tuple[str, int, int], tuple[str, int, int], ] | None:
+    def getLinks(self, source: str, semester: int | str) -> list[tuple[str, int, int], tuple[str, int, int], ] | list:
+        """
+            Description:
+                - Method to fetch the file ID (links) of previous year questions from the database (previous_year_questions).
+
+            Args:
+                * source (str): 
+                    - Source of the previous year questions.
+                    - Source may be one from these three - [brabu, vaishali, lnMishra]
+                    - To select all sources use - all
+                * semester (int | str):
+                    - Semester for which the previous year questions are to be fetched.
+
+            Returns:
+                * list[tuple[str, int, int], tuple[str, int, int], ]
+                    - Return list of tuples (rows) containing data for the previous year questions.
+                    - Each tuple in the list contains (Source, Year, FileId)
+                    - E.g:
+                        - [ ('LN Mishra, Muzaffarpur', 2022, 35405203), ('LN Mishra, Muzaffarpur', 2021, 53553236)]
+
+                * list (empty)
+                    - Returns empty list if no data (previous year questions) is available for the given semester.
+        """
         if source == "all":
             data = self.cursor.execute(f"""-- sql
                                             SELECT * FROM
