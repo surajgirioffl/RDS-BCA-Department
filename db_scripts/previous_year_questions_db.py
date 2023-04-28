@@ -89,7 +89,7 @@ class PreviousYearQuestions:
                                                     SELECT "Vaishali Institute, Muzaffarpur", Year, Sem{semester} AS Source FROM vaishali WHERE Sem{semester} IS NOT NULL 
                                                     UNION
                                                     SELECT "LN Mishra, Muzaffarpur", Year, Sem{semester} as Source FROM ln_mishra WHERE Sem{semester} IS NOT NULL
-                                            )
+                                            ) AS `Previous Year Questions`
                                             ORDER BY Year DESC
                                         """)
             return self.cursor.fetchall()
