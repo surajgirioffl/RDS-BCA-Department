@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 28th April 2023
+    @last-modified: 29th April 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -193,8 +193,8 @@ def previousYearQuestions():
 
         if validation.isValidSource(source) and validation.isValidSemester(semester):
             print("All data are valid...")
-            pyqObj = pyqDb.PreviousYearQuestions(semester)
-            databaseResponse: tuple = pyqObj.getLinks(source)
+            pyqObj = pyqDb.PreviousYearQuestions()
+            databaseResponse: tuple = pyqObj.getLinks(source=source, semester=semester)
             return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
         else:
             print("Invalid data passed...")
@@ -296,6 +296,11 @@ def about():
 @app.route('/about-rds-college', methods=['GET'])
 def aboutRdsCollege():
     return render_template('about-rds-college.html')
+
+
+@app.route('/files/<int:fileId>', methods=['GET'])
+def files(fileId):
+    return "Route is under development"
 
 
 # api routes
