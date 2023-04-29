@@ -298,6 +298,11 @@ def aboutRdsCollege():
     return render_template('about-rds-college.html')
 
 
+@app.route('/files/<int:fileId>', methods=['GET'])
+def files(fileId):
+    return "Route is under development"
+
+
 # api routes
 @app.route('/ip', methods=['POST'])
 def ip():
