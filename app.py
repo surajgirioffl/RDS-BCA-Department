@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 29th April 2023
+    @last-modified: 30th April 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -23,12 +23,14 @@ import os
 import logging
 from http import HTTPStatus
 from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response
+import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
 from db_scripts import userIPDb as ipDB
 from db_scripts import registration_db as regDb
 from db_scripts import dynamic_contents as dynamicContents
 from db_scripts import rds_project_db as rdsDb
+from db_scripts import files_db as filesDb
 from app_scripts import my_time as myTime
 from app_scripts import mail
 from app_scripts import validation
@@ -298,9 +300,49 @@ def aboutRdsCollege():
     return render_template('about-rds-college.html')
 
 
-@app.route('/files/<int:fileId>', methods=['GET'])
+@app.route('/files/<string:fileId>', methods=['GET'])
 def files(fileId):
-    return "Route is under development"
+    # checking if fileId is valid
+    if not validation.isValidFileId(fileId):
+        # if fileId is invalid
+        print("Invalid fileId is passed...")
+        content: str = render_template("error.html", contentHeader="Invalid Request", contentPara="File ID is not valid.",
+                                       message="File ID is not valid. Please try again with a valid file ID.")
+        return Response(content, status=HTTPStatus.BAD_REQUEST, content_type='text/html')
+
+    fileMetadata: dict | None = filesDb.Files(
+        **databaseCredentials).fetchFileMetadata(fileId)
+    if fileMetadata:
+        driveDownloadLink: str = fileMetadata.get('DownloadLink')
+        try:
+            response = requests.get(driveDownloadLink)
+        except requests.exceptions.ConnectionError:
+            print("Connection Error. Internet is not connected.")
+            content: str = render_template("error.html", contentHeader="Connection Error", contentPara="Internet is not connected.",
+                                           message="Server is not connected to the internet. Server side error. Please try again later.")
+            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+        except Exception as e:
+            print("Something went wrong while fetching file from the Google Drive.")
+            print("Exception: ", e)
+            content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
+                                           message="An unknown error occurred while fetching file from the source. Please try again later.")
+            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+        else:
+            if response.status_code == 200:
+                # file is fetched successfully
+                content = response.content
+                return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'])
+            print("Something went wrong while fetching file from the Google Drive.")
+            print("Exception: ", e)
+            content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
+                                           message="An unknown error occurred while fetching file from the source. Please try again later.")
+            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+    else:
+        # if fileId is valid but file is not found in the database.
+        print("File with fileId ", fileId, " is not found in the database.")
+        content: str = render_template("error.html", contentHeader="File Not Found", contentPara="File not found in the database.",
+                                       message="File with fileId " + fileId + " is not found in the database. Please try again later.")
+        return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
 
 
 # api routes
