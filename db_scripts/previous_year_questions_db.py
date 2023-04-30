@@ -2,7 +2,7 @@
     @file: previous_year_questions_db.py
     @author: Suraj Kumar Giri
     @init-date: 09th Nov 2022
-    @last-modified: 29th April 2023
+    @last-modified: 30th April 2023
     @error-series: 2000
 
     @description:
@@ -105,6 +105,11 @@ class PreviousYearQuestions:
                 * None
                     - Returns None if given source is not valid or any other error occurred.
         """
+        # checking if connection is established or not before proceeding to fetch data
+        if not self.connectionStatus:
+            # if connection is not established then return None
+            return None
+
         if source == "all":
             self.cursor.execute(f"""-- sql
                                     SELECT * FROM
