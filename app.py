@@ -332,7 +332,7 @@ def files(fileId):
             if response.status_code == 200:
                 # file is fetched successfully
                 content = response.content
-                return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'])
+                return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'], headers={'Content-Disposition': f'name={fileMetadata.get("Title")};filename={fileMetadata.get("DownloadName")}.{fileMetadata.get("Extension")}'})
             print("Something went wrong while fetching file from the Google Drive.")
             print("Exception: ", e)
             content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
