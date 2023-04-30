@@ -91,19 +91,25 @@ class Files:
     def fetchFileMetadata(self, fileId: int | str) -> dict | None:
         attributes: list = ['files.FileId', 'Title', 'Access', 'ServeVia',
                             'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension']
-        self.cursor.execute(f"""-- sql
-                                SELECT * FROM
-                                (
-                                    SELECT {str(attributes).strip('[]').replace("'", "")} FROM files
-                                    JOIN
-                                        files_path ON files.FileId = files_path.FileId
-                                    JOIN
-                                        drive ON files.FileId = drive.FileId
-                                    JOIN
-                                        files_metadata ON files.FileId = files_metadata.FileId
-                                ) AS `File Metadata`
-                                WHERE FileId = {fileId}                            
-                            """)
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM
+                                    (
+                                        SELECT {str(attributes).strip('[]').replace("'", "")} FROM files
+                                        JOIN
+                                            files_path ON files.FileId = files_path.FileId
+                                        JOIN
+                                            drive ON files.FileId = drive.FileId
+                                        JOIN
+                                            files_metadata ON files.FileId = files_metadata.FileId
+                                    ) AS `File Metadata`
+                                    WHERE FileId = {fileId}                            
+                                """)
+        except Exception as e:
+            print("Unable to fetch file metadata. Error code 2102")
+            print("Exception: ", e)
+            return None
+
         desiredTuple: tuple | None = self.cursor.fetchone()
         if desiredTuple:
             attributes[0] = 'FileId'
