@@ -56,7 +56,7 @@
     <h1>{{contentHeader|default("Page Not Found")}}</h1>
     <p>{{contentPara|default("Sorry, but the page you were trying to view does not exist.")}}</p>
     <p>{{message}}</p>
-    <button onclick="window.history.back()" style="background-color: #355df0; color: white; padding:0.3%, 0.5%, 0.3%, 0.5%; border-radius: 10%; margin-top: 1%; ">Go Back</button>
+    <a href="javascript:void(0)"><button onclick="this.parentElement.href=window.location.origin" style="background-color: #355df0; color: white; padding:0.3%, 0.5%, 0.3%, 0.5%; border-radius: 10%; margin-top: 1%; ">Go To Home</button>
 </body>
 </html>
 <!-- IE needs 512+ bytes: http://blogs.msdn.com/b/ieinternals/archive/2010/08/19/http-error-pages-in-internet-explorer.aspx -->
