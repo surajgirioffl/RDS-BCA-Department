@@ -15,7 +15,7 @@
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.3"
+__version__ = "2.1.4"
 
 
 from platform import system
@@ -195,7 +195,7 @@ def previousYearQuestions():
 
         if validation.isValidSource(source) and validation.isValidSemester(semester):
             print("All data are valid...")
-            pyqObj = pyqDb.PreviousYearQuestions()
+            pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
             databaseResponse: tuple = pyqObj.getLinks(
                 source=source, semester=semester)
             return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
