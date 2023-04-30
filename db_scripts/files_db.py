@@ -88,11 +88,13 @@ class Files:
             self.conn.commit()
             self.conn.close()
 
-    def fetchFileMetadata(self, fileId: int | str) -> tuple | None:
+    def fetchFileMetadata(self, fileId: int | str) -> dict | None:
+        attributes: list = ['files.FileId', 'Title', 'Access', 'ServeVia',
+                            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension']
         self.cursor.execute(f"""-- sql
                                 SELECT * FROM
                                 (
-                                    SELECT * FROM files
+                                    SELECT {str(attributes).strip('[]').replace("'", "")} FROM files
                                     JOIN
                                         files_path ON files.FileId = files_path.FileId
                                     JOIN
@@ -102,7 +104,15 @@ class Files:
                                 ) AS `File Metadata`
                                 WHERE FileId = {fileId}                            
                             """)
-        return self.cursor.fetchone()
+        desiredTuple: tuple | None = self.cursor.fetchone()
+        if desiredTuple:
+            attributes[0] = 'FileId'
+            attributesValueDict: dict = {
+                key: value for key,
+                value in zip(attributes, desiredTuple)
+            }
+            return attributesValueDict
+        return None
 
 
 if __name__ == '__main__':
