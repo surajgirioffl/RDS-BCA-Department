@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 29th April 2023
-    @last-modified: 29th April 2023
+    @last-modified: 30th April 2023
     @error-series: 2100
 
     @description:
@@ -87,3 +87,23 @@ class Files:
         if self.connectionStatus:
             self.conn.commit()
             self.conn.close()
+
+    def fetchFileMetadata(self, fileId: int | str) -> tuple | None:
+        self.cursor.execute(f"""-- sql
+                                SELECT * FROM
+                                (
+                                    SELECT * FROM files
+                                    JOIN
+                                        files_path ON files.FileId = files_path.FileId
+                                    JOIN
+                                        drive ON files.FileId = drive.FileId
+                                    JOIN
+                                        files_metadata ON files.FileId = files_metadata.FileId
+                                ) AS `File Metadata`
+                                WHERE FileId = {fileId}                            
+                            """)
+        return self.cursor.fetchone()
+
+
+if __name__ == '__main__':
+    print(Files().fetchFileMetadata(17648433))
