@@ -2,7 +2,7 @@
     @file: validation.py
     @author: Suraj Kumar Giri
     @init-date: 1st Feb 2023
-    @last-modified: 11th March 2023
+    @last-modified: 30th April 2023
     @error-series: 1800
 
     @description:
@@ -448,7 +448,8 @@ def isValidEmail(email: str, allowDefaultDisposableEmailDomains: bool = False, i
             try:
                 defaultDisposalEmailDomains.remove(domain)
             except Exception as e:
-                print("Something went wrong while removing allowed domains from default disposable domains list. Error Code: 1800")
+                print(
+                    "Something went wrong while removing allowed domains from default disposable domains list. Error Code: 1800")
                 print("Exception: ", e)
     # If default disposable email domains are allow or not
     if not allowDefaultDisposableEmailDomains:
@@ -463,6 +464,66 @@ def isValidEmail(email: str, allowDefaultDisposableEmailDomains: bool = False, i
     return False
 
 
+def isValidFileId(fileId: str, length: int = 8, include: list[str | int] = [], exclude: list[str | int] = []) -> bool:
+    """
+        Description:
+            - Function to check if file id is valid or not.
+
+        Args:
+            * fileId (str): 
+                - File id to be checked.
+            * length (int, optional): 
+                - Length of the valid file id.
+                - Defaults to 8.
+            * include (list, optional): 
+                - List of file ids to be included while validating file id irrespective of any other condition.
+                - File Id in this list will be considered even if it's not follow any criteria like length, must be numeric etc.
+                - May be used for some special file ids.
+                - Must be empty or list of integers or strings.
+                - Defaults to [] (empty list).
+            * exclude (list, optional): 
+                - List of file ids to be excluded while validating file id irrespective of any other condition (except included in the include list).
+                - File Id in this list will not be considered even if it's follow all the criteria like length, must be numeric etc.
+                - May be used for some special file ids.
+                - Must be empty or list of integers or strings.
+                - Defaults to [] (empty list).
+
+        Returns:
+            * bool: 
+                - Returns True if file id is valid else False.
+
+        Special:
+            - If file id is in include list then it will be considered with top priority irrespective of any other condition like length, must be number etc.
+            - If same file id is passed in both include and exclude list then it will be considered as valid because include list has top priority (Means it will not be considered as an item of exclude list).
+            - Simply, file ids of include list have top priority and file ids of exclude list have 2nd top priority.
+
+    """
+    ##### Conditions for valid file id as per application's specification #####
+    # File id must be an integer having length of 8 digits.
+
+    # if fileId is empty
+    if isEmpty(fileId):
+        return False
+
+    # if fileId is in include list. It will be considered with top priority irrespective of any other condition like length, must be number etc.
+    if fileId in [str(id) for id in include]:
+        return True
+
+    # if fileId is in exclude list. It will be considered with 2nd top priority irrespective of any other condition like length, must be number etc.
+    # Means we have given include list with top priority and exclude list with 2nd top priority.
+    # So, if a same fileId is in both include and exclude list then it will be considered as valid because include list has top priority (Means it will not be considered as an item of exclude list).
+    if fileId in [str(id) for id in exclude]:
+        return False
+
+    # Now, We will check fileId using default criteria specified by the application.
+    # checking if fileId is numeric or not
+    if fileId.isnumeric():
+        # checking if fileId is of specified length or not
+        if len(fileId) == length:
+            return True
+    return False  # if any of the above condition is not satisfied then return False
+
+
 if __name__ == "__main__":
     print("Module Testing... (Press CTRL+C to exit)")
     try:
@@ -470,6 +531,6 @@ if __name__ == "__main__":
             data = input("Enter data : ")
             if data == "":
                 data = None
-            print(isValidEmail(data))
+            print(isValidFileId(data, include=[121, 'giri']))
     except KeyboardInterrupt:
         exit(0)
