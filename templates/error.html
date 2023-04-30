@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Page Not Found</title>
+    <title>{{pageTitle|default("Page Not Found")}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
@@ -53,8 +53,8 @@
     </style>
 </head>
 <body>
-    <h1>Page Not Found</h1>
-    <p>Sorry, but the page you were trying to view does not exist.</p>
+    <h1>{{contentHeader|default("Page Not Found")}}</h1>
+    <p>{{contentPara|default("Sorry, but the page you were trying to view does not exist.")}}</p>
     <p>{{message}}</p>
     <button onclick="window.history.back()" style="background-color: #355df0; color: white; padding:0.3%, 0.5%, 0.3%, 0.5%; border-radius: 10%; margin-top: 1%; ">Go Back</button>
 </body>
