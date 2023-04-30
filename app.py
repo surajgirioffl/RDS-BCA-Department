@@ -196,7 +196,8 @@ def previousYearQuestions():
         if validation.isValidSource(source) and validation.isValidSemester(semester):
             print("All data are valid...")
             pyqObj = pyqDb.PreviousYearQuestions()
-            databaseResponse: tuple = pyqObj.getLinks(source=source, semester=semester)
+            databaseResponse: tuple = pyqObj.getLinks(
+                source=source, semester=semester)
             return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
         else:
             print("Invalid data passed...")
