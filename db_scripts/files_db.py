@@ -89,8 +89,10 @@ class Files:
             self.conn.close()
 
     def fetchFileMetadata(self, fileId: int | str) -> dict | None:
-        attributes: list = ['files.FileId', 'Title', 'Access', 'ServeVia',
-                            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension']
+        attributes: list[str] = [
+            'files.FileId', 'Title', 'Access', 'ServeVia',
+            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension'
+        ]
         try:
             self.cursor.execute(f"""-- sql
                                     SELECT * FROM
