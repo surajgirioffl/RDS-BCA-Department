@@ -90,6 +90,22 @@ class Files:
             self.conn.close()
 
     def fetchFileMetadata(self, fileId: int | str) -> dict | None:
+        """
+            Description:
+                - Method to fetch file metadata from the database.
+
+            Args:
+                * fileId (int | str):
+                    - FileId of the file whose metadata is to be fetched.
+
+            Returns:
+                * dict: 
+                    - Returns a dictionary containing the metadata of the file in form of key-value pairs.
+                * None:
+                    - Returns None if the file Id is not found in the database or metadata for specified file Id is not found in the database.
+                            - Or if the connection with the database is not yet established.
+                            - Or any other error occurs while executing the query.
+        """
         attributes: list[str] = [
             'files.FileId', 'Title', 'Access', 'ServeVia',
             'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension'
@@ -124,6 +140,27 @@ class Files:
         return None
 
     def __isTupleExists(self, tableName: str, keyAttribute: str, value: str | int | float | Any) -> bool:
+        """
+            Description:
+                - Method to check if a tuple exists in the database or not.
+                - It checks if a tuple exists in the database with the specified keyAttribute having the specified value.
+
+            Args:
+                * tableName (str): 
+                    - Name of the table in which the tuple is to be searched.
+                * keyAttribute (str): 
+                    - Name of the attribute which is to be checked for the specified value.
+                * value (str | int | float | Any): 
+                    - Value of the specified keyAttribute which is to be checked.
+
+            Returns:
+                * bool:
+                    - Returns True if the tuple exists in the database else False.
+
+            Warning:
+                - This method doesn't check if the connection with the database is established or not.
+                - So, caller of this method is responsible for checking the connection with the database.
+        """
         try:
             self.cursor.execute(f"""-- sql
                                     SELECT * FROM {tableName}
@@ -137,6 +174,22 @@ class Files:
             return self.cursor.fetchone() is not None
 
     def updateFileStats(self, fileId: int | str) -> bool:
+        """
+            Description:
+                - Method to set/update file stats in the database.
+                - It handle both the cases:
+                    - If the file stats already exists in the database then it updates the stats.
+                    - If the file stats doesn't exists in the database then it creates a new entry for the file stats.
+                - Currently, the table 'files_tracking' is used to store the file stats.
+
+            Args:
+                * fileId (int | str):
+                    - FileId of the file whose stats is to be updated/inserted.
+            Returns:
+                * bool: 
+                    - Returns True if the file stats is updated/inserted successfully else False.
+                    - Returns False if any exception or any error occurs. 
+        """
         if not self.connectionStatus:
             print("Unable to update file stats because connection with the database is not yet established. Error code 2104")
             return False
