@@ -168,6 +168,48 @@ def previousYearQuestions():
     return render_template('previousYearQuestions.html')
 
 
+# api route to fetch previous year questions
+@app.route('/api/fetch-previous-year-questions', methods=['POST'])
+def fetchPreviousYearQuestions():
+    def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
+        """
+            Description:
+                - Function to send send invalid request along with status 400 when called.
+
+            Args:
+                * errorMessage (str, optional):
+                    - Error message to be sent along with status 400 (shown on the web page).
+
+            Returns:
+                * Response:
+                    - Response object with status 400 and error message in response body/content.
+        """
+        content = render_template('api/previous-year-questions.html', isSubmitClicked=True,
+                                  databaseResponse=None, errorMessage=errorMessage)
+        return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
+
+    if request.method == "POST":
+        logging.info(
+            'A post request is received in api of previous year question route...')
+        userSelection = request.json
+        print(userSelection)
+
+        # credentials received
+        semester = userSelection.get('semester')
+        source = userSelection.get('source')
+        print("semester: ", semester)
+
+        if validation.isValidSource(source) and validation.isValidSemester(semester):
+            print("All data are valid...")
+            pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
+            databaseResponse: tuple = pyqObj.getLinks(
+                source=source, semester=semester)
+            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
+        else:
+            print("Invalid data passed...")
+            return invalidRequest()
+
+
 @ app.route("/register", methods=["GET", "POST"])
 def register():
     logging.info("Register page is called...")
