@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 25th April 2023
+-- Last updated on: 1st May 2023
 ----
 -- 1. Table `files`
 -- FileId should be an unique 8 digit number. It will be used to identify file. It will be used to access file.
@@ -108,9 +108,7 @@ CREATE TABLE IF NOT EXISTS `files_info`(
 CREATE TABLE IF NOT EXISTS `files_tracking`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
-    `AccessCount` MEDIUMINT UNSIGNED NOT NULL DEFAULT 0,
     `DownloadCount` MEDIUMINT UNSIGNED NOT NULL DEFAULT 0,
-    `LastAccessed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `LastDownloaded` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (FileId) REFERENCES Files(FileId)
 );
