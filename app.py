@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 30th April 2023
+    @last-modified: 1st May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -311,8 +311,8 @@ def files(fileId):
                                        message="File ID is not valid. Please try again with a valid file ID.")
         return Response(content, status=HTTPStatus.BAD_REQUEST, content_type='text/html')
 
-    fileMetadata: dict | None = filesDb.Files(
-        **databaseCredentials).fetchFileMetadata(fileId)
+    filesObj: filesDb.Files = filesDb.Files(**databaseCredentials)
+    fileMetadata: dict | None = filesObj.fetchFileMetadata(fileId)
     if fileMetadata:
         driveDownloadLink: str = fileMetadata.get('DownloadLink')
         try:
@@ -331,6 +331,8 @@ def files(fileId):
         else:
             if response.status_code == 200:
                 # file is fetched successfully
+                # Updating file stats in the database (download count, last download time etc..)
+                filesObj.updateFileStats(fileId)
                 content = response.content
                 return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'], headers={'Content-Disposition': f'name={fileMetadata.get("Title")};filename={fileMetadata.get("DownloadName")}.{fileMetadata.get("Extension")}'})
             print("Something went wrong while fetching file from the Google Drive.")
