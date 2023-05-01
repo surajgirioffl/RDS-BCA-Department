@@ -11,7 +11,8 @@
         * Simply, module to handle all database related operations on the database rdsbca$files.
     
     @classes:
-        ...
+        * Files
+            - Class to handle all database related operations on the database rdsbca$files.
     
     @functions:
         ...
@@ -23,6 +24,27 @@ import mysql.connector as mysql
 
 
 class Files:
+    """
+        Description:
+            - Class to handle all database related operations on the database rdsbca$files.
+            - This class is responsible for fetching/reading/inserting/updating data from/to the database rdsbca$files.
+
+        Attributes(class variables):
+            * 
+
+        Methods(static methods):)        
+            *
+
+        Attributes(objects):
+            * 
+
+        Methods(objects):
+            * fetchFileMetadata()
+                - Method to fetch file metadata from the database.
+            * updateFileStats()
+                - Method to insert/update file stats in the database.
+    """
+
     def __init__(self, host: str = environ.get('DBHOST'), user: str = environ.get('DBUSERNAME'), port: int = int(environ.get('DBPORT')) if environ.get('DBPORT') is not None else 3306, password: str = environ.get('DBPASSWORD'), database: str = "rdsbca$files", timeZoneForDatabase="Asia/Kolkata") -> None:
         """
             Description:
