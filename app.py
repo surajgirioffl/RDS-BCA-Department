@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 1st May 2023
+    @last-modified: 2nd May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -162,47 +162,9 @@ def gallery():
     return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0])
 
 
-@app.route("/previousYearQuestions", methods=["GET", "POST"])
+@app.route("/previousYearQuestions", methods=["GET"])
 def previousYearQuestions():
-    def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
-        """
-            Description:
-                - Function to send send invalid request along with status 400 when called.
-
-            Args:
-                * errorMessage (str, optional):
-                    - Error message to be sent along with status 400 (shown on the web page).
-
-            Returns:
-                * Response:
-                    - Response object with status 400 and error message in response body/content.
-        """
-        content = render_template('previousYearQuestions.html', isSubmitClicked=True,
-                                  databaseResponse=None, errorMessage=errorMessage)
-        return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
-
     logging.info("Previous Year Questions page is called...")
-    if request.method == "POST":
-        logging.info(
-            'A post request is received in previousYearQuestions route...')
-        userSelection = request.form
-        print(userSelection)
-
-        # credentials received
-        semester = userSelection.get('semester')
-        source = userSelection.get('source')
-        print("semester: ", semester)
-
-        if validation.isValidSource(source) and validation.isValidSemester(semester):
-            print("All data are valid...")
-            pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
-            databaseResponse: tuple = pyqObj.getLinks(
-                source=source, semester=semester)
-            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
-        else:
-            print("Invalid data passed...")
-            return invalidRequest()
-
     return render_template('previousYearQuestions.html')
 
 
