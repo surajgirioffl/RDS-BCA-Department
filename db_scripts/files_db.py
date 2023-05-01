@@ -136,7 +136,37 @@ class Files:
         else:
             return self.cursor.fetchone() is not None
 
+    def updateFileStats(self, fileId: int | str) -> bool:
+        if not self.connectionStatus:
+            print("Unable to update file stats because connection with the database is not yet established. Error code 2104")
+            return False
+
+        # TODO: update file stats (connection is established)
+        try:
+            if self.__isTupleExists('files_tracking', 'FileId', fileId):
+                self.cursor.execute(f"""-- sql
+                                        UPDATE files_tracking
+                                        SET 
+                                            DownloadCount = DownloadCount + 1, 
+                                            LastDownloaded = DEFAULT
+                                        WHERE FileId = {fileId}
+                                    """)
+            else:
+                self.cursor.execute(f"""-- sql
+                                        INSERT INTO files_tracking(FileId, DownloadCount)
+                                        VALUES({fileId}, 1)
+                                    """)
+        except Exception as e:
+            print("Unable to update file stats. Error code 2105")
+            print("Exception: ", e)
+            return False
+        else:
+            print(
+                f"File stats of the file with id {fileId} inserted/updated successfully.")
+            return True
+
 
 if __name__ == '__main__':
     print(Files().fetchFileMetadata(17648433))
     print(Files()._Files__isTupleExists('files', 'FileId', '17648433'))
+    Files().updateFileStats(17648433)
