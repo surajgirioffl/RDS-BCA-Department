@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS files_path(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `FilePath` VARCHAR(400) NOT NULL UNIQUE,
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
 ----
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS drive(
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `ViewLink` VARCHAR(200) NOT NULL UNIQUE,
     `DownloadLink` VARCHAR(200) NOT NULL UNIQUE,
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
 ----
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS file_contents_info(
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `Description` VARCHAR(600) NOT NULL,
     `Keywords` VARCHAR(500) NOT NULL,
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
 ----
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `files_metadata`(
     `Extension` VARCHAR(10) NOT NULL,
     `Size` DOUBLE UNSIGNED NOT NULL,
     INDEX `ExtensionIndex` (Extension),
-    FOREIGN KEY (FileId) REFERENCES Files(FileId),
+    FOREIGN KEY (FileId) REFERENCES files(FileId),
     FOREIGN KEY (Extension) REFERENCES files_type(Extension)
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `files_info`(
     `DateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `DateModified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `Tags` VARCHAR(200) NOT NULL,
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
 ----
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `files_tracking`(
     `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
     `DownloadCount` MEDIUMINT UNSIGNED NOT NULL DEFAULT 0,
     `LastDownloaded` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (FileId) REFERENCES Files(FileId)
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
 ----
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `credits`(
     `RootSourceFileLink` VARCHAR(200) DEFAULT NULL,
     `RootSourceId` INT UNSIGNED NOT NULL,
     INDEX `RootSourceIndex` (RootSourceId),
-    FOREIGN KEY (FileId) REFERENCES Files(FileId),
+    FOREIGN KEY (FileId) REFERENCES files(FileId),
     FOREIGN KEY (SubmitterId) REFERENCES creditors_info(Id),
     FOREIGN KEY (UploaderId) REFERENCES creditors_info(Id),
     FOREIGN KEY (ModifierId) REFERENCES creditors_info(Id),
