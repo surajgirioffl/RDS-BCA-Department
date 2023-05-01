@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 29th April 2023
-    @last-modified: 30th April 2023
+    @last-modified: 1st May 2023
     @error-series: 2100
 
     @description:
@@ -18,6 +18,7 @@
 """
 
 from os import environ
+from typing import Any
 import mysql.connector as mysql
 
 
@@ -122,6 +123,20 @@ class Files:
             return attributesValueDict
         return None
 
+    def __isTupleExists(self, tableName: str, keyAttribute: str, value: str | int | float | Any) -> bool:
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT * FROM {tableName}
+                                    WHERE {keyAttribute} = {value}
+                                """)
+        except Exception as e:
+            print("Unable to check if tuple exists. Error code 2103")
+            print("Exception: ", e)
+            return False
+        else:
+            return self.cursor.fetchone() is not None
+
 
 if __name__ == '__main__':
     print(Files().fetchFileMetadata(17648433))
+    print(Files()._Files__isTupleExists('files', 'FileId', '17648433'))
