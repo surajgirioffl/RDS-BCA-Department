@@ -35,3 +35,16 @@ function createAlert() {
     alert.id = 'myAlert';
     return alert;
 }
+
+/** 
+ * @fetching_previous_year_questions_using_API_route
+ * serving previous year questions using AJAX 
+*/
+
+window.addEventListener('load', () => {
+    /*preventing default behavior of the form element which is after submitting the form page will reload and form data sent using url parameters.*/
+    document.getElementsByTagName('form')[0].addEventListener('submit', (event) => {
+        event.preventDefault();
+    })
+    // document.getElementById('submit-button').addEventListener('click', displayPreviousYearQuestions);
+})
