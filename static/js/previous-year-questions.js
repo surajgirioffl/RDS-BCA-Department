@@ -59,6 +59,7 @@ window.addEventListener('load', () => {
 
 
 function displayPreviousYearQuestions() {
+    document.getElementById('previous-year-questions-container').innerHTML = ''; /*cleaning the previous response/result if available*/
     document.getElementById('loading-svg').style.display = 'block';
     const request = new XMLHttpRequest();
     if (window.location.hostname == '127.0.0.1')
