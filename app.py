@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 1st May 2023
+    @last-modified: 2nd May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -162,8 +162,15 @@ def gallery():
     return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0])
 
 
-@app.route("/previousYearQuestions", methods=["GET", "POST"])
+@app.route("/previousYearQuestions", methods=["GET"])
 def previousYearQuestions():
+    logging.info("Previous Year Questions page is called...")
+    return render_template('previousYearQuestions.html')
+
+
+# api route to fetch previous year questions
+@app.route('/api/fetch-previous-year-questions', methods=['POST'])
+def fetchPreviousYearQuestions():
     def invalidRequest(errorMessage: str = "Invalid Request") -> Response:
         """
             Description:
@@ -177,15 +184,14 @@ def previousYearQuestions():
                 * Response:
                     - Response object with status 400 and error message in response body/content.
         """
-        content = render_template('previousYearQuestions.html', isSubmitClicked=True,
+        content = render_template('api/previous-year-questions.html', isSubmitClicked=True,
                                   databaseResponse=None, errorMessage=errorMessage)
         return Response(content, status=HTTPStatus.BAD_REQUEST, headers={'Content-Type': 'text/html'})
 
-    logging.info("Previous Year Questions page is called...")
     if request.method == "POST":
         logging.info(
-            'A post request is received in previousYearQuestions route...')
-        userSelection = request.form
+            'A post request is received in api of previous year question route...')
+        userSelection = request.json
         print(userSelection)
 
         # credentials received
@@ -198,12 +204,10 @@ def previousYearQuestions():
             pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
             databaseResponse: tuple = pyqObj.getLinks(
                 source=source, semester=semester)
-            return render_template('previousYearQuestions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
+            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
         else:
             print("Invalid data passed...")
             return invalidRequest()
-
-    return render_template('previousYearQuestions.html')
 
 
 @ app.route("/register", methods=["GET", "POST"])

@@ -11,10 +11,10 @@
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
       <p class="text-center fs-2 text fw-bolder">PREVIOUS YEAR QUESTIONS</p>
 
-      <form action="/previousYearQuestions" method="POST">
+      <form>
 
             <!-- semester -->
-            <select class="form-select" aria-label="Default select example" name="semester" required style="margin-bottom: 0.8%;">
+            <select class="form-select" aria-label="Default select example" name="semester" id="semester" required style="margin-bottom: 0.8%;">
                 <option selected value="">Select Semester</option>
                 <option value="1">1st</option>
                 <option value="2">2nd</option>
@@ -24,7 +24,7 @@
             </select>         
 
             <!-- source -->
-            <select class="form-select" aria-label="Default select example" name="source" required="true">
+            <select class="form-select" aria-label="Default select example" name="source" id="source" required="true">
                 <option selected value="brabu">Select Source</option>
                 <option value="brabu">BRABU Official (Default)</option>
                 <option value="vaishali">Vaishali Institute, Muzaffarpur (Part of BRABU)</option>
@@ -34,64 +34,16 @@
 
             <!-- Submit Button -->
             <div class="col-auto" style="margin-top:1%;">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
             </div>
         </form>
-
-        <!--After POST-->
-        {%if isSubmitClicked%}
-            {%if databaseResponse%}
-                <div class="alert alert-info" role="alert" style="margin-top:2%; padding-top: 0.3%; padding-bottom: 0.3%;">
-                    <strong>PREVIOUS YEAR QUESTIONS OF SEMESTER {{semester}}
-                        {% if semester=='1'%}
-                            <sup style="margin:-4px">st</sup>
-                        {% elif semester=='2'%}
-                            <sup style="margin:-4px">nd</sup>
-                        {% elif semester=='3'%}
-                            <sup style="margin:-4px">rd</sup>
-                        {% else%}
-                            <sup style="margin:-4px">th</sup>
-                        {%endif%}
-                    </strong>
-                </div>
-
-                <table class="table table-bordered border-primary table-striped table-hover table-group-divider table-responsive" style="margin-top: 1%;">
-                    <thead>
-                        <tr>
-                            <th>Sno</th>
-                            <th>Source</th>
-                            <th>Year</th>
-                            <th>Download</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {%for row in databaseResponse%}
-                            <tr>
-                                <th scope="col">{{loop.index}}</th>
-                                {% for attribute in row%}
-                                    <td>
-                                        {%if loop.index==3%}
-                                            <a href="files/{{attribute}}" target="_blank">
-                                                <button type="button" class="btn btn-primary" style="padding-bottom:0%;"><i class="material-icons icons">download</i></button>
-                                            </a>
-                                        {%else%}
-                                            {{attribute}}
-                                        {%endif%}
-                                    </td>
-                                {%endfor%}
-                            </tr>
-                        {%endfor%}
-                    </tbody>
-                </table>
-            {%else%}
-                <div class="alert alert-danger" role="alert" style="margin-top: 1%; padding: 0.5%">
-                    {{errorMessage|default("Currently Unavailable")}}
-                </div>  
-            {%endif%}  
-        {%endif%}
-
+        
+        <center>
+            <img src="{{url_for("static", filename="gif/ball.svg")}}" alt="Loading..." id="loading-svg" style="display:none;">
+        </center>
+        
+        <div id="previous-year-questions-container">
+        </div>
 </div>
-
 
 {%endblock body%}

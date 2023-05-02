@@ -35,3 +35,43 @@ function createAlert() {
     alert.id = 'myAlert';
     return alert;
 }
+
+/** 
+ * @fetching_previous_year_questions_using_API_route
+ * serving previous year questions using AJAX 
+*/
+
+window.addEventListener('load', () => {
+    /*preventing default behavior of the form element which is after submitting the form page will reload and form data sent using url parameters.*/
+    document.getElementsByTagName('form')[0].addEventListener('submit', (event) => {
+        event.preventDefault();
+        displayPreviousYearQuestions();
+    })
+    // document.getElementById('submit-button').addEventListener('click', displayPreviousYearQuestions);
+    /**
+     * Here, I have not added any event listener on submit button. So, default checking after clicking on submit button of form will work as expected.
+     * Means default checking of form will work as expected.
+     * But If I were added event listener on submit button then default checking of form will not work as expected.
+     * Because, custom event listener will be executed first and then default checking of form will be executed.
+     * And due to custom event listener, default checking of form will not work as expected.
+     */
+})
+
+
+function displayPreviousYearQuestions() {
+    document.getElementById('loading-svg').style.display = 'block';
+    const request = new XMLHttpRequest();
+    if (window.location.hostname == '127.0.0.1')
+        request.open('POST', 'http://127.0.0.1:5000/api/fetch-previous-year-questions', async = true);
+    else
+        request.open('POST', 'https://rdsbca.pythonanywhere.com/api/fetch-previous-year-questions', async = true);
+
+    request.setRequestHeader('Content-Type', 'application/json')
+    const obj = { semester: document.getElementById('semester').value, source: document.getElementById('source').value };
+    console.log(obj)
+    request.send(JSON.stringify(obj))
+    request.onload = () => {
+        document.getElementById("previous-year-questions-container").innerHTML = request.responseText;
+        document.getElementById('loading-svg').style.display = 'none';
+    }
+}
