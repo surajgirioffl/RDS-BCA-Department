@@ -22,6 +22,7 @@
                             <th>Source</th>
                             <th>Year</th>
                             <th>Download</th>
+                            <th>Info</th>
                         </tr>
                     </thead>
 
@@ -39,6 +40,17 @@
                                             {{attribute}}
                                         {%endif%}
                                     </td>
+                                    {%if loop.index==3%}
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary" style="padding-bottom:0%;"
+                                                    data-bs-toggle="popover" data-bs-placement="left"
+                                                    data-bs-custom-class="custom-popover"
+                                                    data-bs-title="File Title"
+                                                    data-bs-content="File metadata will display soon. Visit Github to contribute in development.">
+                                                    <i class="material-icons icons">info</i>
+                                            </button>
+                                        </td>
+                                    {%endif%}
                                 {%endfor%}
                             </tr>
                         {%endfor%}
