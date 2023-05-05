@@ -74,5 +74,12 @@ function displayPreviousYearQuestions() {
     request.onload = () => {
         document.getElementById("previous-year-questions-container").innerHTML = request.responseText;
         document.getElementById('loading-svg').style.display = 'none';
+        if (request.status == 200)
+            initializePopovers();
     }
+}
+
+function initializePopovers() {
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 }
