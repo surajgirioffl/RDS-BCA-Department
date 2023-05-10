@@ -82,4 +82,16 @@ function displayPreviousYearQuestions() {
 function initializePopovers() {
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+    /* Adding some event listeners.
+     * Like adding functionality to display only one popover at a time.
+     */
+    const popovers = popoverTriggerList;
+    for (object of popovers) {
+        object.addEventListener('click', () => {
+            const visiblePopovers = document.querySelectorAll("[aria-describedby]");
+            if (visiblePopovers[0] != undefined)
+                visiblePopovers[0].click(); /*Means any of the popover is visible.*/
+        })
+    }
 }
