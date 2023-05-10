@@ -100,3 +100,6 @@ var hidePopover = () => {
     if (visiblePopovers[0] != undefined)
         visiblePopovers[0].click(); /*Means any of the popover is visible.*/
 }
+
+/*hide the currently visible popover by clicking anywhere*/
+document.addEventListener('click', hidePopover);
