@@ -88,10 +88,15 @@ function initializePopovers() {
      */
     const popovers = popoverTriggerList;
     for (object of popovers) {
-        object.addEventListener('click', () => {
-            const visiblePopovers = document.querySelectorAll("[aria-describedby]");
-            if (visiblePopovers[0] != undefined)
-                visiblePopovers[0].click(); /*Means any of the popover is visible.*/
-        })
+        object.addEventListener('click', hidePopover);
     }
+}
+
+/**
+ * Function to hide the currently visible popover.
+ */
+var hidePopover = () => {
+    const visiblePopovers = document.querySelectorAll("[aria-describedby]");
+    if (visiblePopovers[0] != undefined)
+        visiblePopovers[0].click(); /*Means any of the popover is visible.*/
 }
