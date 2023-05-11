@@ -159,14 +159,22 @@ class Files {
 
     #updatePopoverContentAndTitle(response) {
         console.log("Called Update PopoverContent & Title")
-        const popover = document.querySelector(`[file-id="${this.fileId}"]`)
+        const popover = bootstrap.Popover.getOrCreateInstance(`[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
         if (response.status == 200) {
-            popover.setAttribute('data-bs-title', response.content.Title);
-            popover.setAttribute('data-bs-content', JSON.stringify(response.content));
+            /* setContent example
+             * How to change/update/set title and content of popovers.
+             * Source: https://getbootstrap.com/docs/5.2/components/popovers/
+             */
+            popover.setContent({
+                '.popover-header': response.content.Title,
+                '.popover-body': JSON.stringify(response.content)
+            })
         }
         else {
-            popover.setAttribute('data-bs-title', `File ID - ${this.fileId}`);
-            popover.setAttribute('data-bs-content', response.content);
+            popover.setContent({
+                '.popover-header': `File ID - ${this.fileId}`,
+                '.popover-body': response.content
+            })
         }
     }
 
