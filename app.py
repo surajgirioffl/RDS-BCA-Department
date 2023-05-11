@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 9th May 2023
+    @last-modified: 11th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -355,6 +355,7 @@ def files(fileId):
 # api routes to fetch file metadata
 @app.route('/api/fetch-file-metadata/<string:fileId>', methods=['GET'])
 def fileMetadata(fileId: str):
+    print("File ID: ", fileId, "is received with GET request via the API /api/fetch-file-metadata")
     # checking if fileId is valid
     if not validation.isValidFileId(fileId):
         # if fileId is invalid
@@ -366,7 +367,7 @@ def fileMetadata(fileId: str):
     filesObj: filesDb.Files = filesDb.Files(**databaseCredentials)
     fileMetadata: dict | None = filesObj.fetchFileMetadata(fileId)
     if not fileMetadata:
-        print("Invalid file Id is passed via the API '/api/fetch-file-metadata'")
+        print(f"Specified file with file id {fileId} is not found in the databases.")
         content: str = render_template("error.html", contentHeader="File Not Found", contentPara="File not found in the database.",
                                        message="File with fileId " + fileId + " is not found in the database. Please try again later.")
         return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
