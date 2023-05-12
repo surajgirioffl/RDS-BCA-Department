@@ -106,6 +106,12 @@ var hidePopover = () => {
 /*hide the currently visible popover by clicking anywhere*/
 document.addEventListener('click', hidePopover);
 
+/*hide the currently visible popover by pressing escape key*/
+document.addEventListener('keydown', (event) => {
+    console.log(event.key, "is pressed.")
+    event.key == 'Escape' ? hidePopover() : null;
+})
+
 class Files {
     fileId; /*no need to write it. But explicitly writing instance variables are better for get them easily*/
 
