@@ -131,7 +131,7 @@ class Files:
         attributes: list[str] = [
             'files.FileId', 'Title', 'Access', 'ServeVia',
             'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension',
-            'Size', 'DownloadCount'
+            'Size'
         ]
         try:
             self.cursor.execute(f"""-- sql
@@ -144,11 +144,26 @@ class Files:
                                             drive ON files.FileId = drive.FileId
                                         JOIN
                                             files_metadata ON files.FileId = files_metadata.FileId
-                                        JOIN
-                                            files_tracking ON files.FileId = files_tracking.FileId
                                     ) AS `File Metadata`
                                     WHERE FileId = {fileId}                            
                                 """)
+            # Some tables like files_tracking, creditors_info, root_sources are not added in JOIN.
+            # Reason for the table 'files_tracking'
+            #   * In this table, only those files/file-id are available which is downloaded at least once.
+            #   * Means Insert/Update operation is performed on this table only if file will download.
+            #   * So, if a file is not downloaded yet then it's info will not stored in this table.
+            #   * And if info is not available then condition (files.FileID = files_tracking.FileId) on JOIN will not satisfy.
+            #   * And it will lead to returning an empty table (None).
+            # Reason for the table 'creditors_info'
+            #   * This table has no direct dependency on files.
+            #   * Actually, Each file has details of creditors and to fetch the details about the specified creditors, we will this table.
+            #   * creditors ID is required to fetch the data from this table instead of using file ID.
+            # Reason for the table 'root_sources'
+            #   * Reason is similar as the table 'creditors_info'
+            #   * This table has no direct dependency on files.
+            #   * Actually, Each file has a root source and this table stores the information about root sources.
+            #   * Root source ID is required to fetch the data from this table instead of using file ID.
+
         except Exception as e:
             print("Unable to fetch file metadata. Error code 2102")
             print("Exception: ", e)
