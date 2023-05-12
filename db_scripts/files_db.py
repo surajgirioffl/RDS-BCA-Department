@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 29th April 2023
-    @last-modified: 1st May 2023
+    @last-modified: 12th May 2023
     @error-series: 2100
 
     @description:
@@ -130,7 +130,8 @@ class Files:
         """
         attributes: list[str] = [
             'files.FileId', 'Title', 'Access', 'ServeVia',
-            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension'
+            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension',
+            'Size', 'DownloadCount'
         ]
         try:
             self.cursor.execute(f"""-- sql
@@ -143,6 +144,8 @@ class Files:
                                             drive ON files.FileId = drive.FileId
                                         JOIN
                                             files_metadata ON files.FileId = files_metadata.FileId
+                                        JOIN
+                                            files_tracking ON files.FileId = files_tracking.FileId
                                     ) AS `File Metadata`
                                     WHERE FileId = {fileId}                            
                                 """)
@@ -152,6 +155,7 @@ class Files:
             return None
 
         desiredTuple: tuple | None = self.cursor.fetchone()
+        # print(self.cursor.statement) # to display the executed query (statement)
         if desiredTuple:
             attributes[0] = 'FileId'
             attributesValueDict: dict = {
