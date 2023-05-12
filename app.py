@@ -380,7 +380,7 @@ def fileMetadata(fileId: str):
     # So, we will not serve the dictionary directly to the client. Instead, we will create a new dictionary and add only those attributes which are required to be served to the client.
     attributesToBeServed: list = [
         'Title', 'SubmitterName', 'SubmitterContact',
-        'SubmitterDesignation', 'SubmitterEmail' 'ApproverContact',
+        'SubmitterDesignation', 'SubmitterEmail', 'ApproverContact',
         'ApproverName', 'ApproverDesignation', 'ApproverEmail',
         'Size', 'DownloadCount', 'LastDownloaded', 'DateCreated',
         'DateModified', 'UploadedOn', 'RootSourceName',
