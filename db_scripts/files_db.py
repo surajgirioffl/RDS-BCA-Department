@@ -127,6 +127,13 @@ class Files:
                     - Returns None if the file Id is not found in the database or metadata for specified file Id is not found in the database.
                             - Or if the connection with the database is not yet established.
                             - Or any other error occurs while executing the query.
+
+            Warning:
+                - This method will return all attributes of the specified file by JOINING all the desired tables.
+                - So, it's recommended to use the returned dictionary directly server side only. 
+                - In case of serving to client (via APIs), create a new dictionary and add only those necessary key-value pairs that will not lead to any security concerns.
+                - If the dictionary which is returned by this method is served directly to the client then it may cause substantial security concerns. So, It's not recommended to do so.
+                - To safe from directory traversal attack never display file path to the client.
         """
         attributes: list[str] = [
             'files.FileId', 'Title', 'Access', 'ServeVia',
