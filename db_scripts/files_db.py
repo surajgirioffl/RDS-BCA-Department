@@ -130,8 +130,11 @@ class Files:
         """
         attributes: list[str] = [
             'files.FileId', 'Title', 'Access', 'ServeVia',
-            'FilePath', 'ViewLink', 'DownloadLink', 'DownloadName', 'Extension',
-            'Size'
+            'FilePath', 'ViewLink', 'DownloadLink',
+            'Description', 'Keywords',
+            'FileName', 'DownloadName', 'Extension', 'Size',
+            'Category', 'FileFor', 'DateCreated', 'DateModified', 'Tags',
+            'SubmitterId', 'SubmittedOn', 'UploaderId', 'UploadedOn', 'ModifierId', 'LastModifiedOn', 'ApproverId', 'ApprovedOn', 'RootSourceFileLink', 'RootSourceId'
         ]
         try:
             self.cursor.execute(f"""-- sql
@@ -143,7 +146,13 @@ class Files:
                                         JOIN
                                             drive ON files.FileId = drive.FileId
                                         JOIN
+                                            file_contents_info ON files.FileID = file_contents_info.FileId
+                                        JOIN
                                             files_metadata ON files.FileId = files_metadata.FileId
+                                        JOIN
+                                            files_info ON files.FileId = files_info.FileId
+                                        JOIN
+                                            credits ON files.FileId = credits.FileId 
                                     ) AS `File Metadata`
                                     WHERE FileId = {fileId}                            
                                 """)
