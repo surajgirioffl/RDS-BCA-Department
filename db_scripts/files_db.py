@@ -196,6 +196,48 @@ class Files:
             return attributesValueDict
         return None
 
+    def getSpecifiedTuple(self, tableName: str, keyAttribute: str, value: str | int | float | Any,  attributesList: list | str = "*") -> tuple | None:
+        """
+            Description: 
+                - Method to fetch a tuple from the specified table with the specified keyAttribute having the specified value.
+                - It is simple as SELECT * FROM tableName WHERE keyAttribute = value.
+                - You can also specify the attributesList to fetch only those attributes from the table instead of fetching all attributes using * (asterisk wildcard).
+
+            Args:
+                * tableName (str):
+                    - Name of the table from which the tuple is to be fetched.
+                * keyAttribute (str):
+                    - Name of the attribute which is to be checked for the specified value.
+                    - The unique attribute of the table (You can pass any attribute but only one tuple will be returned).
+                    - It will used in WHERE clause in SQL.
+                * value (str | int | float | Any):
+                    - Value of the specified keyAttribute which is to be checked.
+                * attributesList (list | str, optional): 
+                    - List of attributes to fetch from the table.
+                    - Defaults to "*" (asterisk wildcard) which will fetch all attributes from the table.
+
+            Returns:
+                * tuple
+                    - Returns a tuple containing the fetched data from the database.
+                    - If more than one tuple is returned from the query then also it will return only the first tuple.
+                * None
+                    - Returns None if any exception or any error occurs.
+                    - Returns None if no tuple is found in the database with the specified keyAttribute having the specified value.
+        """
+        try:
+            self.cursor.execute(f"""-- sql
+                                    SELECT {attributesList if type(attributesList) == str else str(attributesList).strip('[]').replace("'","")}
+                                    FROM {tableName}
+                                    WHERE {keyAttribute} = {value}
+                                """)
+        except Exception as e:
+            print(
+                f"Unable to fetch data from the specified tableName {tableName}. Error code: 2106")
+            print("Exception: ", e)
+            return None
+        else:
+            return self.cursor.fetchone()
+
     def __isTupleExists(self, tableName: str, keyAttribute: str, value: str | int | float | Any) -> bool:
         """
             Description:
