@@ -167,8 +167,8 @@ class Files {
              */
             popover.setContent({
                 '.popover-header': response.content.Title,
-                '.popover-body': `  &bull; <b>Credit</b>: <a href="${!response.content.SubmitterContact ? 'javascript:void(0)' : response.content.SubmitterContact}" target="_blank">${response.content.SubmitterName}</a><br/>
-                                    &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a><br/>                
+                '.popover-body': `  &bull; <b>Credit</b>: <a href="${!response.content.SubmitterContact ? 'javascript:void(0)' : response.content.SubmitterContact}" target="_blank">${response.content.SubmitterName}</a> ${response.content.SubmitterDesignation ? `<i>(${response.content.SubmitterDesignation})</i>` : ''}<br/>
+                                    &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a> ${response.content.ApproverDesignation ? `<i>(${response.content.ApproverDesignation})</i>` : ''}<br/>                
                                     &bull; <b>Size</b>: ${response.content.Size} MB <br/>
                                     &bull; <b>Downloads</b>: ${!response.content.DownloadCount ? 0 : response.content.DownloadCount}<br/>
                                     &bull; <b>Last Downloaded</b>: ${!response.content.LastDownloaded ? 'N/A' : response.content.LastDownloaded} <br/>
