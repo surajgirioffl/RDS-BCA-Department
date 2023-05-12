@@ -167,7 +167,14 @@ class Files {
              */
             popover.setContent({
                 '.popover-header': response.content.Title,
-                '.popover-body': JSON.stringify(response.content)
+                '.popover-body': `  &bull; <b>Credit</b>: <a href="${response.content.SubmitterContact == null ? 'javascript:void(0)' : response.content.SubmitterContact}" target="_blank">${response.content.SubmitterName}</a><br/>
+                                    &bull; <b>Approver</b>: <a href="${response.content.ApproverContact == null ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a><br/>                
+                                    &bull; <b>Size</b>: ${response.content.Size} MB <br/>
+                                    &bull; <b>Downloads</b>: ${response.content.DownloadCount == undefined ? 0 : response.content.DownloadCount}<br/>
+                                    &bull; <b>Last Downloaded</b>: ${response.content.LastDownloaded == undefined ? 'N/A' : response.content.LastDownloaded} <br/>
+                                    &bull; <b>Last Modified</b>: ${response.content.DateModified}</br>
+                                    &bull; <b>Uploaded On</b>: ${response.content.UploadedOn}
+                                `
             })
         }
         else {
