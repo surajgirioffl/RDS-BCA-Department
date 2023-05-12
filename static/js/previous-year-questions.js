@@ -120,6 +120,21 @@ class Files {
     }
     /*Method to fetch the metadata of the specified fileId.*/
     #fetchAndUpdateFileMetadata = () => {
+        /*
+         * Displaying loading animation in popover while fetching data from the server
+         * It will auto over write the previous content of popover
+         * If response is received from the server then that will overwrite the loading animation
+        */
+        this.#updatePopoverContentAndTitle({
+            status: null,
+            content: `
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>`
+        })
+
         const request = new XMLHttpRequest();
         if (window.location.hostname == '127.0.0.1')
             request.open('GET', `http://127.0.0.1:5000/api/fetch-file-metadata/${this.fileId}`, async = true);
