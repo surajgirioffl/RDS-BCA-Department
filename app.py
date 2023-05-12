@@ -374,6 +374,10 @@ def fileMetadata(fileId: str):
                                        message="File with fileId " + fileId + " is not found in the database. Please try again later.")
         return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
 
+    # printing a message in the console with the file title
+    print(
+        f"File ID: {fileId} is found in the database. File title: {fileMetadata.get('Title')}")
+
     # if everything is OK
     # Actually, fetchFileMetadata() returns all attributes of the specified file by JOINING all the desired tables.
     # If the dictionary (here fileMetadata) which is returned by this method is served directly to the client then it may cause substantial security concerns.
