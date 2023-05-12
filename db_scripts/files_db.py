@@ -237,6 +237,22 @@ class Files:
                     attributesValueDict = attributesValueDict | specialAttributesValueDict
                     # Here we can also use attributesValueDict.update(specialAttributesValueDict)
 
+            # For table 'files_tracking'
+            # Now, we have to fetch the data from the table 'files_tracking' because we have to fetch the file stats (DownloadCount, LastDownloaded) from this table.
+            # listing the attributes 'DownloadCount', 'LastDownloaded' of the table 'files_tracking'
+            attributesToBeFetched: list = [
+                'DownloadCount', 'LastDownloaded'
+            ]
+            desiredTuple: tuple | None = self.getSpecifiedTuple(tableName='files_tracking', attributesList=attributesToBeFetched,
+                                                                keyAttribute='FileId', value=fileId)
+            if desiredTuple:
+                # Means the desired tuple exists in the database
+                specialAttributesValueDict: dict = {
+                    key: value for key, value in zip(attributesToBeFetched, desiredTuple)
+                }
+                # Adding the fetched data to the dictionary 'attributesValueDict'
+                attributesValueDict.update(specialAttributesValueDict)
+
             return attributesValueDict
         return None
 
