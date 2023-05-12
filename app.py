@@ -373,8 +373,24 @@ def fileMetadata(fileId: str):
         content: str = render_template("error.html", contentHeader="File Not Found", contentPara="File not found in the database.",
                                        message="File with fileId " + fileId + " is not found in the database. Please try again later.")
         return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
-    # if everything is OK, return
-    return jsonify(fileMetadata)
+
+    # if everything is OK
+    # Actually, fetchFileMetadata() returns all attributes of the specified file by JOINING all the desired tables.
+    # If the dictionary (here fileMetadata) which is returned by this method is served directly to the client then it may cause substantial security concerns.
+    # So, we will not serve the dictionary directly to the client. Instead, we will create a new dictionary and add only those attributes which are required to be served to the client.
+    attributesToBeServed: list = [
+        'Title', 'SubmitterName', 'SubmitterContact',
+        'SubmitterDesignation', 'SubmitterEmail' 'ApproverContact',
+        'ApproverName', 'ApproverDesignation', 'ApproverEmail',
+        'Size', 'DownloadCount', 'LastDownloaded', 'DateCreated',
+        'DateModified', 'UploadedOn', 'RootSourceName',
+        'RootSourceContactLink'
+    ]
+    metaDataToBeServed: dict = {}
+    for key, value in fileMetadata.items():
+        if key in attributesToBeServed:
+            metaDataToBeServed[key] = value
+    return jsonify(metaDataToBeServed)
 
 
 # api routes
