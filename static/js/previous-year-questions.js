@@ -74,5 +74,122 @@ function displayPreviousYearQuestions() {
     request.onload = () => {
         document.getElementById("previous-year-questions-container").innerHTML = request.responseText;
         document.getElementById('loading-svg').style.display = 'none';
+        if (request.status == 200)
+            initializePopovers();
+    }
+}
+
+function initializePopovers() {
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+    /* Adding some event listeners.
+     * Like adding functionality to display only one popover at a time.
+     */
+    const popovers = popoverTriggerList;
+    for (object of popovers) {
+        object.addEventListener("click", new Files(object.getAttribute('file-id')).displayFileMetadata);
+        object.addEventListener('click', hidePopover);
+    }
+}
+
+/**
+ * Function to hide the currently visible popover.
+ */
+var hidePopover = () => {
+    const visiblePopovers = document.querySelectorAll("[aria-describedby]");
+    if (visiblePopovers[0] != undefined)
+        bootstrap.Popover.getOrCreateInstance(visiblePopovers[0]).hide();
+    /*source: https://getbootstrap.com/docs/5.2/components/popovers/*/
+}
+
+/*hide the currently visible popover by clicking anywhere*/
+document.addEventListener('click', hidePopover);
+
+class Files {
+    fileId; /*no need to write it. But explicitly writing instance variables are better for get them easily*/
+
+    constructor(fileId) {
+        this.fileId = fileId;
+    }
+    /*Method to fetch the metadata of the specified fileId.*/
+    #fetchAndUpdateFileMetadata = () => {
+        const request = new XMLHttpRequest();
+        if (window.location.hostname == '127.0.0.1')
+            request.open('GET', `http://127.0.0.1:5000/api/fetch-file-metadata/${this.fileId}`, async = true);
+        else
+            request.open('GET', `https://rdsbca.pythonanywhere.com/api/fetch-file-metadata/${this.fileId}`, async = true);
+
+        request.send();
+        request.onload = () => {
+            let response = {};
+
+            if (request.status == 200) {
+                response = {
+                    status: 200,
+                    content: JSON.parse(request.responseText)
+                };
+            }
+            else if (request.status == 400) {
+                response = {
+                    status: 400,
+                    content: "Invalid Request"
+                }
+            }
+            else if (request.status == 404) {
+                response = {
+                    status: 404,
+                    content: `Not Found`
+                };
+            }
+            else if (request.status >= 500) {
+                response = {
+                    status: request.status,
+                    content: "Server Side Error. Client request ID 501"
+                };
+            }
+            else {
+                response = {
+                    status: request.status,
+                    content: "Unknown Error Occurred. Client request ID 502"
+                };
+            }
+            this.#updatePopoverContentAndTitle(response);
+        }
+    }
+
+    #updatePopoverContentAndTitle(response) {
+        console.log("Called Update PopoverContent & Title")
+        const popover = bootstrap.Popover.getOrCreateInstance(`[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
+        if (response.status == 200) {
+            /* setContent example
+             * How to change/update/set title and content of popovers.
+             * Source: https://getbootstrap.com/docs/5.2/components/popovers/
+             */
+            popover.setContent({
+                '.popover-header': response.content.Title,
+                '.popover-body': `  &bull; <b>Credit</b>: <a href="${!response.content.SubmitterContact ? 'javascript:void(0)' : response.content.SubmitterContact}" target="_blank">${response.content.SubmitterName}</a> ${response.content.SubmitterDesignation ? `<i>(${response.content.SubmitterDesignation})</i>` : ''}<br/>
+                                    &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a> ${response.content.ApproverDesignation ? `<i>(${response.content.ApproverDesignation})</i>` : ''}<br/>                
+                                    &bull; <b>Size</b>: ${response.content.Size} MB <br/>
+                                    &bull; <b>Downloads</b>: ${!response.content.DownloadCount ? 0 : response.content.DownloadCount}<br/>
+                                    &bull; <b>Last Downloaded</b>: ${!response.content.LastDownloaded ? 'N/A' : response.content.LastDownloaded} <br/>
+                                    &bull; <b>Last Modified</b>: ${response.content.DateModified}</br>
+                                    &bull; <b>Uploaded On</b>: ${response.content.UploadedOn}
+                                `
+            })
+            /*In JavaScript, null and undefined are both considered falsy values, which means they evaluate to false in boolean expressions.*/
+        }
+        else {
+            popover.setContent({
+                '.popover-header': `File ID - ${this.fileId}`,
+                '.popover-body': response.content
+            })
+        }
+    }
+
+    /*Method to display the metadata of the specified fileId.*/
+    displayFileMetadata = () => {
+        this.#fetchAndUpdateFileMetadata();
+        console.log('called display file metadata');
     }
 }

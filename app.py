@@ -8,14 +8,14 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 2nd May 2023
+    @last-modified: 11th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.4"
+__version__ = "2.1.5"
 
 
 from platform import system
@@ -350,6 +350,29 @@ def files(fileId):
         content: str = render_template("error.html", contentHeader="File Not Found", contentPara="File not found in the database.",
                                        message="File with fileId " + fileId + " is not found in the database. Please try again later.")
         return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
+
+
+# api routes to fetch file metadata
+@app.route('/api/fetch-file-metadata/<string:fileId>', methods=['GET'])
+def fileMetadata(fileId: str):
+    print("File ID: ", fileId, "is received with GET request via the API /api/fetch-file-metadata")
+    # checking if fileId is valid
+    if not validation.isValidFileId(fileId):
+        # if fileId is invalid
+        print("Invalid file Id is passed via the API '/api/fetch-file-metadata'")
+        content: str = render_template("error.html", contentHeader="Invalid Request", contentPara="File ID is not valid.",
+                                       message="File ID is not valid. Please try again with a valid file ID.")
+        return Response(content, status=HTTPStatus.BAD_REQUEST, content_type='text/html')
+
+    filesObj: filesDb.Files = filesDb.Files(**databaseCredentials)
+    fileMetadata: dict | None = filesObj.fetchFileMetadata(fileId)
+    if not fileMetadata:
+        print(f"Specified file with file id {fileId} is not found in the databases.")
+        content: str = render_template("error.html", contentHeader="File Not Found", contentPara="File not found in the database.",
+                                       message="File with fileId " + fileId + " is not found in the database. Please try again later.")
+        return Response(content, status=HTTPStatus.NOT_FOUND, content_type='text/html')
+    # if everything is OK, return
+    return jsonify(fileMetadata)
 
 
 # api routes
