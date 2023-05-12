@@ -99,7 +99,8 @@ function initializePopovers() {
 var hidePopover = () => {
     const visiblePopovers = document.querySelectorAll("[aria-describedby]");
     if (visiblePopovers[0] != undefined)
-        visiblePopovers[0].click(); /*Means any of the popover is visible.*/
+        bootstrap.Popover.getOrCreateInstance(visiblePopovers[0]).hide();
+    /*source: https://getbootstrap.com/docs/5.2/components/popovers/*/
 }
 
 /*hide the currently visible popover by clicking anywhere*/
