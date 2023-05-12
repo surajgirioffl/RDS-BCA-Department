@@ -114,7 +114,8 @@ class Files:
     def fetchFileMetadata(self, fileId: int | str) -> dict | None:
         """
             Description:
-                - Method to fetch file metadata from the database.
+                - Powerful Method to fetch file metadata from the database.
+                - It will fetch the metadata of the specified file by using all the tables of the database.
 
             Args:
                 * fileId (int | str):
