@@ -193,6 +193,50 @@ class Files:
                 key: value for key,
                 value in zip(attributes, desiredTuple)
             }
+
+            # We have 4 tables which are not added in JOIN to fetch the file metadata.
+            # But to fetch the complete metadata of the file we have to fetch the data (attributes) from these tables also.
+            # 1) files_tracking 2) creditors_info 3) root_sources 4) files_types
+            # By the way, files_type is not required here because we already have the file type (Extension) in the table 'files_metadata'.
+            # But we have to fetch the data from the tables 'creditors_info', 'root_sources' because we have the IDs of creditors and root sources but we don't have the details of creditors and root sources.
+            # And we have to fetch the data from the table 'files_tracking' because we have to fetch the file stats (DownloadCount, LastDownloaded) from this table.
+
+            # Now, first we have to fetch the data from the tables 'creditors_info', 'root_sources' and then we will add the fetched data to the dictionary 'attributesValueDict'.
+            # Data needed to fetch from both tables 'creditors_info' and 'root_sources' Because we have the IDs of creditors and root sources but we don't have the details of creditors and root sources.
+
+            # Listing the attributes of the tables 'creditors_info', 'root_sources' which is already available (In a special way)
+            specialAttributes: list = [
+                'Submitter', 'Uploader',
+                'Modifier', 'Approver', 'RootSource'
+            ]
+            # we are using loop to fetch the data for each ID (special attribute) from the tables 'creditors_info'.
+            # Because for one file there can be multiple creditors (Submitter, Uploader, Modifier, Approver) and one root source.
+            for keyAttribute in specialAttributes:
+                # For tables 'creditors_info', 'root_sources'
+                if keyAttribute != 'RootSource':
+                    # Means the keyAttribute is 'SubmitterId', 'UploaderId', 'ModifierId', 'ApproverId'
+                    # Value of these key attributes are already fetched from the table 'credits' and stored in the dictionary 'attributesValueDict'.
+                    attributesToBeFetched: list = [
+                        'Name', 'Email', 'Designation', 'Contact'
+                    ]
+                    desiredTuple: tuple | None = self.getSpecifiedTuple(tableName='creditors_info', attributesList=attributesToBeFetched,
+                                                                        keyAttribute='Id', value=attributesValueDict[keyAttribute+'Id'])
+
+                # For table 'root_sources'
+                else:
+                    # Means the keyAttribute is 'RootSourceId'
+                    attributesToBeFetched: list = ['Name', 'ContactLink']
+                    desiredTuple: tuple | None = self.getSpecifiedTuple(tableName='root_sources', attributesList=attributesToBeFetched,
+                                                                        keyAttribute='Id', value=attributesValueDict[keyAttribute+'Id'])
+                if desiredTuple:
+                    # Means the desired tuple exists in the database
+                    specialAttributesValueDict: dict = {
+                        key: value for key, value in zip([keyAttribute+attribute for attribute in attributesToBeFetched], desiredTuple)
+                    }
+                    # Union both the dictionaries
+                    attributesValueDict = attributesValueDict | specialAttributesValueDict
+                    # Here we can also use attributesValueDict.update(specialAttributesValueDict)
+
             return attributesValueDict
         return None
 
