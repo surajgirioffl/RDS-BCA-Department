@@ -387,9 +387,8 @@ def fileMetadata(fileId: str):
         'RootSourceContactLink'
     ]
     metaDataToBeServed: dict = {}
-    for key, value in fileMetadata.items():
-        if key in attributesToBeServed:
-            metaDataToBeServed[key] = value
+    for key in attributesToBeServed:
+        metaDataToBeServed[key] = fileMetadata.get(key)
     return jsonify(metaDataToBeServed)
 
 
