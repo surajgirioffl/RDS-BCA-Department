@@ -9,11 +9,11 @@
         * Module to fetch desired data from the database rdsbca$files.
         * Module to read/insert/update desired data from/to the database rdsbca$files.
         * Simply, module to handle all database related operations on the database rdsbca$files.
-    
+
     @classes:
         * Files
             - Class to handle all database related operations on the database rdsbca$files.
-    
+
     @functions:
         ...
 """
@@ -30,13 +30,13 @@ class Files:
             - This class is responsible for fetching/reading/inserting/updating data from/to the database rdsbca$files.
 
         Attributes(class variables):
-            * 
+            *
 
-        Methods(static methods):)        
+        Methods(static methods):)
             *
 
         Attributes(objects):
-            * 
+            *
 
         Methods(objects):
             * fetchFileMetadata()
@@ -121,7 +121,7 @@ class Files:
                     - FileId of the file whose metadata is to be fetched.
 
             Returns:
-                * dict: 
+                * dict:
                     - Returns a dictionary containing the metadata of the file in form of key-value pairs.
                 * None:
                     - Returns None if the file Id is not found in the database or metadata for specified file Id is not found in the database.
@@ -130,7 +130,7 @@ class Files:
 
             Warning:
                 - This method will return all attributes of the specified file by JOINING all the desired tables.
-                - So, it's recommended to use the returned dictionary directly server side only. 
+                - So, it's recommended to use the returned dictionary directly server side only.
                 - In case of serving to client (via APIs), create a new dictionary and add only those necessary key-value pairs that will not lead to any security concerns.
                 - If the dictionary which is returned by this method is served directly to the client then it may cause substantial security concerns. So, It's not recommended to do so.
                 - To safe from directory traversal attack never display file path to the client.
@@ -159,9 +159,9 @@ class Files:
                                         JOIN
                                             files_info ON files.FileId = files_info.FileId
                                         JOIN
-                                            credits ON files.FileId = credits.FileId 
+                                            credits ON files.FileId = credits.FileId
                                     ) AS `File Metadata`
-                                    WHERE FileId = {fileId}                            
+                                    WHERE FileId = {fileId}
                                 """)
             # Some tables like files_tracking, creditors_info, root_sources are not added in JOIN.
             # Reason for the table 'files_tracking'
@@ -198,7 +198,7 @@ class Files:
 
     def getSpecifiedTuple(self, tableName: str, keyAttribute: str, value: str | int | float | Any,  attributesList: list | str = "*") -> tuple | None:
         """
-            Description: 
+            Description:
                 - Method to fetch a tuple from the specified table with the specified keyAttribute having the specified value.
                 - It is simple as SELECT * FROM tableName WHERE keyAttribute = value.
                 - You can also specify the attributesList to fetch only those attributes from the table instead of fetching all attributes using * (asterisk wildcard).
@@ -212,7 +212,7 @@ class Files:
                     - It will used in WHERE clause in SQL.
                 * value (str | int | float | Any):
                     - Value of the specified keyAttribute which is to be checked.
-                * attributesList (list | str, optional): 
+                * attributesList (list | str, optional):
                     - List of attributes to fetch from the table.
                     - Defaults to "*" (asterisk wildcard) which will fetch all attributes from the table.
 
@@ -245,11 +245,11 @@ class Files:
                 - It checks if a tuple exists in the database with the specified keyAttribute having the specified value.
 
             Args:
-                * tableName (str): 
+                * tableName (str):
                     - Name of the table in which the tuple is to be searched.
-                * keyAttribute (str): 
+                * keyAttribute (str):
                     - Name of the attribute which is to be checked for the specified value.
-                * value (str | int | float | Any): 
+                * value (str | int | float | Any):
                     - Value of the specified keyAttribute which is to be checked.
 
             Returns:
@@ -285,9 +285,9 @@ class Files:
                 * fileId (int | str):
                     - FileId of the file whose stats is to be updated/inserted.
             Returns:
-                * bool: 
+                * bool:
                     - Returns True if the file stats is updated/inserted successfully else False.
-                    - Returns False if any exception or any error occurs. 
+                    - Returns False if any exception or any error occurs.
         """
         if not self.connectionStatus:
             print("Unable to update file stats because connection with the database is not yet established. Error code 2104")
@@ -298,8 +298,8 @@ class Files:
             if self.__isTupleExists('files_tracking', 'FileId', fileId):
                 self.cursor.execute(f"""-- sql
                                         UPDATE files_tracking
-                                        SET 
-                                            DownloadCount = DownloadCount + 1, 
+                                        SET
+                                            DownloadCount = DownloadCount + 1,
                                             LastDownloaded = DEFAULT
                                         WHERE FileId = {fileId}
                                     """)
