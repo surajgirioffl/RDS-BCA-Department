@@ -228,7 +228,7 @@ class Files:
             self.cursor.execute(f"""-- sql
                                     SELECT {attributesList if type(attributesList) == str else str(attributesList).strip('[]').replace("'","")}
                                     FROM {tableName}
-                                    WHERE {keyAttribute} = {value}
+                                    WHERE {keyAttribute} = '{value}'
                                 """)
         except Exception as e:
             print(
@@ -263,7 +263,7 @@ class Files:
         try:
             self.cursor.execute(f"""-- sql
                                     SELECT * FROM {tableName}
-                                    WHERE {keyAttribute} = {value}
+                                    WHERE {keyAttribute} = '{value}'
                                 """)
         except Exception as e:
             print("Unable to check if tuple exists. Error code 2103")
