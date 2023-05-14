@@ -21,6 +21,7 @@
                             <th>Sno</th>
                             <th>Source</th>
                             <th>Year</th>
+                            <th>View</th>
                             <th>Download</th>
                             <th>Info</th>
                         </tr>
@@ -31,6 +32,13 @@
                             <tr>
                                 <th scope="col">{{loop.index}}</th>
                                 {% for attribute in row%}
+                                    {% if loop.index==3%}
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary" style="padding-bottom:0%;">
+                                                <i class="material-icons icons">visibility</i>
+                                            </button>
+                                        </td>
+                                    {%endif%}
                                     <td>
                                         {%if loop.index==3%}
                                             <a href="files/{{attribute}}" target="_blank">
