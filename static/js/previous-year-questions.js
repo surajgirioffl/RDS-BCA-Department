@@ -72,6 +72,12 @@ function displayPreviousYearQuestions() {
     console.log(obj)
     request.send(JSON.stringify(obj))
     request.onload = () => {
+        /* Removing the trailing city name from the source name in the response text if screen width is less than 768px (mobile screen) for better UI.
+         * Removing the city name from the response text if screen width is less than 768px (mobile screen).
+         * This is done because in mobile screen, if the name of source contains city name then height of table row will increase (in more than 1 line) and it will not look good because other data in same row are just one lined.
+        */
+        if (window.screen.width <= 768)
+            request.responseText = request.responseText.replaceAll(', Muzaffarpur', '');
         document.getElementById("previous-year-questions-container").innerHTML = request.responseText;
         document.getElementById('loading-svg').style.display = 'none';
         if (request.status == 200)
