@@ -84,8 +84,10 @@ function displayPreviousYearQuestions() {
         }
         document.getElementById("previous-year-questions-container").innerHTML = responseText;
         document.getElementById('loading-svg').style.display = 'none';
-        if (request.status == 200)
+        if (request.status == 200) {
             initializePopovers();
+            initializeViewButtons();
+        }
     }
 }
 
@@ -222,5 +224,16 @@ class Files {
     displayFileMetadata = () => {
         this.#fetchAndUpdateFileMetadata();
         console.log('called display file metadata');
+    }
+}
+
+/*******Javascript to handle View button to view the file in new tab********/
+/*Method to initialize view button by adding event listeners etc*/
+function initializeViewButtons() {
+    const viewButtons = document.querySelectorAll("td.phone-only > button")
+    for (let object of viewButtons) {
+        object.addEventListener('click', () => {
+            viewTheFile(object);
+        })
     }
 }
