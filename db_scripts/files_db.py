@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 29th April 2023
-    @last-modified: 12th May 2023
+    @last-modified: 18th May 2023
     @error-series: 2100
 
     @description:
@@ -333,7 +333,7 @@ class Files:
         else:
             return self.cursor.fetchone() is not None
 
-    def updateFileStats(self, fileId: int | str) -> bool:
+    def updateFileStats(self, fileId: int | str, tableName: str = "files_tracking", attributeValueToBeIncreaseBy1: str = "DownloadCount", dateTimeAttributeToBeUpdate: str = "LastDownloaded") -> bool:
         """
             Description:
                 - Method to set/update file stats in the database.
@@ -356,17 +356,17 @@ class Files:
 
         # TODO: update file stats (connection is established)
         try:
-            if self.__isTupleExists('files_tracking', 'FileId', fileId):
+            if self.__isTupleExists(f'{tableName}', 'FileId', fileId):
                 self.cursor.execute(f"""-- sql
-                                        UPDATE files_tracking
+                                        UPDATE {tableName}
                                         SET
-                                            DownloadCount = DownloadCount + 1,
-                                            LastDownloaded = DEFAULT
+                                            {attributeValueToBeIncreaseBy1} = {attributeValueToBeIncreaseBy1} + 1,
+                                            {dateTimeAttributeToBeUpdate} = DEFAULT
                                         WHERE FileId = {fileId}
                                     """)
             else:
                 self.cursor.execute(f"""-- sql
-                                        INSERT INTO files_tracking(FileId, DownloadCount)
+                                        INSERT INTO {tableName}(FileId, {attributeValueToBeIncreaseBy1})
                                         VALUES({fileId}, 1)
                                     """)
         except Exception as e:
