@@ -388,7 +388,7 @@ def fileMetadata(fileId: str):
         'ApproverName', 'ApproverDesignation', 'ApproverEmail',
         'Size', 'DownloadCount', 'LastDownloaded', 'DateCreated',
         'DateModified', 'UploadedOn', 'RootSourceName',
-        'RootSourceContactLink'
+        'RootSourceContactLink', 'ViewsCount'
     ]
     metaDataToBeServed: dict = {}
     for key in attributesToBeServed:
