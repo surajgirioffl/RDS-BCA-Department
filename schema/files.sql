@@ -2,7 +2,7 @@
 -- Schema for database `files` or `rdsbca$files`
 -- Created by: Suraj Kumar Giri
 -- Created on: 7th Jan 2023
--- Last updated on: 1st May 2023
+-- Last updated on: 18th May 2023
 ----
 -- 1. Table `files`
 -- FileId should be an unique 8 digit number. It will be used to identify file. It will be used to access file.
@@ -114,6 +114,20 @@ CREATE TABLE IF NOT EXISTS `files_tracking`(
 );
 
 ----
+-- 9. Table `files_views_tracking`
+-- This table only stores the views count of the file in phone and tablet only because view button is not available in desktop.
+-- In case of desktop, when the user clicks on download then user will able to view the file in browser before downloading (Because file is not served as attachment). That's why, view button is not available in desktop.
+-- In case of phone, when the user clicks on download then file will be downloaded directly. So, view button is available in phone to view the file before downloading.
+-- And in this table we are storing only the views of file in phone and tablet.
+----
+CREATE TABLE IF NOT EXISTS `files_views_tracking`(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `FileId` INT UNSIGNED PRIMARY KEY NOT NULL,
+    `ViewsCount` MEDIUMINT UNSIGNED NOT NULL DEFAULT 0,
+    `LastViewed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (FileId) REFERENCES files(FileId)
+);
+
 -- 9. Table `creditors_info`
 -- It may possible that submitter is not a registered user. So, it will have only Id, Name, Contact and Designation(not always).
 -- AccountId is the id of a registered user/teacher which is from database such as rdsbca$users/rdsbca$bca.teachers.
