@@ -265,6 +265,7 @@ const viewTheFile = (viewButton) => {
     })
 
     promise.then((responseText) => {
+        responseText = JSON.parse(responseText);
         console.log(responseText);
         window.open(responseText, target = "_blank");
     })
