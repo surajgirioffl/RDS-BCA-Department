@@ -193,7 +193,7 @@ class Files {
 
     #updatePopoverContentAndTitle(response) {
         console.log("Called Update PopoverContent & Title")
-        const popover = bootstrap.Popover.getOrCreateInstance(`[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
+        const popover = bootstrap.Popover.getOrCreateInstance(`button.info-button[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
         if (response.status == 200) {
             /* setContent example
              * How to change/update/set title and content of popovers.
