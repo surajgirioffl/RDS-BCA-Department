@@ -345,6 +345,16 @@ class Files:
             Args:
                 * fileId (int | str):
                     - FileId of the file whose stats is to be updated/inserted.
+                * tableName (str, optional):
+                    - Name of the table in which the file stats is to be updated/inserted.
+                    - Default to 'files_tracking'.
+                * attributeValueToBeIncreaseBy1 (str, optional):
+                    - The name of the attribute whose value is to be increased by 1 (like AUTO-INCREMENT).
+                    - Default to 'DownloadCount'.
+                * dateTimeAttributeToBeUpdate (str, optional):
+                    - The name of the attribute whose value is to be updated with the current date and time.
+                    - Default to 'LastDownloaded'.
+
             Returns:
                 * bool:
                     - Returns True if the file stats is updated/inserted successfully else False.
