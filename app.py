@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 16th May 2023
+    @last-modified: 18th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -417,6 +417,10 @@ def fileViewLink(fileId: str):
     dbResponse: tuple | None = filesObj.getSpecifiedTuple(
         **specifiedTupleKeyArgs)
     if dbResponse:
+        # if file is found in the database and view link is fetched successfully.
+        # Updating file stats in the database (view count, last viewed time etc..)
+        filesObj.updateFileStats(fileId, tableName="files_views_tracking",
+                                 attributeValueToBeIncreaseBy1='ViewsCount', dateTimeAttributeToBeUpdate="LastViewed")
         return jsonify(dbResponse[0])
     return jsonify(None)  # or return jsonify({}) or return jsonify(dbResponse)
 
