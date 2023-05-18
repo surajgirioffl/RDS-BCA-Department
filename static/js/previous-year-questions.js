@@ -205,6 +205,7 @@ class Files {
                                     &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a> ${response.content.ApproverDesignation ? `<i>(${response.content.ApproverDesignation})</i>` : ''}<br/>                
                                     &bull; <b>Size</b>: ${response.content.Size} MB <br/>
                                     &bull; <b>Downloads</b>: ${!response.content.DownloadCount ? 0 : response.content.DownloadCount}<br/>
+                                    ${ window.screen.width <= 768 ? `&bull; <b> Views</b>: ${!response.content.ViewsCount ? 0 : response.content.ViewsCount}<br/>` : ''}
                                     &bull; <b>Last Downloaded</b>: ${!response.content.LastDownloaded ? 'N/A' : response.content.LastDownloaded} <br/>
                                     &bull; <b>Last Modified</b>: ${response.content.DateModified}</br>
                                     &bull; <b>Uploaded On</b>: ${response.content.UploadedOn}
