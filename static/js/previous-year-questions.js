@@ -256,6 +256,8 @@ const viewTheFile = (viewButton) => {
             request.open('GET', `https://rdsbca.pythonanywhere.com/api/fetch-file-view-link/${fileId}`, async = true);
 
         request.send();
+        /*display loading animation in view button while fetching the view link from the server*/
+        displayLoadingSpinner(viewButton);
         request.onload = () => {
             if (request.status == 200)
                 resolve(request.responseText);
@@ -267,9 +269,21 @@ const viewTheFile = (viewButton) => {
     promise.then((responseText) => {
         responseText = JSON.parse(responseText);
         console.log(responseText);
+        /*removing the loading animation from view button*/
+        viewButton.innerHTML = `<i class="material-icons icons">visibility</i>`
         window.open(responseText, target = "_blank");
     })
     promise.catch((status) => {
         console.log(`Error: ${status}`);
+        /*removing the loading animation from view button*/
+        viewButton.innerHTML = `<i class="material-icons icons">visibility</i>`
     });
+}
+
+displayLoadingSpinner = (element) => {
+    element.innerHTML = `
+                        <div class="spinner-border text-primary spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                        `
 }
