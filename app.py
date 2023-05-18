@@ -8,14 +8,14 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 13th May 2023
+    @last-modified: 18th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.5"
+__version__ = "2.1.6"
 
 
 from platform import system
@@ -388,12 +388,41 @@ def fileMetadata(fileId: str):
         'ApproverName', 'ApproverDesignation', 'ApproverEmail',
         'Size', 'DownloadCount', 'LastDownloaded', 'DateCreated',
         'DateModified', 'UploadedOn', 'RootSourceName',
-        'RootSourceContactLink'
+        'RootSourceContactLink', 'ViewsCount'
     ]
     metaDataToBeServed: dict = {}
     for key in attributesToBeServed:
         metaDataToBeServed[key] = fileMetadata.get(key)
     return jsonify(metaDataToBeServed)
+
+
+# api route to fetch file view link
+@app.route('/api/fetch-file-view-link/<string:fileId>', methods=['GET'])
+def fileViewLink(fileId: str):
+    print("File ID: ", fileId,
+          "is received with GET request via the API /api/fetch-file-view-link")
+    # checking if fileId is valid
+    if not validation.isValidFileId(fileId):
+        # if fileId is invalid
+        print("Invalid file Id is passed via the API '/api/fetch-file-view-link'")
+        content: str = render_template("error.html", contentHeader="Invalid Request", contentPara="File ID is not valid.",
+                                       message="File ID is not valid. Please try again with a valid file ID.")
+        return Response(content, status=HTTPStatus.BAD_REQUEST, content_type='text/html')
+
+    filesObj: filesDb.Files = filesDb.Files(**databaseCredentials)
+    specifiedTupleKeyArgs: dict = {
+        'tableName': 'drive', 'attributesList': ['ViewLink'],
+        'keyAttribute': 'FileId', 'value': fileId
+    }
+    dbResponse: tuple | None = filesObj.getSpecifiedTuple(
+        **specifiedTupleKeyArgs)
+    if dbResponse:
+        # if file is found in the database and view link is fetched successfully.
+        # Updating file stats in the database (view count, last viewed time etc..)
+        filesObj.updateFileStats(fileId, tableName="files_views_tracking",
+                                 attributeValueToBeIncreaseBy1='ViewsCount', dateTimeAttributeToBeUpdate="LastViewed")
+        return jsonify(dbResponse[0])
+    return jsonify(None)  # or return jsonify({}) or return jsonify(dbResponse)
 
 
 # api routes

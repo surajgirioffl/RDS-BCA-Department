@@ -2,7 +2,7 @@
     @file: files_db.py
     @author: Suraj Kumar Giri
     @init-date: 29th April 2023
-    @last-modified: 12th May 2023
+    @last-modified: 18th May 2023
     @error-series: 2100
 
     @description:
@@ -238,21 +238,32 @@ class Files:
                     attributesValueDict = attributesValueDict | specialAttributesValueDict
                     # Here we can also use attributesValueDict.update(specialAttributesValueDict)
 
-            # For table 'files_tracking'
+            # Now we have two more tables 'files_tracking' and 'files_views_tracking' which are not added in JOIN to fetch the file metadata.
+            # 1) For table 'files_tracking'
             # Now, we have to fetch the data from the table 'files_tracking' because we have to fetch the file stats (DownloadCount, LastDownloaded) from this table.
             # listing the attributes 'DownloadCount', 'LastDownloaded' of the table 'files_tracking'
-            attributesToBeFetched: list = [
-                'DownloadCount', 'LastDownloaded'
-            ]
-            desiredTuple: tuple | None = self.getSpecifiedTuple(tableName='files_tracking', attributesList=attributesToBeFetched,
-                                                                keyAttribute='FileId', value=fileId)
-            if desiredTuple:
-                # Means the desired tuple exists in the database
-                specialAttributesValueDict: dict = {
-                    key: value for key, value in zip(attributesToBeFetched, desiredTuple)
-                }
-                # Adding the fetched data to the dictionary 'attributesValueDict'
-                attributesValueDict.update(specialAttributesValueDict)
+            # 2) For table 'files_views_tracking'
+            # Now, we have to fetch the data from the table 'files_views_tracking' because we have to fetch the file stats (ViewsCount, LastViewed) from this table.
+            # listing the attributes 'ViewsCount', 'LastViewed' of the table 'files_views_tracking'
+            remainingTables: tuple = ('files_tracking', 'files_views_tracking')
+            for tableName in remainingTables:
+                if tableName == 'files_tracking':
+                    attributesToBeFetched: list = [
+                        'DownloadCount', 'LastDownloaded'
+                    ]
+                elif tableName == 'files_views_tracking':
+                    attributesToBeFetched: list = [
+                        'ViewsCount', 'LastViewed'
+                    ]
+                desiredTuple: tuple | None = self.getSpecifiedTuple(tableName=tableName, attributesList=attributesToBeFetched,
+                                                                    keyAttribute='FileId', value=fileId)
+                if desiredTuple:
+                    # Means the desired tuple exists in the database
+                    specialAttributesValueDict: dict = {
+                        key: value for key, value in zip(attributesToBeFetched, desiredTuple)
+                    }
+                    # Adding the fetched data to the dictionary 'attributesValueDict'
+                    attributesValueDict.update(specialAttributesValueDict)
 
             return attributesValueDict
         return None
@@ -333,7 +344,7 @@ class Files:
         else:
             return self.cursor.fetchone() is not None
 
-    def updateFileStats(self, fileId: int | str) -> bool:
+    def updateFileStats(self, fileId: int | str, tableName: str = "files_tracking", attributeValueToBeIncreaseBy1: str = "DownloadCount", dateTimeAttributeToBeUpdate: str = "LastDownloaded") -> bool:
         """
             Description:
                 - Method to set/update file stats in the database.
@@ -345,6 +356,16 @@ class Files:
             Args:
                 * fileId (int | str):
                     - FileId of the file whose stats is to be updated/inserted.
+                * tableName (str, optional):
+                    - Name of the table in which the file stats is to be updated/inserted.
+                    - Default to 'files_tracking'.
+                * attributeValueToBeIncreaseBy1 (str, optional):
+                    - The name of the attribute whose value is to be increased by 1 (like AUTO-INCREMENT).
+                    - Default to 'DownloadCount'.
+                * dateTimeAttributeToBeUpdate (str, optional):
+                    - The name of the attribute whose value is to be updated with the current date and time.
+                    - Default to 'LastDownloaded'.
+
             Returns:
                 * bool:
                     - Returns True if the file stats is updated/inserted successfully else False.
@@ -356,17 +377,17 @@ class Files:
 
         # TODO: update file stats (connection is established)
         try:
-            if self.__isTupleExists('files_tracking', 'FileId', fileId):
+            if self.__isTupleExists(f'{tableName}', 'FileId', fileId):
                 self.cursor.execute(f"""-- sql
-                                        UPDATE files_tracking
+                                        UPDATE {tableName}
                                         SET
-                                            DownloadCount = DownloadCount + 1,
-                                            LastDownloaded = DEFAULT
+                                            {attributeValueToBeIncreaseBy1} = {attributeValueToBeIncreaseBy1} + 1,
+                                            {dateTimeAttributeToBeUpdate} = DEFAULT
                                         WHERE FileId = {fileId}
                                     """)
             else:
                 self.cursor.execute(f"""-- sql
-                                        INSERT INTO files_tracking(FileId, DownloadCount)
+                                        INSERT INTO {tableName}(FileId, {attributeValueToBeIncreaseBy1})
                                         VALUES({fileId}, 1)
                                     """)
         except Exception as e:

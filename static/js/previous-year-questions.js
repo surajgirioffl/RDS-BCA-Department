@@ -72,10 +72,22 @@ function displayPreviousYearQuestions() {
     console.log(obj)
     request.send(JSON.stringify(obj))
     request.onload = () => {
-        document.getElementById("previous-year-questions-container").innerHTML = request.responseText;
+        /* Removing the trailing city name from the source name in the response text if screen width is less than 768px (mobile screen) for better UI.
+         * Removing the city name from the response text if screen width is less than 768px (mobile screen).
+         * This is done because in mobile screen, if the name of source contains city name then height of table row will increase (in more than 1 line) and it will not look good because other data in same row are just one lined.
+        */
+        let responseText = request.responseText
+        if (window.screen.width <= 768) {
+            // request.responseText = request.responseText.replaceAll(', Muzaffarpur', '');
+            /* Above line will not work because request.responseText is read only*/
+            responseText = responseText.replaceAll(', Muzaffarpur', '');
+        }
+        document.getElementById("previous-year-questions-container").innerHTML = responseText;
         document.getElementById('loading-svg').style.display = 'none';
-        if (request.status == 200)
+        if (request.status == 200) {
             initializePopovers();
+            initializeViewButtons();
+        }
     }
 }
 
@@ -181,7 +193,7 @@ class Files {
 
     #updatePopoverContentAndTitle(response) {
         console.log("Called Update PopoverContent & Title")
-        const popover = bootstrap.Popover.getOrCreateInstance(`[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
+        const popover = bootstrap.Popover.getOrCreateInstance(`button.info-button[file-id="${this.fileId}"]`) // Returns a Bootstrap popover instance
         if (response.status == 200) {
             /* setContent example
              * How to change/update/set title and content of popovers.
@@ -193,6 +205,7 @@ class Files {
                                     &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a> ${response.content.ApproverDesignation ? `<i>(${response.content.ApproverDesignation})</i>` : ''}<br/>                
                                     &bull; <b>Size</b>: ${response.content.Size} MB <br/>
                                     &bull; <b>Downloads</b>: ${!response.content.DownloadCount ? 0 : response.content.DownloadCount}<br/>
+                                    ${ window.screen.width <= 768 ? `&bull; <b> Views</b>: ${!response.content.ViewsCount ? 0 : response.content.ViewsCount}<br/>` : ''}
                                     &bull; <b>Last Downloaded</b>: ${!response.content.LastDownloaded ? 'N/A' : response.content.LastDownloaded} <br/>
                                     &bull; <b>Last Modified</b>: ${response.content.DateModified}</br>
                                     &bull; <b>Uploaded On</b>: ${response.content.UploadedOn}
@@ -213,4 +226,65 @@ class Files {
         this.#fetchAndUpdateFileMetadata();
         console.log('called display file metadata');
     }
+}
+
+/*******Javascript to handle View button to view the file in new tab********/
+/*Method to initialize view button by adding event listeners etc*/
+function initializeViewButtons() {
+    const viewButtons = document.querySelectorAll("td.phone-only > button")
+    for (let object of viewButtons) {
+        object.addEventListener('click', () => {
+            viewTheFile(object);
+        })
+    }
+}
+
+
+/* function to view the file in new tab*/
+const viewTheFile = (viewButton) => {
+    const fileId = viewButton.getAttribute('file-id');
+    console.log(fileId)
+
+    if (!fileId) {
+        console.log('File ID is not available');
+        return;
+    }
+    const promise = new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        if (window.location.hostname == '127.0.0.1')
+            request.open('GET', `http://127.0.0.1:5000/api/fetch-file-view-link/${fileId}`, async = true);
+        else
+            request.open('GET', `https://rdsbca.pythonanywhere.com/api/fetch-file-view-link/${fileId}`, async = true);
+
+        request.send();
+        /*display loading animation in view button while fetching the view link from the server*/
+        displayLoadingSpinner(viewButton);
+        request.onload = () => {
+            if (request.status == 200)
+                resolve(request.responseText);
+            else
+                reject(request.status);
+        }
+    })
+
+    promise.then((responseText) => {
+        responseText = JSON.parse(responseText);
+        console.log(responseText);
+        /*removing the loading animation from view button*/
+        viewButton.innerHTML = `<i class="material-icons icons">visibility</i>`
+        window.open(responseText, target = "_blank");
+    })
+    promise.catch((status) => {
+        console.log(`Error: ${status}`);
+        /*removing the loading animation from view button*/
+        viewButton.innerHTML = `<i class="material-icons icons">visibility</i>`
+    });
+}
+
+displayLoadingSpinner = (element) => {
+    element.innerHTML = `
+                        <div class="spinner-border text-primary spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                        `
 }

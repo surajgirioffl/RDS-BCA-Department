@@ -7,3 +7,14 @@
     --bs-popover-body-padding-x: 1rem;
     --bs-popover-body-padding-y: .5rem;
 }
+
+/*style for those table-data/table-header/other-content which need to be display in phone only*/
+.phone-only {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .phone-only {
+        display: block;
+    }
+}
