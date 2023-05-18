@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `files_views_tracking`(
     FOREIGN KEY (FileId) REFERENCES files(FileId)
 );
 
--- 9. Table `creditors_info`
+-- 10. Table `creditors_info`
 -- It may possible that submitter is not a registered user. So, it will have only Id, Name, Contact and Designation(not always).
 -- AccountId is the id of a registered user/teacher which is from database such as rdsbca$users/rdsbca$bca.teachers.
 ----
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `creditors_info` (
 );
 
 ----
--- 10. Table `root_sources`
+-- 11. Table `root_sources`
 ----
 CREATE TABLE IF NOT EXISTS `root_sources` (
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `root_sources` (
 );
 
 ----
--- 11. Table `credits`
+-- 12. Table `credits`
 -- Write Id of table 'creditors_info' instead of full name or username in attributes such as UploadedBy, LastModifiedBy, ApprovedBy etc to identify the user from users and related databases.
 ----
 CREATE TABLE IF NOT EXISTS `credits`(
