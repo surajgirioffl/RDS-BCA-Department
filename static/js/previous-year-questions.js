@@ -237,3 +237,38 @@ function initializeViewButtons() {
         })
     }
 }
+
+
+/* function to view the file in new tab*/
+const viewTheFile = (viewButton) => {
+    const fileId = viewButton.getAttribute('file-id');
+    console.log(fileId)
+
+    if (!fileId) {
+        console.log('File ID is not available');
+        return;
+    }
+    const promise = new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        if (window.location.hostname == '127.0.0.1')
+            request.open('GET', `http://127.0.0.1:5000/api/fetch-file-view-link/${fileId}`, async = true);
+        else
+            request.open('GET', `https://rdsbca.pythonanywhere.com/api/fetch-file-view-link/${fileId}`, async = true);
+
+        request.send();
+        request.onload = () => {
+            if (request.status == 200)
+                resolve(request.responseText);
+            else
+                reject(request.status);
+        }
+    })
+
+    promise.then((responseText) => {
+        console.log(responseText);
+        window.open(responseText, target = "_blank");
+    })
+    promise.catch((status) => {
+        console.log(`Error: ${status}`);
+    });
+}
