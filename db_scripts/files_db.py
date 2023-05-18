@@ -238,21 +238,32 @@ class Files:
                     attributesValueDict = attributesValueDict | specialAttributesValueDict
                     # Here we can also use attributesValueDict.update(specialAttributesValueDict)
 
-            # For table 'files_tracking'
+            # Now we have two more tables 'files_tracking' and 'files_views_tracking' which are not added in JOIN to fetch the file metadata.
+            # 1) For table 'files_tracking'
             # Now, we have to fetch the data from the table 'files_tracking' because we have to fetch the file stats (DownloadCount, LastDownloaded) from this table.
             # listing the attributes 'DownloadCount', 'LastDownloaded' of the table 'files_tracking'
-            attributesToBeFetched: list = [
-                'DownloadCount', 'LastDownloaded'
-            ]
-            desiredTuple: tuple | None = self.getSpecifiedTuple(tableName='files_tracking', attributesList=attributesToBeFetched,
-                                                                keyAttribute='FileId', value=fileId)
-            if desiredTuple:
-                # Means the desired tuple exists in the database
-                specialAttributesValueDict: dict = {
-                    key: value for key, value in zip(attributesToBeFetched, desiredTuple)
-                }
-                # Adding the fetched data to the dictionary 'attributesValueDict'
-                attributesValueDict.update(specialAttributesValueDict)
+            # 2) For table 'files_views_tracking'
+            # Now, we have to fetch the data from the table 'files_views_tracking' because we have to fetch the file stats (ViewsCount, LastViewed) from this table.
+            # listing the attributes 'ViewsCount', 'LastViewed' of the table 'files_views_tracking'
+            remainingTables: tuple = ('files_tracking', 'files_views_tracking')
+            for tableName in remainingTables:
+                if tableName == 'files_tracking':
+                    attributesToBeFetched: list = [
+                        'DownloadCount', 'LastDownloaded'
+                    ]
+                elif tableName == 'files_views_tracking':
+                    attributesToBeFetched: list = [
+                        'ViewsCount', 'LastViewed'
+                    ]
+                desiredTuple: tuple | None = self.getSpecifiedTuple(tableName=tableName, attributesList=attributesToBeFetched,
+                                                                    keyAttribute='FileId', value=fileId)
+                if desiredTuple:
+                    # Means the desired tuple exists in the database
+                    specialAttributesValueDict: dict = {
+                        key: value for key, value in zip(attributesToBeFetched, desiredTuple)
+                    }
+                    # Adding the fetched data to the dictionary 'attributesValueDict'
+                    attributesValueDict.update(specialAttributesValueDict)
 
             return attributesValueDict
         return None
