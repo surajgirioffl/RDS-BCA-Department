@@ -117,6 +117,20 @@ function displayPreviousYearQuestions() {
         }
         /* Semester 4 note ends */
 
+        /*feedback starts*/
+        /*User can submit feedback if any issue occurs*/
+        if (!document.getElementById('feedback-div')) {
+            /*if feedback div is not present then create it*/
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.id = 'feedback-div';
+            feedbackDiv.innerHTML = `<div class="alert alert-danger" role="alert">
+                                            Having any issues? <a href="https://forms.gle/F7hxnRh5TvaALRMQ8" target="_blank">Click here</a> to submit feedback
+                                    </div>`
+            feedbackDiv.firstElementChild.style.cssText = `padding: 0.2%;`
+            document.getElementById("previous-year-questions-container").parentElement.appendChild(feedbackDiv);
+        }
+        /*Feedback ends*/
+
         if (request.status == 200) {
             initializePopovers();
             initializeViewButtons();
