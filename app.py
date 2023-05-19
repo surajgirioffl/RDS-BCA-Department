@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 18th May 2023
+    @last-modified: 19th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -423,6 +423,10 @@ def fileViewLink(fileId: str):
                                  attributeValueToBeIncreaseBy1='ViewsCount', dateTimeAttributeToBeUpdate="LastViewed")
         return jsonify(dbResponse[0])
     return jsonify(None)  # or return jsonify({}) or return jsonify(dbResponse)
+
+@app.route('/contribute', methods=['GET'])
+def contribute():
+    return render_template('contribute.html')
 
 
 # api routes
