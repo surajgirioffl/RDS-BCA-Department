@@ -84,6 +84,39 @@ function displayPreviousYearQuestions() {
         }
         document.getElementById("previous-year-questions-container").innerHTML = responseText;
         document.getElementById('loading-svg').style.display = 'none';
+
+        /* Semester 4 note starts
+         * In semester system, java is added in 4th semester. But in year system, java was in 3rd year (5th sem of vaishali or ln mishra - sub code 502)
+         * So, for java PYQ before 2022, we will have to display PYQ of 5th semester of vaishali or ln mishra.
+         * This note will give information about this to the user.
+         * So, this note will be displayed only if semester is 4.
+         */
+        if (obj.semester == 4) {
+            if (!document.getElementById('note-message-container')) {
+                const noteMessageDiv = document.createElement("div");
+                noteMessageDiv.innerHTML = `<div class="alert alert-primary" role="alert">
+                                        Note: In the year system, Java was in 3rd year (See Vaishali/Ln Mishra 5th sem - Sub code 502). So, for Java PYQ before 2022 
+                                        <a href="javascript:void(0)"> Click here </a>
+                                        </div>`;
+                noteMessageDiv.firstElementChild.style.cssText = `padding: 0.3%;`
+                noteMessageDiv.firstElementChild.firstElementChild.addEventListener('click', () => {
+                    document.getElementById('semester').value = 5;
+                    document.getElementById('source').value = 'vaishali';
+                    document.getElementById('submit-button').click();
+                })
+                noteMessageDiv.id = "note-message-container";
+                document.getElementById("previous-year-questions-container").parentElement.appendChild(noteMessageDiv);
+            }
+        }
+        else {
+            const noteMessageDiv = document.getElementById('note-message-container');
+            if (noteMessageDiv) {
+                /*if exists*/
+                noteMessageDiv.remove();
+            }
+        }
+        /* Semester 4 note ends */
+
         if (request.status == 200) {
             initializePopovers();
             initializeViewButtons();
@@ -205,7 +238,7 @@ class Files {
                                     &bull; <b>Approver</b>: <a href="${!response.content.ApproverContact ? 'javascript:void(0)' : response.content.ApproverContact}" target="_blank">${response.content.ApproverName}</a> ${response.content.ApproverDesignation ? `<i>(${response.content.ApproverDesignation})</i>` : ''}<br/>                
                                     &bull; <b>Size</b>: ${response.content.Size} MB <br/>
                                     &bull; <b>Downloads</b>: ${!response.content.DownloadCount ? 0 : response.content.DownloadCount}<br/>
-                                    ${ window.screen.width <= 768 ? `&bull; <b> Views</b>: ${!response.content.ViewsCount ? 0 : response.content.ViewsCount}<br/>` : ''}
+                                    ${window.screen.width <= 768 ? `&bull; <b> Views</b>: ${!response.content.ViewsCount ? 0 : response.content.ViewsCount}<br/>` : ''}
                                     &bull; <b>Last Downloaded</b>: ${!response.content.LastDownloaded ? 'N/A' : response.content.LastDownloaded} <br/>
                                     &bull; <b>Last Modified</b>: ${response.content.DateModified}</br>
                                     &bull; <b>Uploaded On</b>: ${response.content.UploadedOn}
