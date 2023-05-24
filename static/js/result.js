@@ -332,12 +332,12 @@ const displayMessageToViewPaperTitle = () => {
         document.body.insertBefore(noteMessageDiv, document.getElementById("download-as-pdf-button").nextElementSibling);
     }
     else {
-        document.getElementById('note-message-container').display = "block";
+        document.getElementById('note-message-container').style.display = "block";
     }
 }
 
 const hideMessageToViewPaperTitle = () => {
     if (document.getElementById('note-message-container')) {
-        document.getElementById('note-message-container').display = "none";
+        document.getElementById('note-message-container').style.display = "none";
     }
 }
