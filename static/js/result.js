@@ -139,6 +139,9 @@ function displayResult() {
         delete obj.isAllSelected;
         request.send(JSON.stringify(obj))
 
+        /*hiding message div containing message about how to view the paper tittle*/
+        hideMessageToViewPaperTitle();
+
         /*onload callback function*/
         request.onload = () => {
             if (request.status == 200) {
@@ -152,6 +155,10 @@ function displayResult() {
                 resultContainer.innerHTML = responseText;
                 downloadAsPdfButton.style.display = 'block';
                 contentForPDF = responseText;
+
+                /*if response text contains paper-code/paper-title then display message to view paper's title*/
+                if (responseText.search("paper-code") != -1)
+                    displayMessageToViewPaperTitle();
                 /*console.log(request.responseText)*/
             }
             // else if (request.status == 400) {
@@ -296,5 +303,41 @@ function toggleSubjectTitlePopUp(element, isCalledBySetTimeout = false) {
             element.appendChild(div);
             setTimeout(() => { toggleSubjectTitlePopUp(element, true) }, 3000); /*removing the popup after 3 seconds. */
         }
+    }
+}
+
+
+/**
+ * We have given functionality to view the paper title by clicking/hover on the paper-code.
+ * But user don't know about the functionality. That's why, a note will be display to inform the user about the same.
+ * Below two functions are related to display the message or hide the message.
+ */
+
+const displayMessageToViewPaperTitle = () => {
+    if (!document.getElementById('note-message-container')) {
+        const noteMessageDiv = document.createElement("div");
+        noteMessageDiv.id = "note-message-container";
+        noteMessageDiv.innerHTML = `<div class="alert alert-primary" role="alert">
+                                <b>Note</b>: Click ${window.screen.width > 768 ? ' or hover' : ''} on paper code to view the paper title.
+                                <a href="javascript:void(0)"> Click here to toggle view all</a>
+                                </div>`;
+        noteMessageDiv.firstElementChild.style.cssText = `width: 80%; padding: auto; margin: auto; padding: 0.3%; text-align: center;`
+        noteMessageDiv.firstElementChild.lastElementChild.addEventListener('click', () => {
+            const paperCodeTds = document.querySelectorAll(".paper-code");
+            for (let element of paperCodeTds) {
+                element.click();
+            }
+        })
+        noteMessageDiv.style = "margin-bottom: 1%;";
+        document.body.insertBefore(noteMessageDiv, document.getElementById("download-as-pdf-button").nextElementSibling);
+    }
+    else {
+        document.getElementById('note-message-container').display = "block";
+    }
+}
+
+const hideMessageToViewPaperTitle = () => {
+    if (document.getElementById('note-message-container')) {
+        document.getElementById('note-message-container').display = "none";
     }
 }
