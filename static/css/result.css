@@ -60,7 +60,8 @@
 }
 
 .pop-up {
-    background-color: rgb(157, 156, 156);
+    background-color: #0d6efd;
+    color: white;
     position: absolute;
     z-index: 10;
     padding-left: 1%;
@@ -72,7 +73,8 @@
 }
 
 .remove-pop-up {
-    background-color: rgb(157, 156, 156);
+    background-color: #0d6efd;
+    color: white;
     position: absolute;
     z-index: 10;
     padding-left: 1%;
