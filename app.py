@@ -8,14 +8,14 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 18th May 2023
+    @last-modified: 28th May 2023
 
     @description:
         * Module to run the web app and handle all the routes.
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.6"
+__version__ = "2.1.7"
 
 
 from platform import system
