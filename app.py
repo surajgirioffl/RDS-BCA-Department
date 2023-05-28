@@ -359,7 +359,7 @@ def files(fileId):
                         # And we know that, we are fetching file but drive returns 'text/html' that states "Google Drive can't scan this file for viruses. This file is executable and may harm your computer. Download Anyway".
                         # So, we will try at least 5 times to fetch the file (server side). If issues persist, then we will return the below response and user need to download the file from drive with the same name as in drive.
                         flag += 1
-                        print("Flag: " + flag)
+                        print(f"Flag: {flag}")
                         if flag < 6:
                             # trying again to fetch the file from the drive
                             print("Trying again to fetch the file from the drive...")
