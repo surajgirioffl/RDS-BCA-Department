@@ -307,6 +307,8 @@ def aboutRdsCollege():
 
 @app.route('/files/<string:fileId>', methods=['GET'])
 def files(fileId):
+    print(
+        f"Receive a GET request in the route /files/<fileId> (Here file ID = {fileId})")
     # checking if fileId is valid
     if not validation.isValidFileId(fileId):
         # if fileId is invalid
@@ -319,31 +321,67 @@ def files(fileId):
     fileMetadata: dict | None = filesObj.fetchFileMetadata(fileId)
     if fileMetadata:
         driveDownloadLink: str = fileMetadata.get('DownloadLink')
-        try:
-            response = requests.get(driveDownloadLink)
-        except requests.exceptions.ConnectionError:
-            print("Connection Error. Internet is not connected.")
-            content: str = render_template("error.html", contentHeader="Connection Error", contentPara="Internet is not connected.",
-                                           message="Server is not connected to the internet. Server side error. Please try again later.")
-            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
-        except Exception as e:
-            print("Something went wrong while fetching file from the Google Drive.")
-            print("Exception: ", e)
-            content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
-                                           message="An unknown error occurred while fetching file from the source. Please try again later.")
-            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
-        else:
-            if response.status_code == 200:
-                # file is fetched successfully
-                # Updating file stats in the database (download count, last download time etc..)
-                filesObj.updateFileStats(fileId)
-                content = response.content
-                return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'], headers={'Content-Disposition': f'name={fileMetadata.get("Title")};filename={fileMetadata.get("DownloadName")}.{fileMetadata.get("Extension")}'})
-            print("Something went wrong while fetching file from the Google Drive.")
-            print("Exception: ", e)
-            content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
-                                           message="An unknown error occurred while fetching file from the source. Please try again later.")
-            return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+
+        flag: int = 0  # a flag variable counting number of attempts to fetch the file from drive
+        while True:
+            try:
+                print("Fetching the file from the drive using GET request.")
+                response = requests.get(driveDownloadLink)
+            except requests.exceptions.ConnectionError:
+                print("Connection Error. Internet is not connected.")
+                content: str = render_template("error.html", contentHeader="Connection Error", contentPara="Internet is not connected.",
+                                               message="Server is not connected to the internet. Server side error. Please try again later.")
+                return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+            except Exception as e:
+                print("Something went wrong while fetching file from the Google Drive.")
+                print("Exception: ", e)
+                content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
+                                               message="An unknown error occurred while fetching file from the source. Please try again later.")
+                return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
+            else:
+                if response.status_code == 200:
+                    # response is fetched successfully
+                    # if content type is 'text/html' then response will not as expected. It means google drive returns any error or warning.
+                    # And we can't serve it directly to the user because session id etc generated to the server IP by drive will not work for user and user will not able to interact with the message.
+                    # In this case, we will try at least 5 times to fetch the file from the Google Drive to eliminate the issue. But if issue persists then we will serve a custom page to the user.
+                    # And user will able to download the file using google drive.
+
+                    content = response.content
+                    print("Response is received with status code 200.")
+                    print("Response content type:",
+                          response.headers['Content-Type'])
+                    if response.headers['Content-Type'] == 'application/pdf':
+                        # Updating file stats in the database (download count, last download time etc..)
+                        filesObj.updateFileStats(fileId)
+                        return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'], headers={'Content-Disposition': f'name={fileMetadata.get("Title")};filename={fileMetadata.get("DownloadName")}.{fileMetadata.get("Extension")}'})
+                    elif response.headers['Content-Type'] == 'text/html; charset=utf-8':
+                        # This is for content type text/html.
+                        # And we know that, we are fetching file but drive returns 'text/html' that states "Google Drive can't scan this file for viruses. This file is executable and may harm your computer. Download Anyway".
+                        # So, we will try at least 5 times to fetch the file (server side). If issues persist, then we will return the below response and user need to download the file from drive with the same name as in drive.
+                        flag += 1
+                        print("Flag: " + flag)
+                        if flag < 6:
+                            # trying again to fetch the file from the drive
+                            print("Trying again to fetch the file from the drive...")
+                            continue
+
+                        print(
+                            "Drive is continuously returning text/html in last 5 requests.")
+                        print("Now, serving the file using special template...")
+                        # Updating file stats in the database (download count, last download time etc..)
+                        filesObj.updateFileStats(fileId)
+                        return Response(render_template("/special/download-file.html", message=fileMetadata.get("Title"), fileDownloadLink=fileMetadata.get("DownloadLink"), fileDownloadName=fileMetadata.get("DownloadName"), fileExtension=fileMetadata.get("Extension")), status=HTTPStatus.OK, content_type=response.headers['Content-Type'])
+                    else:
+                        # Updating file stats in the database (download count, last download time etc..)
+                        filesObj.updateFileStats(fileId)
+                        return Response(content, status=HTTPStatus.OK, content_type=response.headers['Content-Type'], headers={'Content-Disposition': f'name={fileMetadata.get("Title")};filename={fileMetadata.get("DownloadName")}.{fileMetadata.get("Extension")}'})
+
+                # if status code is not 200.
+                # Means file is not fetched successfully then send internal error.
+                print("Something went wrong while fetching file from the Google Drive.")
+                content: str = render_template("error.html", contentHeader="Something Went Wrong", contentPara="Unable to fetch file.",
+                                               message="An unknown error occurred while fetching file from the source. Please try again later.")
+                return Response(content, status=HTTPStatus.INTERNAL_SERVER_ERROR, content_type='text/html')
     else:
         # if fileId is valid but file is not found in the database.
         print("File with fileId ", fileId, " is not found in the database.")
