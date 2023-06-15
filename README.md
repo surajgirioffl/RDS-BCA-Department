@@ -6,7 +6,7 @@
 ## Developed For
 
 * Students of BCA Department of RDS College
-* Management of BCA Deapartment of RDS College
+* Management of BCA Department of RDS College
 * Teachers of BCA Department of RDS College
 
 ## Badges
