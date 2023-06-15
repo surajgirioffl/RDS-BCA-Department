@@ -9,12 +9,9 @@
     <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
         <p class="text-center fs-2 text fw-bolder">Contribute</p>
         <hr>
-        <form>
 
-            <div>
-                <input type="file">
-            </div>
-            
+        <!--Form starts-->
+        <form>
             <div class="form-floating mb-4">
                 <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" required name="contribution">
                     <option selected value="">Please Select</option>
@@ -22,35 +19,10 @@
                 </select>
                 <label for="floatingSelect" class="mandatory">Contribute</label>
             </div>
-            <div class="invalid-feedback" id="gender">
-                <!--content to display incase of invalid input-->
-            </div>
         </form>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text"><i class="material-icons icons registrationIcons">person</i></span>
-            <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInputGroup4" placeholder="name@example.com"
-                        name="email" required>
-                <label for="floatingInput" class="mandatory">Full Name</label>
-            </div>
-            <div class="invalid-feedback" id="email">
-            <!--content to display incase of invalid input-->
-            </div>
-        </div>
+        <!--Form ends-->
 
 
-        <div class="input-group mb-4">
-            <span class="input-group-text"><i class="material-icons icons registrationIcons">mail</i></span>
-            <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInputGroup4" placeholder="name@example.com"
-                        name="email" required>
-                <label for="floatingInput" class="mandatory">Email address</label>
-            </div>
-            <div class="invalid-feedback" id="email">
-            <!--content to display incase of invalid input-->
-            </div>
-        </div>
     </div>
 </body>
 {%endblock body%}
