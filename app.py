@@ -424,9 +424,21 @@ def fileViewLink(fileId: str):
         return jsonify(dbResponse[0])
     return jsonify(None)  # or return jsonify({}) or return jsonify(dbResponse)
 
+
 @app.route('/contribute', methods=['GET'])
 def contribute():
     return render_template('contribute.html')
+
+
+# API route to fetch different contribution forms for different purposes
+@app.route("/api/fetch-contribution-form", methods=["POST"])
+def fetchContributionForm():
+    print("A POST request received in the API route 'api/fetch-contribution-form'")
+    print(request.json)
+    selectedOption: str = request.json.get('selectedOption')
+    if selectedOption in ['previous-year-questions']:
+        return render_template('api/contribute-previous-year-questions.html')
+    return "Hii"
 
 
 # api routes
