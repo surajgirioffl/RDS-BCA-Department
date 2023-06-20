@@ -1,0 +1,25 @@
+span .icons {
+    color: #0250c4;
+}
+
+#file-div {
+    display: block;
+    background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+    margin-bottom: 2%;
+    padding-bottom: 2%;
+    border-radius: 15px;
+}
+
+.file-upload-icon {
+    font-size: 500%;
+}
+
+#text-below-file-upload-icon {
+    padding-bottom: 1%;
+    font-weight: bold;
+    margin-top: -1%;
+}
+
+input[type='file'] {
+    color: #0250c4;
+}
