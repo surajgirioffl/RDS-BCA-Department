@@ -23,3 +23,9 @@ span .icons {
 input[type='file'] {
     color: #0250c4;
 }
+
+.mandatory::after{
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
