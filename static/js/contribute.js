@@ -6,7 +6,11 @@ dropDown.addEventListener('change', () => {
         fetchFormAndDisplay(selectedOption = dropDown.value);
     }
     else {
-        document.getElementById("response-text-container").innerHTML = "";
+        document.getElementById("response-text-container").innerHTML = `
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Please select an option from the above dropdown
+                                                    </div>
+                                                    `;
     }
 })
 
