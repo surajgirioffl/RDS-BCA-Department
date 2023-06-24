@@ -29,3 +29,8 @@ input[type='file'] {
     color: red;
     font-weight: bold;
 }
+
+.alert {
+    font-weight: bold;
+    padding: 0.1%;
+}
