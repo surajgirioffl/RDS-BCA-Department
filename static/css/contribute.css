@@ -8,6 +8,7 @@ span .icons {
     margin-bottom: 2%;
     padding-bottom: 2%;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .file-upload-icon {
@@ -24,7 +25,7 @@ input[type='file'] {
     color: #0250c4;
 }
 
-.mandatory::after{
+.mandatory::after {
     content: " *";
     color: red;
     font-weight: bold;
