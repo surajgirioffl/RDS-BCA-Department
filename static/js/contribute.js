@@ -43,6 +43,8 @@ const fetchFormAndDisplay = function (selectedOption) {
 
     promise.then((responseText) => {
         responseTextContainer.innerHTML = responseText;
+        /*Executing the script related to selection contribution page fetched from the server successfully*/
+        executeScriptOfCurrentContributionPage(page = dropDown.value);
     })
 
     promise.catch((error) => {
@@ -50,3 +52,25 @@ const fetchFormAndDisplay = function (selectedOption) {
     })
 
 }
+
+/**
+ * @param {currently available contribution page} page 
+ * Function to execute the script related to the currently available contribution page fetched from the server.
+ */
+const executeScriptOfCurrentContributionPage = (page) => {
+    if (page == 'previous-year-questions')
+        contributePreviousYearQuestionScript();
+}
+
+/***********************************************************
+  * @script_related_to_contribution_of_previous_year_questions
+  * @starts
+  */
+
+const contributePreviousYearQuestionScript = () => {
+}
+
+/**
+ * @script_related_to_contribution_of_previous_year_questions
+ * @ends
+ **************************************************************/
