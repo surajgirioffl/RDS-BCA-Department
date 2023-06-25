@@ -37,7 +37,7 @@ input[type='file'] {
 }
 
 .badge {
-    width: 30%;
+    width: default;
     margin-bottom: 2%;
     font-size: 15px;
 }
