@@ -35,3 +35,19 @@ input[type='file'] {
     font-weight: bold;
     padding: 0.1%;
 }
+
+.badge {
+    width: 30%;
+    margin-bottom: 2%;
+    font-size: 15px;
+}
+
+hr.above-badge {
+    color: RGBA(13, 110, 253);
+    margin-bottom: -0.1%;
+}
+
+hr.below-badge {
+    color: RGBA(13, 110, 253);
+    margin-top: -2%;
+}
