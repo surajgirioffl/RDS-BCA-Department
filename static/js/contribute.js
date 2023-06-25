@@ -71,6 +71,18 @@ const contributePreviousYearQuestionScript = () => {
     /*functionality to select file if user clicks on the div containing the file input type*/
     document.getElementById('file-div').addEventListener('click', () => {
         document.getElementById('file').click();
+    });
+
+    /*functionality to display the hidden input type to write the source name if user selects 'others' in the source dropdown*/
+    const sourceDropdown = document.querySelector('select[name=source]');
+    sourceDropdown.addEventListener('change', () => {
+        const otherSourceDiv = document.getElementById('other-source');
+        if (sourceDropdown.value == 'others') {
+            otherSourceDiv.style.display = '';
+        }
+        else {
+            otherSourceDiv.style.display = 'none';
+        }
     })
 }
 
