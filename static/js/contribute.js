@@ -68,6 +68,10 @@ const executeScriptOfCurrentContributionPage = (page) => {
   */
 
 const contributePreviousYearQuestionScript = () => {
+    /*functionality to select file if user clicks on the div containing the file input type*/
+    document.getElementById('file-div').addEventListener('click', () => {
+        document.getElementById('file').click();
+    })
 }
 
 /**
