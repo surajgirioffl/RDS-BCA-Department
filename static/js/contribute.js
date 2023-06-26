@@ -73,6 +73,14 @@ const contributePreviousYearQuestionScript = () => {
         document.getElementById('file').click();
     });
 
+    /* When user clicks on the input type file then explorer opens twice due to above event listener on the 'file-div'
+     * So, to fix this we have to use event.stopPropagation() method which prevents event from reaching any objects other than the current object.
+     * So, due to this event will not propagate/reach to the file-div and that event listener will not listen the event and everything will work as expected.
+    */
+    document.getElementById('file').addEventListener('click', (event) => {
+        event.stopPropagation();
+    })
+
     /*functionality to display the hidden input type to write the source name if user selects 'others' in the source dropdown*/
     const sourceDropdown = document.querySelector('select[name=source]');
     sourceDropdown.addEventListener('change', () => {
