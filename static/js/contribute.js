@@ -97,6 +97,8 @@ const contributePreviousYearQuestionScript = () => {
     document.querySelector('button[type=submit]').addEventListener('click', (event) => {
         event.preventDefault(); /*preventing the default behavior of the submit button*/
         const isValid = (() => {
+
+            /** @checking_if_values_are_empty_or_not (verification)*/
             /*total elements in the form are 11 (10 + 1(hidden))
              * hidden element is inputElements[2].
              * inputElements[2, 4] are not required else all are required.
@@ -108,12 +110,12 @@ const contributePreviousYearQuestionScript = () => {
             for (let element of inputElements) {
                 if (element != notRequiredElements[0] && element != notRequiredElements[1]) {
                     if (element.value == "") {
-                        element.focus();
+                        element.classList.add('invalid-highlighter');
                         element.parentElement.nextElementSibling.classList.add('d-block');
                         element.addEventListener('change', () => {
                             element.parentElement.nextElementSibling.classList.remove('d-block');
+                            element.classList.remove('invalid-highlighter');
                         })
-                        return false;
                     }
                 }
             }
@@ -121,14 +123,18 @@ const contributePreviousYearQuestionScript = () => {
             for (let element of selectElements) {
                 if (element != notRequiredElements[0] && element != notRequiredElements[1]) {
                     if (element.value == "") {
-                        element.focus();
+                        element.classList.add('invalid-highlighter');
                         element.parentElement.nextElementSibling.classList.add('d-block');
                         element.addEventListener('change', () => {
                             element.parentElement.nextElementSibling.classList.remove('d-block');
+                            element.classList.remove('invalid-highlighter');
                         })
-                        return false;
                     }
                 }
+            }
+            if (document.getElementsByClassName('invalid-highlighter').length > 0) {
+                document.getElementsByClassName('invalid-highlighter')[0].focus();
+                return false;
             }
             document.getElementsByTagName('form')[0].submit(); /*submitting the form after validation check*/
         })();
