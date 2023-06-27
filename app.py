@@ -425,9 +425,12 @@ def fileViewLink(fileId: str):
     return jsonify(None)  # or return jsonify({}) or return jsonify(dbResponse)
 
 
-@app.route('/contribute', methods=['GET'])
+@app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
-    return render_template('contribute.html')
+    if request.method == 'GET':
+        return render_template('contribute.html')
+    else:  # request.method == 'POST
+        return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection")
 
 
 # API route to fetch different contribution forms for different purposes
