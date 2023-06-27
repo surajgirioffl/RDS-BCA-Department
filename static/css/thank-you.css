@@ -1,0 +1,26 @@
+.title {
+    font-weight: bold;
+    font-size: 200%;
+    color: black;
+}
+
+#home-button {
+    background-image: linear-gradient(to right, #00dbde 0%, #fc00ff 100%);
+    border-radius: 100px;
+    border-style: none;
+}
+
+#special-button {
+    border-radius: 100px;
+    border-style: none;
+    background-image: linear-gradient(to left, #00dbde 0%, #fc00ff 100%);
+}
+
+#illustration {
+    width: 40%;
+    height: 100%;
+}
+
+#button-container {
+    margin-top: 2%;
+}
