@@ -7,5 +7,33 @@
 
 
 <div class="main wrapper clearfix data">
+    <img src="{{url_for('static', filename='svg/thank-you.svg')}}">
+    <div class="title">{{title | default("Thank You!")}}</div>
+    <div>
+        <p style="margin: 0.2%;">{{midMessage | default('Our team will respond to you soon')}}</p>
+        <p>
+            {{bottomMessage | default('You will be informed via email about the ')}} 
+            <span style="color: green;">{{green | default('approval')}}</span>
+            or 
+            <span style="color: red;"> {{red | default('rejection')}} </span>
+        </p>
+    </div>
+
+    <div id="button-container">
+        <a href="{{url_for('home')}}" style="text-decoration: none;">
+            <button type="button" class="btn btn-primary" id="home-button">
+                &nbsp; &nbsp; Home &nbsp; &nbsp;
+            </button>
+        </a>
+        <span style="padding: 0.4%"></span>
+        <a href="{{url_for(routeFunctionForButtonLink | default('contribute'))}}">
+            <button type="button" class="btn btn-primary" id="special-button">
+                Contribute
+            </button>
+        </a>
+    </div>
+
+    <img id="illustration"
+        src="{{url_for('static', filename='illustrations/thank-you.png')}}">
 </div>
 {% endblock body%}
