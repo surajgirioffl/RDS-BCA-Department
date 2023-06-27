@@ -136,6 +136,16 @@ const contributePreviousYearQuestionScript = () => {
                 document.getElementsByClassName('invalid-highlighter')[0].focus();
                 return false;
             }
+
+            /**
+             * @validation_of_value_as_per_application_standards (validation)
+             ** At this point, required form elements do not have an empty value.
+             * But in above code, only empty values are checked but the values are not validated as per application standards.
+             * So, below we will do so.
+            */
+            //code will added soon
+
+            /* Submitting the form after all verifications and validations. */
             document.getElementsByTagName('form')[0].submit(); /*submitting the form after validation check*/
         })();
     });
