@@ -1,3 +1,9 @@
+body {
+    background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+    /*overriding previous one*/
+}
+
 .title {
     font-weight: bold;
     font-size: 200%;
