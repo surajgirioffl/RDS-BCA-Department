@@ -14,6 +14,7 @@ body {
     background-image: linear-gradient(to right, #00dbde 0%, #fc00ff 100%);
     border-radius: 100px;
     border-style: none;
+    /*An unwanted line in the bottom-right was visible. That's why, I have changed the border style to none.*/
 }
 
 #special-button {
