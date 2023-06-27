@@ -92,9 +92,50 @@ const contributePreviousYearQuestionScript = () => {
             otherSourceDiv.style.display = 'none';
         }
     })
+
+    /*functionality to verify and validate the form data on submit and send to server then display the server response to the user*/
+    document.querySelector('button[type=submit]').addEventListener('click', (event) => {
+        event.preventDefault(); /*preventing the default behavior of the submit button*/
+        const isValid = (() => {
+            /*total elements in the form are 11 (10 + 1(hidden))
+             * hidden element is inputElements[2].
+             * inputElements[2, 4] are not required else all are required.
+            */
+            const inputElements = document.getElementsByTagName('input');
+            const selectElements = document.getElementsByTagName('select');
+            const notRequiredElements = [inputElements[2], inputElements[4]];
+
+            for (let element of inputElements) {
+                if (element != notRequiredElements[0] && element != notRequiredElements[1]) {
+                    if (element.value == "") {
+                        element.focus();
+                        element.parentElement.nextElementSibling.classList.add('d-block');
+                        element.addEventListener('change', () => {
+                            element.parentElement.nextElementSibling.classList.remove('d-block');
+                        })
+                        return false;
+                    }
+                }
+            }
+
+            for (let element of selectElements) {
+                if (element != notRequiredElements[0] && element != notRequiredElements[1]) {
+                    if (element.value == "") {
+                        element.focus();
+                        element.parentElement.nextElementSibling.classList.add('d-block');
+                        element.addEventListener('change', () => {
+                            element.parentElement.nextElementSibling.classList.remove('d-block');
+                        })
+                        return false;
+                    }
+                }
+            }
+            document.getElementsByTagName('form')[0].submit(); /*submitting the form after validation check*/
+        })();
+    });
 }
 
 /**
- * @script_related_to_contribution_of_previous_year_questions
- * @ends
- **************************************************************/
+* @script_related_to_contribution_of_previous_year_questions
+* @ends
+**************************************************************/
