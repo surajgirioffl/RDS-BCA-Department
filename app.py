@@ -440,7 +440,7 @@ def fetchContributionForm():
     print(request.json)
     selectedOption: str = request.json.get('selectedOption')
     if selectedOption in ['previous-year-questions']:
-        return render_template('api/contribute-previous-year-questions.html')
+        return render_template('api/contribution/contribute-previous-year-questions.html')
     return "Hii"
 
 
