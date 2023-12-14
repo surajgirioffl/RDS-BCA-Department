@@ -1,0 +1,180 @@
+<div>
+
+    <!--Input of information related to the file-->
+    <hr class="above-badge">
+        <span class="badge text-bg-primary">For The File</span>
+    <hr class="below-badge">
+
+    <div id="file-div">
+        <i class="material-icons icons file-upload-icon">cloud_upload</i>
+        <div id="text-below-file-upload-icon">Drop The PDF File Here</div>
+        <input type="file" id="file" name="file" accept=".pdf" required>
+    </div>
+    <div class="invalid-feedback" id="invalid-file" style="margin-top: -2%; margin-bottom: 1%;">
+        <!--content to display incase of invalid input-->
+        Invalid File
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">title</i>
+        </span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup1" 
+                placeholder="File Title"
+                name="title" required>
+            <label for="floatingInput" class="mandatory">File Title</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-title">
+            <!--content to display incase of invalid input-->
+            Invalid File Title 
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">school</i>
+        </span>
+        <div class="form-floating">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                name="source" required>
+                <option selected value="">Select Source</option>
+                <option value="brabu">BRABU Official</option>
+                <option value="vaishali">Vaishali Institute, Muzaffarpur (Part of BRABU)</option>
+                <option value="lnMishra">L.N. Mishra, Muzaffarpur (Part of BRABU)</option>
+                <option value="others">Others</option>
+            </select>
+            <label for="floatingSelect" class="mandatory">Source of Previous Year Questions</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-source">
+            <!--content to display incase of invalid input-->
+            Invalid Source
+        </div>
+    </div>
+
+    <div class="input-group mb-4" style="display:none;" id="other-source">
+        <span class="input-group-text">
+            <i class="material-icons icons">school</i>
+        </span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup2" 
+                placeholder="File Title"
+                name="other-source">
+            <label for="floatingInput">Other Source</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-other-source">
+            <!--content to display incase of invalid input-->
+            Invalid Source Name
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">123</i>
+        </span>
+        <div class="form-floating">
+            <select class="form-select" id="floatingSelect1" aria-label="Floating label select example"
+                name="semester" required>
+                <option selected value="">Select Semester</option>
+                <option value="1">1st Sem</option>
+                <option value="2">2nd Sem</option>
+                <option value="3">3rd Sem</option>
+                <option value="4">4th Sem</option>
+                <option value="5">5th Sem</option>
+            </select>
+            <label for="floatingSelect" class="mandatory">Semester of the PYQ</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-semester">
+            <!--content to display incase of invalid input-->
+            Invalid Semester
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">calendar_month</i>
+        </span>
+        <div class="form-floating">
+            <input type="number" class="form-control" id="floatingInputGroup3" 
+                placeholder="File Title" 
+                name="year" required>
+            <label for="floatingInput" class="mandatory">Examination Year</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-year">
+            <!--content to display incase of invalid input-->
+            Invalid Examination Year
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">add_link</i>
+        </span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup4" 
+                placeholder="Root Source File Link"
+                name="root-source-file-link">
+            <label for="floatingInput">File Link (If downloaded from other source)</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-root-source-file-link">
+            <!--content to display incase of invalid input-->
+            Invalid File Link
+        </div>
+    </div>
+
+
+    <!--Input of information related to the contributor-->
+    <hr class="above-badge">
+        <span class="badge text-bg-primary">For The Contributor</span>
+    <hr class="below-badge">
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">person</i>
+        </span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup5" 
+                placeholder="Your Name"
+                name="name" required>
+            <label for="floatingInput" class="mandatory">Full Name</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-name">
+            <!--content to display incase of invalid input-->
+            Invalid Contributor Name
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">mail</i>
+        </span>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInputGroup6"
+                placeholder="name@example.com"
+                name="email" required>
+            <label for="floatingInput" class="mandatory">Email address</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-email">
+            <!--content to display incase of invalid input-->
+            Invalid Email Address
+        </div>
+    </div>
+
+    <div class="input-group mb-4">
+        <span class="input-group-text">
+            <i class="material-icons icons">link</i>
+        </span>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGroup7" 
+                placeholder="Contact Link"
+                name="contact-link" required>
+            <label for="floatingInput" class="mandatory">Contact Link</label>
+        </div>
+        <div class="invalid-feedback" id="invalid-contact-link">
+            <!--content to display incase of invalid input-->
+            Invalid Contact Link
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</div>

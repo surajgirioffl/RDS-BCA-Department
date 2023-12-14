@@ -2,7 +2,46 @@
 {%block title%} Contribute - BCA RDS College, Muzaffarpur  {%endblock title%}
 {%block description%}Contribute To BCA Department RDS College Muzaffarpur{% endblock description%}
 {%block keywords%}contribute, contribution, contribute to application, upload images, upload previous year questions, contribute to the project, contribute to RDS College Muzaffarpur, contribute to app of BCA Department RDS College Muzaffarpur{%endblock keywords%}
+{%block scale%} 0.7 {%endblock scale%}
+{%block css%}<link rel="stylesheet" href="{{url_for('static', filename="css/contribute.css")}}">{%endblock css%} 
 
 {%block body%}
+<body>
+    <!---Page Heading-->
+    <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
+        <p class="text-center fs-2 text fw-bolder">Contribute</p>
+        <hr>
 
+        <!--Form starts-->
+        <form action="/contribute" method="post" autocomplete="on">
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="material-icons icons">handshake</i>
+                </span>
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" required name="contribution">
+                        <option selected value="">Please Select</option>
+                        <option value="previous-year-questions">Upload Previous Year Question</option>
+                    </select>
+                    <label for="floatingSelect" class="mandatory">Contribute</label>
+                </div>
+                <div class="invalid-feedback" id="invalid-contribution-type">
+                    <!--content to display incase of invalid input-->
+                    Invalid Contribution Type
+                </div>
+            </div>
+
+            <div id="response-text-container">
+                <div class="alert alert-danger" role="alert">
+                    Please select an option from the above dropdown
+                </div>
+            </div>
+        </form>
+        <!--Form ends-->
+
+
+    </div>
+</body>
 {%endblock body%}
+
+{%block script%}<script src="{{url_for('static', filename="js/contribute.js")}}"></script>{%endblock script%}

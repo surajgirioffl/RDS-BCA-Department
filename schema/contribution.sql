@@ -1,0 +1,5 @@
+-- MySQL
+-- Schema for database `contribution` or `rdsbca$contribution`
+-- Created by: Suraj Kumar Giri
+-- Created on: 1st July 2023
+-- Last updated on: 1st July 2023
