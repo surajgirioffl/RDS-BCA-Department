@@ -1,16 +1,80 @@
 {% extends "base.html"%}
-{%block title%} Contact - BCA RDS College, Muzaffarpur  {%endblock title%}
+{%block title%} Contact - BCA RDS College, Muzaffarpur {%endblock title%}
 {%block description%}Contact BCA Department RDS College Muzaffarpur{% endblock description%}
-{%block keywords%}Contact, Contact BCA Department of RDS College Muzaffarpur, Enquiry, Contact BCA Department, Connect With BCA Department RDS College, BCA Department RDS College, Phone Number, Mobile Number, Email of BCA Department{%endblock keywords%}
+{%block keywords%}Contact, Contact BCA Department of RDS College Muzaffarpur, Enquiry, Contact BCA Department, Connect
+With BCA Department RDS College, BCA Department RDS College, Phone Number, Mobile Number, Email of BCA
+Department{%endblock keywords%}
+{%block css%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/register.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/contact.css')}}">
+{%endblock css%}
 
 {% block body%}
 
-<div class="main wrapper clearfix data">
-    <p class="text-center fs-2 text fw-bolder">Contact</p>
+<div class="main wrapper clearfix data my-content">
+    <p class="text-center fs-2 text fw-bolder">GET IN TOUCH</p>
     <hr>
-    <div class="alert alert-success" style="font-weight:bold; font-size: 120%; font-family: sans-serif;" role="alert">
-        This page is under development!
-    </div>
+    <form class="text-center">
+        <div class="form-container">
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="material-icons icons registrationIcons">person</i>
+                </span>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInputGroup5" placeholder="Your Name" name="name"
+                        required />
+                    <label for="floatingInput" class="mandatory">Full Name</label>
+                </div>
+                <div class="invalid-feedback" id="invalid-name">
+                    <!--content to display incase of invalid input-->
+                    Invalid Name
+                </div>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="material-icons icons registrationIcons">mail</i>
+                </span>
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="floatingInputGroup6" placeholder="name@example.com"
+                        name="email" required />
+                    <label for="floatingInput" class="mandatory">Email address</label>
+                </div>
+                <div class="invalid-feedback" id="invalid-email">
+                    <!--content to display incase of invalid input-->
+                    Invalid Email Address
+                </div>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="material-icons icons registrationIcons">subject</i>
+                </span>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInputGroup7" placeholder="Contact Link"
+                        name="subject" required />
+                    <label for="floatingInput" class="mandatory">Subject</label>
+                </div>
+                <div class="invalid-feedback" id="invalid-contact-link">
+                    <!--content to display incase of invalid input-->
+                    Invalid Contact Link
+                </div>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="material-icons icons registrationIcons">message</i>
+                </span>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea" class="mandatory">Message</label>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
 </div>
 
 {% endblock body%}
