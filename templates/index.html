@@ -5,7 +5,7 @@
 {%block css2%}<link rel="stylesheet" href="{{url_for('static', filename='/css/index.css')}}" />{%endblock css2%}
 
 {% block body%}
-{%block script%}<script src="../static/js/initial.overlay.js"> </script>{%endblock script%}
+<!--{%block script%}<script src="../static/js/initial.overlay.js"> </script>{%endblock script%}-->
 
 <!---Page Heading-->
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
@@ -14,8 +14,10 @@
 
 
   <!--overlay starts-->
-    <div id="overlay">
-      <style onload="overlay()"></style> <!--There is no use of style here but I have used it for calling overlay because 'onload' doesn't support by div tag-->
+  <script>
+  /*
+  <div id="overlay">
+    <style onload="overlay()"></style> <!--There is no use of style here but I have used it for calling overlay because 'onload' doesn't support by div tag-->
         <div id="overlayText">
             <strong>
                 <span id="overlayHeading">Website Is Under Development</span>
@@ -31,6 +33,8 @@
     </div>
 
   <!--overlay ends-->
+  */
+  </script>
 
 
   <!--Image Slides on the page-->
