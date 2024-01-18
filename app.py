@@ -479,14 +479,14 @@ def contribute():
 
         dateTime = tools.getCurrentDateTime()
         if contributionsDict.get(dataDict['email']):
-            contributionsDict['email'][dateTime] = dataDict
+            contributionsDict[dataDict['email']][dateTime] = dataDict
         else:
-            contributionsDict['email'] = {dateTime: dataDict}
+            contributionsDict[dataDict['email']] = {dateTime: dataDict}
 
         # Saving data and file
         file.save(f"contributions/{uniqueID}-{file.filename}")
         dataDict['filename'] = f"{uniqueID}-{file.filename}"
-        tools.saveDictAsJSON(dataDict, "contributions/contributions.json")
+        tools.saveDictAsJSON(contributionsDict, "contributions/contributions.json")
 
         # Sending mail
         mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
