@@ -247,6 +247,7 @@ def login():
 @app.route("/ror.xml", methods=["GET"])
 @app.route("/urllist.txt", methods=["GET"])
 @app.route("/robots.txt", methods=["GET"])
+@app.route("/ads.txt", methods=["GET"])
 def static_from_root():
     print(app.static_folder)
     return send_from_directory(app.static_folder+'/sitemaps', request.path[1:])
