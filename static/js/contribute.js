@@ -146,6 +146,7 @@ const contributePreviousYearQuestionScript = () => {
             //code will added soon
 
             /* Submitting the form after all verifications and validations. */
+            document.getElementsByTagName('form')[0].enctype = "multipart/form-data";
             document.getElementsByTagName('form')[0].submit(); /*submitting the form after validation check*/
         })();
     });
