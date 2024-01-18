@@ -135,3 +135,5 @@ files/
 database/
 /secret.py
 gallery/
+secrets.json
+contributions/

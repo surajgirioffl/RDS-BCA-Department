@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 28th May 2023
+    @last-modified: 18th Jan 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -17,7 +17,7 @@ __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
 __version__ = "2.1.7"
 
-
+from datetime import datetime
 from platform import system
 import os
 import logging
@@ -37,6 +37,7 @@ from app_scripts import validation
 from automation_scripts import my_random as myRandom
 import setTimeZone as tz
 from dotenv import load_dotenv
+from utilities import tools
 
 load_dotenv()  # loading environment variables from .env file
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
@@ -469,6 +470,31 @@ def contribute():
     if request.method == 'GET':
         return render_template('contribute.html')
     else:  # request.method == 'POST
+        dataDict = dict(request.form)
+        file = request.files.get('file')
+        uniqueID = myRandom.Random(method='epoch').generate(False)
+        dataDict['uniqueId'] = uniqueID
+        contributionsDict = tools.loadJSONFile(
+            'contributions/contributions.json', True)  # Create 'contributions' directory.
+
+        dateTime = tools.getCurrentDateTime()
+        if contributionsDict.get(dataDict['email']):
+            contributionsDict['email'][dateTime] = dataDict
+        else:
+            contributionsDict['email'] = {dateTime: dataDict}
+
+        # Saving data and file
+        file.save(f"contributions/{uniqueID}-{file.filename}")
+        dataDict['filename'] = f"{uniqueID}-{file.filename}"
+        tools.saveDictAsJSON(dataDict, "contributions/contributions.json")
+
+        # Sending mail
+        mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
+        myMail = mail.Mail(app)
+        adminMails: list = tools.loadJSONFile("secrets.json")["admin-emails"]
+        myMail.sendMessage("New contribution", str(
+            dataDict), adminMails, html=render_template("mail-templates/contribution-email-to-admin.html", dataDict=dataDict))
+
         return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection")
 
 
