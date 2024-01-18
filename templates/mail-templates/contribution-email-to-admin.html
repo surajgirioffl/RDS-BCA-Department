@@ -1,0 +1,29 @@
+<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+    <div style="margin:50px auto;width:70%;padding:20px 0">
+        <div style="border-bottom:1px solid #eee">
+            <a href="{{url_for('home')}}"
+                style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">BCA RDS College,
+                Muzaffarpur</a>
+        </div>
+        <p style="font-size:1.1em">Dear <b>{{name | default("Admin")}}</b>,</p>
+        <p>I hope you're well. This is regarding the contributions made by an user to our website. Following are the
+            details submitted by user. </p>
+        <p></p>
+        {% for key,value in dataDict.items()%}
+        <ul style="margin: 0%;">
+            <li ><b>{{key}}</b>: {{value}}</li>
+        </ul>
+        {%endfor%}
+        <p>Please login to your <a href="/iamadmin">admin panel</a> and <strong>verify & validate</strong> the contribution to make it visible
+            on the website. </p>
+        <p>Your assistance is greatly appreciated.</p>
+        <p style="font-size:0.9em;">Regards,<br />Web Admin (<a href="https://github.com/surajgirioffl">Suraj Kumar
+                Giri</a>)</p>
+        <hr style="border:none;border-top:1px solid #eee" />
+        <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <p>BCA Department RDS College</p>
+            <p>Ram Dayalu Nagar</p>
+            <p>Muzaffarpur 842002</p>
+        </div>
+    </div>
+</div>
