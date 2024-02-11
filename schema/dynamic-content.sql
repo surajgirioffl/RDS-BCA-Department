@@ -44,3 +44,17 @@ CREATE TABLE IF NOT EXISTS `sources`(
     `Contributions` VARCHAR(200) NOT NULL,
     `Link` VARCHAR(100) DEFAULT NULL
 );
+
+----
+-- 4. Table `teachers`
+----
+CREATE TABLE IF NOT EXISTS teachers(
+    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
+    `TeacherId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
+    `Name` VARCHAR(50) NOT NULL,
+    `Qualifications` VARCHAR(100) DEFAULT NULL,
+    `Subjects` VARCHAR(300) NOT NULL,
+    `PhoneNo` VARCHAR(15) UNIQUE,
+    `Email` VARCHAR(100) UNIQUE,
+    `SocialLink` VARCHAR(100) UNIQUE
+);
