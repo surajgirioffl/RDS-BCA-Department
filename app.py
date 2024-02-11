@@ -486,7 +486,8 @@ def contribute():
         # Saving data and file
         file.save(f"contributions/{uniqueID}-{file.filename}")
         dataDict['filename'] = f"{uniqueID}-{file.filename}"
-        tools.saveDictAsJSON(contributionsDict, "contributions/contributions.json")
+        tools.saveDictAsJSON(
+            contributionsDict, "contributions/contributions.json")
 
         # Sending mail
         mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
