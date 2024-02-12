@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 18th Jan 2024
+    @last-modified: 12th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -22,7 +22,7 @@ from platform import system
 import os
 import logging
 from http import HTTPStatus
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session
 import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
@@ -60,7 +60,8 @@ mailCredentials: dict = {
 }
 
 app = Flask(__name__)
-
+print(os.environ.get('APP_SECRET_KEY'))
+app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 funCall = 0
 
