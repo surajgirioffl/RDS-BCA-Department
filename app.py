@@ -66,7 +66,7 @@ funCall = 0
 
 # Context for the base template
 baseContext: dict = {
-    "isLoggedIn": True
+    "isLoggedIn": False
 }
 
 
