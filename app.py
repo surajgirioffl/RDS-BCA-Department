@@ -22,7 +22,7 @@ from platform import system
 import os
 import logging
 from http import HTTPStatus
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect
 import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
@@ -64,9 +64,16 @@ app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 funCall = 0
 
+
+def isLoggedIn():
+    if "username" in session.keys():
+        return True
+    return False
+
+
 # Context for the base template
 baseContext: dict = {
-    "isLoggedIn": False
+    "isLoggedIn": isLoggedIn()
 }
 
 
@@ -245,7 +252,15 @@ def notice():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if isLoggedIn():
+        return "User already logged in..."
     return render_template('login.html')
+
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 @app.route("/sitemap.xml", methods=["GET"])
