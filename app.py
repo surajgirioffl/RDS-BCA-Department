@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 12th Feb 2024
+    @last-modified: 13th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -60,10 +60,14 @@ mailCredentials: dict = {
 }
 
 app = Flask(__name__)
-print(os.environ.get('APP_SECRET_KEY'))
 app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 funCall = 0
+
+# Context for the base template
+baseContext: dict = {
+    "isLoggedIn": True
+}
 
 
 @app.route("/home", methods=["GET", "POST"])
@@ -87,14 +91,14 @@ def home():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-        return render_template('index.html', isNoticeAvailable=True, notice=notice)
-    return render_template('index.html')
+        return render_template('index.html', isNoticeAvailable=True, notice=notice, **baseContext)
+    return render_template('index.html', **baseContext)
 
 
 @app.route('/result', methods=['GET'])
 def result():
     logging.info("Result page is called...")
-    return render_template('result.html')
+    return render_template('result.html', **baseContext)
 
 
 # api route to display result
@@ -140,7 +144,7 @@ def displayResult():
             if databaseResponse is None:
                 # if no result found for given credentials due to any reason (either logically invalid credentials or result not yet uploaded/declared/available)
                 return invalidRequest(errorMessage="No Result Found For Given Credentials", status=HTTPStatus.NOT_FOUND)
-            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True, subjectsWiseMarks=result.fetchSubjectsWiseMarks(examRoll=databaseResponse.get('ExamRoll'), databaseCredentials=databaseCredentials))
+            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True, subjectsWiseMarks=result.fetchSubjectsWiseMarks(examRoll=databaseResponse.get('ExamRoll'), databaseCredentials=databaseCredentials), **baseContext)
         else:
             # if user has changed the name using dev tools or changes using interception
             print("Invalid data passed...")
@@ -154,20 +158,20 @@ def credits():
     # fetching credits data from the database
     credits = dynamicContents.DynamicContents(**databaseCredentials).credits()
     if credits is not None:  # if credits data are available
-        return render_template('credits.html', isCreditsAvailable=True, credits=credits)
-    return render_template('credits.html', isCreditsAvailable=False)
+        return render_template('credits.html', isCreditsAvailable=True, credits=credits, **baseContext)
+    return render_template('credits.html', isCreditsAvailable=False, **baseContext)
 
 
 @app.route("/gallery")
 def gallery():
     logging.info("Gallery page is called...")
-    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0])
+    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0], **baseContext)
 
 
 @app.route("/previousYearQuestions", methods=["GET"])
 def previousYearQuestions():
     logging.info("Previous Year Questions page is called...")
-    return render_template('previousYearQuestions.html')
+    return render_template('previousYearQuestions.html', **baseContext)
 
 
 # api route to fetch previous year questions
@@ -206,7 +210,7 @@ def fetchPreviousYearQuestions():
             pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
             databaseResponse: tuple = pyqObj.getLinks(
                 source=source, semester=semester)
-            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
+            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester, **baseContext)
         else:
             print("Invalid data passed...")
             return invalidRequest()
@@ -215,7 +219,7 @@ def fetchPreviousYearQuestions():
 @ app.route("/register", methods=["GET", "POST"])
 def register():
     logging.info("Register page is called...")
-    return render_template('register.html')
+    return render_template('register.html', **baseContext)
 
 
 @app.route("/notice")
@@ -234,9 +238,9 @@ def notice():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-        return render_template('notice.html', isNoticeAvailable=True, notice=notice)
+        return render_template('notice.html', isNoticeAvailable=True, notice=notice, **baseContext)
     else:
-        return render_template('notice.html', isNoticeAvailable=False)
+        return render_template('notice.html', isNoticeAvailable=False, **baseContext)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -263,14 +267,14 @@ def temp_files():
 
 @app.route("/studyMaterials", methods=["GET"])
 def studyMaterials():
-    return render_template('study-materials.html')
+    return render_template('study-materials.html', **baseContext)
 
 
 @app.route("/study-materials/sem/<int:semester>", methods=["GET"])
 def semesterWiseStudyMaterials(semester):
     # if semester not in [1, 2, 3, 4, 5, 6]:
     # return render_template('404.html', message="Invalid Semester")
-    return render_template('semester-wise-study-materials.html')
+    return render_template('semester-wise-study-materials.html', **baseContext)
 
 
 @app.route('/sources', methods=['GET'])
@@ -279,33 +283,33 @@ def sources():
     sources = dynamicContents.DynamicContents(**databaseCredentials).sources()
     if sources is not None:  # if credits data are available
         return render_template('sources.html', isSourcesAvailable=True, sources=sources)
-    return render_template('sources.html')
+    return render_template('sources.html', **baseContext)
 
 
 @app.route('/teachers', methods=['GET'])
 def teachers():
-    return render_template('teachers.html')
+    return render_template('teachers.html', **baseContext)
 
 
 @app.route('/studentsCorner', methods=['GET'])
 def studentsCorner():
     message = "Hello, Programmers! This page is under development."
-    return render_template('students-corner.html', message=message)
+    return render_template('students-corner.html', message=message, **baseContext)
 
 
 @app.route('/contact', methods=['GET'])
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', **baseContext)
 
 
 @app.route('/about', methods=['GET'])
 def about():
-    return render_template('about.html')
+    return render_template('about.html', **baseContext)
 
 
 @app.route('/about-rds-college', methods=['GET'])
 def aboutRdsCollege():
-    return render_template('about-rds-college.html')
+    return render_template('about-rds-college.html', **baseContext)
 
 
 @app.route('/files/<string:fileId>', methods=['GET'])
@@ -469,7 +473,7 @@ def fileViewLink(fileId: str):
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
     if request.method == 'GET':
-        return render_template('contribute.html')
+        return render_template('contribute.html', **baseContext)
     else:  # request.method == 'POST
         dataDict = dict(request.form)
         file = request.files.get('file')
@@ -497,7 +501,7 @@ def contribute():
         myMail.sendMessage("New contribution", str(
             dataDict), adminMails, html=render_template("mail-templates/contribution-email-to-admin.html", dataDict=dataDict))
 
-        return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection")
+        return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection", **baseContext)
 
 
 # API route to fetch different contribution forms for different purposes
