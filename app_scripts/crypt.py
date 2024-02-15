@@ -2,7 +2,7 @@
     @file: crypt.py
     @author: Suraj Kumar Giri
     @init-date: 2nd Jan 2023
-    @last-modified: 3rd Jan 2023
+    @last-modified: 15th Feb 2024
 
     @description:
         * Module to encrypt and check encrypted password using bcrypt.
@@ -49,7 +49,7 @@ def checkPassword(password: str, hash: str) -> bool:
                 - If password is correct.
             * False:
                 - If password is incorrect.
-            
+
     """
     if not isinstance(hash, bytes):
         hash = hash.encode('utf-8')
@@ -57,6 +57,15 @@ def checkPassword(password: str, hash: str) -> bool:
 
 
 if __name__ == "__main__":
-    hash = encryptPassword('Suraj Giri')
-    print(hash)
-    print(checkPassword("Suraj Giri", hash))
+    while True:
+        password = input("Write password to get hash (enter to exit): ")
+        if not password:
+            exit(0)
+
+        hash = encryptPassword(password)
+        print("Hash:", hash.decode())
+
+        password, hash = input(
+            "Write password and hash to check (comma separated): ").split(',')
+        print(checkPassword(password.strip(), hash.strip()))
+        print('-----next------')
