@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 13th Feb 2024
+    @last-modified: 15th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -20,6 +20,7 @@ __version__ = "2.1.7"
 from datetime import datetime
 from platform import system
 import os
+import functools
 import logging
 from http import HTTPStatus
 from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect
@@ -69,6 +70,17 @@ def isLoggedIn():
     if "username" in session.keys():
         return True
     return False
+
+
+def authenticate(caller):
+    @functools.wraps(caller)
+    def wrapper(*args, **kwargs):
+        if isLoggedIn():
+            return caller(*args, **kwargs)
+        else:
+            return redirect("/login")
+
+    return wrapper
 
 
 # Context for the base template
@@ -255,6 +267,12 @@ def notice():
 def login():
     if isLoggedIn():
         return "User already logged in..."
+
+    if request.method == "POST":
+        print(request.form)
+        session['username'] = request.form.get('username')
+        return redirect("/dashboard")
+
     return render_template('login.html')
 
 
@@ -262,6 +280,12 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
+
+@app.route("/dashboard", methods=["GET", "POST"])
+@authenticate
+def dashboard():
+    return render_template("dashboard.html", username=session.get('username'), **getContextForBaseTemplate())
 
 
 @app.route("/sitemap.xml", methods=["GET"])
