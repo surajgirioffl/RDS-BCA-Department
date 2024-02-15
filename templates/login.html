@@ -64,7 +64,12 @@
             <div class="text-center">
                 <p>Having special access? <a href="javascript:void(0)">Login</a></p>
             </div>
-    
+            
+            {%if errorMessage%}
+            <div class="alert-danger p-1 fw-bolder alert" >
+                {{errorMessage | default("Invalid Credentials")}}
+            </div>
+            {%endif%}
         </form>
     </div>
 </div>
