@@ -39,6 +39,8 @@ from automation_scripts import my_random as myRandom
 import setTimeZone as tz
 from dotenv import load_dotenv
 from utilities import tools
+from admin import admin
+
 
 load_dotenv()  # loading environment variables from .env file
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
@@ -711,6 +713,9 @@ def contactUs2(sno):
     else:  # DELETE request
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteContact(sno) else "Failed to delete data"
 
+
+# Admin Panel
+admin.admin_panel(app)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
