@@ -117,11 +117,11 @@
           </li>
           {%if isLoggedIn%}
                 <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">dashboard</i>Dashboard</a>
+                <a class="nav-link active" href="{{url_for('dashboard')}}"><i class="material-icons icons d-inline-block align-text-top">dashboard</i>Dashboard</a>
                 </li>  
 
                 <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="material-icons icons d-inline-block align-text-top">logout</i>Logout</a>
+                <a class="nav-link active" href="{{url_for('logout')}}"><i class="material-icons icons d-inline-block align-text-top">logout</i>Logout</a>
                 </li>
           {%else%}
                 <li class="nav-item">
@@ -129,7 +129,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link active" href="{{url_for("register")}}"><i class="material-icons icons d-inline-block align-text-top">how_to_reg</i>Register</a>
+                  <a class="nav-link active" href="{{url_for('register')}}"><i class="material-icons icons d-inline-block align-text-top">how_to_reg</i>Register</a>
                 </li>
           {%endif%}
 
