@@ -7,3 +7,29 @@
     Description:
         Module to handle various authentication methods.
 """
+
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import create_engine
+from orm import admin_model as admin
+from app_scripts import crypt
+
+
+def check_login_credentials(username, password) -> bool:
+    """
+    Check the login credentials for a given username and password.
+
+    Args:
+        username: The username to be checked.
+        password: The password to be checked.
+
+    Returns:
+        bool: True if the credentials are valid, False otherwise.
+    """
+    engine = create_engine("sqlite:///admin.db")
+    session: Session = sessionmaker(engine)()
+
+    # session.query(admin.Admins.password).one()
+    if stored_passwords := session.query(admin.Admins.password).filter(admin.Admins.username == username).all():
+        password_hash = stored_passwords[0][0]
+        return crypt.checkPassword(password, password_hash)
+    return False
