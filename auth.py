@@ -35,7 +35,7 @@ def check_login_credentials(username, password) -> bool:
     return False
 
 
-def is_admin(username: str) -> bool:
+def is_admin(username: str) -> admin.Admins | None:
     """
     Check if the given username is an admin by querying the 'admin' database.
 
@@ -43,9 +43,9 @@ def is_admin(username: str) -> bool:
         username: The username to be checked.
 
     Returns:
-        bool: True if the username is an admin, False otherwise.
+        admin.Admins | None: The admin object if the username is an admin, None otherwise.
     """
     engine = create_engine("sqlite:///admin.db")
     session: Session = sessionmaker(engine)()
     # Implement OOPs later to avoid reparations of code.
-    return bool(session.query(admin.Admins).filter(admin.Admins.username == username).first())
+    return session.query(admin.Admins).filter(admin.Admins.username == username).first()
