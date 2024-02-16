@@ -10,7 +10,7 @@
 
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine
-from orm import admin_model as admin
+from models import admin_model as admin
 from app_scripts import crypt
 
 

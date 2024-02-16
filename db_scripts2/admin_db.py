@@ -8,7 +8,7 @@
         * Module to handle database operations related with the database 'admin'.
 """
 
-from orm.admin_model import Admins
+from models.admin_model import Admins
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine
 
