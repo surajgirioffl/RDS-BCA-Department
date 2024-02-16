@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 15th Feb 2024
+    @last-modified: 16th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -40,6 +40,8 @@ import setTimeZone as tz
 from dotenv import load_dotenv
 from utilities import tools
 from admin import admin
+import auth
+from db_scripts2 import admin_db
 
 
 load_dotenv()  # loading environment variables from .env file
@@ -272,8 +274,15 @@ def login():
 
     if request.method == "POST":
         print(request.form)
-        session['username'] = request.form.get('username')
-        return redirect("/dashboard")
+        username: str | None = request.form.get('username')
+        password: str | None = request.form.get("password")
+
+        if username and password:
+            if auth.check_login_credentials(username, password):
+                session['username'] = request.form.get('username')
+                return redirect("/dashboard")
+            else:
+                return render_template('login.html', errorMessage="Invalid Credentials")
 
     return render_template('login.html')
 
@@ -287,7 +296,8 @@ def logout():
 @app.route("/dashboard", methods=["GET", "POST"])
 @authenticate
 def dashboard():
-    return render_template("dashboard.html", username=session.get('username'), **getContextForBaseTemplate())
+    data_dict = admin_db.fetch_admin_details(session.get('username'))
+    return render_template("dashboard.html", **data_dict, **getContextForBaseTemplate())
 
 
 @app.route("/sitemap.xml", methods=["GET"])
