@@ -33,3 +33,19 @@ def check_login_credentials(username, password) -> bool:
         password_hash = stored_passwords[0][0]
         return crypt.checkPassword(password, password_hash)
     return False
+
+
+def is_admin(username: str) -> bool:
+    """
+    Check if the given username is an admin by querying the 'admin' database.
+
+    Args:
+        username: The username to be checked.
+
+    Returns:
+        bool: True if the username is an admin, False otherwise.
+    """
+    engine = create_engine("sqlite:///admin.db")
+    session: Session = sessionmaker(engine)()
+    # Implement OOPs later to avoid reparations of code.
+    return bool(session.query(admin.Admins).filter(admin.Admins.username == username).first())
