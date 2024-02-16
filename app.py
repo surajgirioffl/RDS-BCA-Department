@@ -71,7 +71,7 @@ funCall = 0
 
 
 def isLoggedIn():
-    if "username" in session.keys():
+    if "username" in session:
         return True
     return False
 
