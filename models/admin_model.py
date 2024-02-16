@@ -38,9 +38,9 @@ class Permissions(Base):
     id = mapped_column(Integer, primary_key=True, nullable=False, autoincrement=True)
     permission = mapped_column(String, unique=True, nullable=False)
     super_admin = mapped_column(Integer, nullable=True, default=1)
-    admin = mapped_column(Integer, nullable=True, default=Null)
-    moderator = mapped_column(Integer, nullable=True, default=Null)
-    user = mapped_column(Integer, nullable=True, default=Null)
+    admin = mapped_column(Integer, nullable=True, default=None)
+    moderator = mapped_column(Integer, nullable=True, default=None)
+    user = mapped_column(Integer, nullable=True, default=None)
 
 
 class ActionsLog(Base):
