@@ -8,7 +8,7 @@
         * Module to handle database operations related with the database 'admin'.
 """
 
-from models.admin_model import Admins
+from models import admin_model
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine
 
@@ -27,7 +27,7 @@ def fetch_admin_details(username) -> dict | bool:
     session: Session = sessionmaker(engine)()
 
     # session.query(admin.Admins.password).one()
-    if admin_obj := session.query(Admins).filter(Admins.username == username).first():
+    if admin_obj := session.query(admin_model.Admins).filter(admin_model.Admins.username == username).first():
         data = {}
         data["username"] = admin_obj.username
         data["email"] = admin_obj.email
