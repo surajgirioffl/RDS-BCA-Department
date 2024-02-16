@@ -280,6 +280,9 @@ def login():
         if username and password:
             if auth.check_login_credentials(username, password):
                 session['username'] = request.form.get('username')
+                if admin_obj := auth.is_admin(username):
+                    session['admin'] = True
+                    session['role'] = admin_obj.role
                 return redirect("/dashboard")
             else:
                 return render_template('login.html', errorMessage="Invalid Credentials")
@@ -297,7 +300,7 @@ def logout():
 @authenticate
 def dashboard():
     data_dict = admin_db.fetch_admin_details(session.get('username'))
-    return render_template("dashboard.html", **data_dict, **getContextForBaseTemplate())
+    return render_template("dashboard.html", **data_dict, isAdmin=session.get("admin"), **getContextForBaseTemplate())
 
 
 @app.route("/sitemap.xml", methods=["GET"])
