@@ -18,14 +18,14 @@ class MyIndexView(AdminIndexView):
 
     @expose("/")
     def index(self):
-        if "username" in session and auth.is_admin(session.get("username")):
-            # return self.render(self._template)
-            return self.render("admin/index.html")
-
         if "username" in session:
-            # If user is logged-in but not an admin.
-            flash("You are not allowed to access the admin panel.", "warning")
-            return redirect(url_for("message"))
+            if auth.is_admin(session.get("username")):
+                # return self.render(self._template)
+                return self.render("admin/index.html")
+            else:
+                # If user is logged-in but not an admin.
+                flash("You are not allowed to access the admin panel.", "warning")
+                return redirect(url_for("message"))
         else:
             flash("You are not logged-in. Please log-in to access admin panel.")
             return redirect(url_for("login"))
