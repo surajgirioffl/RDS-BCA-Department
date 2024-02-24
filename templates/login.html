@@ -9,6 +9,15 @@
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
     <p class="text-center fs-2 text fw-bolder">Login</p>
     <hr>
+
+    {% if get_flashed_messages() %}
+        <div class="alert-danger alert fw-bolder p-1">
+            {%for message in get_flashed_messages()%}
+                    <p class="p-0 m-0">{{message}}</p>
+            {%endfor%}
+        </div>
+    {%endif%}
+
     <div style="padding-left:10%; padding-right:10%;" class="form-parent-div">
         <p style="text-decoration:underline;"><strong>Fill The Following Fields</strong></p>
 
