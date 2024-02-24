@@ -139,4 +139,4 @@ secrets.json
 contributions/
 *.db
 dev/
-temp*
+temp
