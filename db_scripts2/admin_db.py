@@ -29,6 +29,7 @@ class AdminDatabase:
     def __del__(self) -> None:
         """This function is the destructor method for the class. It commits the current session."""
         self.session.commit()
+        self.session.close()
 
     def fetch_admin_details(self, username) -> dict | bool:
         """
