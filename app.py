@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 16th Feb 2024
+    @last-modified: 25th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -557,6 +557,11 @@ def contribute():
             dataDict), adminMails, html=render_template("mail-templates/contribution-email-to-admin.html", dataDict=dataDict))
 
         return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection", **getContextForBaseTemplate())
+
+
+@app.route("/message")
+def message():
+    return render_template("message.html")
 
 
 # API route to fetch different contribution forms for different purposes
