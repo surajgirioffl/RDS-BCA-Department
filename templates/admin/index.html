@@ -1,0 +1,33 @@
+<!-- custom_admin_base.html -->
+{% extends 'admin/master.html' %}
+
+{%block head%}
+<div class="text-center font-weight-bolder text-uppercase">
+    <h1>Admin Panel</h1>
+</div>  
+{%endblock%}
+
+{% block body %}
+<div class="alert alert-danger font-weight-bolder" role="alert">
+    <h4 class="alert-heading font-weight-bolder">Attention Admins!</h4>
+    <p>Please use your powers responsibly and ethically.</p>
+    <hr>
+    <p class="mb-0">Remember, with great power comes great responsibility.</p>
+</div>
+
+{% endblock %}
+
+{%block tail%}
+<div class="container">
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="{{url_for('home')}}" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="/admin" class="nav-link px-2 text-muted">Admin Panel</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+        </ul>
+        <p class="text-center text-muted">© 2024 Suraj Giri</p>
+    </footer>
+</div>
+{%endblock%}
