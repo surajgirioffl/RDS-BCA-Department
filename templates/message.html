@@ -4,7 +4,39 @@
 {% block body%}
 <!---Page Heading-->
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
+    {% if get_flashed_messages() %}
+        <img src="{{url_for('static', filename='svg/attention.svg')}}" width="30%">
+        <div>
+            {%for category, message in get_flashed_messages("kuch bhi")%}
+                {%if category == "error" %}
+                    <div class="alert alert-danger p-1">
+                        {{message}}
+                    </div>
 
+                {%elif category == "warning" %}
+                    <div class="alert alert-warning p-1">
+                        {{message}}
+                    </div>
+
+                {%elif category == "message" %}
+                    <div class="alert alert-info p-1">
+                        {{message}}
+                    </div>
+
+                {%else%}
+                    <div class="alert alert-primary p-1">
+                        {{message}}
+                    </div>
+                {%endif%}
+                
+            {%endfor%}
+        </div>
+    {%else%}
+        <img src="{{url_for('static', filename='svg/thank-you.svg')}}">
+        <div class="alert alert-primary m-auto p-1" style="width: 30%;">
+            No Message &#128512;
+        </div>
+    {%endif%}
 </div>
 
 {%endblock%}
