@@ -62,6 +62,17 @@ class AdminDatabase:
         """
         return self.session.query(admin_model.Admins).filter(admin_model.Admins.username == username).first()
 
+    def is_allowed_to_access_admin_panel(self, username: str):
+        """Check if the user is allowed to access the admin panel by querying the 'admin_manager' database.
+
+        Args:
+            username (str): The username of the user.
+
+        Returns:
+            bool: True if the user is allowed to access the admin panel, False otherwise.
+        """
+        return bool(self.session.query(admin_model.AdminManager.is_allowed).filter(admin_model.AdminManager.username == username).first())
+
     def fetch_admin_details(self, username) -> dict | bool:
         """
         Fetches the details of the admin with the given username from the admin database.
@@ -74,7 +85,7 @@ class AdminDatabase:
         """
 
         # session.query(admin.Admins.password).one()
-        if admin_obj := self.session.query(admin_model.Admins).filter(admin_model.Admins.username == username).first():
+        if admin_obj := self.is_admin(username):
             data = {}
             data["username"] = admin_obj.username
             data["email"] = admin_obj.email
@@ -94,7 +105,7 @@ class AdminDatabase:
         """
 
         if admin_details := self.fetch_admin_details(username):
-            if self.session.query(admin_model.AdminManager.is_allowed).filter(admin_model.AdminManager.username == username).first():
+            if self.is_allowed_to_access_admin_panel(username):
                 permissions = self.session.query(
                     admin_model.Permissions.permission, getattr(admin_model.Permissions, admin_details["role"])
                 ).all()
