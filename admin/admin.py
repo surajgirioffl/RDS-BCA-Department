@@ -10,6 +10,7 @@
 
 from flask import Flask
 from flask_admin import Admin
+from admin import views
 
 
 def admin_panel(app: Flask) -> None:
@@ -19,7 +20,7 @@ def admin_panel(app: Flask) -> None:
         app (Flask): Flask app.
     """
     app.config["FLASK_ADMIN_SWATCH"] = "cerulean"  # Setting bootswatch theme
-    admin = Admin(app, name="AdminPanel", template_mode="bootstrap4")
+    admin = Admin(app, name="AdminPanel", template_mode="bootstrap4", index_view=views.MyIndexView())
 
     # administrative views
     # ....
