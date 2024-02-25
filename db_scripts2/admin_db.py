@@ -11,6 +11,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from models import admin_model
+from app_scripts import crypt
 
 
 class AdminDatabase:
@@ -30,6 +31,36 @@ class AdminDatabase:
         """This function is the destructor method for the class. It commits the current session."""
         self.session.commit()
         self.session.close()
+
+    def check_login_credentials(self, username, password) -> bool:
+        """
+        Check the login credentials for a given username and password.
+
+        Args:
+            username: The username to be checked.
+            password: The password to be checked.
+
+        Returns:
+            bool: True if the credentials are valid, False otherwise.
+        """
+
+        # session.query(admin.Admins.password).one()
+        if stored_passwords := self.session.query(admin_model.Admins.password).filter(admin_model.Admins.username == username).all():
+            password_hash = stored_passwords[0][0]
+            return crypt.checkPassword(password, password_hash)
+        return False
+
+    def is_admin(self, username: str) -> admin_model.Admins | None:
+        """
+        Check if the given username is an admin by querying the 'admin' database.
+
+        Args:
+            username: The username to be checked.
+
+        Returns:
+            admin.Admins | None: The admin object if the username is an admin, None otherwise.
+        """
+        return self.session.query(admin_model.Admins).filter(admin_model.Admins.username == username).first()
 
     def fetch_admin_details(self, username) -> dict | bool:
         """
