@@ -83,7 +83,7 @@ def admin_panel(app: Flask) -> None:
 
     # administrative views
     for category, database_models_dict in category_models_mapping.items():
-        for database_name, model_list in database_models_dict:
+        for database_name, model_list in database_models_dict.items():
             # I have used two types of database (sqlite as well as mysql)
             if database_name in ["admin"]:
                 db_session = db_session_manager.get_sqlite_db_session(database_name)
