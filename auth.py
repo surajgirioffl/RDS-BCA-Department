@@ -44,7 +44,7 @@ def authenticate_admin(username: str | None = None) -> tuple[bool, str]:
         tuple[bool, str]: Tuple (True, "") if the admin is authenticated and passed 3 steps verification else a tuple (False, str) indicating authentication status(False) and respective message.
     """
     if username is None:
-        username = session.get("username")
+        username = session.get("username")  # returns None if session don't have key 'username'.
 
     admin_db_instance = admin_db.AdminDatabase()
 
@@ -57,7 +57,11 @@ def authenticate_admin(username: str | None = None) -> tuple[bool, str]:
             if admin_db_instance.is_allowed_to_access_admin_panel(username):
                 return True, ""  # Access Granted
             else:
-                False, "You are restricted to access the admin panel. Contact administrator"
+                # User is admin but not allowed to access admin panel.
+                return False, "restricted"  # You are restricted to access the admin panel. Contact administrator
         else:
-            False, "Access Denied. You are not an admin."
-    return False, "Please login to continue"
+            # User is logged-in but not an admin.
+            return False, "denied"  # Access Denied. You are not an admin.
+
+    # User is not logged-in.
+    return False, "anonymous"  # Please login to continue.
