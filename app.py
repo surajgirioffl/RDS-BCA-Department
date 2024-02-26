@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 25th Feb 2024
+    @last-modified: 26th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -23,7 +23,7 @@ import os
 import functools
 import logging
 from http import HTTPStatus
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect, flash
 import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
@@ -82,6 +82,7 @@ def authenticate(caller):
         if isLoggedIn():
             return caller(*args, **kwargs)
         else:
+            flash("Please Login First")
             return redirect("/login")
 
     return wrapper
@@ -278,9 +279,10 @@ def login():
         password: str | None = request.form.get("password")
 
         if username and password:
-            if auth.check_login_credentials(username, password):
-                session['username'] = request.form.get('username')
-                if admin_obj := auth.is_admin(username):
+            admin_db_instance = admin_db.AdminDatabase()
+            if admin_db_instance.check_login_credentials(username, password):
+                session['username'] = username
+                if admin_obj := admin_db_instance.is_admin(username):
                     session['admin'] = True
                     session['role'] = admin_obj.role
                 return redirect("/dashboard")
@@ -299,7 +301,8 @@ def logout():
 @app.route("/dashboard", methods=["GET", "POST"])
 @authenticate
 def dashboard():
-    data_dict = admin_db.fetch_admin_details(session.get('username'))
+    admin_db_instance = admin_db.AdminDatabase()
+    data_dict = admin_db_instance.fetch_admin_details(session.get('username'))
     return render_template("dashboard.html", **data_dict, isAdmin=session.get("admin"), **getContextForBaseTemplate())
 
 
