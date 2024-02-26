@@ -24,3 +24,20 @@ def get_sqlite_db_session(database: str) -> Session:
     """
     engine = create_engine(f"sqlite:///{database}.db")
     return sessionmaker(bind=engine)()
+
+
+def get_mysql_db_session(database: str) -> Session:
+    """Function to get a MySQL database session.
+
+    Args:
+        database (str): The name of the database.
+
+    Returns:
+        Session: A session connected to the specified database.
+    """
+    host = environ.get("DBHOST")
+    username = environ.get("DBUSERNAME")
+    password = environ.get("DBPASSWORD")
+    port = environ.get("DBPORT")
+    engine = create_engine(f"mysql://{username}:{password.replace('@', '%40')}@{host}/rdsbca${database}")
+    return sessionmaker(bind=engine)()
