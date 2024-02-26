@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 26th Feb 2024
+    @last-modified: 27th Feb 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -564,7 +564,7 @@ def contribute():
 
 @app.route("/message")
 def message():
-    return render_template("message.html")
+    return render_template("message.html", **getContextForBaseTemplate())
 
 
 # API route to fetch different contribution forms for different purposes
