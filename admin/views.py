@@ -2,14 +2,14 @@
     @file: admin/views.py
     @author: Suraj Kumar Giri (@surajgirioffl)
     @init-date: 25th Feb 2024
-    @last-modified: 25th Feb 2024
+    @last-modified: 26th Feb 2024
     
     Description:
         * Main module to handle views of admin panel.
 """
 
 from flask_admin import AdminIndexView, expose
-from flask import session, redirect, url_for, flash
+from flask import redirect, url_for, flash
 import auth
 
 
@@ -18,14 +18,29 @@ class MyIndexView(AdminIndexView):
 
     @expose("/")
     def index(self):
-        if "username" in session:
-            if auth.is_admin(session.get("username")):
-                # return self.render(self._template)
-                return self.render("admin/index.html")
-            else:
-                # If user is logged-in but not an admin.
-                flash("You are not allowed to access the admin panel.", "warning")
-                return redirect(url_for("message"))
-        else:
-            flash("You are not logged-in. Please log-in to access admin panel.")
+        # Authenticating the user.
+        is_allowed_to_access, message = auth.authenticate_admin()
+
+        if is_allowed_to_access:
+            # Access granted and allowed to access the admin panel.
+            # return self.render(self._template)
+            return self.render("admin/index.html")
+
+        # Access denied.
+        if message == "restricted":
+            # User is admin but not allowed to access admin panel.
+            flash("Access Denied. You are not allowed to access the admin panel.", "warning")
+            flash("Hi Admin, You are restricted to access the admin panel. Please contact administrator.", "warning")
+            return redirect(url_for("message"))
+        elif message == "denied":
+            # User is logged-in but not an admin.
+            flash("Access Denied. You are not allowed to access the admin panel.", "warning")
+            return redirect(url_for("message"))
+        elif message == "anonymous":
+            # User is not logged-in.
+            flash("You are not logged-in. Please log-in to access the admin panel.")
             return redirect(url_for("login"))
+        else:
+            # Something else.
+            flash("Access Denied.", "warning")
+            return redirect(url_for("message"))
