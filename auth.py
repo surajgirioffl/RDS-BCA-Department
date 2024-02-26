@@ -29,7 +29,7 @@ def is_admin_logged_in() -> bool:
 
 
 def authenticate_admin(username: str | None = None) -> tuple[bool, str]:
-    """A function to authenticate an admin user, with an optional username parameter. 
+    """A function to authenticate an admin user, with an optional username parameter.
 
     Function to authenticate user with 3 steps verification.
         1. Checking if user logged-in via session. (Session must be accessible. So, This function must be called within the request context.)
@@ -41,7 +41,7 @@ def authenticate_admin(username: str | None = None) -> tuple[bool, str]:
         username (str | None, optional): The username of the admin. Defaults to None. If None then it will be taken from session.
 
     Returns:
-        tuple[bool, str]: Tuple (True, "") if the admin is authenticated and passed 3 steps verification else a tuple (False, str) indicating authentication status(False) and respective message. 
+        tuple[bool, str]: Tuple (True, "") if the admin is authenticated and passed 3 steps verification else a tuple (False, str) indicating authentication status(False) and respective message.
     """
     if username is None:
         username = session.get("username")
