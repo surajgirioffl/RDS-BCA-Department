@@ -14,7 +14,7 @@ from models import utilities_model
 
 
 class UtilitiesDB:
-    def __init__(self, engine_url="sqlite:///admin.db") -> None:
+    def __init__(self, engine_url="sqlite:///utilities.db") -> None:
         """Constructor for the class initializing the engine URL and session.
 
         Parameters:
