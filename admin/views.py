@@ -104,3 +104,31 @@ class __MyBaseModelView(ModelView):
                 continue  # May be in current module, current attribute doesn't exit.
 
         return form_column_list
+
+
+class RoleDependentModelView(__MyBaseModelView):
+    """
+    It will automatic fetch the user role and set the permission as per role to the model view.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        # self.column_display_pk = True # not working
+        self.permission_added = False
+
+    def set_attributes(self):
+        if self.permission_added:
+            return
+        granted_permissions: dict = admin_db.AdminDatabase().fetch_granted_permissions(session.get("username"))
+        for permission, is_allowed in granted_permissions.items():
+            setattr(self, permission, is_allowed)
+        self.permission_added = True
+
+    def is_accessible(self) -> bool:
+        is_allowed_to_access, message = auth.authenticate_admin()
+
+        if is_allowed_to_access:
+            self.set_attributes()  # Performing an extra operation
+            return True
+
+        self.inaccessible_message = message
