@@ -2,15 +2,17 @@
     @file: admin/views.py
     @author: Suraj Kumar Giri (@surajgirioffl)
     @init-date: 25th Feb 2024
-    @last-modified: 26th Feb 2024
+    @last-modified: 27th Feb 2024
     
     Description:
         * Main module to handle views of admin panel.
 """
 
 from flask_admin import AdminIndexView, expose
-from flask import redirect, url_for, flash
+from flask_admin.contrib.sqla import ModelView
+from flask import redirect, url_for, flash, url_for, session
 import auth
+from db_scripts2 import admin_db
 
 
 def get_message_specific_response(message: str):
@@ -56,3 +58,49 @@ class MyIndexView(AdminIndexView):
 
         # Access denied.
         return get_message_specific_response(message)
+
+
+class __MyBaseModelView(ModelView):
+    """Base model view class.
+
+    Base model view class providing functionalities of model specific column to display (pk & fk too) and form column to create (except autoincrement columns).
+    It also check if user has access to admin panel and provide appropriate response if not.
+    """
+
+    can_view_details = True
+    column_display_pk = True
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.model = args[0]
+
+    def is_accessible(self) -> bool:
+        is_allowed_to_access, message = auth.authenticate_admin()
+
+        if is_allowed_to_access:
+            return True
+
+        self.inaccessible_message = message
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        # return redirect(url_for("login", next=request.url))
+        return get_message_specific_response(self.inaccessible_message)
+
+    @property
+    def column_list(self):
+        column_list = [column.name for column in self.model.__table__.columns]
+        return column_list
+
+    @property
+    def form_columns(self):
+        form_column_list = self.column_list
+        form_columns_to_exclude = ["sno", "id"]  # Like auto-increment, default-valued etc
+
+        for column in form_columns_to_exclude:
+            try:
+                form_column_list.remove(column)
+            except Exception as e:
+                continue  # May be in current module, current attribute doesn't exit.
+
+        return form_column_list
