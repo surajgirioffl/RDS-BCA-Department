@@ -113,16 +113,11 @@ class RoleDependentModelView(__MyBaseModelView):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        # self.column_display_pk = True # not working
-        self.permission_added = False
 
     def set_attributes(self):
-        if self.permission_added:
-            return
         granted_permissions: dict = admin_db.AdminDatabase().fetch_granted_permissions(session.get("username"))
         for permission, is_allowed in granted_permissions.items():
             setattr(self, permission, is_allowed)
-        self.permission_added = True
 
     def is_accessible(self) -> bool:
         is_allowed_to_access, message = auth.authenticate_admin()
