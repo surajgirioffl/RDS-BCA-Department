@@ -142,3 +142,32 @@ class ReadOnlyModelView(__MyBaseModelView):
     can_create = False
     can_edit = False
     can_delete = False
+
+
+class ModeratorModelView(ModelView): ...
+
+
+class AdminModelView(ModelView): ...
+
+
+class SuperAdminModelView(__MyBaseModelView):
+    """
+    Model view created using this ModeViewClass will accessible to super admin only.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    def is_accessible(self) -> bool:
+        is_allowed_to_access, message = auth.authenticate_admin()
+
+        if is_allowed_to_access:
+            # Means user is an admin and allowed to access admin panel.
+            # Let us check if he is super admin.
+            admin_data_dict = admin_db.AdminDatabase().fetch_admin_details(session.get("username"))
+            if admin_data_dict.get("role") == "super_admin":
+                return True
+            message = "Access Denied. You are not allowed to access super admin dashboard."
+
+        self.inaccessible_message = message
+        return False
