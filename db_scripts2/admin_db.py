@@ -71,7 +71,10 @@ class AdminDatabase:
         Returns:
             bool: True if the user is allowed to access the admin panel, False otherwise.
         """
-        return bool(self.session.query(admin_model.AdminManager.is_allowed).filter(admin_model.AdminManager.username == username).first())
+        is_allowed: tuple[int | None] | None = (
+            self.session.query(admin_model.AdminManager.is_allowed).filter(admin_model.AdminManager.username == username).first()
+        )
+        return bool(is_allowed[0]) if is_allowed else bool(is_allowed)
 
     def fetch_admin_details(self, username) -> dict | bool:
         """
