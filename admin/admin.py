@@ -2,7 +2,7 @@
     @file: admin/admin.py
     @author: Suraj Kumar Giri (@surajgirioffl)
     @init-date: 11th Feb 2024
-    @last-modified: 25th Feb 2024
+    @last-modified: 27th Feb 2024
     
     Description:
         * Main module to handle admin panel.
@@ -91,4 +91,20 @@ def admin_panel(app: Flask) -> None:
                 db_session = db_session_manager.get_mysql_db_session(database_name)
 
             for model in model_list:
-                admin.add_view(category_view_class_mapping[category](model, db_session, category=database_name))
+                try:
+                    admin.add_view(category_view_class_mapping[category](model, db_session, category=database_name))
+                except ValueError:
+                    # If two models have same name irrespective of different databases.
+                    # flask-admin add route as '/admin/<model_name>'. Routes path are not linked with database.
+                    # So, In two or more databases, if model names are same then it will create same route for them which leads to this exception.
+
+                    # Adding our custom name and endpoint in case of such exception.
+                    admin.add_view(
+                        category_view_class_mapping[category](
+                            model,
+                            db_session,
+                            category=database_name,
+                            name=f"{database_name+model.__tablename__}",
+                            endpoint=f"/admin/{database_name}/{model.__tablename__}",
+                        )
+                    )
