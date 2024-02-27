@@ -132,3 +132,13 @@ class RoleDependentModelView(__MyBaseModelView):
             return True
 
         self.inaccessible_message = message
+
+
+class ReadOnlyModelView(__MyBaseModelView):
+    """
+    It will set the model read only irrespective of the user's role.
+    """
+
+    can_create = False
+    can_edit = False
+    can_delete = False
