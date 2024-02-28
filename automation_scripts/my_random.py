@@ -2,7 +2,7 @@
     @file: my_random.py
     @author: Suraj Kumar Giri
     @init-date: 25th Jan 2023
-    @last-modified: 15th April 2023
+    @last-modified: 28th Feb 2024
 
     @description:
         * Module to generate random numbers of desired digits.
@@ -17,6 +17,7 @@
 """
 import random
 import mysql.connector as mysql
+from mysql.connector.cursor import MySQLCursor
 from os import environ
 from typing import Type
 from string import digits
@@ -24,13 +25,13 @@ from time import time
 from math import ceil
 
 
-def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, columnName: str) -> bool | None:
+def isExists(cursor: MySQLCursor, number: int, tableName: str, columnName: str) -> bool | None:
     """
     Description:
         - Function to check if number already exists in the database or not.
 
     Args:
-        * cursor (mysql.connect().cursor):
+        * cursor (MySQLCursor):
             - Cursor object returned by mysql.connect() after establishing connection with the database.
         * number (int):
             - Number to be checked.
@@ -72,14 +73,14 @@ class Random:
                 - Method to generate random number.
     """
 
-    def __init__(self, cursor: Type[mysql.connect().cursor] = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> None:
+    def __init__(self, cursor: MySQLCursor = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> None:
         """
             Description:
                 - Class to generate random numbers of desired digits based on specified parameters.
                 - Constructor to initialize the class.
 
             Args:
-                * cursor (Type[mysql.connect, optional):
+                * cursor (MySQLCursor, optional):
                     - Defaults to ...(ellipsis) which means cursor object is not provided.
                 * tableName (str, optional):
                     - Defaults to ...(ellipsis) which means table name is not provided.
