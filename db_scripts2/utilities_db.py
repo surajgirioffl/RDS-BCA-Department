@@ -8,6 +8,7 @@
         * Module to handle database operations related with the database 'utilities'.
 """
 
+from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from models import utilities_model
@@ -30,3 +31,15 @@ class UtilitiesDB:
         """This function is the destructor method for the class. It commits the current session."""
         self.session.commit()
         self.session.close()
+
+    def insert(self, model_instance) -> None:
+        """Inserts a model instance (row) into the session and commits the changes.
+
+        Args:
+            model_instance: The model instance to be inserted.
+
+        Returns:
+            None
+        """
+        self.session.add(model_instance)
+        self.session.commit()
