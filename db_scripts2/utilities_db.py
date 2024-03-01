@@ -43,3 +43,17 @@ class UtilitiesDB:
         """
         self.session.add(model_instance)
         self.session.commit()
+
+    def remove_all_expired_OTPs(self):
+        """Removes all expired OTPs from the database.
+
+        Remove all expired OTPs from the 'otp' table and move them into the 'otp_log' table with 'expired' status.
+        """
+        expired_otp_instances = self.session.query(utilities_model.Otp).filter(utilities_model.Otp.expiration_time < datetime.now()).all()
+        for otp_instance in expired_otp_instances:
+            otp_log_instance = utilities_model.OtpLog(
+                username=otp_instance.username, otp=otp_instance.otp, status="expired", creation_time=otp_instance.creation_time
+            )
+            self.insert(otp_log_instance)
+            self.session.delete(otp_instance)
+            self.session.commit()
