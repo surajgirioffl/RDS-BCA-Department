@@ -117,6 +117,7 @@ class Random:
         """
             Description:
                 - Method to generate random number using mysql RAND() function and other functions of mysql.
+                - Database connection must be established before calling this method.
 
             Raises:
                 * Exception:
