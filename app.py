@@ -15,7 +15,7 @@
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.7"
+__version__ = "3.0.0"
 
 from datetime import datetime
 from platform import system
