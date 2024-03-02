@@ -95,8 +95,8 @@ class Random:
                     - You can pass key 'method' to specify the method to generate random number.
                     - Pass any other key-value if required. If key is not provided, default value will be used.
                     - methods:
-                        - ['mysql', 'pyInt', 'pyStr', 'epoch']
-                        - You can pass any of the above four methods to generate random number. Default is 'pyInt'.
+                        - ['mysql', 'pyInt', 'pyStr', 'epoch', 'pySys', 'pySecrets']
+                        - You can pass any of the above six methods to generate random number. Default is 'pyInt'.
                         - And if any error occurs in other method then automatically 'pyInt' will be use to generate random number irrespective which method was passed.
 
             Returns:
@@ -307,7 +307,7 @@ class Random:
                 * int:
                     - Returns random number.
         """
-        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr', 'epoch']:
+        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr', 'epoch', 'pySys', 'pySecrets']:
             category = 'pyInt'  # default method to generate random number
         else:
             category = self.kwargs.get('method')
@@ -319,6 +319,10 @@ class Random:
             method = self.__pyStrRandom
         elif category == 'epoch':
             method = self.__epochTimeRandom
+        elif category == 'pySys':
+            method = self.__pySysRandom
+        elif category == 'pySecrets':
+            method = self.__pySecretsRandom
         else:
             method = self.__pyIntRandom
 
