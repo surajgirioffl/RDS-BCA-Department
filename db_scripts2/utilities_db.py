@@ -97,3 +97,21 @@ class UtilitiesDB:
             self.session.commit()
 
         return True
+
+    def insert_new_otp(self, username: str, otp: str, expires_after: int = 3) -> None:
+        """Insert a new OTP for a given username with the specified expiration time.
+
+        Args:
+            username (str): The username for which the OTP is being inserted.
+            otp (str): The OTP to be inserted.
+            expires_after (int, optional): The duration in minutes after which the OTP expires. Defaults to 3.
+
+        Returns:
+            None
+        """
+        if isinstance(otp, int):
+            otp = str(otp)
+        otp_instance = utilities_model.Otp(
+            username=username, otp=otp, creation_time=datetime.now(), expiration_time=datetime.now() + timedelta(minutes=expires_after)
+        )
+        self.insert(otp_instance)
