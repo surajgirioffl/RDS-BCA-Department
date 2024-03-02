@@ -2,7 +2,7 @@
     @file: my_random.py
     @author: Suraj Kumar Giri
     @init-date: 25th Jan 2023
-    @last-modified: 15th April 2023
+    @last-modified: 2nd March 2024
 
     @description:
         * Module to generate random numbers of desired digits.
@@ -16,7 +16,9 @@
             - Function to check if number already exists in the database or not. 
 """
 import random
+import secrets
 import mysql.connector as mysql
+from mysql.connector.cursor import MySQLCursor
 from os import environ
 from typing import Type
 from string import digits
@@ -24,13 +26,13 @@ from time import time
 from math import ceil
 
 
-def isExists(cursor: mysql.connect().cursor, number: int, tableName: str, columnName: str) -> bool | None:
+def isExists(cursor: MySQLCursor, number: int, tableName: str, columnName: str) -> bool | None:
     """
     Description:
         - Function to check if number already exists in the database or not.
 
     Args:
-        * cursor (mysql.connect().cursor):
+        * cursor (MySQLCursor):
             - Cursor object returned by mysql.connect() after establishing connection with the database.
         * number (int):
             - Number to be checked.
@@ -72,14 +74,14 @@ class Random:
                 - Method to generate random number.
     """
 
-    def __init__(self, cursor: Type[mysql.connect().cursor] = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> None:
+    def __init__(self, cursor: MySQLCursor = ..., tableName: str = ..., columnName: str = ..., digits: int = 8, **kwargs) -> None:
         """
             Description:
                 - Class to generate random numbers of desired digits based on specified parameters.
                 - Constructor to initialize the class.
 
             Args:
-                * cursor (Type[mysql.connect, optional):
+                * cursor (MySQLCursor, optional):
                     - Defaults to ...(ellipsis) which means cursor object is not provided.
                 * tableName (str, optional):
                     - Defaults to ...(ellipsis) which means table name is not provided.
@@ -93,8 +95,8 @@ class Random:
                     - You can pass key 'method' to specify the method to generate random number.
                     - Pass any other key-value if required. If key is not provided, default value will be used.
                     - methods:
-                        - ['mysql', 'pyInt', 'pyStr', 'epoch']
-                        - You can pass any of the above four methods to generate random number. Default is 'pyInt'.
+                        - ['mysql', 'pyInt', 'pyStr', 'epoch', 'pySys', 'pySecrets']
+                        - You can pass any of the above six methods to generate random number. Default is 'pyInt'.
                         - And if any error occurs in other method then automatically 'pyInt' will be use to generate random number irrespective which method was passed.
 
             Returns:
@@ -115,6 +117,7 @@ class Random:
         """
             Description:
                 - Method to generate random number using mysql RAND() function and other functions of mysql.
+                - Database connection must be established before calling this method.
 
             Raises:
                 * Exception:
@@ -256,6 +259,34 @@ class Random:
         # There is no possibility of underflow in number of digits.
         # That's why I have not used any logic to handle underflow in number of digits in the function __reduceDigits().
 
+    def __pySysRandom(self) -> int:
+        """Generate random number based on true random source provided by the OS (OTP Special).
+
+        Unlike random.randint(), which generates random numbers based on a pseudo-random algorithm, random.SystemRandom() generates random numbers based on a true random source provided by the operating system. 
+        This makes it more secure and less predictable than random.randint().
+        That's why for OTP generation, random.SystemRandom() has been used.
+
+        Returns:
+            int: Returns generated OTP (random number).
+        """
+        sysRandom: random.SystemRandom = random.SystemRandom()
+        return sysRandom.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
+
+    def __pySecretsRandom(self) -> str | None:
+        """Generate a random number with the number of digits specified by 'numberOfDigits' and return it as a string filled with leading zeros if necessary (OTP Special).
+
+        This method uses the secrets module provided by the Python standard library to generate random numbers.
+        secrets module docstring: Generate cryptographically strong pseudo-random numbers suitable for managing secrets such as account authentication, tokens, and similar.
+
+        Returns:
+            str | None: Returns generated OTP (random number).
+        """
+        if self.numberOfDigits < 0:
+            return None
+
+        random_number: int = secrets.randbelow(10**self.numberOfDigits-1)
+        return str(random_number).zfill(self.numberOfDigits)
+
     def generate(self, checkInDatabase: bool = True) -> int:
         """
             Description:
@@ -277,7 +308,7 @@ class Random:
                 * int:
                     - Returns random number.
         """
-        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr', 'epoch']:
+        if self.kwargs.get('method') not in ['mysql', 'pyInt', 'pyStr', 'epoch', 'pySys', 'pySecrets']:
             category = 'pyInt'  # default method to generate random number
         else:
             category = self.kwargs.get('method')
@@ -289,6 +320,10 @@ class Random:
             method = self.__pyStrRandom
         elif category == 'epoch':
             method = self.__epochTimeRandom
+        elif category == 'pySys':
+            method = self.__pySysRandom
+        elif category == 'pySecrets':
+            method = self.__pySecretsRandom
         else:
             method = self.__pyIntRandom
 
@@ -314,31 +349,13 @@ class Random:
                 number = self.__pyIntRandom()
             return number
 
-    @staticmethod
-    def generateOtp(numberOfDigits: int = 6) -> int:
-        """
-            Description:
-                * Generate OTP based on true random source provided by the OS.
-                * May be used to generate random number other than OTP.
-            Args:
-                * numberOfDigits (int, optional): 
-                    - Specify the number of digits to generate for the OTP.
-                    - Defaults to 6 digits.
-
-            Returns:
-                * int:
-                    - Returns generated OTP.
-
-            More:
-                * Unlike random.randint(), which generates random numbers based on a pseudo-random algorithm, random.SystemRandom() generates random numbers based on a true random source provided by the operating system. 
-                * This makes it more secure and less predictable than random.randint().
-                * That's why for OTP generation, random.SystemRandom() has been used.
-        """
-        sysRandom: random.SystemRandom = random.SystemRandom()
-        return sysRandom.randint(10**(numberOfDigits-1), 10**(numberOfDigits)-1)
-
 
 if __name__ == "__main__":
+
+    # x = Random(digits=6)._Random__pySecretsRandom()
+    # x = Random(digits=6)._Random__pySysRandom()
+    # print(x)
+
     # testing the functionality of the class Random
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
         'DBPORT')) if environ.get('DBPORT') is not None else 3306, password=environ.get('DBPASSWORD'), database="temp",)

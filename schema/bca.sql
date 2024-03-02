@@ -3,7 +3,7 @@
  * Schema for database `bca` or `rdsbca$bca`
  * Created by: Suraj Kumar Giri
  * Created on: 7th Jan 2023
- * Last Updated on: 10th Jan 2023
+ * Last Updated on: 11th Feb 2023
  */
 ----
 -- 1. Table `students`
@@ -15,21 +15,7 @@ CREATE TABLE IF NOT EXISTS students(
 );
 
 ----
--- 2. Table `teachers`
-----
-CREATE TABLE IF NOT EXISTS teachers(
-    `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,
-    `TeacherId` MEDIUMINT UNSIGNED PRIMARY KEY NOT NULL,
-    `Name` VARCHAR(50) NOT NULL,
-    `Qualifications` VARCHAR(100) DEFAULT NULL,
-    `Subjects` VARCHAR(300) NOT NULL,
-    `PhoneNo` VARCHAR(15) UNIQUE,
-    `Email` VARCHAR(100) UNIQUE,
-    `SocialLink` VARCHAR(100) UNIQUE
-);
-
-----
--- 3. Table `subjects `
+-- 2. Table `subjects `
 ----
 CREATE TABLE IF NOT EXISTS `subjects`(
     `SNo` SMALLINT UNSIGNED NOT NULL UNIQUE AUTO_INCREMENT,

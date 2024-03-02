@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
+        "backrefs",
+        "bootswatch",
+        "Brabu",
         "DBHOST",
         "DBPASSWORD",
         "DBPORT",
@@ -7,11 +10,17 @@
         "dotenv",
         "Kolkata",
         "levelname",
+        "microblog",
         "middlename",
+        "Mishra",
         "Muzaffarpur",
         "pytz",
         "rdsbca",
-        "surajgirioffl"
+        "sessionmaker",
+        "sqla",
+        "sqlalchemy",
+        "surajgirioffl",
+        "Vaishali"
     ],
     /*source: https://stackoverflow.com/questions/49026995/vscode-specific-word-color*/
     "todohighlight.keywords": [

@@ -137,3 +137,6 @@ database/
 gallery/
 secrets.json
 contributions/
+*.db
+dev/
+temp

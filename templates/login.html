@@ -9,6 +9,15 @@
 <div class="main wrapper clearfix data" style="padding-top:0%;margin-top:0%;color:bold black;">
     <p class="text-center fs-2 text fw-bolder">Login</p>
     <hr>
+
+    {% if get_flashed_messages() %}
+        <div class="alert-danger alert fw-bolder p-1">
+            {%for message in get_flashed_messages()%}
+                    <p class="p-0 m-0">{{message}}</p>
+            {%endfor%}
+        </div>
+    {%endif%}
+
     <div style="padding-left:10%; padding-right:10%;" class="form-parent-div">
         <p style="text-decoration:underline;"><strong>Fill The Following Fields</strong></p>
 
@@ -19,7 +28,7 @@
             <div class="input-group mb-4">
                 <span class="input-group-text"><i class="material-icons icons registrationIcons">person</i></span>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingInputGroup6" placeholder="Username" name="userName" required>
+                    <input type="text" class="form-control" id="floatingInputGroup6" placeholder="Username" name="username" value="{{username | default('')}}" required>
                 <label for="floatingInput" class="mandatory">Username</label>
                 </div>
                 <div class="invalid-feedback" id="UserName">
@@ -31,20 +40,34 @@
             <div class="input-group mb-4">
                 <span class="input-group-text"><i class="material-icons icons registrationIcons">lock_outline</i></span>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" value="{{password | default('')}}" required>
                 <label for="floatingPassword" class="mandatory">Password</label>
                 </div>
                 <div class="invalid-feedback" id="password">
                 <!--content to display incase of invalid input-->
                 </div>
-            </div>  
+            </div>
+            
+            {%if display_otp_element%}
+                <!--password-->
+                <div class="input-group mb-4">
+                    <span class="input-group-text"><i class="material-icons icons registrationIcons">pin</i></span>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingOtp" placeholder="Write OTP" name="otp" required>
+                    <label for="floatingPassword" class="mandatory">OTP</label>
+                    </div>
+                    <div class="invalid-feedback" id="otp">
+                    <!--content to display incase of invalid input-->
+                    </div>
+                </div>
+            {%endif%}
 
             <!-- 2 column grid layout for inline styling -->
             <div class="row mb-4">
                 <div class="col d-flex justify-content-center">
                 <!-- Checkbox -->
                 <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                        <input class="form-check-input" type="checkbox" id="form2Example31" name='remember_me' checked />
                         <label class="form-check-label" for="form2Example31"> Remember me </label>
                     </div>
                 </div>
@@ -64,7 +87,12 @@
             <div class="text-center">
                 <p>Having special access? <a href="javascript:void(0)">Login</a></p>
             </div>
-    
+            
+            {%if errorMessage%}
+            <div class="alert-danger p-1 fw-bolder alert" >
+                {{errorMessage | default("Invalid Credentials")}}
+            </div>
+            {%endif%}
         </form>
     </div>
 </div>

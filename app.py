@@ -8,21 +8,22 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 18th Jan 2024
+    @last-modified: 02 March 2024
 
     @description:
         * Module to run the web app and handle all the routes.
 """
 __author__ = "Suraj Kumar Giri"
 __email__ = 'surajgirioffl@gmail.com'
-__version__ = "2.1.7"
+__version__ = "3.0.0"
 
 from datetime import datetime
 from platform import system
 import os
+import functools
 import logging
 from http import HTTPStatus
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect, flash
 import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
@@ -38,6 +39,10 @@ from automation_scripts import my_random as myRandom
 import setTimeZone as tz
 from dotenv import load_dotenv
 from utilities import tools
+from admin import admin
+import auth
+from db_scripts2 import admin_db, utilities_db
+
 
 load_dotenv()  # loading environment variables from .env file
 tz.setTimeZone()  # Set timezone to Asia/Kolkata for the web app
@@ -60,9 +65,34 @@ mailCredentials: dict = {
 }
 
 app = Flask(__name__)
-
+app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 funCall = 0
+
+
+def isLoggedIn():
+    if "username" in session:
+        return True
+    return False
+
+
+def authenticate(caller):
+    @functools.wraps(caller)
+    def wrapper(*args, **kwargs):
+        if isLoggedIn():
+            return caller(*args, **kwargs)
+        else:
+            flash("Please Login First")
+            return redirect("/login")
+
+    return wrapper
+
+
+# Context for the base template
+def getContextForBaseTemplate():
+    return {
+        "isLoggedIn": isLoggedIn()
+    }
 
 
 @app.route("/home", methods=["GET", "POST"])
@@ -86,14 +116,14 @@ def home():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-        return render_template('index.html', isNoticeAvailable=True, notice=notice)
-    return render_template('index.html')
+        return render_template('index.html', isNoticeAvailable=True, notice=notice, **getContextForBaseTemplate())
+    return render_template('index.html', **getContextForBaseTemplate())
 
 
 @app.route('/result', methods=['GET'])
 def result():
     logging.info("Result page is called...")
-    return render_template('result.html')
+    return render_template('result.html', **getContextForBaseTemplate())
 
 
 # api route to display result
@@ -139,7 +169,7 @@ def displayResult():
             if databaseResponse is None:
                 # if no result found for given credentials due to any reason (either logically invalid credentials or result not yet uploaded/declared/available)
                 return invalidRequest(errorMessage="No Result Found For Given Credentials", status=HTTPStatus.NOT_FOUND)
-            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True, subjectsWiseMarks=result.fetchSubjectsWiseMarks(examRoll=databaseResponse.get('ExamRoll'), databaseCredentials=databaseCredentials))
+            return render_template('display-result.html', result=databaseResponse, isSubmitClicked=True, subjectsWiseMarks=result.fetchSubjectsWiseMarks(examRoll=databaseResponse.get('ExamRoll'), databaseCredentials=databaseCredentials), **getContextForBaseTemplate())
         else:
             # if user has changed the name using dev tools or changes using interception
             print("Invalid data passed...")
@@ -153,20 +183,20 @@ def credits():
     # fetching credits data from the database
     credits = dynamicContents.DynamicContents(**databaseCredentials).credits()
     if credits is not None:  # if credits data are available
-        return render_template('credits.html', isCreditsAvailable=True, credits=credits)
-    return render_template('credits.html', isCreditsAvailable=False)
+        return render_template('credits.html', isCreditsAvailable=True, credits=credits, **getContextForBaseTemplate())
+    return render_template('credits.html', isCreditsAvailable=False, **getContextForBaseTemplate())
 
 
 @app.route("/gallery")
 def gallery():
     logging.info("Gallery page is called...")
-    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0])
+    return render_template('gallery.html', oddNumbers=[odd for odd in range(1, 12) if odd % 2 != 0], **getContextForBaseTemplate())
 
 
 @app.route("/previousYearQuestions", methods=["GET"])
 def previousYearQuestions():
     logging.info("Previous Year Questions page is called...")
-    return render_template('previousYearQuestions.html')
+    return render_template('previousYearQuestions.html', **getContextForBaseTemplate())
 
 
 # api route to fetch previous year questions
@@ -205,7 +235,7 @@ def fetchPreviousYearQuestions():
             pyqObj = pyqDb.PreviousYearQuestions(**databaseCredentials)
             databaseResponse: tuple = pyqObj.getLinks(
                 source=source, semester=semester)
-            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester)
+            return render_template('api/previous-year-questions.html', isSubmitClicked=True, databaseResponse=databaseResponse, semester=semester, **getContextForBaseTemplate())
         else:
             print("Invalid data passed...")
             return invalidRequest()
@@ -214,7 +244,7 @@ def fetchPreviousYearQuestions():
 @ app.route("/register", methods=["GET", "POST"])
 def register():
     logging.info("Register page is called...")
-    return render_template('register.html')
+    return render_template('register.html', **getContextForBaseTemplate())
 
 
 @app.route("/notice")
@@ -233,14 +263,79 @@ def notice():
         # MySQL connector convert MySQL DATETIME to object of datetime.datetime class.
         # we will convert to datetime.datetime object to readable format.
         notice[13] = myTime.readableDateTime(notice[13])
-        return render_template('notice.html', isNoticeAvailable=True, notice=notice)
+        return render_template('notice.html', isNoticeAvailable=True, notice=notice, **getContextForBaseTemplate())
     else:
-        return render_template('notice.html', isNoticeAvailable=False)
+        return render_template('notice.html', isNoticeAvailable=False, **getContextForBaseTemplate())
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if isLoggedIn():
+        return "User already logged in..."
+
+    if request.method == "POST":
+        print(request.form)
+        username: str | None = request.form.get('username')
+        password: str | None = request.form.get("password")
+        otp: str | None = request.form.get('otp')
+
+        if username and password:
+            admin_db_instance = admin_db.AdminDatabase()
+            if admin_db_instance.check_login_credentials(username, password):
+                if not otp:
+                    # Fetching user email
+                    user_email = admin_db_instance.fetch_admin_details(
+                        username).get('email')
+
+                    # Generating OTP.
+                    generated_otp = myRandom.Random(
+                        digits=6, method='pySecrets').generate(False)
+
+                    # Saving OTP into the database
+                    utilities_db_instance = utilities_db.UtilitiesDB()
+                    utilities_db_instance.insert_new_otp(
+                        username, generated_otp)
+
+                    # Sending OTP to the registered email.
+                    mail.Mail.configureApp(
+                        app, **mailCredentials, MAIL_USE_SSL=True)
+                    myMail = mail.Mail(app)
+                    myMail.sendMessage("OTP For Login To RDS BCA", html=render_template(
+                        "mail-templates/otp.html", otp=generated_otp, validityTime=3), recipients=[user_email], message='')
+
+                    flash(
+                        "An OTP has been sent to your registered email. Write OTP to continue. (Valid for 3 minutes)")
+                    return render_template('login.html', username=username, password=password, display_otp_element=True)
+
+                # Now we have OTP and we need to validate the OTP.
+                utilities_db_instance = utilities_db.UtilitiesDB()
+                if utilities_db_instance.is_valid_otp(otp, username):
+                    session['username'] = username
+                    if admin_obj := admin_db_instance.is_admin(username):
+                        session['admin'] = True
+                        session['role'] = admin_obj.role
+                    return redirect("/dashboard")
+                else:
+                    flash("Invalid OTP. Please try again.")
+                    return render_template('login.html', username=username, password=password, display_otp_element=True)
+            else:
+                return render_template('login.html', errorMessage="Invalid Credentials")
+
     return render_template('login.html')
+
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    return redirect("/")
+
+
+@app.route("/dashboard", methods=["GET", "POST"])
+@authenticate
+def dashboard():
+    admin_db_instance = admin_db.AdminDatabase()
+    data_dict = admin_db_instance.fetch_admin_details(session.get('username'))
+    return render_template("dashboard.html", **data_dict, isAdmin=session.get("admin"), **getContextForBaseTemplate())
 
 
 @app.route("/sitemap.xml", methods=["GET"])
@@ -262,14 +357,14 @@ def temp_files():
 
 @app.route("/studyMaterials", methods=["GET"])
 def studyMaterials():
-    return render_template('study-materials.html')
+    return render_template('study-materials.html', **getContextForBaseTemplate())
 
 
 @app.route("/study-materials/sem/<int:semester>", methods=["GET"])
 def semesterWiseStudyMaterials(semester):
     # if semester not in [1, 2, 3, 4, 5, 6]:
     # return render_template('404.html', message="Invalid Semester")
-    return render_template('semester-wise-study-materials.html')
+    return render_template('semester-wise-study-materials.html', **getContextForBaseTemplate())
 
 
 @app.route('/sources', methods=['GET'])
@@ -278,33 +373,33 @@ def sources():
     sources = dynamicContents.DynamicContents(**databaseCredentials).sources()
     if sources is not None:  # if credits data are available
         return render_template('sources.html', isSourcesAvailable=True, sources=sources)
-    return render_template('sources.html')
+    return render_template('sources.html', **getContextForBaseTemplate())
 
 
 @app.route('/teachers', methods=['GET'])
 def teachers():
-    return render_template('teachers.html')
+    return render_template('teachers.html', **getContextForBaseTemplate())
 
 
 @app.route('/studentsCorner', methods=['GET'])
 def studentsCorner():
     message = "Hello, Programmers! This page is under development."
-    return render_template('students-corner.html', message=message)
+    return render_template('students-corner.html', message=message, **getContextForBaseTemplate())
 
 
 @app.route('/contact', methods=['GET'])
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', **getContextForBaseTemplate())
 
 
 @app.route('/about', methods=['GET'])
 def about():
-    return render_template('about.html')
+    return render_template('about.html', **getContextForBaseTemplate())
 
 
 @app.route('/about-rds-college', methods=['GET'])
 def aboutRdsCollege():
-    return render_template('about-rds-college.html')
+    return render_template('about-rds-college.html', **getContextForBaseTemplate())
 
 
 @app.route('/files/<string:fileId>', methods=['GET'])
@@ -468,7 +563,7 @@ def fileViewLink(fileId: str):
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
     if request.method == 'GET':
-        return render_template('contribute.html')
+        return render_template('contribute.html', **getContextForBaseTemplate())
     else:  # request.method == 'POST
         dataDict = dict(request.form)
         file = request.files.get('file')
@@ -486,7 +581,8 @@ def contribute():
         # Saving data and file
         file.save(f"contributions/{uniqueID}-{file.filename}")
         dataDict['filename'] = f"{uniqueID}-{file.filename}"
-        tools.saveDictAsJSON(contributionsDict, "contributions/contributions.json")
+        tools.saveDictAsJSON(
+            contributionsDict, "contributions/contributions.json")
 
         # Sending mail
         mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
@@ -495,7 +591,12 @@ def contribute():
         myMail.sendMessage("New contribution", str(
             dataDict), adminMails, html=render_template("mail-templates/contribution-email-to-admin.html", dataDict=dataDict))
 
-        return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection")
+        return render_template('thank-you.html', title="Thanks For Your Contribution!", midMessage="Our team will review your contribution", bottomMessage='You will be informed via email about the', green="approval", red="rejection", **getContextForBaseTemplate())
+
+
+@app.route("/message")
+def message():
+    return render_template("message.html", **getContextForBaseTemplate())
 
 
 # API route to fetch different contribution forms for different purposes
@@ -665,6 +766,9 @@ def contactUs2(sno):
     else:  # DELETE request
         return "Data deleted successfully" if rdsDb.RdsProject(**databaseCredentials).deleteContact(sno) else "Failed to delete data"
 
+
+# Admin Panel
+admin.admin_panel(app)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
