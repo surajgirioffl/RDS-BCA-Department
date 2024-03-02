@@ -344,29 +344,6 @@ class Random:
                 number = self.__pyIntRandom()
             return number
 
-    @staticmethod
-    def generateOtp(numberOfDigits: int = 6) -> int:
-        """
-            Description:
-                * Generate OTP based on true random source provided by the OS.
-                * May be used to generate random number other than OTP.
-            Args:
-                * numberOfDigits (int, optional): 
-                    - Specify the number of digits to generate for the OTP.
-                    - Defaults to 6 digits.
-
-            Returns:
-                * int:
-                    - Returns generated OTP.
-
-            More:
-                * Unlike random.randint(), which generates random numbers based on a pseudo-random algorithm, random.SystemRandom() generates random numbers based on a true random source provided by the operating system. 
-                * This makes it more secure and less predictable than random.randint().
-                * That's why for OTP generation, random.SystemRandom() has been used.
-        """
-        sysRandom: random.SystemRandom = random.SystemRandom()
-        return sysRandom.randint(10**(numberOfDigits-1), 10**(numberOfDigits)-1)
-
 
 if __name__ == "__main__":
 
