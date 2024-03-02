@@ -2,7 +2,7 @@
     @file: my_random.py
     @author: Suraj Kumar Giri
     @init-date: 25th Jan 2023
-    @last-modified: 28th Feb 2024
+    @last-modified: 2nd March 2024
 
     @description:
         * Module to generate random numbers of desired digits.
@@ -16,6 +16,7 @@
             - Function to check if number already exists in the database or not. 
 """
 import random
+import secrets
 import mysql.connector as mysql
 from mysql.connector.cursor import MySQLCursor
 from os import environ
@@ -257,6 +258,34 @@ class Random:
         # There is no possibility of underflow in number of digits.
         # That's why I have not used any logic to handle underflow in number of digits in the function __reduceDigits().
 
+    def __pySysRandom(self) -> int:
+        """Generate random number based on true random source provided by the OS (OTP Special).
+
+        Unlike random.randint(), which generates random numbers based on a pseudo-random algorithm, random.SystemRandom() generates random numbers based on a true random source provided by the operating system. 
+        This makes it more secure and less predictable than random.randint().
+        That's why for OTP generation, random.SystemRandom() has been used.
+
+        Returns:
+            int: Returns generated OTP (random number).
+        """
+        sysRandom: random.SystemRandom = random.SystemRandom()
+        return sysRandom.randint(10**(self.numberOfDigits-1), 10**self.numberOfDigits-1)
+
+    def __pySecretsRandom(self) -> str | None:
+        """Generate a random number with the number of digits specified by 'numberOfDigits' and return it as a string filled with leading zeros if necessary (OTP Special).
+
+        This method uses the secrets module provided by the Python standard library to generate random numbers.
+        secrets module docstring: Generate cryptographically strong pseudo-random numbers suitable for managing secrets such as account authentication, tokens, and similar.
+
+        Returns:
+            str | None: Returns generated OTP (random number).
+        """
+        if self.numberOfDigits < 0:
+            return None
+
+        random_number: int = secrets.randbelow(10**self.numberOfDigits-1)
+        return str(random_number).zfill(self.numberOfDigits)
+
     def generate(self, checkInDatabase: bool = True) -> int:
         """
             Description:
@@ -340,6 +369,11 @@ class Random:
 
 
 if __name__ == "__main__":
+
+    # x = Random(digits=6)._Random__pySecretsRandom()
+    # x = Random(digits=6)._Random__pySysRandom()
+    # print(x)
+
     # testing the functionality of the class Random
     conn = mysql.connect(host=environ.get('DBHOST'), user=environ.get('DBUSERNAME'), port=int(environ.get(
         'DBPORT')) if environ.get('DBPORT') is not None else 3306, password=environ.get('DBPASSWORD'), database="temp",)
