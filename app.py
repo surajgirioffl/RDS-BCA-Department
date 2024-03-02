@@ -8,7 +8,7 @@
     @file: app.py
     @author: Suraj Kumar Giri
     @init-date: 15th Oct 2022
-    @last-modified: 27th Feb 2024
+    @last-modified: 02 March 2024
 
     @description:
         * Module to run the web app and handle all the routes.
@@ -41,7 +41,7 @@ from dotenv import load_dotenv
 from utilities import tools
 from admin import admin
 import auth
-from db_scripts2 import admin_db
+from db_scripts2 import admin_db, utilities_db
 
 
 load_dotenv()  # loading environment variables from .env file
@@ -277,15 +277,47 @@ def login():
         print(request.form)
         username: str | None = request.form.get('username')
         password: str | None = request.form.get("password")
+        otp: str | None = request.form.get('otp')
 
         if username and password:
             admin_db_instance = admin_db.AdminDatabase()
             if admin_db_instance.check_login_credentials(username, password):
-                session['username'] = username
-                if admin_obj := admin_db_instance.is_admin(username):
-                    session['admin'] = True
-                    session['role'] = admin_obj.role
-                return redirect("/dashboard")
+                if not otp:
+                    # Fetching user email
+                    user_email = admin_db_instance.fetch_admin_details(
+                        username).get('email')
+
+                    # Generating OTP.
+                    generated_otp = myRandom.Random(
+                        digits=6, method='pySecrets').generate(False)
+
+                    # Saving OTP into the database
+                    utilities_db_instance = utilities_db.UtilitiesDB()
+                    utilities_db_instance.insert_new_otp(
+                        username, generated_otp)
+
+                    # Sending OTP to the registered email.
+                    mail.Mail.configureApp(
+                        app, **mailCredentials, MAIL_USE_SSL=True)
+                    myMail = mail.Mail(app)
+                    myMail.sendMessage("OTP For Login To RDS BCA", html=render_template(
+                        "mail-templates/otp.html", otp=generated_otp, validityTime=3), recipients=[user_email], message='')
+
+                    flash(
+                        "An OTP has been sent to your registered email. Write OTP to continue. (Valid for 3 minutes)")
+                    return render_template('login.html', username=username, password=password, display_otp_element=True)
+
+                # Now we have OTP and we need to validate the OTP.
+                utilities_db_instance = utilities_db.UtilitiesDB()
+                if utilities_db_instance.is_valid_otp(otp, username):
+                    session['username'] = username
+                    if admin_obj := admin_db_instance.is_admin(username):
+                        session['admin'] = True
+                        session['role'] = admin_obj.role
+                    return redirect("/dashboard")
+                else:
+                    flash("Invalid OTP. Please try again.")
+                    return render_template('login.html', username=username, password=password, display_otp_element=True)
             else:
                 return render_template('login.html', errorMessage="Invalid Credentials")
 
