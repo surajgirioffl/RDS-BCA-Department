@@ -57,3 +57,43 @@ class UtilitiesDB:
             self.insert(otp_log_instance)
             self.session.delete(otp_instance)
             self.session.commit()
+
+    def is_valid_otp(self, otp: str, username: str):
+        """Check if the provided OTP is valid for the given username.
+
+        This method first remove all expired OTPs from the 'otp' table and move them into the 'otp_log' table with 'expired' status using 'remove_all_expired_OTPs()' method.
+        Then it fetch all OTPs from the 'otp' table for the given username.
+        And then check if given OTP matches any of the fetched OTPs.
+        If the OTP matches, it is considered valid and OTP is deleted from the 'otp' table and moved to 'otp_log' table with 'verified' status and rest OTPs of the same user are moved to 'otp_log' table with 'generated' status.
+        If the OTP does not match any of the fetched OTPs, it is considered invalid and no action is taken.
+        On match True is returned else False.
+
+
+        Args:
+            otp (str): The OTP to be validated.
+            username (str): The username associated with the OTP.
+
+        Returns:
+            bool: True if the OTP is valid, False otherwise.
+        """
+        self.remove_all_expired_OTPs()
+        # otp_instances = self.session.query(utilities_model.Otp).filter(utilities_model.Otp.otp == otp, utilities_model.Otp.username == username).all()
+        otp_instances = self.session.query(utilities_model.Otp).filter(utilities_model.Otp.username == username).all()
+        OTPs = [otp_instance.otp for otp_instance in otp_instances]
+        if otp not in OTPs:
+            return False  # User may write again. So, we are not going to delete OTPs.
+
+        for otp_instance in otp_instances:
+            if otp_instance.otp == otp:
+                otp_log_instance = utilities_model.OtpLog(
+                    username=otp_instance.username, otp=otp_instance.otp, status="verified", creation_time=otp_instance.creation_time
+                )
+            else:
+                otp_log_instance = utilities_model.OtpLog(
+                    username=otp_instance.username, otp=otp_instance.otp, status="generated", creation_time=otp_instance.creation_time
+                )
+            self.insert(otp_log_instance)
+            self.session.delete(otp_instance)
+            self.session.commit()
+
+        return True
