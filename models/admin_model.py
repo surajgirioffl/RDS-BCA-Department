@@ -9,8 +9,11 @@
 """
 
 from datetime import datetime
+import pytz
 from sqlalchemy import ForeignKey, create_engine, Integer, String, DateTime, Null
 from sqlalchemy.orm import mapped_column, DeclarativeBase
+
+tz = pytz.timezone("Asia/Kolkata")
 
 
 class Base(DeclarativeBase):
@@ -31,7 +34,7 @@ class Admins(Base):
     password = mapped_column(String, nullable=False)
     role = mapped_column(String, ForeignKey("roles.role"), nullable=False)
     name = mapped_column(String, nullable=False)
-    created_on = mapped_column(DateTime, nullable=False, default=datetime.now())
+    created_on = mapped_column(DateTime, nullable=False, default=datetime.now(tz=tz))
 
 
 class Permissions(Base):
@@ -49,7 +52,7 @@ class ActionsLog(Base):
     sno = mapped_column(Integer, primary_key=True, nullable=False, autoincrement=True)
     username = mapped_column(String, nullable=False)
     action_description = mapped_column(String, nullable=False)
-    action_timestamp = mapped_column(DateTime, nullable=False, default=datetime.now())
+    action_timestamp = mapped_column(DateTime, nullable=False, default=datetime.now(tz=tz))
 
 
 class AdminManager(Base):
