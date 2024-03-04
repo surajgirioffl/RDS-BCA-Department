@@ -2,12 +2,13 @@
     @file: orm/admin.py
     @author: Suraj Kumar Giri (@surajgirioffl)
     @init-date: 11th Feb 2024
-    @last-modified: 15th Feb 2024
+    @last-modified: 4th March 2024
     
     Description:
         * Module containing Models associated with the database 'admin'.
 """
 
+from datetime import datetime
 from sqlalchemy import ForeignKey, create_engine, Integer, String, DateTime, Null
 from sqlalchemy.orm import mapped_column, DeclarativeBase
 
@@ -30,7 +31,7 @@ class Admins(Base):
     password = mapped_column(String, nullable=False)
     role = mapped_column(String, ForeignKey("roles.role"), nullable=False)
     name = mapped_column(String, nullable=False)
-    created_on = mapped_column(DateTime, nullable=False, server_default="CURRENT_TIMESTAMP")
+    created_on = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
 class Permissions(Base):
@@ -48,7 +49,7 @@ class ActionsLog(Base):
     sno = mapped_column(Integer, primary_key=True, nullable=False, autoincrement=True)
     username = mapped_column(String, nullable=False)
     action_description = mapped_column(String, nullable=False)
-    action_timestamp = mapped_column(DateTime, nullable=False, server_default="CURRENT_TIMESTAMP")
+    action_timestamp = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
 class AdminManager(Base):
