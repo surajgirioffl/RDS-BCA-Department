@@ -1,0 +1,28 @@
+<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+    <div style="margin:50px auto;width:70%;padding:20px 0">
+        <div style="border-bottom:1px solid #eee">
+            <a href="{{url_for('home')}}"
+                style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">BCA RDS College,
+                Muzaffarpur</a>
+        </div>
+        <p style="font-size:1.1em">Dear <b>{{name | default("Admin")}}</b>,</p>
+        <p>I hope you're well. This is regarding a contact inquiry submitted on our website. Following are the details
+            provided by the user:</p>
+        <ul style="margin: 0%;padding-left: 20px;">
+            <li><b>Name</b>: {{ dataDict.get('name', 'N/A') }}</li>
+            <li><b>Email</b>: {{ dataDict.get('email', 'N/A') }}</li>
+            <li><b>Subject</b>: {{ dataDict.get('subject', 'N/A') }}</li>
+            <li><b>Message</b>: {{ dataDict.get('message', 'N/A') }}</li>
+        </ul>
+        <p>Please respond to the user's email <a href="mailto:{{ dataDict.get('email') }}">{{ dataDict.get('email') }}</a> as soon as possible.</p>
+        <p>Your prompt action is greatly appreciated.</p>
+        <p style="font-size:0.9em;">Regards,<br />Web Admin (<a href="https://github.com/surajgirioffl">Suraj Kumar
+                Giri</a>)</p>
+        <hr style="border:none;border-top:1px solid #eee" />
+        <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <p>BCA Department RDS College</p>
+            <p>Ram Dayalu Nagar</p>
+            <p>Muzaffarpur 842002</p>
+        </div>
+    </div>
+</div>
