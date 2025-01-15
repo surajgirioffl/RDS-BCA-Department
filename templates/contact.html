@@ -14,7 +14,7 @@ Department{%endblock keywords%}
 <div class="main wrapper clearfix data my-content">
     <p class="text-center fs-2 text fw-bolder">GET IN TOUCH</p>
     <hr>
-    <form class="text-center">
+    <form class="text-center" action="{{url_for('contact')}}" method="POST">
         <div class="form-container">
             <div class="input-group mb-4">
                 <span class="input-group-text">
@@ -66,7 +66,8 @@ Department{%endblock keywords%}
                     <i class="material-icons icons registrationIcons">message</i>
                 </span>
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" name="message" id="floatingTextarea"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" name="message"
+                        id="floatingTextarea"></textarea>
                     <label for="floatingTextarea" class="mandatory">Message</label>
                 </div>
             </div>
