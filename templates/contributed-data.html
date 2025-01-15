@@ -4,17 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available PDF Files</title>
+    <title>Contributed Data - PDF Files</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/9GmOIrlE2VVgLR23BRWfdR4W5Tvzqu5e6vLZdi" crossorigin="anonymous">
+    <style>
+        table {
+            border-collapse: collapse; /* Ensure no gaps between table borders */
+            width: 100%; /* Make the table occupy full width */
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid #dee2e6; /* Bootstrap default border color */
+        }
+        th {
+            background-color: #343a40; /* Dark background for headers */
+            color: white; /* White text for better contrast */
+        }
+    </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Available PDF Files</h1>
+        <h1 class="text-center mb-4">Available Contributed PDF Files</h1>
+        <hr>
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
+            <table class="table table-hover table-bordered">
+                <thead>
                     <tr>
                         <th>Title</th>
                         <th>Semester</th>
@@ -31,7 +46,7 @@
                         <td>{{ file.semester }}</td>
                         <td>{{ file.year }}</td>
                         <td>{{ file.source }}</td>
-                        <td>{{ file.contributor }}</td>
+                        <td>{{ file.contributor |safe }}</td>
                         <td>
                             <a href="{{ url_for('download_contributed_file', filename=file.filename) }}"
                                 class="btn btn-primary btn-sm">
@@ -44,9 +59,11 @@
             </table>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+oisH10u3jVUgsqTuqV7LXf3z9J" crossorigin="anonymous">
-        </script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+oisH10u3jVUgsqTuqV7LXf3z9J"
+        crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
