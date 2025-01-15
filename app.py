@@ -774,7 +774,7 @@ admin.admin_panel(app)
 @app.route("/contributed-data")
 def contributed_data():
     try:
-        contributions = json.load("contributions/contributions.json")
+        contributions = json.load(open("contributions/contributions.json"))
     except Exception as e:
         print(e)
         return render_template("error.html", contentHeader="Failed To Process Request", contentPara="Unable to fetch contributed data", message="Something went wrong. Please try again or contact administrator")
@@ -783,12 +783,12 @@ def contributed_data():
         for email,contribution_dict in contributions.items():
             for date,contribution in contribution_dict.items():
                 data_dict = {}
-                data_dict["filename"]=contributed_data['filename']
-                data_dict["title"]=contributed_data['title']
-                data_dict["semester"]=contributed_data['semester']
-                data_dict["year"]=contributed_data['year']
-                data_dict["source"]=contributed_data['source']
-                data_dict["contributor"]= f'<a href="mailto:{email}">{contributed_data["name"]}</a>'
+                data_dict["filename"]=contribution['filename']
+                data_dict["title"]=contribution['title']
+                data_dict["semester"]=contribution['semester']
+                data_dict["year"]=contribution['year']
+                data_dict["source"]=contribution['source']
+                data_dict["contributor"]= f'<a href="mailto:{email}">{contribution["name"]}</a>'
                 file_metadata.append(data_dict)
         return render_template("contributed-data.html", files=file_metadata)
 @app.route("/contribution/download/<filename>")
