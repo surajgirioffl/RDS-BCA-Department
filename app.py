@@ -388,8 +388,17 @@ def studentsCorner():
     return render_template('students-corner.html', message=message, **getContextForBaseTemplate())
 
 
-@app.route('/contact', methods=['GET'])
+@app.route('/contact', methods=['GET', "POST"])
 def contact():
+    if request.method == "POST":
+        dataDict = dict(request.form)
+        # Sending mail
+        mail.Mail.configureApp(app, **mailCredentials, MAIL_USE_SSL=True)
+        myMail = mail.Mail(app)
+        adminMails: list = tools.loadJSONFile("secrets.json")["admin-emails"]
+        myMail.sendMessage("Contact", str(dataDict), adminMails, html=render_template("mail-templates/contact.html", dataDict=dataDict))
+        return render_template('thank-you.html', title="Thanks For Contacting!", midMessage="Our team will respond to your query as soon as possible", bottomMessage='You will be informed via email about the', green="mentioned", red="issues", **getContextForBaseTemplate())
+
     return render_template('contact.html', **getContextForBaseTemplate())
 
 
