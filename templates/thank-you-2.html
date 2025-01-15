@@ -1,0 +1,38 @@
+{% extends "base.html"%}
+{%block title%} Thank You - BCA RDS College, Muzaffarpur {%endblock title%}
+{%block description%}Thank You By BCA Department RDS College Muzaffarpur{%endblock description%}
+{%block keywords%}thanks, thank you, thank you for support, thank you for contribution, thank you for help{%endblock keywords%}
+{%block scale%}0.6{%endblock scale%}
+{%block css%}<link rel="stylesheet" href="{{url_for('static', filename='css/thank-you.css')}}">{%endblock css%}
+{% block body%}
+
+
+<div class="main wrapper clearfix data">
+    <img src="{{url_for('static', filename='svg/thank-you.svg')}}">
+    <div class="title">{{title | default("Thank You!")}}</div>
+    <div>
+        <p style="margin: 0.2%;">{{midMessage | default('Our team will respond to you soon')}}</p>
+        <p>
+            {{bottomMessage | default('You will be informed via email ')}} 
+            <span style="color: green;">{{green | default('soon')}}</span>
+        </p>
+    </div>
+
+    <div id="button-container">
+        <a href="{{url_for('home')}}" style="text-decoration: none;">
+            <button type="button" class="btn btn-primary" id="home-button">
+                &nbsp; &nbsp; Home &nbsp; &nbsp;
+            </button>
+        </a>
+        <span style="padding: 0.4%"></span>
+        <a href="{{url_for(routeFunctionForButtonLink | default('contact'))}}">
+            <button type="button" class="btn btn-primary" id="special-button">
+                Contact
+            </button>
+        </a>
+    </div>
+
+    <img id="illustration"
+        src="{{url_for('static', filename='illustrations/thank-you.png')}}">
+</div>
+{% endblock body%}
