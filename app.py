@@ -397,7 +397,7 @@ def contact():
         myMail = mail.Mail(app)
         adminMails: list = tools.loadJSONFile("secrets.json")["admin-emails"]
         myMail.sendMessage("Contact", str(dataDict), adminMails, html=render_template("mail-templates/contact.html", dataDict=dataDict))
-        return render_template('thank-you.html', title="Thanks For Contacting!", midMessage="Our team will respond to your query as soon as possible", bottomMessage='You will be informed via email about the', green="mentioned", red="issues", **getContextForBaseTemplate())
+        return render_template('thank-you-2.html', title="Thanks For Contacting!", midMessage="Our team will respond to your query as soon as possible", **getContextForBaseTemplate())
 
     return render_template('contact.html', **getContextForBaseTemplate())
 
