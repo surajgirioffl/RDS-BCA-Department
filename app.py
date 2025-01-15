@@ -23,7 +23,7 @@ import os
 import functools
 import logging
 from http import HTTPStatus
-from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect, flash
+from flask import Flask, render_template, request, url_for, send_from_directory, jsonify, Response, make_response, session, redirect, flash, abort
 import requests
 from db_scripts import results_db as db
 from db_scripts import previous_year_questions_db as pyqDb
@@ -42,6 +42,7 @@ from utilities import tools
 from admin import admin
 import auth
 from db_scripts2 import admin_db, utilities_db
+import json
 
 
 load_dotenv()  # loading environment variables from .env file
@@ -770,6 +771,36 @@ def contactUs2(sno):
 # Admin Panel
 admin.admin_panel(app)
 
+@app.route("/contributed-data")
+def contributed_data():
+    try:
+        contributions = json.load("contributions/contributions.json")
+    except Exception as e:
+        print(e)
+        return render_template("error.html", contentHeader="Failed To Process Request", contentPara="Unable to fetch contributed data", message="Something went wrong. Please try again or contact administrator")
+    else:
+        file_metadata = []
+        for email,contribution_dict in contributions.items():
+            for date,contribution in contribution_dict.items():
+                data_dict = {}
+                data_dict["filename"]=contributed_data['filename']
+                data_dict["title"]=contributed_data['title']
+                data_dict["semester"]=contributed_data['semester']
+                data_dict["year"]=contributed_data['year']
+                data_dict["source"]=contributed_data['source']
+                data_dict["contributor"]= f'<a href="mailto:{email}">{contributed_data["name"]}</a>'
+                file_metadata.append(data_dict)
+        return render_template("contributed-data.html", files=file_metadata)
+@app.route("/contribution/download/<filename>")
+def download_contributed_file(filename):
+    """Allow downloading of a specific file."""
+    if not filename.endswith('.pdf'):
+        abort(403)  # Block non-PDF files
+    try:
+        return send_from_directory("contributions", filename, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
+        
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s - Line %(lineno)s of %(module)s - %(levelname)s -> %(message)s')
